@@ -2053,9 +2053,12 @@
 				var isCompleted = levelReached >= SCALATA_LEVELS.length;
 				meta = {
 					difficulty: 'arcade',
+					level: levelReached,
 					livello: levelReached + ' / ' + SCALATA_LEVELS.length,
 					tempo: formatTime(state.totalElapsed || state.elapsed),
+					time: formatTime(state.totalElapsed || state.elapsed),
 					esito: isCompleted ? 'Completata 👑' : 'Livello ' + levelReached,
+					outcome: isCompleted ? 'Completata 👑' : 'Livello ' + levelReached,
 					level_reached: levelReached,
 					time_seconds: state.totalElapsed || state.elapsed,
 					level_time_seconds: state.elapsed
