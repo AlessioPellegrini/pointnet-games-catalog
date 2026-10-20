@@ -1,6 +1,6 @@
 # 💣 Minesweeper
  
-> **Versione: 1.3.5** — *The Clean One* aesthetics, doppia modalità (Classica 4 preset + Scalata 18 livelli), Pan & Pinch-to-Zoom e contrasto OLED per esterni.
+> **Versione: 1.3.6** — *The Clean One* aesthetics, doppia modalità (Classica 4 preset + Scalata 18 livelli), Pan & Pinch-to-Zoom e contrasto OLED per esterni.
 
 Ispirato al design e all'esperienza tattile di *Minesweeper: The Clean One*, con **doppia modalità di gioco**: la classica partita singola a selezione libera o l'emozionante modalità Scalata a 18 livelli progressivi fino al livello Estremo!
 
@@ -72,7 +72,11 @@ Scalata a livelli continui a vite singola: ogni tavola completata fa guadagnare 
 
 ## 📝 Changelog
 
-### 1.3.5 (current)
+### 1.3.6 (current)
+- **Standardizzazione Metadati Classifica**: invio esplicito delle chiavi `level`, `time` ed `outcome` per garantire la perfetta visualizzazione del livello e tempo nella colonna dettagli delle classifiche di PointNet Games.
+- **Allineamento Versione**: aggiornamento versione a 1.3.6 nel manifest e nello splash screen.
+
+### 1.3.5
 - **Integrazione Statistiche & Record Personali**: formattazione metadati arricchita per il modulo PointNet Games 1.3.5+ e per lo shortcode `[pointnet_user_records]`; supporto dettagli speedrun (tempo formattato mm:ss, esito vittoria/boom) e avanzamento livello Scalata (es. 14 / 18).
 - **Badge Modalità & Allineamento Manifest**: sincronizzazione versione `1.3.5` nel manifest e tracciamento univoco della modalità.
 
