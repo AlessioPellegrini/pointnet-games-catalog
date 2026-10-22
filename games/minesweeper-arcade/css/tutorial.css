@@ -1,0 +1,181 @@
+/**
+ * Minesweeper Arcade — Educational Practice Mode Styling
+ */
+
+/* Persistent Didactic Header Banner */
+.didactic-banner {
+	display: none;
+	align-items: center;
+	justify-content: space-between;
+	background: linear-gradient(135deg, rgba(30, 58, 138, 0.9), rgba(15, 23, 42, 0.95));
+	border: 1px solid rgba(56, 189, 248, 0.4);
+	border-radius: 12px;
+	padding: 8px 14px;
+	margin-bottom: 8px;
+	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+	backdrop-filter: blur(8px);
+	-webkit-backdrop-filter: blur(8px);
+	animation: slideDown 0.3s ease;
+}
+
+body.didactic-mode .didactic-banner {
+	display: flex;
+}
+
+@keyframes slideDown {
+	from { opacity: 0; transform: translateY(-8px); }
+	to { opacity: 1; transform: translateY(0); }
+}
+
+.didactic-banner-left {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.didactic-badge {
+	background: #38bdf8;
+	color: #0b1120;
+	font-size: 0.72rem;
+	font-weight: 900;
+	letter-spacing: 0.5px;
+	padding: 3px 8px;
+	border-radius: 999px;
+	text-transform: uppercase;
+}
+
+.didactic-desc {
+	font-size: 0.78rem;
+	color: #e2e8f0;
+	font-weight: 600;
+}
+
+.didactic-actions {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.btn-didactic-hint {
+	background: linear-gradient(135deg, #f59e0b, #d97706);
+	color: #0b1120;
+	border: none;
+	border-radius: 999px;
+	padding: 6px 14px;
+	font-size: 0.82rem;
+	font-weight: 800;
+	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+	box-shadow: 0 2px 8px rgba(245, 158, 11, 0.4);
+	transition: all 0.18s ease;
+	font-family: inherit;
+}
+
+.btn-didactic-hint:hover {
+	transform: translateY(-1px);
+	box-shadow: 0 4px 14px rgba(245, 158, 11, 0.6);
+}
+
+.btn-didactic-hint:active {
+	transform: translateY(1px);
+}
+
+/* Floating Didactic Explanation Toast */
+.didactic-toast {
+	position: fixed;
+	bottom: 80px;
+	left: 50%;
+	transform: translateX(-50%) translateY(20px);
+	background: rgba(15, 23, 42, 0.95);
+	border: 1.5px solid #38bdf8;
+	border-radius: 16px;
+	padding: 12px 18px;
+	max-width: 420px;
+	width: 90%;
+	z-index: 150;
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(56, 189, 248, 0.25);
+	opacity: 0;
+	pointer-events: none;
+	transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+	backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(10px);
+	text-align: center;
+}
+
+.didactic-toast.show {
+	opacity: 1;
+	pointer-events: auto;
+	transform: translateX(-50%) translateY(0);
+}
+
+.didactic-toast-title {
+	font-size: 0.88rem;
+	font-weight: 800;
+	color: #38bdf8;
+	margin-bottom: 4px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+}
+
+.didactic-toast-text {
+	font-size: 0.82rem;
+	color: #f1f5f9;
+	line-height: 1.4;
+	margin-bottom: 8px;
+}
+
+.didactic-toast-close {
+	background: rgba(255, 255, 255, 0.1);
+	border: none;
+	color: #cbd5e1;
+	border-radius: 999px;
+	padding: 4px 12px;
+	font-size: 0.75rem;
+	font-weight: 700;
+	cursor: pointer;
+	transition: background 0.15s ease;
+	font-family: inherit;
+}
+
+.didactic-toast-close:hover {
+	background: rgba(255, 255, 255, 0.2);
+	color: #fff;
+}
+
+/* Board Cell Highlights in Tutor Mode */
+.cell.cell-hint-safe {
+	background: #065f46 !important;
+	border-color: #34d399 !important;
+	box-shadow: 0 0 16px rgba(52, 211, 153, 0.8), inset 0 0 8px rgba(52, 211, 153, 0.4) !important;
+	animation: pulseSafe 1.4s infinite alternate;
+	z-index: 5;
+}
+
+.cell.cell-hint-mine {
+	background: #991b1b !important;
+	border-color: #f87171 !important;
+	box-shadow: 0 0 16px rgba(248, 113, 113, 0.8), inset 0 0 8px rgba(248, 113, 113, 0.4) !important;
+	animation: pulseMine 1.4s infinite alternate;
+	z-index: 5;
+}
+
+.cell.cell-hint-cause {
+	border-color: #fbbf24 !important;
+	background: rgba(245, 158, 11, 0.25) !important;
+	box-shadow: 0 0 14px rgba(245, 158, 11, 0.8) !important;
+	z-index: 4;
+}
+
+@keyframes pulseSafe {
+	from { box-shadow: 0 0 8px rgba(52, 211, 153, 0.5); transform: scale(1); }
+	to { box-shadow: 0 0 20px rgba(52, 211, 153, 0.95); transform: scale(1.06); }
+}
+
+@keyframes pulseMine {
+	from { box-shadow: 0 0 8px rgba(248, 113, 113, 0.5); transform: scale(1); }
+	to { box-shadow: 0 0 20px rgba(248, 113, 113, 0.95); transform: scale(1.06); }
+}

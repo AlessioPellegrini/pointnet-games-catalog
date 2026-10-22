@@ -1,9 +1,9 @@
 {
 	"name": "Minesweeper",
 	"slug": "minesweeper-arcade",
-	"version": "1.3.7",
+	"version": "1.4.0",
 	"author": "PointNet Games",
-	"description": "Minesweeper with dual modes: Classic (Easy, Medium, Hard, Extreme) and progressive Scalata reaching Extreme 32x18. Minimalist Clean One aesthetics, smart chording, pan & pinch-to-zoom, and organic tactile sound.",
+	"description": "Minesweeper with dual modes (Classic and Scalata 18 levels), Educational Practice Mode (didactic replay on error with rule-based hint deduction), Clean One aesthetics, smart chording, pan & pinch-to-zoom, and tactile sound.",
 	"type": "iframe",
 	"width": 600,
 	"height": 850,
