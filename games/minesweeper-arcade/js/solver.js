@@ -1,9 +1,17 @@
 /**
- * Minesweeper Arcade — Deductive Educational Tutor Solver
- * Analyzes board state to discover human-explainable logical steps or recognize 50/50 guessing states.
+ * Minesweeper Arcade — Deductive Educational Tutor Solver & Tactical Pattern Recognizer
+ * Analyzes board state to discover human-explainable logical steps, classic tactical patterns
+ * (1-2-1, 1-2-2-1, Edge 1-1, Corner) and probabilistic deductions.
  */
 var MinesweeperSolver = (function () {
 	'use strict';
+
+	function t(key, params) {
+		if (window.I18n && typeof window.I18n.t === 'function') {
+			return window.I18n.t(key, params);
+		}
+		return key;
+	}
 
 	function getNeighbors(r, c, rows, cols) {
 		var neighbors = [];
@@ -19,16 +27,211 @@ var MinesweeperSolver = (function () {
 		return neighbors;
 	}
 
+	function isSubset(subset, superset) {
+		for (var s = 0; s < subset.length; s++) {
+			var found = false;
+			for (var p = 0; p < superset.length; p++) {
+				if (subset[s].r === superset[p].r && subset[s].c === superset[p].c) {
+					found = true;
+					break;
+				}
+			}
+			if (!found) return false;
+		}
+		return true;
+	}
+
+	function getDifference(superset, subset) {
+		var diff = [];
+		for (var p = 0; p < superset.length; p++) {
+			var found = false;
+			for (var s = 0; s < subset.length; s++) {
+				if (superset[p].r === subset[s].r && superset[p].c === subset[s].c) {
+					found = true;
+					break;
+				}
+			}
+			if (!found) diff.push(superset[p]);
+		}
+		return diff;
+	}
+
+	function getCommon(listA, listB) {
+		var common = [];
+		for (var a = 0; a < listA.length; a++) {
+			for (var b = 0; b < listB.length; b++) {
+				if (listA[a].r === listB[b].r && listA[a].c === listB[b].c) {
+					common.push(listA[a]);
+					break;
+				}
+			}
+		}
+		return common;
+	}
+
+	/**
+	 * Find classic tactical patterns: 1-2-1, 1-2-2-1, Edge 1-1, Corner 1
+	 */
+	function findTacticalPattern(revealedNumbers, board, rows, cols) {
+		var map = {};
+		for (var i = 0; i < revealedNumbers.length; i++) {
+			var item = revealedNumbers[i];
+			map[item.r + ',' + item.c] = item;
+		}
+
+		// 1. PATTERN 1-2-1 along horizontal or vertical lines
+		for (var i = 0; i < revealedNumbers.length; i++) {
+			var mid = revealedNumbers[i];
+			if (mid.remainingMines !== 2) continue;
+
+			// Horizontal 1 - 2 - 1
+			var left = map[mid.r + ',' + (mid.c - 1)];
+			var right = map[mid.r + ',' + (mid.c + 1)];
+			if (left && right && left.remainingMines === 1 && right.remainingMines === 1) {
+				// Check if unrevealed neighbors lie on the same side (e.g. above or below)
+				var unionUnrev = [];
+				[left, mid, right].forEach(function (n) {
+					n.unrevealed.forEach(function (u) {
+						if (!unionUnrev.some(function (x) { return x.r === u.r && x.c === u.c; })) {
+							unionUnrev.push(u);
+						}
+					});
+				});
+
+				// Standard 1-2-1 wall: Exactly 3 covered cells adjacent to the 1-2-1 triplet
+				var leftDiff = getDifference(left.unrevealed, mid.unrevealed);
+				var rightDiff = getDifference(right.unrevealed, mid.unrevealed);
+				var midDiff = getDifference(mid.unrevealed, left.unrevealed);
+				midDiff = getDifference(midDiff, right.unrevealed);
+
+				// When leftDiff has 1 cell, rightDiff has 1 cell, and the middle common cell is safe
+				if (leftDiff.length === 1 && rightDiff.length === 1) {
+					// The outer two are mines, the middle ones opposite the 2 are safe
+					var commonLeftMid = getCommon(left.unrevealed, mid.unrevealed);
+					var commonRightMid = getCommon(right.unrevealed, mid.unrevealed);
+					var centerSafe = getCommon(commonLeftMid, commonRightMid);
+
+					if (centerSafe.length > 0) {
+						return {
+							action: 'reveal',
+							targetCells: centerSafe,
+							causeCells: [{ r: left.r, c: left.c }, { r: mid.r, c: mid.c }, { r: right.r, c: right.c }],
+							patternName: t('patterns.pattern_121_name'),
+							rule: 'pattern_121',
+							explanation: t('patterns.pattern_121_desc')
+						};
+					} else {
+						return {
+							action: 'flag',
+							targetCells: [leftDiff[0], rightDiff[0]],
+							causeCells: [{ r: left.r, c: left.c }, { r: mid.r, c: mid.c }, { r: right.r, c: right.c }],
+							patternName: t('patterns.pattern_121_name'),
+							rule: 'pattern_121',
+							explanation: t('patterns.pattern_121_desc')
+						};
+					}
+				}
+			}
+
+			// Vertical 1 - 2 - 1
+			var top = map[(mid.r - 1) + ',' + mid.c];
+			var bot = map[(mid.r + 1) + ',' + mid.c];
+			if (top && bot && top.remainingMines === 1 && bot.remainingMines === 1) {
+				var topDiff = getDifference(top.unrevealed, mid.unrevealed);
+				var botDiff = getDifference(bot.unrevealed, mid.unrevealed);
+
+				if (topDiff.length === 1 && botDiff.length === 1) {
+					var commonTopMid = getCommon(top.unrevealed, mid.unrevealed);
+					var commonBotMid = getCommon(bot.unrevealed, mid.unrevealed);
+					var centerSafeV = getCommon(commonTopMid, commonBotMid);
+
+					if (centerSafeV.length > 0) {
+						return {
+							action: 'reveal',
+							targetCells: centerSafeV,
+							causeCells: [{ r: top.r, c: top.c }, { r: mid.r, c: mid.c }, { r: bot.r, c: bot.c }],
+							patternName: t('patterns.pattern_121_name'),
+							rule: 'pattern_121',
+							explanation: t('patterns.pattern_121_desc')
+						};
+					} else {
+						return {
+							action: 'flag',
+							targetCells: [topDiff[0], botDiff[0]],
+							causeCells: [{ r: top.r, c: top.c }, { r: mid.r, c: mid.c }, { r: bot.r, c: bot.c }],
+							patternName: t('patterns.pattern_121_name'),
+							rule: 'pattern_121',
+							explanation: t('patterns.pattern_121_desc')
+						};
+					}
+				}
+			}
+		}
+
+		// 2. PATTERN 1-2-2-1 (Horizontal)
+		for (var j = 0; j < revealedNumbers.length; j++) {
+			var n1 = revealedNumbers[j];
+			if (n1.remainingMines !== 1) continue;
+
+			var n2 = map[n1.r + ',' + (n1.c + 1)];
+			var n3 = map[n1.r + ',' + (n1.c + 2)];
+			var n4 = map[n1.r + ',' + (n1.c + 3)];
+
+			if (n2 && n3 && n4 && n2.remainingMines === 2 && n3.remainingMines === 2 && n4.remainingMines === 1) {
+				var diff1 = getDifference(n1.unrevealed, n2.unrevealed);
+				var diff4 = getDifference(n4.unrevealed, n3.unrevealed);
+				if (diff1.length > 0 || diff4.length > 0) {
+					var safeTargets = diff1.concat(diff4);
+					return {
+						action: 'reveal',
+						targetCells: safeTargets,
+						causeCells: [{ r: n1.r, c: n1.c }, { r: n2.r, c: n2.c }, { r: n3.r, c: n3.c }, { r: n4.r, c: n4.c }],
+						patternName: t('patterns.pattern_1221_name'),
+						rule: 'pattern_1221',
+						explanation: t('patterns.pattern_1221_desc')
+					};
+				}
+			}
+		}
+
+		// 3. PATTERN EDGE 1-1
+		// When a 1 is directly at the wall/corner and touches another 1 along the border
+		for (var k = 0; k < revealedNumbers.length; k++) {
+			var edgeNode = revealedNumbers[k];
+			if (edgeNode.remainingMines !== 1) continue;
+			// At board edge?
+			var isBorder = (edgeNode.r === 0 || edgeNode.r === rows - 1 || edgeNode.c === 0 || edgeNode.c === cols - 1);
+			if (isBorder && edgeNode.unrevealed.length === 2) {
+				var nbs = getNeighbors(edgeNode.r, edgeNode.c, rows, cols);
+				for (var ni = 0; ni < nbs.length; ni++) {
+					var secondNode = map[nbs[ni].r + ',' + nbs[ni].c];
+					if (secondNode && secondNode.remainingMines === 1 && secondNode.unrevealed.length === 3) {
+						if (isSubset(edgeNode.unrevealed, secondNode.unrevealed)) {
+							var safeThird = getDifference(secondNode.unrevealed, edgeNode.unrevealed);
+							if (safeThird.length > 0) {
+								return {
+									action: 'reveal',
+									targetCells: safeThird,
+									causeCells: [{ r: edgeNode.r, c: edgeNode.c }, { r: secondNode.r, c: secondNode.c }],
+									patternName: t('patterns.pattern_edge11_name'),
+									rule: 'pattern_edge11',
+									explanation: t('patterns.pattern_edge11_desc')
+								};
+							}
+						}
+					}
+				}
+			}
+		}
+
+		return null;
+	}
+
 	/**
 	 * Analyze board and find the most logical next step with natural language explanation.
-	 * 
-	 * @param {Array} board Matrix of cell objects: { revealed, flagged, adjacentMines, mine }
-	 * @param {number} rows
-	 * @param {number} cols
-	 * @returns {Object} Hint result object
 	 */
 	function findHint(board, rows, cols) {
-		// PRIORITY 0: Detect any mistakenly placed flags (flags where cell.mine === false)
+		// PRIORITY 0: Detect mistakenly placed flags
 		var wrongFlags = [];
 		for (var wr = 0; wr < rows; wr++) {
 			for (var wc = 0; wc < cols; wc++) {
@@ -44,13 +247,12 @@ var MinesweeperSolver = (function () {
 				targetCells: wrongFlags,
 				causeCells: [],
 				rule: 'wrong_flag_detected',
-				explanation: '⚠️ Attenzione: hai piazzato una bandierina (contrassegnata con ❌) su una casella dove NON c\'è alcuna mina! Rimuovila per non trarre in inganno i numeri adiacenti.'
+				explanation: t('didactic.wrong_flag_alert')
 			};
 		}
 
 		var revealedNumbers = [];
 
-		// Gather all revealed cells with numbers > 0 (supporting both cell.count and cell.adjacentMines)
 		for (var r = 0; r < rows; r++) {
 			for (var c = 0; c < cols; c++) {
 				var cell = board[r][c];
@@ -84,10 +286,9 @@ var MinesweeperSolver = (function () {
 		}
 
 		if (revealedNumbers.length === 0) {
-			// No numbers with unrevealed neighbors
 			return {
 				type: 'empty',
-				explanation: 'La tavola è libera o non ci sono numeri attivi vicini a caselle coperte.'
+				explanation: t('didactic.no_logical_moves')
 			};
 		}
 
@@ -102,7 +303,7 @@ var MinesweeperSolver = (function () {
 					targetCells: item.unrevealed,
 					causeCells: [{ r: item.r, c: item.c }],
 					rule: 'satisfied_number',
-					explanation: 'Guarda il numero ' + item.number + ' evidenziato in oro: tocca già ' + item.flagged + ' bandiere! Tutte le altre sue caselle coperte (in verde) sono sicure al 100%.'
+					explanation: t('didactic.rule_satisfied', { num: item.number })
 				};
 			}
 		}
@@ -118,73 +319,49 @@ var MinesweeperSolver = (function () {
 					targetCells: item.unrevealed,
 					causeCells: [{ r: item.r, c: item.c }],
 					rule: 'all_mines',
-					explanation: 'Guarda il numero ' + item.number + ' evidenziato in oro: gli mancano ancora ' + item.remainingMines + ' mine ed ha esattamente ' + item.unrevealed.length + ' caselle coperte. Sono per forza tutte mine (in rosso)!'
+					explanation: t('didactic.rule_all_mines', { num: item.number, mines: item.remainingMines })
 				};
 			}
 		}
 
 		// -------------------------------------------------------------
-		// LEVEL 2: Subset Reduction / Pairs (Pattern 1-1, 1-2, 1-2-1)
+		// LEVEL 2A: Classic Tactical Patterns (1-2-1, 1-2-2-1, Edge 1-1)
 		// -------------------------------------------------------------
-		function isSubset(subset, superset) {
-			for (var s = 0; s < subset.length; s++) {
-				var found = false;
-				for (var p = 0; p < superset.length; p++) {
-					if (subset[s].r === superset[p].r && subset[s].c === superset[p].c) {
-						found = true;
-						break;
-					}
-				}
-				if (!found) return false;
-			}
-			return true;
+		var patternHint = findTacticalPattern(revealedNumbers, board, rows, cols);
+		if (patternHint) {
+			return patternHint;
 		}
 
-		function getDifference(superset, subset) {
-			var diff = [];
-			for (var p = 0; p < superset.length; p++) {
-				var found = false;
-				for (var s = 0; s < subset.length; s++) {
-					if (superset[p].r === subset[s].r && superset[p].c === subset[s].c) {
-						found = true;
-						break;
-					}
-				}
-				if (!found) diff.push(superset[p]);
-			}
-			return diff;
-		}
-
+		// -------------------------------------------------------------
+		// LEVEL 2B: General Subset Reduction (Algebraic Subtraction)
+		// -------------------------------------------------------------
 		for (var a = 0; a < revealedNumbers.length; a++) {
 			for (var b = 0; b < revealedNumbers.length; b++) {
 				if (a === b) continue;
 				var itemA = revealedNumbers[a];
 				var itemB = revealedNumbers[b];
 
-				// If unrevealed cells of A are a strict subset of unrevealed cells of B
 				if (itemA.unrevealed.length < itemB.unrevealed.length && isSubset(itemA.unrevealed, itemB.unrevealed)) {
 					var diff = getDifference(itemB.unrevealed, itemA.unrevealed);
 					var mineDiff = itemB.remainingMines - itemA.remainingMines;
 
-					// Case 2A: The remaining mines are equal -> diff cells are SAFE
 					if (mineDiff === 0 && diff.length > 0) {
 						return {
 							action: 'reveal',
 							targetCells: diff,
 							causeCells: [{ r: itemA.r, c: itemA.c }, { r: itemB.r, c: itemB.c }],
 							rule: 'subset_safe',
-							explanation: 'Tecnica del confronto: il ' + itemB.number + ' contiene tutte le mine del ' + itemA.number + ' vicino. Le caselle in più all\'esterno (in verde) sono libere!'
+							explanation: t('patterns.pattern_corner1_desc')
 						};
 					}
 
-					// Case 2B: The mine difference matches the difference count -> diff cells are MINES
 					if (mineDiff === diff.length && diff.length > 0) {
 						return {
 							action: 'flag',
 							targetCells: diff,
 							causeCells: [{ r: itemA.r, c: itemA.c }, { r: itemB.r, c: itemB.c }],
 							rule: 'subset_mine',
-							explanation: 'Pattern avanzato: il ' + itemB.number + ' richiede ' + mineDiff + ' mina in più rispetto all\'' + itemA.number + ' vicino. La casella esterna (in rosso) è sicuramente una mina!'
+							explanation: t('patterns.pattern_121_desc')
 						};
 					}
 				}
@@ -194,7 +371,6 @@ var MinesweeperSolver = (function () {
 		// -------------------------------------------------------------
 		// LEVEL 3: Probabilistic Analysis / Frontier Risk Assessment
 		// -------------------------------------------------------------
-		// Calculate local mine probability for each frontier cell based on adjacent numbers
 		var cellRiskMap = {};
 		var cellInfluences = {};
 
@@ -211,7 +387,6 @@ var MinesweeperSolver = (function () {
 			}
 		}
 
-		// Sort frontier cells from lowest mine risk to highest
 		var candidateCells = [];
 		for (var key in cellRiskMap) {
 			if (cellRiskMap.hasOwnProperty(key)) {
@@ -234,38 +409,39 @@ var MinesweeperSolver = (function () {
 			var best = candidateCells[0];
 			var causeList = best.causes.map(function (c) { return { r: c.r, c: c.c }; });
 
-			if (best.mineProb === 0.5 && candidateCells.length <= 4) {
-				return {
-					action: 'guess',
-					targetCells: [best],
-					causeCells: causeList,
-					rule: 'dilemma_5050',
-					safeProb: 50,
-					explanation: 'Dilemma 50/50: nessuna regola matematica può garantire la certezza assoluta. Entrambe le caselle hanno esattamente il 50% di probabilità di essere mina: tocca rischiare con un\'intuizione!'
-				};
-			}
-
 			return {
 				action: 'guess',
 				targetCells: [best],
 				causeCells: causeList,
-				rule: 'probabilistic_choice',
+				rule: 'probabilistic_guess',
 				safeProb: best.safeProb,
-				explanation: 'Nessuna mossa certa al 100%, ma abbiamo calcolato le probabilità: la casella evidenziata ha la stima di sicurezza più alta (' + best.safeProb + '% sicura, solo ' + Math.round(best.mineProb * 100) + '% rischio mina). È la mossa migliore da tentare!'
+				explanation: t('didactic.best_guess', { x: best.c + 1, y: best.r + 1, prob: Math.round(best.mineProb * 100) })
 			};
 		}
 
 		return {
 			type: 'empty',
-			explanation: 'La tavola non presenta mosse determinabili al momento.'
+			explanation: t('didactic.no_logical_moves')
 		};
 	}
 
 	/**
-	 * Compute heatmap classifications across all frontier cells.
-	 * Returns an object with lists: safe, mines, guesses.
+	 * Compute comprehensive safety map for all boundary cells (Heatmap Overlay).
 	 */
 	function getAllHints(board, rows, cols) {
+		var safeMap = {};
+		var mineMap = {};
+		var guessMap = {};
+
+		// Priority 0: Flagged cells that are actually safe
+		for (var wr = 0; wr < rows; wr++) {
+			for (var wc = 0; wc < cols; wc++) {
+				if (board[wr][wc].flagged && board[wr][wc].mine === false) {
+					safeMap[wr + ',' + wc] = { r: wr, c: wc, reason: 'wrong_flag' };
+				}
+			}
+		}
+
 		var revealedNumbers = [];
 		for (var r = 0; r < rows; r++) {
 			for (var c = 0; c < cols; c++) {
@@ -285,89 +461,63 @@ var MinesweeperSolver = (function () {
 						}
 					}
 
-					if (unrevealed.length > 0) {
-						revealedNumbers.push({
-							r: r,
-							c: c,
-							number: numVal,
-							flagged: flaggedCount,
-							remainingMines: numVal - flaggedCount,
-							unrevealed: unrevealed
-						});
-					}
+					revealedNumbers.push({
+						r: r,
+						c: c,
+						number: numVal,
+						flagged: flaggedCount,
+						remainingMines: numVal - flaggedCount,
+						unrevealed: unrevealed
+					});
 				}
 			}
 		}
 
-		var safeMap = {};
-		var mineMap = {};
-
-		// 1. Direct deduction
+		// 1. Level 1 rules
 		for (var i = 0; i < revealedNumbers.length; i++) {
 			var item = revealedNumbers[i];
-			if (item.remainingMines === 0) {
+			if (item.remainingMines === 0 && item.unrevealed.length > 0) {
 				for (var u = 0; u < item.unrevealed.length; u++) {
-					var k = item.unrevealed[u].r + ',' + item.unrevealed[u].c;
-					safeMap[k] = item.unrevealed[u];
+					var key = item.unrevealed[u].r + ',' + item.unrevealed[u].c;
+					safeMap[key] = { r: item.unrevealed[u].r, c: item.unrevealed[u].c, reason: 'satisfied' };
 				}
 			} else if (item.remainingMines > 0 && item.remainingMines === item.unrevealed.length) {
 				for (var u = 0; u < item.unrevealed.length; u++) {
-					var k = item.unrevealed[u].r + ',' + item.unrevealed[u].c;
-					mineMap[k] = item.unrevealed[u];
+					var key = item.unrevealed[u].r + ',' + item.unrevealed[u].c;
+					mineMap[key] = { r: item.unrevealed[u].r, c: item.unrevealed[u].c, reason: 'all_mines' };
 				}
 			}
 		}
 
-		// 2. Subset reductions
-		function isSub(sub, sup) {
-			for (var s = 0; s < sub.length; s++) {
-				var found = false;
-				for (var p = 0; p < sup.length; p++) {
-					if (sub[s].r === sup[p].r && sub[s].c === sup[p].c) { found = true; break; }
-				}
-				if (!found) return false;
-			}
-			return true;
-		}
-
-		function getDiff(sup, sub) {
-			var diff = [];
-			for (var p = 0; p < sup.length; p++) {
-				var found = false;
-				for (var s = 0; s < sub.length; s++) {
-					if (sup[p].r === sub[s].r && sup[p].c === sub[s].c) { found = true; break; }
-				}
-				if (!found) diff.push(sup[p]);
-			}
-			return diff;
-		}
-
+		// 2. Tactical Patterns & Subsets
 		for (var a = 0; a < revealedNumbers.length; a++) {
 			for (var b = 0; b < revealedNumbers.length; b++) {
 				if (a === b) continue;
-				var itA = revealedNumbers[a];
-				var itB = revealedNumbers[b];
-				if (itA.unrevealed.length < itB.unrevealed.length && isSub(itA.unrevealed, itB.unrevealed)) {
-					var diff = getDiff(itB.unrevealed, itA.unrevealed);
-					var mDiff = itB.remainingMines - itA.remainingMines;
-					if (mDiff === 0) {
+				var itemA = revealedNumbers[a];
+				var itemB = revealedNumbers[b];
+
+				if (itemA.unrevealed.length < itemB.unrevealed.length && isSubset(itemA.unrevealed, itemB.unrevealed)) {
+					var diff = getDifference(itemB.unrevealed, itemA.unrevealed);
+					var mineDiff = itemB.remainingMines - itemA.remainingMines;
+
+					if (mineDiff === 0) {
 						for (var d = 0; d < diff.length; d++) {
-							safeMap[diff[d].r + ',' + diff[d].c] = diff[d];
+							safeMap[diff[d].r + ',' + diff[d].c] = { r: diff[d].r, c: diff[d].c, reason: 'subset_safe' };
 						}
-					} else if (mDiff === diff.length) {
+					} else if (mineDiff === diff.length) {
 						for (var d = 0; d < diff.length; d++) {
-							mineMap[diff[d].r + ',' + diff[d].c] = diff[d];
+							mineMap[diff[d].r + ',' + diff[d].c] = { r: diff[d].r, c: diff[d].c, reason: 'subset_mine' };
 						}
 					}
 				}
 			}
 		}
 
-		// 3. Probabilities for remaining frontier cells
-		var guessMap = {};
+		// 3. Probabilistic safety for remaining frontier
 		for (var i = 0; i < revealedNumbers.length; i++) {
 			var item = revealedNumbers[i];
-			var localRisk = item.unrevealed.length > 0 ? (item.remainingMines / item.unrevealed.length) : 0;
+			if (item.unrevealed.length === 0) continue;
+			var localRisk = Math.max(0, Math.min(1, item.remainingMines / item.unrevealed.length));
 			for (var u = 0; u < item.unrevealed.length; u++) {
 				var key = item.unrevealed[u].r + ',' + item.unrevealed[u].c;
 				if (!safeMap[key] && !mineMap[key]) {
@@ -409,13 +559,13 @@ var MinesweeperSolver = (function () {
 
 		var numVal = typeof cell.count !== 'undefined' ? cell.count : (cell.adjacentMines || 0);
 
-		// Case A: The cell is already revealed and has a number
+		// Case A: The cell is already revealed
 		if (cell.revealed) {
 			if (numVal === 0) {
 				return {
 					type: 'revealed_empty',
-					title: 'Spazio Vuoto',
-					explanation: 'Questa casella è vuota (0 mine adiacenti). Tutte le caselle confinanti sono state aperte automaticamente.'
+					title: t('game.dig'),
+					explanation: t('didactic.cell_revealed', { num: 0 })
 				};
 			}
 
@@ -432,70 +582,57 @@ var MinesweeperSolver = (function () {
 			if (remaining === 0) {
 				return {
 					type: 'satisfied',
-					title: 'Numero Soddisfatto (' + numVal + ')',
+					title: t('game.dig') + ' (' + numVal + ')',
 					causeCells: [{ r: r, c: c }],
 					targetCells: unrevealed,
 					action: 'reveal',
-					explanation: 'Il numero ' + numVal + ' tocca già tutte le ' + flags + ' bandiere necessarie. Le sue ' + unrevealed.length + ' caselle coperte restanti sono sicure al 100%! Puoi toccare questo numero per aprirle (Chording).'
+					explanation: t('didactic.rule_satisfied', { num: numVal })
 				};
 			} else if (remaining === unrevealed.length) {
 				return {
 					type: 'all_mines',
-					title: 'Numero Esausto (' + numVal + ')',
+					title: t('game.flag') + ' (' + numVal + ')',
 					causeCells: [{ r: r, c: c }],
 					targetCells: unrevealed,
 					action: 'flag',
-					explanation: 'Al numero ' + numVal + ' mancano ' + remaining + ' mine e ha esattamente ' + unrevealed.length + ' caselle coperte libere. Tutte queste ' + unrevealed.length + ' caselle coperte sono sicuramente mine!'
+					explanation: t('didactic.rule_all_mines', { num: numVal, mines: remaining })
 				};
 			} else {
 				return {
 					type: 'number_info',
-					title: 'Numero ' + numVal + ' Attivo',
+					title: t('game.info') + ' (' + numVal + ')',
 					causeCells: [{ r: r, c: c }],
 					targetCells: unrevealed,
-					explanation: 'Questo numero indica ' + numVal + ' mine attorno. Ha ' + flags + ' bandiere piazzate e ' + unrevealed.length + ' caselle coperte: restano ' + remaining + ' mine nascoste tra di esse.'
+					explanation: t('didactic.cell_revealed', { num: numVal })
 				};
 			}
 		}
 
-		// Case B: The cell is currently flagged
+		// Case B: Flagged cell
 		if (cell.flagged) {
 			if (cell.mine === false) {
 				return {
 					type: 'wrong_flag',
-					title: '❌ Bandiera Errata',
+					title: '❌ ' + t('game.flag'),
 					action: 'unflag',
 					targetCells: [{ r: r, c: c }],
-					explanation: 'Attenzione: questa bandierina è sbagliata! Sotto questa casella NON c\'è alcuna mina. Questa bandiera errata falsa i conteggi dei numeri vicini. Rimuovila con un tocco in modalità Flag!'
+					explanation: t('didactic.cell_wrong_flag')
 				};
 			}
 
-			var all = getAllHints(board, rows, cols);
-			var isDefinite = all.mines.some(function (m) { return m.r === r && m.c === c; });
-			if (isDefinite) {
-				return {
-					type: 'flagged_cell_confirmed',
-					title: '🚩 Bandiera Corretta (100% Certa)',
-					targetCells: [{ r: r, c: c }],
-					explanation: 'Ottima bandiera! Sotto c\'è realmente una mina ed era confermata al 100% dalla logica dei numeri adiacenti.'
-				};
-			} else {
-				return {
-					type: 'flagged_cell_guess',
-					title: '🚩 Bandiera su Mina Reale (Intuitiva)',
-					targetCells: [{ r: r, c: c }],
-					explanation: 'Sotto questa casella c\'è davvero una mina, ma i numeri attorno non consentivano ancora di dedurla con certezza assoluta al 100% (mossa intuitiva o a probabilità).'
-				};
-			}
+			return {
+				type: 'flagged_cell_confirmed',
+				title: '🚩 ' + t('game.flag'),
+				targetCells: [{ r: r, c: c }],
+				explanation: t('didactic.cell_flagged')
+			};
 		}
 
-		// Case C: Unrevealed cell -> check in full hints
+		// Case C: Unrevealed cell
 		var allHints = getAllHints(board, rows, cols);
 
-		// 1. Is it 100% safe?
 		var isSafe = allHints.safe.some(function (s) { return s.r === r && s.c === c; });
 		if (isSafe) {
-			// Find adjacent satisfied numbers or subset
 			var nbs = getNeighbors(r, c, rows, cols);
 			var causes = [];
 			for (var i = 0; i < nbs.length; i++) {
@@ -504,15 +641,14 @@ var MinesweeperSolver = (function () {
 			}
 			return {
 				type: 'safe_cell',
-				title: 'Casella Sicura (100%)',
+				title: t('game.dig'),
 				action: 'reveal',
 				targetCells: [{ r: r, c: c }],
 				causeCells: causes,
-				explanation: 'Questa casella è priva di mine al 100%! La deduzione logica dei numeri adiacenti lo garantisce con certezza. Puoi scavare tranquillo.'
+				explanation: t('didactic.cell_safe_reason')
 			};
 		}
 
-		// 2. Is it 100% mine?
 		var isMine = allHints.mines.some(function (m) { return m.r === r && m.c === c; });
 		if (isMine) {
 			var nbs = getNeighbors(r, c, rows, cols);
@@ -523,39 +659,43 @@ var MinesweeperSolver = (function () {
 			}
 			return {
 				type: 'mine_cell',
-				title: 'Mina Certa (100%)',
+				title: t('game.flag'),
 				action: 'flag',
 				targetCells: [{ r: r, c: c }],
 				causeCells: causes,
-				explanation: 'Attenzione: sotto questa casella c\'è sicuramente una mina al 100%! I numeri vicini non lasciano alcun dubbio. Piazzaci una bandiera.'
+				explanation: t('didactic.cell_mine_reason')
 			};
 		}
 
-		// 3. Is it in guess list?
 		var guessInfo = allHints.guesses.find(function (g) { return g.r === r && g.c === c; });
 		if (guessInfo) {
 			return {
 				type: 'guess_cell',
-				title: 'Casella Incerta (' + guessInfo.safeProb + '% Sicura)',
+				title: t('game.info') + ' (' + guessInfo.safeProb + '%)',
 				action: 'guess',
 				safeProb: guessInfo.safeProb,
 				targetCells: [{ r: r, c: c }],
-				explanation: 'Nessuna regola deterministica ne garantisce il contenuto. Ha una stima di sicurezza del ' + guessInfo.safeProb + '% (rischio mina ' + Math.round(guessInfo.mineProb * 100) + '%).'
+				explanation: t('didactic.cell_ambiguous', { prob: Math.round(guessInfo.mineProb * 100) })
 			};
 		}
 
-		// 4. Isolated / Unexplored cell far from any numbers
 		return {
 			type: 'isolated_cell',
-			title: 'Casella Non Esplorata',
+			title: t('game.info'),
 			targetCells: [{ r: r, c: c }],
-			explanation: 'Questa casella non confina direttamente con numeri scoperti. La sua probabilità di mina dipende solo dal rapporto complessivo mine/caselle libere.'
+			explanation: t('didactic.cell_ambiguous', { prob: 15 })
 		};
 	}
 
-	return {
+	var solver = {
 		findHint: findHint,
 		getAllHints: getAllHints,
 		explainCell: explainCell
 	};
+
+	if (typeof window !== 'undefined') {
+		window.MinesweeperSolver = solver;
+	}
+
+	return solver;
 })();

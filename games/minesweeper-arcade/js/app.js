@@ -1455,6 +1455,15 @@
 	/* ============================================================
 	   BOOTSTRAP
 	   ============================================================ */
+	if (window.I18n && typeof window.I18n.init === 'function') {
+		window.I18n.init();
+		window.I18n.onLanguageChange(function () {
+			updateHUD();
+			if (state.didacticActive) {
+				if (state.heatmapEnabled) applyHeatmapOverlay();
+			}
+		});
+	}
 	initWPGamesBridge();
 	wirePostMessageAPI();
 	ViewportManager.init(boardViewportEl, boardLayerEl, boardEl);
