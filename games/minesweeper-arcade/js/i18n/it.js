@@ -56,6 +56,10 @@ window.POINTNET_I18N['it'] = {
 	didactic: {
 		badge: "🎓 Didattica",
 		subtitle: "Allenamento senza punteggio",
+		undo: "Indietro",
+		redo: "Avanti",
+		undo_move: "Annulla mossa (Indietro)",
+		redo_move: "Ripristina mossa (Avanti)",
 		heatmap_toggle: "Attiva/Disattiva mappa visiva delle mosse",
 		toast_title: "💡 Spiegazione Didattica",
 		understood: "Ho capito",

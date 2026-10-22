@@ -56,6 +56,10 @@ window.POINTNET_I18N['en'] = {
 	didactic: {
 		badge: "🎓 Didactic",
 		subtitle: "Practice without score",
+		undo: "Undo",
+		redo: "Redo",
+		undo_move: "Undo move",
+		redo_move: "Redo move",
 		heatmap_toggle: "Toggle visual moves heatmap",
 		toast_title: "💡 Didactic Explanation",
 		understood: "Got it",

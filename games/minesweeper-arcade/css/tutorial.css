@@ -79,6 +79,36 @@ body.didactic-mode .didactic-banner {
 	transform: translateY(-1px);
 }
 
+.btn-didactic-action {
+	background: rgba(148, 163, 184, 0.15);
+	color: #e2e8f0;
+	border: 1px solid rgba(148, 163, 184, 0.3);
+	border-radius: 999px;
+	padding: 6px 12px;
+	font-size: 0.8rem;
+	font-weight: 800;
+	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	transition: all 0.18s ease;
+	font-family: inherit;
+}
+
+.btn-didactic-action:hover:not(:disabled) {
+	background: rgba(148, 163, 184, 0.28);
+	border-color: #94a3b8;
+	color: #fff;
+	transform: translateY(-1px);
+}
+
+.btn-didactic-action:disabled {
+	opacity: 0.38;
+	cursor: not-allowed;
+	filter: grayscale(1);
+	transform: none !important;
+}
+
 .btn-didactic-heatmap.active {
 	background: #38bdf8;
 	color: #0b1120;

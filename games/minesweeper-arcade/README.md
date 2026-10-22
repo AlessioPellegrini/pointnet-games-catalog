@@ -1,6 +1,6 @@
 # 💣 Minesweeper
  
-> **Versione: 1.5.1** — *The Clean One* aesthetics, doppia modalità (Classica 4 preset + Scalata 18 livelli), Pan & Pinch-to-Zoom, Didattica interattiva con Heatmap & Riconoscitore Pattern Tattici (1-2-1, 1-2-2-1, 1-2-X, 1-1-X) e supporto Multi-lingua (IT/EN) coordinato con WordPress.
+> **Versione: 1.5.2** — *The Clean One* aesthetics, doppia modalità (Classica 4 preset + Scalata 18 livelli), Pan & Pinch-to-Zoom, Didattica interattiva con Navigazione Storico Mosse (Undo/Redo ↩️/↪️), Heatmap, Riconoscitore Pattern Tattici (1-2-1, 1-2-2-1, 1-2-X, 1-1-X) e supporto Multi-lingua (IT/EN) coordinato con WordPress.
 
 Ispirato al design e all'esperienza tattile di *Minesweeper: The Clean One*, con **doppia modalità di gioco**: la classica partita singola a selezione libera o l'emozionante modalità Scalata a 18 livelli progressivi fino al livello Estremo!
 
@@ -8,7 +8,11 @@ Ispirato al design e all'esperienza tattile di *Minesweeper: The Clean One*, con
 
 ## 📝 Changelog
 
-### 1.5.1 (current)
+### 1.5.2 (current)
+- **Navigazione Storico Didattico (Undo / Redo)**: aggiunti i pulsanti "↩️ Indietro" e "↪️ Avanti" nel banner didattico. Permettono di annullare o ripristinare qualsiasi mossa (scavo, bandierina o chording) esplorando percorsi alternativi senza dover rigiocare l'intera partita dall'inizio.
+- **Supporto Multilingua Completo**: localizzazione delle azioni di Undo e Redo in italiano e in inglese nei dizionari `it.js` ed `en.js`.
+
+### 1.5.1
 - **Riconoscitore Pattern Tattici Avanzati**: rilevamento esplicito conforme alla guida strategica di [minesweepergame.com/strategy/patterns.php](https://minesweepergame.com/strategy/patterns.php):
   - **Pattern Fondamentale 1-2-X**: individua la mina esterna garantita tramite riduzione di sottoinsieme tra numeri 2 e 1 adiacenti.
   - **Pattern Bordo e Angolo 1-1-X**: individua la casella sicura lungo pareti e angoli retti tramite sottoinsieme.

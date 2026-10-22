@@ -61,7 +61,9 @@
 		preExplosion: null,
 		isReplay: false,
 		isDidactic: false, // Educational practice mode
-		heatmapEnabled: false
+		heatmapEnabled: false,
+		history: [],       // Snapshots for Undo in didactic mode
+		future: []         // Snapshots for Redo in didactic mode
 	};
 
 	var totalScore = 0;
@@ -98,6 +100,8 @@
 
 	// Educational Mode UI Elements
 	var didacticBanner = document.getElementById('didactic-banner');
+	var btnDidacticUndo = document.getElementById('btn-didactic-undo');
+	var btnDidacticRedo = document.getElementById('btn-didactic-redo');
 	var btnDidacticHeatmap = document.getElementById('btn-didactic-heatmap');
 	var btnDidacticHint = document.getElementById('btn-didactic-hint');
 	var didacticToast = document.getElementById('didactic-toast');
@@ -504,6 +508,7 @@
 						floodReveal(n.r, n.c);
 					}
 				});
+				recordDidacticStep();
 
 				if (state.revealed >= state.safeCells) {
 					levelComplete();
@@ -558,6 +563,7 @@
 		}
 
 		floodReveal(r, c);
+		recordDidacticStep();
 
 		if (state.revealed >= state.safeCells) {
 			levelComplete();
@@ -628,6 +634,7 @@
 		}
 
 		updateBoardDisplay();
+		recordDidacticStep();
 	}
 
 	function revealMine(r, c, preMove) {
@@ -874,6 +881,16 @@
 		renderBoard();
 		mineCountEl.textContent = Math.max(0, dims.mines - state.flags);
 
+		// Initialize undo history with the rewind state
+		state.history = [JSON.stringify({
+			board: state.board,
+			revealed: state.revealed,
+			flags: state.flags,
+			elapsed: state.elapsed
+		})];
+		state.future = [];
+		updateUndoRedoButtons();
+
 		boardEl.classList.add('flipping');
 		setTimeout(function () {
 			boardEl.classList.remove('flipping');
@@ -888,6 +905,71 @@
 		setTimeout(function () {
 			showDidacticHint();
 		}, 400);
+	}
+
+	function updateUndoRedoButtons() {
+		if (btnDidacticUndo) {
+			btnDidacticUndo.disabled = !(state.isDidactic && state.history && state.history.length > 1);
+		}
+		if (btnDidacticRedo) {
+			btnDidacticRedo.disabled = !(state.isDidactic && state.future && state.future.length > 0);
+		}
+	}
+
+	function recordDidacticStep() {
+		if (!state.isDidactic) return;
+		var snapshot = JSON.stringify({
+			board: state.board,
+			revealed: state.revealed,
+			flags: state.flags,
+			elapsed: state.elapsed
+		});
+		state.history.push(snapshot);
+		state.future = []; // Clear redo chain on new move
+		updateUndoRedoButtons();
+	}
+
+	function didacticUndo() {
+		if (!state.isDidactic || !state.history || state.history.length <= 1) return;
+		var current = state.history.pop();
+		state.future.push(current);
+
+		var previousStr = state.history[state.history.length - 1];
+		var previous = JSON.parse(previousStr);
+		applyDidacticSnapshot(previous);
+		updateUndoRedoButtons();
+		AudioFX.unflag();
+		haptic(15);
+	}
+
+	function didacticRedo() {
+		if (!state.isDidactic || !state.future || state.future.length === 0) return;
+		var nextStr = state.future.pop();
+		state.history.push(nextStr);
+
+		var nextState = JSON.parse(nextStr);
+		applyDidacticSnapshot(nextState);
+		updateUndoRedoButtons();
+		AudioFX.click();
+		haptic(15);
+	}
+
+	function applyDidacticSnapshot(snap) {
+		var dims = getGridDimensions();
+		state.board = snap.board;
+		state.revealed = snap.revealed;
+		state.flags = snap.flags;
+		state.elapsed = snap.elapsed;
+		state.gameOver = false;
+
+		renderBoard();
+		mineCountEl.textContent = Math.max(0, dims.mines - state.flags);
+		timerEl.textContent = state.elapsed;
+
+		clearDidacticHighlights(state.heatmapEnabled);
+		if (state.heatmapEnabled) {
+			applyHeatmapOverlay();
+		}
 	}
 
 	function inspectCell(r, c) {
@@ -1004,6 +1086,20 @@
 		});
 	}
 
+	if (btnDidacticUndo) {
+		btnDidacticUndo.addEventListener('click', function () {
+			AudioFX.initOnGesture();
+			didacticUndo();
+		});
+	}
+
+	if (btnDidacticRedo) {
+		btnDidacticRedo.addEventListener('click', function () {
+			AudioFX.initOnGesture();
+			didacticRedo();
+		});
+	}
+
 	if (btnDidacticHeatmap) {
 		btnDidacticHeatmap.addEventListener('click', function () {
 			AudioFX.initOnGesture();
@@ -1046,6 +1142,9 @@
 		state.flags = 0;
 		state.elapsed = 0;
 		state.preExplosion = null;
+		state.history = [];
+		state.future = [];
+		updateUndoRedoButtons();
 
 		stopTimer();
 		timerEl.textContent = '0';
@@ -1098,6 +1197,9 @@
 		state.flags = 0;
 		state.elapsed = 0;
 		state.preExplosion = null;
+		state.history = [];
+		state.future = [];
+		updateUndoRedoButtons();
 
 		stopTimer();
 		timerEl.textContent = '0';
