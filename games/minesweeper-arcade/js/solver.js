@@ -241,7 +241,284 @@ var MinesweeperSolver = (function () {
 		};
 	}
 
+	/**
+	 * Compute heatmap classifications across all frontier cells.
+	 * Returns an object with lists: safe, mines, guesses.
+	 */
+	function getAllHints(board, rows, cols) {
+		var revealedNumbers = [];
+		for (var r = 0; r < rows; r++) {
+			for (var c = 0; c < cols; c++) {
+				var cell = board[r][c];
+				var numVal = typeof cell.count !== 'undefined' ? cell.count : (cell.adjacentMines || 0);
+				if (cell.revealed && numVal > 0) {
+					var neighbors = getNeighbors(r, c, rows, cols);
+					var flaggedCount = 0;
+					var unrevealed = [];
+
+					for (var i = 0; i < neighbors.length; i++) {
+						var nb = board[neighbors[i].r][neighbors[i].c];
+						if (nb.flagged) {
+							flaggedCount++;
+						} else if (!nb.revealed) {
+							unrevealed.push(neighbors[i]);
+						}
+					}
+
+					if (unrevealed.length > 0) {
+						revealedNumbers.push({
+							r: r,
+							c: c,
+							number: numVal,
+							flagged: flaggedCount,
+							remainingMines: numVal - flaggedCount,
+							unrevealed: unrevealed
+						});
+					}
+				}
+			}
+		}
+
+		var safeMap = {};
+		var mineMap = {};
+
+		// 1. Direct deduction
+		for (var i = 0; i < revealedNumbers.length; i++) {
+			var item = revealedNumbers[i];
+			if (item.remainingMines === 0) {
+				for (var u = 0; u < item.unrevealed.length; u++) {
+					var k = item.unrevealed[u].r + ',' + item.unrevealed[u].c;
+					safeMap[k] = item.unrevealed[u];
+				}
+			} else if (item.remainingMines > 0 && item.remainingMines === item.unrevealed.length) {
+				for (var u = 0; u < item.unrevealed.length; u++) {
+					var k = item.unrevealed[u].r + ',' + item.unrevealed[u].c;
+					mineMap[k] = item.unrevealed[u];
+				}
+			}
+		}
+
+		// 2. Subset reductions
+		function isSub(sub, sup) {
+			for (var s = 0; s < sub.length; s++) {
+				var found = false;
+				for (var p = 0; p < sup.length; p++) {
+					if (sub[s].r === sup[p].r && sub[s].c === sup[p].c) { found = true; break; }
+				}
+				if (!found) return false;
+			}
+			return true;
+		}
+
+		function getDiff(sup, sub) {
+			var diff = [];
+			for (var p = 0; p < sup.length; p++) {
+				var found = false;
+				for (var s = 0; s < sub.length; s++) {
+					if (sup[p].r === sub[s].r && sup[p].c === sub[s].c) { found = true; break; }
+				}
+				if (!found) diff.push(sup[p]);
+			}
+			return diff;
+		}
+
+		for (var a = 0; a < revealedNumbers.length; a++) {
+			for (var b = 0; b < revealedNumbers.length; b++) {
+				if (a === b) continue;
+				var itA = revealedNumbers[a];
+				var itB = revealedNumbers[b];
+				if (itA.unrevealed.length < itB.unrevealed.length && isSub(itA.unrevealed, itB.unrevealed)) {
+					var diff = getDiff(itB.unrevealed, itA.unrevealed);
+					var mDiff = itB.remainingMines - itA.remainingMines;
+					if (mDiff === 0) {
+						for (var d = 0; d < diff.length; d++) {
+							safeMap[diff[d].r + ',' + diff[d].c] = diff[d];
+						}
+					} else if (mDiff === diff.length) {
+						for (var d = 0; d < diff.length; d++) {
+							mineMap[diff[d].r + ',' + diff[d].c] = diff[d];
+						}
+					}
+				}
+			}
+		}
+
+		// 3. Probabilities for remaining frontier cells
+		var guessMap = {};
+		for (var i = 0; i < revealedNumbers.length; i++) {
+			var item = revealedNumbers[i];
+			var localRisk = item.unrevealed.length > 0 ? (item.remainingMines / item.unrevealed.length) : 0;
+			for (var u = 0; u < item.unrevealed.length; u++) {
+				var key = item.unrevealed[u].r + ',' + item.unrevealed[u].c;
+				if (!safeMap[key] && !mineMap[key]) {
+					if (!guessMap[key] || localRisk > guessMap[key].mineProb) {
+						guessMap[key] = {
+							r: item.unrevealed[u].r,
+							c: item.unrevealed[u].c,
+							mineProb: localRisk,
+							safeProb: Math.round((1 - localRisk) * 100)
+						};
+					}
+				}
+			}
+		}
+
+		var safeList = [];
+		for (var k in safeMap) { if (safeMap.hasOwnProperty(k)) safeList.push(safeMap[k]); }
+
+		var mineList = [];
+		for (var k in mineMap) { if (mineMap.hasOwnProperty(k)) mineList.push(mineMap[k]); }
+
+		var guessList = [];
+		for (var k in guessMap) { if (guessMap.hasOwnProperty(k)) guessList.push(guessMap[k]); }
+		guessList.sort(function (x, y) { return x.mineProb - y.mineProb; });
+
+		return {
+			safe: safeList,
+			mines: mineList,
+			guesses: guessList
+		};
+	}
+
+	/**
+	 * Explain status and logic of a specific cell (r, c).
+	 */
+	function explainCell(r, c, board, rows, cols) {
+		var cell = board[r] && board[r][c];
+		if (!cell) return null;
+
+		var numVal = typeof cell.count !== 'undefined' ? cell.count : (cell.adjacentMines || 0);
+
+		// Case A: The cell is already revealed and has a number
+		if (cell.revealed) {
+			if (numVal === 0) {
+				return {
+					type: 'revealed_empty',
+					title: 'Spazio Vuoto',
+					explanation: 'Questa casella è vuota (0 mine adiacenti). Tutte le caselle confinanti sono state aperte automaticamente.'
+				};
+			}
+
+			var neighbors = getNeighbors(r, c, rows, cols);
+			var flags = 0;
+			var unrevealed = [];
+			for (var i = 0; i < neighbors.length; i++) {
+				var nb = board[neighbors[i].r][neighbors[i].c];
+				if (nb.flagged) flags++;
+				else if (!nb.revealed) unrevealed.push(neighbors[i]);
+			}
+
+			var remaining = numVal - flags;
+			if (remaining === 0) {
+				return {
+					type: 'satisfied',
+					title: 'Numero Soddisfatto (' + numVal + ')',
+					causeCells: [{ r: r, c: c }],
+					targetCells: unrevealed,
+					action: 'reveal',
+					explanation: 'Il numero ' + numVal + ' tocca già tutte le ' + flags + ' bandiere necessarie. Le sue ' + unrevealed.length + ' caselle coperte restanti sono sicure al 100%! Puoi toccare questo numero per aprirle (Chording).'
+				};
+			} else if (remaining === unrevealed.length) {
+				return {
+					type: 'all_mines',
+					title: 'Numero Esausto (' + numVal + ')',
+					causeCells: [{ r: r, c: c }],
+					targetCells: unrevealed,
+					action: 'flag',
+					explanation: 'Al numero ' + numVal + ' mancano ' + remaining + ' mine e ha esattamente ' + unrevealed.length + ' caselle coperte libere. Tutte queste ' + unrevealed.length + ' caselle coperte sono sicuramente mine!'
+				};
+			} else {
+				return {
+					type: 'number_info',
+					title: 'Numero ' + numVal + ' Attivo',
+					causeCells: [{ r: r, c: c }],
+					targetCells: unrevealed,
+					explanation: 'Questo numero indica ' + numVal + ' mine attorno. Ha ' + flags + ' bandiere piazzate e ' + unrevealed.length + ' caselle coperte: restano ' + remaining + ' mine nascoste tra di esse.'
+				};
+			}
+		}
+
+		// Case B: The cell is currently flagged
+		if (cell.flagged) {
+			var all = getAllHints(board, rows, cols);
+			var isDefinite = all.mines.some(function (m) { return m.r === r && m.c === c; });
+			return {
+				type: 'flagged_cell',
+				title: 'Bandiera Piazzata',
+				targetCells: [{ r: r, c: c }],
+				explanation: isDefinite ?
+					'Ottima bandiera! La deduzione logica conferma che qui si trova sicuramente una mina.' :
+					'Hai contrassegnato questa casella con una bandiera per segnalarla come mina presunta.'
+			};
+		}
+
+		// Case C: Unrevealed cell -> check in full hints
+		var allHints = getAllHints(board, rows, cols);
+
+		// 1. Is it 100% safe?
+		var isSafe = allHints.safe.some(function (s) { return s.r === r && s.c === c; });
+		if (isSafe) {
+			// Find adjacent satisfied numbers or subset
+			var nbs = getNeighbors(r, c, rows, cols);
+			var causes = [];
+			for (var i = 0; i < nbs.length; i++) {
+				var nbCell = board[nbs[i].r][nbs[i].c];
+				if (nbCell.revealed && (nbCell.count || nbCell.adjacentMines)) causes.push(nbs[i]);
+			}
+			return {
+				type: 'safe_cell',
+				title: 'Casella Sicura (100%)',
+				action: 'reveal',
+				targetCells: [{ r: r, c: c }],
+				causeCells: causes,
+				explanation: 'Questa casella è priva di mine al 100%! La deduzione logica dei numeri adiacenti lo garantisce con certezza. Puoi scavare tranquillo.'
+			};
+		}
+
+		// 2. Is it 100% mine?
+		var isMine = allHints.mines.some(function (m) { return m.r === r && m.c === c; });
+		if (isMine) {
+			var nbs = getNeighbors(r, c, rows, cols);
+			var causes = [];
+			for (var i = 0; i < nbs.length; i++) {
+				var nbCell = board[nbs[i].r][nbs[i].c];
+				if (nbCell.revealed && (nbCell.count || nbCell.adjacentMines)) causes.push(nbs[i]);
+			}
+			return {
+				type: 'mine_cell',
+				title: 'Mina Certa (100%)',
+				action: 'flag',
+				targetCells: [{ r: r, c: c }],
+				causeCells: causes,
+				explanation: 'Attenzione: sotto questa casella c\'è sicuramente una mina al 100%! I numeri vicini non lasciano alcun dubbio. Piazzaci una bandiera.'
+			};
+		}
+
+		// 3. Is it in guess list?
+		var guessInfo = allHints.guesses.find(function (g) { return g.r === r && g.c === c; });
+		if (guessInfo) {
+			return {
+				type: 'guess_cell',
+				title: 'Casella Incerta (' + guessInfo.safeProb + '% Sicura)',
+				action: 'guess',
+				safeProb: guessInfo.safeProb,
+				targetCells: [{ r: r, c: c }],
+				explanation: 'Nessuna regola deterministica ne garantisce il contenuto. Ha una stima di sicurezza del ' + guessInfo.safeProb + '% (rischio mina ' + Math.round(guessInfo.mineProb * 100) + '%).'
+			};
+		}
+
+		// 4. Isolated / Unexplored cell far from any numbers
+		return {
+			type: 'isolated_cell',
+			title: 'Casella Non Esplorata',
+			targetCells: [{ r: r, c: c }],
+			explanation: 'Questa casella non confina direttamente con numeri scoperti. La sua probabilità di mina dipende solo dal rapporto complessivo mine/caselle libere.'
+		};
+	}
+
 	return {
-		findHint: findHint
+		findHint: findHint,
+		getAllHints: getAllHints,
+		explainCell: explainCell
 	};
 })();

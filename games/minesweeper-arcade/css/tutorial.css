@@ -56,6 +56,36 @@ body.didactic-mode .didactic-banner {
 	gap: 6px;
 }
 
+.btn-didactic-heatmap {
+	background: rgba(56, 189, 248, 0.18);
+	color: #38bdf8;
+	border: 1px solid rgba(56, 189, 248, 0.4);
+	border-radius: 999px;
+	padding: 6px 13px;
+	font-size: 0.82rem;
+	font-weight: 800;
+	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+	transition: all 0.18s ease;
+	font-family: inherit;
+}
+
+.btn-didactic-heatmap:hover {
+	background: rgba(56, 189, 248, 0.3);
+	border-color: #38bdf8;
+	color: #fff;
+	transform: translateY(-1px);
+}
+
+.btn-didactic-heatmap.active {
+	background: #38bdf8;
+	color: #0b1120;
+	border-color: #38bdf8;
+	box-shadow: 0 0 12px rgba(56, 189, 248, 0.5);
+}
+
 .btn-didactic-hint {
 	background: linear-gradient(135deg, #f59e0b, #d97706);
 	color: #0b1120;
@@ -80,6 +110,18 @@ body.didactic-mode .didactic-banner {
 
 .btn-didactic-hint:active {
 	transform: translateY(1px);
+}
+
+/* Pill selector Inspect Mode button - only displayed in didactic mode */
+body.didactic-mode #btn-mode-inspect {
+	display: inline-flex !important;
+}
+
+.pill-btn.inspect-btn.active {
+	background: #38bdf8;
+	color: #0b1120;
+	border-color: #38bdf8;
+	box-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
 }
 
 /* Floating Didactic Explanation Toast */
@@ -176,6 +218,18 @@ body.didactic-mode .didactic-banner {
 	box-shadow: 0 0 16px rgba(129, 140, 248, 0.8), inset 0 0 8px rgba(129, 140, 248, 0.4) !important;
 	animation: pulseGuess 1.4s infinite alternate;
 	z-index: 5;
+}
+
+.cell.cell-hint-inspect {
+	border-color: #38bdf8 !important;
+	box-shadow: 0 0 16px #38bdf8, inset 0 0 6px rgba(56, 189, 248, 0.6) !important;
+	z-index: 6;
+	animation: pulseInspect 1.2s infinite alternate;
+}
+
+@keyframes pulseInspect {
+	from { box-shadow: 0 0 8px #38bdf8; transform: scale(1); }
+	to { box-shadow: 0 0 20px #38bdf8; transform: scale(1.08); }
 }
 
 @keyframes pulseSafe {

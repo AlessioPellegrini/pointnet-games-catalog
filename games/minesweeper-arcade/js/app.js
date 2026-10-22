@@ -56,11 +56,12 @@
 		elapsed: 0,
 		totalElapsed: 0,
 		firstClick: true,
-		inputMode: 'dig', // 'dig' or 'flag'
+		inputMode: 'dig', // 'dig', 'flag', or 'inspect'
 		snapshot: null,
 		preExplosion: null,
 		isReplay: false,
-		isDidactic: false // Educational practice mode
+		isDidactic: false, // Educational practice mode
+		heatmapEnabled: false
 	};
 
 	var totalScore = 0;
@@ -79,6 +80,7 @@
 	var levelProgressEl = document.getElementById('level-progress');
 	var btnModeDig = document.getElementById('btn-mode-dig');
 	var btnModeFlag = document.getElementById('btn-mode-flag');
+	var btnModeInspect = document.getElementById('btn-mode-inspect');
 	var btnZoomFit = document.getElementById('btn-zoom-fit');
 	var btnZoomIn = document.getElementById('btn-zoom-in');
 	var btnZoomOut = document.getElementById('btn-zoom-out');
@@ -96,6 +98,7 @@
 
 	// Educational Mode UI Elements
 	var didacticBanner = document.getElementById('didactic-banner');
+	var btnDidacticHeatmap = document.getElementById('btn-didactic-heatmap');
 	var btnDidacticHint = document.getElementById('btn-didactic-hint');
 	var didacticToast = document.getElementById('didactic-toast');
 	var didacticToastTitle = document.getElementById('didactic-toast-title');
@@ -271,12 +274,40 @@
 	/* ============================================================
 	   RENDERING & BOARD DISPLAY
 	   ============================================================ */
-	function clearDidacticHighlights() {
-		var highlighted = boardEl.querySelectorAll('.cell-hint-safe, .cell-hint-mine, .cell-hint-cause, .cell-hint-guess');
+	function clearDidacticHighlights(keepHeatmap) {
+		var selector = keepHeatmap ?
+			'.cell-hint-inspect, .cell-hint-cause' :
+			'.cell-hint-safe, .cell-hint-mine, .cell-hint-cause, .cell-hint-guess, .cell-hint-inspect';
+		var highlighted = boardEl.querySelectorAll(selector);
 		highlighted.forEach(function (el) {
-			el.classList.remove('cell-hint-safe', 'cell-hint-mine', 'cell-hint-cause', 'cell-hint-guess');
+			if (keepHeatmap) {
+				el.classList.remove('cell-hint-inspect', 'cell-hint-cause');
+			} else {
+				el.classList.remove('cell-hint-safe', 'cell-hint-mine', 'cell-hint-cause', 'cell-hint-guess', 'cell-hint-inspect');
+			}
 		});
 		if (didacticToast) didacticToast.classList.remove('show');
+	}
+
+	function applyHeatmapOverlay() {
+		if (!state.isDidactic || !state.heatmapEnabled || typeof MinesweeperSolver === 'undefined') return;
+		var dims = getGridDimensions();
+		var hints = MinesweeperSolver.getAllHints(state.board, dims.rows, dims.cols);
+
+		hints.safe.forEach(function (pos) {
+			var el = boardEl.querySelector('[data-r="' + pos.r + '"][data-c="' + pos.c + '"]');
+			if (el && !el.classList.contains('cell-hint-inspect')) el.classList.add('cell-hint-safe');
+		});
+
+		hints.mines.forEach(function (pos) {
+			var el = boardEl.querySelector('[data-r="' + pos.r + '"][data-c="' + pos.c + '"]');
+			if (el && !el.classList.contains('cell-hint-inspect')) el.classList.add('cell-hint-mine');
+		});
+
+		hints.guesses.forEach(function (pos) {
+			var el = boardEl.querySelector('[data-r="' + pos.r + '"][data-c="' + pos.c + '"]');
+			if (el && !el.classList.contains('cell-hint-inspect')) el.classList.add('cell-hint-guess');
+		});
 	}
 
 	function renderBoard() {
@@ -346,12 +377,24 @@
 						return;
 					}
 
-					clearDidacticHighlights();
-
 					var r = parseInt(el.dataset.r, 10);
 					var c = parseInt(el.dataset.c, 10);
 					var cell = state.board[r] && state.board[r][c];
 					if (!cell) return;
+
+					// If in Didactic Mode and Inspect button is active, explain any clicked cell!
+					if (state.isDidactic && state.inputMode === 'inspect') {
+						inspectCell(r, c);
+						return;
+					}
+
+					// If in Didactic Mode and clicking an already revealed cell with a number, also explain it!
+					if (state.isDidactic && cell.revealed) {
+						inspectCell(r, c);
+						return;
+					}
+
+					clearDidacticHighlights(state.heatmapEnabled);
 
 					if (cell.revealed) {
 						handleChord(r, c);
@@ -402,6 +445,11 @@
 		});
 
 		mineCountEl.textContent = Math.max(0, dims.mines - state.flags);
+
+		// If heatmap is active in didactic mode, re-apply colors to frontier cells
+		if (state.isDidactic && state.heatmapEnabled) {
+			applyHeatmapOverlay();
+		}
 	}
 
 	/* ============================================================
@@ -808,6 +856,9 @@
 		state.scoreSubmitted = true; // Block sending competitive scores
 		state.started = true;
 		state.isReplay = true;
+		state.heatmapEnabled = false;
+		if (btnDidacticHeatmap) btnDidacticHeatmap.classList.remove('active');
+		setInputMode('dig');
 
 		state.board = JSON.parse(saved.board);
 		state.revealed = saved.revealed;
@@ -838,9 +889,60 @@
 		}, 400);
 	}
 
+	function inspectCell(r, c) {
+		if (typeof MinesweeperSolver === 'undefined') return;
+		clearDidacticHighlights(state.heatmapEnabled);
+
+		var dims = getGridDimensions();
+		var info = MinesweeperSolver.explainCell(r, c, state.board, dims.rows, dims.cols);
+		if (!info) return;
+
+		// Highlight target cell in blue / focus border
+		var targetEl = boardEl.querySelector('[data-r="' + r + '"][data-c="' + c + '"]');
+		if (targetEl) targetEl.classList.add('cell-hint-inspect');
+
+		// Highlight cause numbers if any
+		if (info.causeCells && info.causeCells.length > 0) {
+			info.causeCells.forEach(function (pos) {
+				var el = boardEl.querySelector('[data-r="' + pos.r + '"][data-c="' + pos.c + '"]');
+				if (el) el.classList.add('cell-hint-cause');
+			});
+		}
+
+		// Also highlight secondary targets if inspecting a satisfied number
+		if (info.targetCells && info.targetCells.length > 0) {
+			info.targetCells.forEach(function (pos) {
+				var el = boardEl.querySelector('[data-r="' + pos.r + '"][data-c="' + pos.c + '"]');
+				if (el && !el.classList.contains('cell-hint-inspect')) {
+					if (info.action === 'reveal') el.classList.add('cell-hint-safe');
+					else if (info.action === 'flag') el.classList.add('cell-hint-mine');
+					else if (info.action === 'guess') el.classList.add('cell-hint-guess');
+				}
+			});
+		}
+
+		didacticToastTitle.innerHTML = '🔍 ' + info.title;
+		didacticToastText.textContent = info.explanation;
+		didacticToast.classList.add('show');
+		haptic(15);
+	}
+
+	function toggleDidacticHeatmap() {
+		state.heatmapEnabled = !state.heatmapEnabled;
+		if (btnDidacticHeatmap) {
+			btnDidacticHeatmap.classList.toggle('active', state.heatmapEnabled);
+		}
+		if (state.heatmapEnabled) {
+			applyHeatmapOverlay();
+		} else {
+			clearDidacticHighlights(false);
+		}
+		haptic(15);
+	}
+
 	function showDidacticHint() {
 		if (typeof MinesweeperSolver === 'undefined') return;
-		clearDidacticHighlights();
+		clearDidacticHighlights(state.heatmapEnabled);
 
 		var dims = getGridDimensions();
 		var hint = MinesweeperSolver.findHint(state.board, dims.rows, dims.cols);
@@ -897,9 +999,17 @@
 		});
 	}
 
+	if (btnDidacticHeatmap) {
+		btnDidacticHeatmap.addEventListener('click', function () {
+			AudioFX.initOnGesture();
+			AudioFX.click();
+			toggleDidacticHeatmap();
+		});
+	}
+
 	if (didacticToastClose) {
 		didacticToastClose.addEventListener('click', function () {
-			clearDidacticHighlights();
+			clearDidacticHighlights(state.heatmapEnabled);
 		});
 	}
 
@@ -910,6 +1020,9 @@
 		state.mode = 'classic';
 		state.classicDifficulty = difficultyKey || 'easy';
 		state.isDidactic = false;
+		state.heatmapEnabled = false;
+		if (btnDidacticHeatmap) btnDidacticHeatmap.classList.remove('active');
+		setInputMode('dig');
 		document.body.classList.remove('didactic-mode');
 		clearDidacticHighlights();
 
@@ -942,6 +1055,9 @@
 	function startNewRun() {
 		state.mode = 'arcade';
 		state.isDidactic = false;
+		state.heatmapEnabled = false;
+		if (btnDidacticHeatmap) btnDidacticHeatmap.classList.remove('active');
+		setInputMode('dig');
 		document.body.classList.remove('didactic-mode');
 		clearDidacticHighlights();
 
@@ -957,6 +1073,9 @@
 	function startAtLevel(index) {
 		state.levelIndex = Math.max(0, Math.min(index, SCALATA_LEVELS.length - 1));
 		state.isDidactic = false;
+		state.heatmapEnabled = false;
+		if (btnDidacticHeatmap) btnDidacticHeatmap.classList.remove('active');
+		setInputMode('dig');
 		document.body.classList.remove('didactic-mode');
 		clearDidacticHighlights();
 
@@ -988,6 +1107,9 @@
 		stopTimer();
 		state.gameOver = true;
 		state.isDidactic = false;
+		state.heatmapEnabled = false;
+		if (btnDidacticHeatmap) btnDidacticHeatmap.classList.remove('active');
+		setInputMode('dig');
 		document.body.classList.remove('didactic-mode');
 		clearDidacticHighlights();
 		overlayEl.classList.remove('show');
@@ -999,18 +1121,25 @@
 	   ============================================================ */
 	function setInputMode(mode) {
 		state.inputMode = mode;
+		if (btnModeDig) btnModeDig.classList.remove('active');
+		if (btnModeFlag) btnModeFlag.classList.remove('active');
+		if (btnModeInspect) btnModeInspect.classList.remove('active');
+
 		if (mode === 'flag') {
-			btnModeFlag.classList.add('active');
-			btnModeDig.classList.remove('active');
+			if (btnModeFlag) btnModeFlag.classList.add('active');
+		} else if (mode === 'inspect') {
+			if (btnModeInspect) btnModeInspect.classList.add('active');
 		} else {
-			btnModeDig.classList.add('active');
-			btnModeFlag.classList.remove('active');
+			if (btnModeDig) btnModeDig.classList.add('active');
 		}
 		haptic(15);
 	}
 
 	btnModeDig.addEventListener('click', function () { setInputMode('dig'); });
 	btnModeFlag.addEventListener('click', function () { setInputMode('flag'); });
+	if (btnModeInspect) {
+		btnModeInspect.addEventListener('click', function () { setInputMode('inspect'); });
+	}
 
 	document.getElementById('modal-close').addEventListener('click', function () {
 		overlayEl.classList.remove('show');
@@ -1083,6 +1212,9 @@
 	document.addEventListener('keydown', function (e) {
 		if (e.key === 'm' || e.key === 'M') soundToggle.click();
 		if (e.key === 'f' || e.key === 'F') setInputMode(state.inputMode === 'dig' ? 'flag' : 'dig');
+		if (state.isDidactic && (e.key === 'i' || e.key === 'I')) {
+			setInputMode(state.inputMode === 'inspect' ? 'dig' : 'inspect');
+		}
 		if (e.key === '+' || e.key === '=') ViewportManager.zoomStep(1);
 		if (e.key === '-' || e.key === '_') ViewportManager.zoomStep(-1);
 		if (e.key === '0') ViewportManager.fitToScreen(true);
