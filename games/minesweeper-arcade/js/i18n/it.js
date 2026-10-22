@@ -5,7 +5,7 @@ window.POINTNET_I18N = window.POINTNET_I18N || {};
 window.POINTNET_I18N['it'] = {
 	game: {
 		title: "Minesweeper",
-		version: "v1.5.0",
+		version: "v1.5.1",
 		author: "by Alessio Pellegrini · PointNet Games",
 		verifying_account: "Verifica account in corso...",
 		account_ready: "Account verificato",
@@ -68,17 +68,24 @@ window.POINTNET_I18N['it'] = {
 		cell_safe_reason: "Questa casella è SICURA al 100% perché il numero adiacente ha già tutte le mine individuate.",
 		cell_mine_reason: "Questa casella contiene SICURAMENTE una mina perché il numero adiacente ha lo stesso numero di caselle coperte rimaste.",
 		cell_ambiguous: "Casella coperta con probabilità di mina del {prob}%. Nessuna deduzione logica diretta immediata.",
-		rule_satisfied: "Tutte le mine attorno a questo {num} sono già state contrassegnate. Tutte le altre caselle adiacenti sono sicure!",
-		rule_all_mines: "Questo {num} tocca esattamente {mines} caselle coperte non contrassegnate: sono tutte mine!"
+		rule_satisfied: "Tutte le mine attorno a questo {num} sono già state contrassegnate. Tutte le altre sue caselle adiacenti (in verde) sono sicure!",
+		rule_all_mines: "Questo {num} tocca esattamente {mines} caselle coperte: sono tutte mine (in rosso)!"
 	},
 	patterns: {
 		pattern_121_name: "Pattern Tattico 1-2-1",
-		pattern_121_desc: "Lungo una linea piana di caselle coperte, la sequenza 1-2-1 impone che le due caselle esterne siano mine, mentre la casella centrale sia sicura.",
+		pattern_121_desc: "Lungo una linea piana, la sequenza 1-2-1 impone che le due caselle esterne siano mine, mentre la casella centrale sia sicura.",
+		pattern_121_reduced_desc: "La combinazione si riduce al pattern 1-2-1 sottraendo le bandiere già posizionate ({redA} - {redB} - {redC}). Le caselle esterne sono mine, la centrale è libera!",
 		pattern_1221_name: "Pattern Tattico 1-2-2-1",
 		pattern_1221_desc: "La sequenza 1-2-2-1 rivela le mine esattamente davanti ai due '2', mentre le caselle davanti ai due '1' sono sempre sicure al 100%.",
+		pattern_1221_reduced_desc: "Sottraendo le bandiere già note, la sequenza si riduce al celebre pattern 1-2-2-1: le caselle davanti ai 2 sono mine, quelle davanti agli 1 sono libere!",
+		pattern_12x_name: "Pattern Fondamentale 1-2-X",
+		pattern_12x_desc: "Il {numB} (effettivo {remB}) tocca 3 caselle con 2 mine, ma il {numA} vicino (effettivo {remA}) limita 1 mina alle prime due caselle. La terza casella esterna X è sicuramente una MINA!",
+		pattern_11x_name: "Pattern Bordo / Angolo 1-1-X",
+		pattern_11x_desc: "Il {numA} sul bordo limita la mina al sottoinsieme di 2 caselle. Il {numB} adiacente richiede solo quella stessa mina: la terza casella X lungo il bordo è garantita SICURA!",
 		pattern_edge11_name: "Pattern Bordo 1-1",
 		pattern_edge11_desc: "Un '1' d'angolo o di bordo seguito da un altro '1': la prima mina deve trovarsi nelle prime due caselle, quindi la terza casella lungo il bordo è garantita sicura.",
-		pattern_corner1_name: "Pattern Angolo 1",
-		pattern_corner1_desc: "Un '1' in un angolo tocca solo 3 caselle. Se condivide le caselle con un numero adiacente, le caselle in eccesso possono essere ridotte per deduzione logica."
+		pattern_corner1_name: "Pattern Angolo 1 (Riduzione)",
+		pattern_corner1_desc: "Un '1' in un angolo tocca solo 3 caselle. Poiché condivide le caselle con il numero vicino, le caselle esterne in eccesso sono libere per riduzione insiemistica.",
+		reduction_prefix: "Riduzione: {orig} con {flags} bandiera/e si comporta come {eff}."
 	}
 };

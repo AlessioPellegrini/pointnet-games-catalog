@@ -5,7 +5,7 @@ window.POINTNET_I18N = window.POINTNET_I18N || {};
 window.POINTNET_I18N['en'] = {
 	game: {
 		title: "Minesweeper",
-		version: "v1.5.0",
+		version: "v1.5.1",
 		author: "by Alessio Pellegrini · PointNet Games",
 		verifying_account: "Verifying account...",
 		account_ready: "Account verified",
@@ -68,17 +68,24 @@ window.POINTNET_I18N['en'] = {
 		cell_safe_reason: "This cell is 100% SAFE because the adjacent clue already found all its surrounding mines.",
 		cell_mine_reason: "This cell definitely contains a MINE because the adjacent clue has the exact same number of hidden neighbors left.",
 		cell_ambiguous: "Covered cell with {prob}% mine probability. No immediate direct deduction available.",
-		rule_satisfied: "All mines around this {num} have already been flagged. All other adjacent cells are safe!",
-		rule_all_mines: "This {num} touches exactly {mines} unflagged hidden cells: they are all mines!"
+		rule_satisfied: "All mines around this {num} have already been flagged. All other adjacent cells (in green) are safe!",
+		rule_all_mines: "This {num} touches exactly {mines} unflagged hidden cells: they are all mines (in red)!"
 	},
 	patterns: {
 		pattern_121_name: "Tactical Pattern 1-2-1",
 		pattern_121_desc: "Along a flat wall of hidden cells, a 1-2-1 sequence dictates that the two outer cells are mines, while the center cell is safe.",
+		pattern_121_reduced_desc: "Subtracting placed flags reduces this group to a 1-2-1 pattern ({redA} - {redB} - {redC}). The outer cells are mines, and the middle cell is safe!",
 		pattern_1221_name: "Tactical Pattern 1-2-2-1",
 		pattern_1221_desc: "The 1-2-2-1 sequence reveals mines directly facing the two '2's, while cells facing the two '1's are guaranteed 100% safe.",
+		pattern_1221_reduced_desc: "After subtracting known flags, this sequence reduces to 1-2-2-1: cells opposite the 2s are mines, cells opposite the 1s are safe!",
+		pattern_12x_name: "Core Pattern 1-2-X",
+		pattern_12x_desc: "Number {numB} (effective {remB}) touches 3 cells with 2 mines, but adjacent {numA} (effective {remA}) restricts 1 mine to the first two cells. The third outer cell X must be a MINE!",
+		pattern_11x_name: "Edge / Corner Pattern 1-1-X",
+		pattern_11x_desc: "Number {numA} on the border restricts the mine to a 2-cell subset. Neighbor {numB} only needs that same mine: the third outer cell X along the border is guaranteed SAFE!",
 		pattern_edge11_name: "Edge Pattern 1-1",
 		pattern_edge11_desc: "A corner or border '1' followed by another '1': the first mine must be in the first two cells, so the third cell along the edge is guaranteed safe.",
-		pattern_corner1_name: "Corner Pattern 1",
-		pattern_corner1_desc: "A '1' in a corner touches only 3 cells. When sharing cells with an adjacent number, excess cells can be deduced through pattern reduction."
+		pattern_corner1_name: "Corner Pattern 1 (Reduction)",
+		pattern_corner1_desc: "A '1' in a corner touches only 3 cells. When sharing cells with an adjacent number, excess cells can be deduced through pattern reduction.",
+		reduction_prefix: "Reduction: {orig} with {flags} flag(s) behaves as {eff}."
 	}
 };

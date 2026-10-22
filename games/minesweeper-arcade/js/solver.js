@@ -1,7 +1,7 @@
 /**
  * Minesweeper Arcade — Deductive Educational Tutor Solver & Tactical Pattern Recognizer
  * Analyzes board state to discover human-explainable logical steps, classic tactical patterns
- * (1-2-1, 1-2-2-1, Edge 1-1, Corner) and probabilistic deductions.
+ * (1-2-1, 1-2-2-1, 1-2-X, 1-1-X Edge/Corner, and Pattern Reductions).
  */
 var MinesweeperSolver = (function () {
 	'use strict';
@@ -70,7 +70,7 @@ var MinesweeperSolver = (function () {
 	}
 
 	/**
-	 * Find classic tactical patterns: 1-2-1, 1-2-2-1, Edge 1-1, Corner 1
+	 * Find classic tactical patterns: 1-2-1, 1-2-2-1, 1-2-X, 1-1-X (Edge & Corner)
 	 */
 	function findTacticalPattern(revealedNumbers, board, rows, cols) {
 		var map = {};
@@ -79,7 +79,7 @@ var MinesweeperSolver = (function () {
 			map[item.r + ',' + item.c] = item;
 		}
 
-		// 1. PATTERN 1-2-1 along horizontal or vertical lines
+		// 1. PATTERN 1-2-1 (Horizontal & Vertical, including reductions)
 		for (var i = 0; i < revealedNumbers.length; i++) {
 			var mid = revealedNumbers[i];
 			if (mid.remainingMines !== 2) continue;
@@ -88,28 +88,18 @@ var MinesweeperSolver = (function () {
 			var left = map[mid.r + ',' + (mid.c - 1)];
 			var right = map[mid.r + ',' + (mid.c + 1)];
 			if (left && right && left.remainingMines === 1 && right.remainingMines === 1) {
-				// Check if unrevealed neighbors lie on the same side (e.g. above or below)
-				var unionUnrev = [];
-				[left, mid, right].forEach(function (n) {
-					n.unrevealed.forEach(function (u) {
-						if (!unionUnrev.some(function (x) { return x.r === u.r && x.c === u.c; })) {
-							unionUnrev.push(u);
-						}
-					});
-				});
-
-				// Standard 1-2-1 wall: Exactly 3 covered cells adjacent to the 1-2-1 triplet
 				var leftDiff = getDifference(left.unrevealed, mid.unrevealed);
 				var rightDiff = getDifference(right.unrevealed, mid.unrevealed);
-				var midDiff = getDifference(mid.unrevealed, left.unrevealed);
-				midDiff = getDifference(midDiff, right.unrevealed);
 
-				// When leftDiff has 1 cell, rightDiff has 1 cell, and the middle common cell is safe
 				if (leftDiff.length === 1 && rightDiff.length === 1) {
-					// The outer two are mines, the middle ones opposite the 2 are safe
 					var commonLeftMid = getCommon(left.unrevealed, mid.unrevealed);
 					var commonRightMid = getCommon(right.unrevealed, mid.unrevealed);
 					var centerSafe = getCommon(commonLeftMid, commonRightMid);
+
+					var isReduced = (left.number !== 1 || mid.number !== 2 || right.number !== 1);
+					var expl = isReduced ?
+						t('patterns.pattern_121_reduced_desc', { redA: left.remainingMines, redB: mid.remainingMines, redC: right.remainingMines }) :
+						t('patterns.pattern_121_desc');
 
 					if (centerSafe.length > 0) {
 						return {
@@ -118,7 +108,7 @@ var MinesweeperSolver = (function () {
 							causeCells: [{ r: left.r, c: left.c }, { r: mid.r, c: mid.c }, { r: right.r, c: right.c }],
 							patternName: t('patterns.pattern_121_name'),
 							rule: 'pattern_121',
-							explanation: t('patterns.pattern_121_desc')
+							explanation: expl
 						};
 					} else {
 						return {
@@ -127,7 +117,7 @@ var MinesweeperSolver = (function () {
 							causeCells: [{ r: left.r, c: left.c }, { r: mid.r, c: mid.c }, { r: right.r, c: right.c }],
 							patternName: t('patterns.pattern_121_name'),
 							rule: 'pattern_121',
-							explanation: t('patterns.pattern_121_desc')
+							explanation: expl
 						};
 					}
 				}
@@ -145,6 +135,11 @@ var MinesweeperSolver = (function () {
 					var commonBotMid = getCommon(bot.unrevealed, mid.unrevealed);
 					var centerSafeV = getCommon(commonTopMid, commonBotMid);
 
+					var isReducedV = (top.number !== 1 || mid.number !== 2 || bot.number !== 1);
+					var explV = isReducedV ?
+						t('patterns.pattern_121_reduced_desc', { redA: top.remainingMines, redB: mid.remainingMines, redC: bot.remainingMines }) :
+						t('patterns.pattern_121_desc');
+
 					if (centerSafeV.length > 0) {
 						return {
 							action: 'reveal',
@@ -152,7 +147,7 @@ var MinesweeperSolver = (function () {
 							causeCells: [{ r: top.r, c: top.c }, { r: mid.r, c: mid.c }, { r: bot.r, c: bot.c }],
 							patternName: t('patterns.pattern_121_name'),
 							rule: 'pattern_121',
-							explanation: t('patterns.pattern_121_desc')
+							explanation: explV
 						};
 					} else {
 						return {
@@ -161,14 +156,14 @@ var MinesweeperSolver = (function () {
 							causeCells: [{ r: top.r, c: top.c }, { r: mid.r, c: mid.c }, { r: bot.r, c: bot.c }],
 							patternName: t('patterns.pattern_121_name'),
 							rule: 'pattern_121',
-							explanation: t('patterns.pattern_121_desc')
+							explanation: explV
 						};
 					}
 				}
 			}
 		}
 
-		// 2. PATTERN 1-2-2-1 (Horizontal)
+		// 2. PATTERN 1-2-2-1 (Horizontal & Vertical)
 		for (var j = 0; j < revealedNumbers.length; j++) {
 			var n1 = revealedNumbers[j];
 			if (n1.remainingMines !== 1) continue;
@@ -182,43 +177,73 @@ var MinesweeperSolver = (function () {
 				var diff4 = getDifference(n4.unrevealed, n3.unrevealed);
 				if (diff1.length > 0 || diff4.length > 0) {
 					var safeTargets = diff1.concat(diff4);
+					var isRed1221 = (n1.number !== 1 || n2.number !== 2 || n3.number !== 2 || n4.number !== 1);
 					return {
 						action: 'reveal',
 						targetCells: safeTargets,
 						causeCells: [{ r: n1.r, c: n1.c }, { r: n2.r, c: n2.c }, { r: n3.r, c: n3.c }, { r: n4.r, c: n4.c }],
 						patternName: t('patterns.pattern_1221_name'),
 						rule: 'pattern_1221',
-						explanation: t('patterns.pattern_1221_desc')
+						explanation: isRed1221 ? t('patterns.pattern_1221_reduced_desc') : t('patterns.pattern_1221_desc')
 					};
 				}
 			}
 		}
 
-		// 3. PATTERN EDGE 1-1
-		// When a 1 is directly at the wall/corner and touches another 1 along the border
-		for (var k = 0; k < revealedNumbers.length; k++) {
-			var edgeNode = revealedNumbers[k];
-			if (edgeNode.remainingMines !== 1) continue;
-			// At board edge?
-			var isBorder = (edgeNode.r === 0 || edgeNode.r === rows - 1 || edgeNode.c === 0 || edgeNode.c === cols - 1);
-			if (isBorder && edgeNode.unrevealed.length === 2) {
-				var nbs = getNeighbors(edgeNode.r, edgeNode.c, rows, cols);
-				for (var ni = 0; ni < nbs.length; ni++) {
-					var secondNode = map[nbs[ni].r + ',' + nbs[ni].c];
-					if (secondNode && secondNode.remainingMines === 1 && secondNode.unrevealed.length === 3) {
-						if (isSubset(edgeNode.unrevealed, secondNode.unrevealed)) {
-							var safeThird = getDifference(secondNode.unrevealed, edgeNode.unrevealed);
-							if (safeThird.length > 0) {
-								return {
-									action: 'reveal',
-									targetCells: safeThird,
-									causeCells: [{ r: edgeNode.r, c: edgeNode.c }, { r: secondNode.r, c: secondNode.c }],
-									patternName: t('patterns.pattern_edge11_name'),
-									rule: 'pattern_edge11',
-									explanation: t('patterns.pattern_edge11_desc')
-								};
-							}
-						}
+		// 3. CORE PATTERN 1-2-X (Subset Mine Rule)
+		// Number B (effective 2) and Number A (effective 1) where A's cells are a subset of B's cells
+		for (var a = 0; a < revealedNumbers.length; a++) {
+			for (var b = 0; b < revealedNumbers.length; b++) {
+				if (a === b) continue;
+				var itemA = revealedNumbers[a];
+				var itemB = revealedNumbers[b];
+
+				if (itemA.remainingMines === 1 && itemB.remainingMines === 2 &&
+					itemA.unrevealed.length === 2 && itemB.unrevealed.length === 3 &&
+					isSubset(itemA.unrevealed, itemB.unrevealed)) {
+					var diffX = getDifference(itemB.unrevealed, itemA.unrevealed);
+					if (diffX.length === 1) {
+						return {
+							action: 'flag',
+							targetCells: diffX,
+							causeCells: [{ r: itemA.r, c: itemA.c }, { r: itemB.r, c: itemB.c }],
+							patternName: t('patterns.pattern_12x_name'),
+							rule: 'pattern_12x',
+							explanation: t('patterns.pattern_12x_desc', {
+								numA: itemA.number,
+								remA: itemA.remainingMines,
+								numB: itemB.number,
+								remB: itemB.remainingMines
+							})
+						};
+					}
+				}
+			}
+		}
+
+		// 4. CORE PATTERN 1-1-X (Border & Corner Safe Rule)
+		for (var a = 0; a < revealedNumbers.length; a++) {
+			for (var b = 0; b < revealedNumbers.length; b++) {
+				if (a === b) continue;
+				var itemA = revealedNumbers[a];
+				var itemB = revealedNumbers[b];
+
+				if (itemA.remainingMines === 1 && itemB.remainingMines === 1 &&
+					itemA.unrevealed.length === 2 && itemB.unrevealed.length >= 3 &&
+					isSubset(itemA.unrevealed, itemB.unrevealed)) {
+					var diffSafe = getDifference(itemB.unrevealed, itemA.unrevealed);
+					if (diffSafe.length > 0) {
+						return {
+							action: 'reveal',
+							targetCells: diffSafe,
+							causeCells: [{ r: itemA.r, c: itemA.c }, { r: itemB.r, c: itemB.c }],
+							patternName: t('patterns.pattern_11x_name'),
+							rule: 'pattern_11x',
+							explanation: t('patterns.pattern_11x_desc', {
+								numA: itemA.number,
+								numB: itemB.number
+							})
+						};
 					}
 				}
 			}
@@ -325,7 +350,7 @@ var MinesweeperSolver = (function () {
 		}
 
 		// -------------------------------------------------------------
-		// LEVEL 2A: Classic Tactical Patterns (1-2-1, 1-2-2-1, Edge 1-1)
+		// LEVEL 2A: Classic Tactical Patterns (1-2-1, 1-2-2-1, 1-2-X, 1-1-X)
 		// -------------------------------------------------------------
 		var patternHint = findTacticalPattern(revealedNumbers, board, rows, cols);
 		if (patternHint) {
@@ -350,6 +375,7 @@ var MinesweeperSolver = (function () {
 							action: 'reveal',
 							targetCells: diff,
 							causeCells: [{ r: itemA.r, c: itemA.c }, { r: itemB.r, c: itemB.c }],
+							patternName: t('patterns.pattern_corner1_name'),
 							rule: 'subset_safe',
 							explanation: t('patterns.pattern_corner1_desc')
 						};
@@ -360,8 +386,14 @@ var MinesweeperSolver = (function () {
 							action: 'flag',
 							targetCells: diff,
 							causeCells: [{ r: itemA.r, c: itemA.c }, { r: itemB.r, c: itemB.c }],
+							patternName: t('patterns.pattern_12x_name'),
 							rule: 'subset_mine',
-							explanation: t('patterns.pattern_121_desc')
+							explanation: t('patterns.pattern_12x_desc', {
+								numA: itemA.number,
+								remA: itemA.remainingMines,
+								numB: itemB.number,
+								remB: itemB.remainingMines
+							})
 						};
 					}
 				}
