@@ -742,7 +742,7 @@
 		var closeBtn = document.getElementById('modal-close');
 		replayBtn.style.display = 'none';
 
-		closeBtn.textContent = '🏠 Menu';
+		closeBtn.textContent = window.I18n ? window.I18n.t('game.return_to_menu') : '🏠 Menu';
 		closeBtn.onclick = function () {
 			overlayEl.classList.remove('show');
 			openMenu();
@@ -750,13 +750,13 @@
 
 		if (state.isDidactic) {
 			modalEmoji.textContent = '🎓';
-			modalTitle.textContent = 'Tavola Superata in Didattica!';
-			modalScore.textContent = 'Ottimo lavoro! Hai risolto la tavola usando il ragionamento logico.';
-			modalPosition.textContent = 'ℹ️ Modalità di apprendimento: nessun punteggio inviato.';
-			nextBtn.textContent = '🔁 Esci al Menu';
+			modalTitle.textContent = window.I18n ? window.I18n.t('game.board_cleared_didactic_title') : 'Tavola Superata in Didattica!';
+			modalScore.textContent = window.I18n ? window.I18n.t('game.board_cleared_didactic_desc') : 'Ottimo lavoro! Hai risolto la tavola usando il ragionamento logico.';
+			modalPosition.textContent = window.I18n ? window.I18n.t('game.didactic_no_score_notice') : 'ℹ️ Modalità di apprendimento: nessun punteggio inviato.';
+			nextBtn.textContent = window.I18n ? window.I18n.t('game.replay_board') : '🔁 Rigioca Tavola';
 			nextBtn.onclick = function () {
 				overlayEl.classList.remove('show');
-				openMenu();
+				startDidacticReplay();
 			};
 		} else if (state.mode === 'classic') {
 			var preset = CLASSIC_PRESETS[state.classicDifficulty] || CLASSIC_PRESETS.easy;
