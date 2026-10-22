@@ -30,11 +30,12 @@ var MinesweeperSolver = (function () {
 	function findHint(board, rows, cols) {
 		var revealedNumbers = [];
 
-		// Gather all revealed cells with numbers > 0
+		// Gather all revealed cells with numbers > 0 (supporting both cell.count and cell.adjacentMines)
 		for (var r = 0; r < rows; r++) {
 			for (var c = 0; c < cols; c++) {
 				var cell = board[r][c];
-				if (cell.revealed && cell.adjacentMines > 0) {
+				var numVal = typeof cell.count !== 'undefined' ? cell.count : (cell.adjacentMines || 0);
+				if (cell.revealed && numVal > 0) {
 					var neighbors = getNeighbors(r, c, rows, cols);
 					var flaggedCount = 0;
 					var unrevealed = [];
@@ -52,9 +53,9 @@ var MinesweeperSolver = (function () {
 						revealedNumbers.push({
 							r: r,
 							c: c,
-							number: cell.adjacentMines,
+							number: numVal,
 							flagged: flaggedCount,
-							remainingMines: cell.adjacentMines - flaggedCount,
+							remainingMines: numVal - flaggedCount,
 							unrevealed: unrevealed
 						});
 					}
@@ -171,31 +172,72 @@ var MinesweeperSolver = (function () {
 		}
 
 		// -------------------------------------------------------------
-		// LEVEL 3: 50/50 Guess / Ambiguous Frontier Detection
+		// LEVEL 3: Probabilistic Analysis / Frontier Risk Assessment
 		// -------------------------------------------------------------
-		// If no deterministic logic was found, collect all frontier unrevealed cells
-		var frontierSet = [];
+		// Calculate local mine probability for each frontier cell based on adjacent numbers
+		var cellRiskMap = {};
+		var cellInfluences = {};
+
 		for (var i = 0; i < revealedNumbers.length; i++) {
-			var unrev = revealedNumbers[i].unrevealed;
-			for (var u = 0; u < unrev.length; u++) {
-				var cellKey = unrev[u].r + ',' + unrev[u].c;
-				var exists = false;
-				for (var f = 0; f < frontierSet.length; f++) {
-					if (frontierSet[f].r === unrev[u].r && frontierSet[f].c === unrev[u].c) {
-						exists = true;
-						break;
-					}
+			var item = revealedNumbers[i];
+			var localRisk = item.remainingMines / item.unrevealed.length;
+			for (var u = 0; u < item.unrevealed.length; u++) {
+				var key = item.unrevealed[u].r + ',' + item.unrevealed[u].c;
+				if (!cellRiskMap[key] || localRisk > cellRiskMap[key]) {
+					cellRiskMap[key] = localRisk;
 				}
-				if (!exists) frontierSet.push(unrev[u]);
+				if (!cellInfluences[key]) cellInfluences[key] = [];
+				cellInfluences[key].push({ r: item.r, c: item.c, num: item.number, remaining: item.remainingMines, total: item.unrevealed.length });
 			}
 		}
 
+		// Sort frontier cells from lowest mine risk to highest
+		var candidateCells = [];
+		for (var key in cellRiskMap) {
+			if (cellRiskMap.hasOwnProperty(key)) {
+				var parts = key.split(',');
+				candidateCells.push({
+					r: parseInt(parts[0], 10),
+					c: parseInt(parts[1], 10),
+					mineProb: cellRiskMap[key],
+					safeProb: Math.round((1 - cellRiskMap[key]) * 100),
+					causes: cellInfluences[key] || []
+				});
+			}
+		}
+
+		candidateCells.sort(function (a, b) {
+			return a.mineProb - b.mineProb;
+		});
+
+		if (candidateCells.length > 0) {
+			var best = candidateCells[0];
+			var causeList = best.causes.map(function (c) { return { r: c.r, c: c.c }; });
+
+			if (best.mineProb === 0.5 && candidateCells.length <= 4) {
+				return {
+					action: 'guess',
+					targetCells: [best],
+					causeCells: causeList,
+					rule: 'dilemma_5050',
+					safeProb: 50,
+					explanation: 'Dilemma 50/50: nessuna regola matematica può garantire la certezza assoluta. Entrambe le caselle hanno esattamente il 50% di probabilità di essere mina: tocca rischiare con un\'intuizione!'
+				};
+			}
+
+			return {
+				action: 'guess',
+				targetCells: [best],
+				causeCells: causeList,
+				rule: 'probabilistic_choice',
+				safeProb: best.safeProb,
+				explanation: 'Nessuna mossa certa al 100%, ma abbiamo calcolato le probabilità: la casella evidenziata ha la stima di sicurezza più alta (' + best.safeProb + '% sicura, solo ' + Math.round(best.mineProb * 100) + '% rischio mina). È la mossa migliore da tentare!'
+			};
+		}
+
 		return {
-			action: 'guess',
-			targetCells: frontierSet.slice(0, 2),
-			causeCells: [],
-			rule: 'forced_guess',
-			explanation: 'Qui la logica non bastava: nessuna regola matematica poteva garantire la sicurezza al 100%. Era un bivio a probabilità (50/50)!'
+			type: 'empty',
+			explanation: 'La tavola non presenta mosse determinabili al momento.'
 		};
 	}
 

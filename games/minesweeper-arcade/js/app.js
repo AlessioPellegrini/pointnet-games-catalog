@@ -272,9 +272,9 @@
 	   RENDERING & BOARD DISPLAY
 	   ============================================================ */
 	function clearDidacticHighlights() {
-		var highlighted = boardEl.querySelectorAll('.cell-hint-safe, .cell-hint-mine, .cell-hint-cause');
+		var highlighted = boardEl.querySelectorAll('.cell-hint-safe, .cell-hint-mine, .cell-hint-cause, .cell-hint-guess');
 		highlighted.forEach(function (el) {
-			el.classList.remove('cell-hint-safe', 'cell-hint-mine', 'cell-hint-cause');
+			el.classList.remove('cell-hint-safe', 'cell-hint-mine', 'cell-hint-cause', 'cell-hint-guess');
 		});
 		if (didacticToast) didacticToast.classList.remove('show');
 	}
@@ -860,7 +860,7 @@
 			});
 		}
 
-		// Highlight target cells in green (safe to dig) or red (mine to flag)
+		// Highlight target cells in green (safe to dig), red (mine to flag), or indigo (probabilistic guess)
 		if (hint.targetCells && hint.targetCells.length > 0) {
 			hint.targetCells.forEach(function (pos) {
 				var el = boardEl.querySelector('[data-r="' + pos.r + '"][data-c="' + pos.c + '"]');
@@ -869,6 +869,8 @@
 						el.classList.add('cell-hint-safe');
 					} else if (hint.action === 'flag') {
 						el.classList.add('cell-hint-mine');
+					} else if (hint.action === 'guess') {
+						el.classList.add('cell-hint-guess');
 					} else {
 						el.classList.add('cell-hint-safe');
 					}
@@ -876,7 +878,12 @@
 			});
 		}
 
-		var icon = hint.action === 'reveal' ? '🟢 Casella Sicura' : (hint.action === 'flag' ? '🚩 Mina Sicura' : '🎲 Scelta a Probabilità');
+		var icon = '🟢 Casella Sicura al 100%';
+		if (hint.action === 'flag') {
+			icon = '🚩 Mina Certa al 100%';
+		} else if (hint.action === 'guess') {
+			icon = hint.safeProb ? ('🎲 Scelta a Minor Rischio (' + hint.safeProb + '% sicura)') : '🎲 Scelta a Probabilità';
+		}
 		didacticToastTitle.innerHTML = '💡 ' + icon;
 		didacticToastText.textContent = hint.explanation;
 		didacticToast.classList.add('show');

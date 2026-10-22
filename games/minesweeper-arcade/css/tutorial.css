@@ -170,6 +170,14 @@ body.didactic-mode .didactic-banner {
 	z-index: 4;
 }
 
+.cell.cell-hint-guess {
+	background: #312e81 !important;
+	border-color: #818cf8 !important;
+	box-shadow: 0 0 16px rgba(129, 140, 248, 0.8), inset 0 0 8px rgba(129, 140, 248, 0.4) !important;
+	animation: pulseGuess 1.4s infinite alternate;
+	z-index: 5;
+}
+
 @keyframes pulseSafe {
 	from { box-shadow: 0 0 8px rgba(52, 211, 153, 0.5); transform: scale(1); }
 	to { box-shadow: 0 0 20px rgba(52, 211, 153, 0.95); transform: scale(1.06); }
@@ -178,4 +186,9 @@ body.didactic-mode .didactic-banner {
 @keyframes pulseMine {
 	from { box-shadow: 0 0 8px rgba(248, 113, 113, 0.5); transform: scale(1); }
 	to { box-shadow: 0 0 20px rgba(248, 113, 113, 0.95); transform: scale(1.06); }
+}
+
+@keyframes pulseGuess {
+	from { box-shadow: 0 0 8px rgba(129, 140, 248, 0.5); transform: scale(1); }
+	to { box-shadow: 0 0 20px rgba(129, 140, 248, 0.95); transform: scale(1.06); }
 }
