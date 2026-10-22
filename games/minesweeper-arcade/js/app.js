@@ -388,14 +388,9 @@
 						return;
 					}
 
-					// If in Didactic Mode and clicking an already revealed cell with a number, also explain it!
-					if (state.isDidactic && cell.revealed) {
-						inspectCell(r, c);
-						return;
-					}
-
 					clearDidacticHighlights(state.heatmapEnabled);
 
+					// When clicking an already revealed cell (with a number), perform chording (dig remaining safe cells)!
 					if (cell.revealed) {
 						handleChord(r, c);
 						return;
