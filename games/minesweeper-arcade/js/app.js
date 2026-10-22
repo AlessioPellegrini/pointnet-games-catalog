@@ -427,7 +427,13 @@
 
 			if (cell.flagged) {
 				cellEl.classList.add('flagged');
-				cellEl.textContent = '🚩';
+				if (state.isDidactic && !cell.mine) {
+					cellEl.classList.add('didactic-wrong-flag');
+					cellEl.textContent = '❌';
+					cellEl.title = 'Bandiera errata: qui non c\'è una mina!';
+				} else {
+					cellEl.textContent = '🚩';
+				}
 			} else if (cell.revealed) {
 				cellEl.classList.add('revealed');
 				if (cell.mine) {
@@ -966,6 +972,8 @@
 						el.classList.add('cell-hint-safe');
 					} else if (hint.action === 'flag') {
 						el.classList.add('cell-hint-mine');
+					} else if (hint.action === 'unflag') {
+						el.classList.add('cell-hint-inspect');
 					} else if (hint.action === 'guess') {
 						el.classList.add('cell-hint-guess');
 					} else {
@@ -976,7 +984,9 @@
 		}
 
 		var icon = '🟢 Casella Sicura al 100%';
-		if (hint.action === 'flag') {
+		if (hint.action === 'unflag') {
+			icon = '❌ Rimuovi Bandiera Errata';
+		} else if (hint.action === 'flag') {
 			icon = '🚩 Mina Certa al 100%';
 		} else if (hint.action === 'guess') {
 			icon = hint.safeProb ? ('🎲 Scelta a Minor Rischio (' + hint.safeProb + '% sicura)') : '🎲 Scelta a Probabilità';

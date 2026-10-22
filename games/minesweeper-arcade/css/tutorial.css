@@ -227,6 +227,19 @@ body.didactic-mode #btn-mode-inspect {
 	animation: pulseInspect 1.2s infinite alternate;
 }
 
+/* Didactic Mode: Clearly mark mistakenly placed flags with cross badge and warning glow */
+body.didactic-mode .cell.flagged.didactic-wrong-flag {
+	background: #450a0a !important;
+	border-color: #ef4444 !important;
+	box-shadow: 0 0 14px rgba(239, 68, 68, 0.9), inset 0 0 6px rgba(239, 68, 68, 0.6) !important;
+	animation: pulseWrongFlag 1.2s infinite alternate;
+}
+
+@keyframes pulseWrongFlag {
+	from { transform: scale(1); box-shadow: 0 0 8px rgba(239, 68, 68, 0.7); }
+	to { transform: scale(1.06); box-shadow: 0 0 20px rgba(239, 68, 68, 1); }
+}
+
 @keyframes pulseInspect {
 	from { box-shadow: 0 0 8px #38bdf8; transform: scale(1); }
 	to { box-shadow: 0 0 20px #38bdf8; transform: scale(1.08); }

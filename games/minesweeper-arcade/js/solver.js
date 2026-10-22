@@ -28,6 +28,26 @@ var MinesweeperSolver = (function () {
 	 * @returns {Object} Hint result object
 	 */
 	function findHint(board, rows, cols) {
+		// PRIORITY 0: Detect any mistakenly placed flags (flags where cell.mine === false)
+		var wrongFlags = [];
+		for (var wr = 0; wr < rows; wr++) {
+			for (var wc = 0; wc < cols; wc++) {
+				if (board[wr][wc].flagged && board[wr][wc].mine === false) {
+					wrongFlags.push({ r: wr, c: wc });
+				}
+			}
+		}
+
+		if (wrongFlags.length > 0) {
+			return {
+				action: 'unflag',
+				targetCells: wrongFlags,
+				causeCells: [],
+				rule: 'wrong_flag_detected',
+				explanation: '⚠️ Attenzione: hai piazzato una bandierina (contrassegnata con ❌) su una casella dove NON c\'è alcuna mina! Rimuovila per non trarre in inganno i numeri adiacenti.'
+			};
+		}
+
 		var revealedNumbers = [];
 
 		// Gather all revealed cells with numbers > 0 (supporting both cell.count and cell.adjacentMines)
@@ -440,16 +460,33 @@ var MinesweeperSolver = (function () {
 
 		// Case B: The cell is currently flagged
 		if (cell.flagged) {
+			if (cell.mine === false) {
+				return {
+					type: 'wrong_flag',
+					title: '❌ Bandiera Errata',
+					action: 'unflag',
+					targetCells: [{ r: r, c: c }],
+					explanation: 'Attenzione: questa bandierina è sbagliata! Sotto questa casella NON c\'è alcuna mina. Questa bandiera errata falsa i conteggi dei numeri vicini. Rimuovila con un tocco in modalità Flag!'
+				};
+			}
+
 			var all = getAllHints(board, rows, cols);
 			var isDefinite = all.mines.some(function (m) { return m.r === r && m.c === c; });
-			return {
-				type: 'flagged_cell',
-				title: 'Bandiera Piazzata',
-				targetCells: [{ r: r, c: c }],
-				explanation: isDefinite ?
-					'Ottima bandiera! La deduzione logica conferma che qui si trova sicuramente una mina.' :
-					'Hai contrassegnato questa casella con una bandiera per segnalarla come mina presunta.'
-			};
+			if (isDefinite) {
+				return {
+					type: 'flagged_cell_confirmed',
+					title: '🚩 Bandiera Corretta (100% Certa)',
+					targetCells: [{ r: r, c: c }],
+					explanation: 'Ottima bandiera! Sotto c\'è realmente una mina ed era confermata al 100% dalla logica dei numeri adiacenti.'
+				};
+			} else {
+				return {
+					type: 'flagged_cell_guess',
+					title: '🚩 Bandiera su Mina Reale (Intuitiva)',
+					targetCells: [{ r: r, c: c }],
+					explanation: 'Sotto questa casella c\'è davvero una mina, ma i numeri attorno non consentivano ancora di dedurla con certezza assoluta al 100% (mossa intuitiva o a probabilità).'
+				};
+			}
 		}
 
 		// Case C: Unrevealed cell -> check in full hints
