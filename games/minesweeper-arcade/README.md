@@ -1,78 +1,37 @@
 # 💣 Minesweeper
  
-> **Versione: 1.3.6** — *The Clean One* aesthetics, doppia modalità (Classica 4 preset + Scalata 18 livelli), Pan & Pinch-to-Zoom e contrasto OLED per esterni.
+> **Versione: 1.5.1** — *The Clean One* aesthetics, doppia modalità (Classica 4 preset + Scalata 18 livelli), Pan & Pinch-to-Zoom, Didattica interattiva con Heatmap & Riconoscitore Pattern Tattici (1-2-1, 1-2-2-1, 1-2-X, 1-1-X) e supporto Multi-lingua (IT/EN) coordinato con WordPress.
 
 Ispirato al design e all'esperienza tattile di *Minesweeper: The Clean One*, con **doppia modalità di gioco**: la classica partita singola a selezione libera o l'emozionante modalità Scalata a 18 livelli progressivi fino al livello Estremo!
-
-## 🎮 Modalità di Gioco
-
-### 1. ⚡ Modalità Classica (*The Clean One*)
-Partita singola con i 4 preset di riferimento, ideale per cimentarsi su tavole specifiche o per stabilire il record di velocità:
-- **🟢 Facile**: 9 × 9 · 10 mine (~12.3% densità)
-- **🟡 Medio**: 16 × 16 · 40 mine (~15.6% densità)
-- **🔴 Difficile**: 30 × 16 · 99 mine (~20.6% densità)
-- **💀 Estremo**: 32 × 18 · 150 mine (~26.0% densità)
-
-### 2. 🏆 Modalità Scalata (18 Livelli a scalata progressiva)
-Scalata a livelli continui a vite singola: ogni tavola completata fa guadagnare punti e sblocca il livello successivo. Un errore su una mina fa esplodere la serie e invia il punteggio accumulato alla classifica!
-
-| Livello | Griglia | Celle | Mine | Densità | Benchmark |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **1** | 8 × 8 | 64 | 7 | 10.9% | Avvio rilassante |
-| **2** | 8 × 8 | 64 | 9 | 14.1% | |
-| **3** | 9 × 9 | 81 | 10 | 12.3% | Benchmark Facile |
-| **4** | 10 × 9 | 90 | 12 | 13.3% | |
-| **5** | 10 × 10 | 100 | 15 | 15.0% | |
-| **6** | 12 × 10 | 120 | 18 | 15.0% | |
-| **7** | 12 × 12 | 144 | 22 | 15.3% | |
-| **8** | 14 × 12 | 168 | 26 | 15.5% | |
-| **9** | 14 × 14 | 196 | 31 | 15.8% | |
-| **10** | 16 × 14 | 224 | 36 | 16.1% | |
-| **11** | 16 × 16 | 256 | 40 | 15.6% | Benchmark Medio |
-| **12** | 18 × 16 | 288 | 47 | 16.3% | |
-| **13** | 20 × 16 | 320 | 55 | 17.2% | |
-| **14** | 22 × 16 | 352 | 64 | 18.2% | |
-| **15** | 25 × 16 | 400 | 75 | 18.8% | |
-| **16** | 28 × 16 | 448 | 88 | 19.6% | |
-| **17** | 30 × 16 | 480 | 99 | 20.6% | Benchmark Difficile |
-| **18** | 32 × 18 | 576 | 150 | 26.0% | Benchmark Estremo (Max Level) |
-
----
-
-## 🔍 Controlli e Pan & Pinch-to-Zoom
-
-- **Tocca / Clic sinistro**: scopri la casella.
-- **Tocca numero rivelato (Chording)**: se le bandierine adiacenti corrispondono al numero, scopre all'istante tutte le caselle sicure limitrofe.
-- **Selettore Pill `⛏️ Dig / 🚩 Flag`**: tocco rapido per passare istantaneamente dalla modalità scavo a quella bandierina.
-- **Pressione prolungata / Clic destro**: posiziona o rimuove una bandierina (con micro-vibrazione aptica).
-- **Pan (Scorrimento)**: trascina la tavola con un dito su mobile o trascina con il mouse su desktop.
-- **Pinch-to-Zoom**: allarga o stringi 2 dita per zoomare su smartphone e tablet; usa la rotellina del mouse su desktop.
-- **Pulsanti HUD dedicati**:
-  - `⛶`: adatta automaticamente l'intera tavola allo schermo (*Fit to Screen*).
-  - `＋` / `−`: zoom in e zoom out rapido.
-  - `🔊`: attiva o silenzia gli effetti sonori tattili.
-  - `🏠`: torna al menu principale per cambiare modalità.
-- **Scorciatoie da tastiera**:
-  - `F` = toggle scavo/bandierina
-  - `M` = toggle audio
-  - `+` / `-` = zoom in/out
-  - `0` = adatta allo schermo
-  - `Esc` = esci da fullscreen o apri menu
-
----
-
-## 📦 Integrazione PointNet Games
-
-- Punteggi e metadati trasmessi con precisione in base alla modalità attiva:
-  - `arcade`: classifica della modalità **Scalata** (`label: "Scalata"`).
-  - `easy`, `medium`, `hard`, `extreme`: classifiche separate per ciascun preset della **Modalità Classica**.
-- La pagina del gioco su WordPress espone automaticamente i tab dedicati per ciascuna classifica grazie alla configurazione di `manifest.json`.
 
 ---
 
 ## 📝 Changelog
 
-### 1.3.6 (current)
+### 1.5.1 (current)
+- **Riconoscitore Pattern Tattici Avanzati**: rilevamento esplicito conforme alla guida strategica di [minesweepergame.com/strategy/patterns.php](https://minesweepergame.com/strategy/patterns.php):
+  - **Pattern Fondamentale 1-2-X**: individua la mina esterna garantita tramite riduzione di sottoinsieme tra numeri 2 e 1 adiacenti.
+  - **Pattern Bordo e Angolo 1-1-X**: individua la casella sicura lungo pareti e angoli retti tramite sottoinsieme.
+  - **Pattern Reduction**: calcolo algebrico esplicito (`3 - 1 = 2`) nei toast didattici per illustrare come pattern complessi si riducano alle forme elementari 1-2-1 e 1-2-2-1.
+- **Sincronizzazione Dizionari**: aggiornati i dizionari `it.js` ed `en.js` con le spiegazioni dettagliate di ciascun pattern tattico.
+
+### 1.5.0
+- **Multi-language Architecture (i18n)**: micro-motore di traduzione reattivo client-side (`js/i18n.js`) e dizionari completi (`js/i18n/it.js`, `js/i18n/en.js`).
+- **Sincronizzazione Iframe WordPress**: rilevamento istantaneo della lingua del sito/pagina via parametro `?lang=` generato da WordPress (`determine_locale()`).
+- **Reattività Dinamica**: supporto per cambi di lingua real-time senza ricarica della pagina tramite `postMessage` (`pointnet-games:set-language`).
+- **Riconoscitore Pattern Base**: implementazione del rilevamento geometrico per i pattern 1-2-1 e 1-2-2-1.
+
+### 1.4.3
+- **Rilevamento Bandierine Errate**: il solver e l'ispettore identificano bandierine piazzate erroneamente su caselle prive di mina, evidenziandole con un'icona ❌ e prevenendo deduzioni errate.
+
+### 1.4.2
+- **Smart Inspector (Tutor Didattico)**: modalità "Info" interattiva per toccare qualsiasi casella e ricevere una spiegazione deduttiva sul perché sia sicura, mina o incerta.
+- **Visual Safety Heatmap**: overlay a colori attivabile a comando con gradiente di sicurezza verde/giallo/rosso/blu.
+
+### 1.4.1
+- **Modalità Didattica (Allenamento)**: possibilità di riavvolgere la tavola un istante prima dell'errore per imparare la mossa corretta con il tasto "Spiegami la mossa".
+
+### 1.3.6
 - **Standardizzazione Metadati Classifica**: invio esplicito delle chiavi `level`, `time` ed `outcome` per garantire la perfetta visualizzazione del livello e tempo nella colonna dettagli delle classifiche di PointNet Games.
 - **Allineamento Versione**: aggiornamento versione a 1.3.6 nel manifest e nello splash screen.
 
