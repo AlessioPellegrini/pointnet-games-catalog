@@ -1,9 +1,9 @@
 {
 	"name": "Minesweeper",
 	"slug": "minesweeper-arcade",
-	"version": "1.5.2",
+	"version": "1.5.3",
 	"author": "PointNet Games",
-	"description": "Minesweeper with dual modes (Classic and Scalata 18 levels), multi-language support (IT/EN), Educational Practice Mode (didactic replay on error, undo/redo move history navigation, rule-based hint deduction, visual heatmap safety overlay, false flag detection, smart cell tutor inspector, tactical pattern recognizer 1-2-1, 1-2-2-1, 1-2-X, 1-1-X, and pattern reductions), Clean One aesthetics, smart chording, pan & pinch-to-zoom, and tactile sound.",
+	"description": "Minesweeper with dual modes (Classic and Scalata 18 levels), multi-language support (IT/EN), Educational Practice Mode (didactic replay on error, undo/redo move history navigation, interactive tactical pattern scanner 🧩 with cell-by-cell explanation for 1-2-1, 1-2-2-1, 1-2-X, 1-1-X and pattern reductions, rule-based hint deduction, visual heatmap safety overlay, false flag detection, smart cell tutor inspector), Clean One aesthetics, smart chording, pan & pinch-to-zoom, and tactile sound.",
 	"type": "iframe",
 	"width": 600,
 	"height": 850,

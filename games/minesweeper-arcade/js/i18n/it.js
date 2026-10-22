@@ -73,7 +73,13 @@ window.POINTNET_I18N['it'] = {
 		cell_mine_reason: "Questa casella contiene SICURAMENTE una mina perché il numero adiacente ha lo stesso numero di caselle coperte rimaste.",
 		cell_ambiguous: "Casella coperta con probabilità di mina del {prob}%. Nessuna deduzione logica diretta immediata.",
 		rule_satisfied: "Tutte le mine attorno a questo {num} sono già state contrassegnate. Tutte le altre sue caselle adiacenti (in verde) sono sicure!",
-		rule_all_mines: "Questo {num} tocca esattamente {mines} caselle coperte: sono tutte mine (in rosso)!"
+		rule_all_mines: "Questo {num} tocca esattamente {mines} caselle coperte: sono tutte mine (in rosso)!",
+		patterns: "Pattern",
+		patterns_toggle: "Riconosci ed evidenzia i pattern tattici sulla tavola",
+		patterns_found: "Trovati {count} pattern tattici! Tocca i numeri in viola per la spiegazione dettagliata.",
+		patterns_found_single: "Trovato 1 pattern tattico! Tocca i numeri in viola per la spiegazione dettagliata.",
+		no_patterns_found: "Nessun pattern tattico standard trovato al momento. Usa 'Spiegami la mossa' o prosegui con le regole dirette.",
+		patterns_deactivated: "Evidenziazione pattern disattivata."
 	},
 	patterns: {
 		pattern_121_name: "Pattern Tattico 1-2-1",

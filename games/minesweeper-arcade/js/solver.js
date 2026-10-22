@@ -188,6 +188,28 @@ var MinesweeperSolver = (function () {
 					};
 				}
 			}
+
+			// Vertical 1 - 2 - 2 - 1
+			var v2 = map[(n1.r + 1) + ',' + n1.c];
+			var v3 = map[(n1.r + 2) + ',' + n1.c];
+			var v4 = map[(n1.r + 3) + ',' + n1.c];
+
+			if (v2 && v3 && v4 && v2.remainingMines === 2 && v3.remainingMines === 2 && v4.remainingMines === 1) {
+				var vdiff1 = getDifference(n1.unrevealed, v2.unrevealed);
+				var vdiff4 = getDifference(v4.unrevealed, v3.unrevealed);
+				if (vdiff1.length > 0 || vdiff4.length > 0) {
+					var vSafeTargets = vdiff1.concat(vdiff4);
+					var isRed1221V = (n1.number !== 1 || v2.number !== 2 || v3.number !== 2 || v4.number !== 1);
+					return {
+						action: 'reveal',
+						targetCells: vSafeTargets,
+						causeCells: [{ r: n1.r, c: n1.c }, { r: v2.r, c: v2.c }, { r: v3.r, c: v3.c }, { r: v4.r, c: v4.c }],
+						patternName: t('patterns.pattern_1221_name'),
+						rule: 'pattern_1221',
+						explanation: isRed1221V ? t('patterns.pattern_1221_reduced_desc') : t('patterns.pattern_1221_desc')
+					};
+				}
+			}
 		}
 
 		// 3. CORE PATTERN 1-2-X (Subset Mine Rule)
@@ -250,6 +272,300 @@ var MinesweeperSolver = (function () {
 		}
 
 		return null;
+	}
+
+	/**
+	 * Extract all revealed numbers with unrevealed neighbors from board.
+	 */
+	function extractRevealedNumbers(board, rows, cols) {
+		var revealedNumbers = [];
+		for (var r = 0; r < rows; r++) {
+			for (var c = 0; c < cols; c++) {
+				var cell = board[r][c];
+				var numVal = typeof cell.count !== 'undefined' ? cell.count : (cell.adjacentMines || 0);
+				if (cell.revealed && numVal > 0) {
+					var neighbors = getNeighbors(r, c, rows, cols);
+					var flaggedCount = 0;
+					var unrevealed = [];
+
+					for (var i = 0; i < neighbors.length; i++) {
+						var nb = board[neighbors[i].r][neighbors[i].c];
+						if (nb.flagged) {
+							flaggedCount++;
+						} else if (!nb.revealed) {
+							unrevealed.push(neighbors[i]);
+						}
+					}
+
+					if (unrevealed.length > 0) {
+						revealedNumbers.push({
+							r: r,
+							c: c,
+							number: numVal,
+							flagged: flaggedCount,
+							remainingMines: numVal - flaggedCount,
+							unrevealed: unrevealed
+						});
+					}
+				}
+			}
+		}
+		return revealedNumbers;
+	}
+
+	/**
+	 * Find ALL tactical patterns currently active on the board (for Didactic Pattern Highlighter).
+	 */
+	function findAllTacticalPatterns(board, rows, cols) {
+		var patterns = [];
+		var seenKeys = {};
+
+		function makePatternKey(p) {
+			var causeSorted = p.causeCells.map(function (c) { return c.r + ',' + c.c; }).sort().join('|');
+			var targetSorted = p.targetCells.map(function (c) { return c.r + ',' + c.c; }).sort().join('|');
+			return p.rule + ':' + causeSorted + '->' + targetSorted;
+		}
+
+		function addPattern(p) {
+			if (!p || !p.causeCells || p.causeCells.length === 0 || !p.targetCells || p.targetCells.length === 0) return;
+			var key = makePatternKey(p);
+			if (seenKeys[key]) return;
+			seenKeys[key] = true;
+			p.id = 'pattern_' + (patterns.length + 1);
+			patterns.push(p);
+		}
+
+		var revealedNumbers = extractRevealedNumbers(board, rows, cols);
+		var map = {};
+		for (var i = 0; i < revealedNumbers.length; i++) {
+			var it = revealedNumbers[i];
+			map[it.r + ',' + it.c] = it;
+		}
+
+		// 1. Scan ALL 1-2-1 Patterns (Horizontal & Vertical)
+		for (var i = 0; i < revealedNumbers.length; i++) {
+			var mid = revealedNumbers[i];
+			if (mid.remainingMines !== 2) continue;
+
+			// Horizontal 1 - 2 - 1
+			var left = map[mid.r + ',' + (mid.c - 1)];
+			var right = map[mid.r + ',' + (mid.c + 1)];
+			if (left && right && left.remainingMines === 1 && right.remainingMines === 1) {
+				var leftDiff = getDifference(left.unrevealed, mid.unrevealed);
+				var rightDiff = getDifference(right.unrevealed, mid.unrevealed);
+				if (leftDiff.length === 1 && rightDiff.length === 1) {
+					var commonLeftMid = getCommon(left.unrevealed, mid.unrevealed);
+					var commonRightMid = getCommon(right.unrevealed, mid.unrevealed);
+					var centerSafe = getCommon(commonLeftMid, commonRightMid);
+					var isReduced = (left.number !== 1 || mid.number !== 2 || right.number !== 1);
+					var expl = isReduced ?
+						t('patterns.pattern_121_reduced_desc', { redA: left.remainingMines, redB: mid.remainingMines, redC: right.remainingMines }) :
+						t('patterns.pattern_121_desc');
+
+					if (centerSafe.length > 0) {
+						addPattern({
+							action: 'reveal',
+							targetCells: centerSafe,
+							causeCells: [{ r: left.r, c: left.c }, { r: mid.r, c: mid.c }, { r: right.r, c: right.c }],
+							patternName: t('patterns.pattern_121_name'),
+							rule: 'pattern_121',
+							explanation: expl
+						});
+					}
+					addPattern({
+						action: 'flag',
+						targetCells: [leftDiff[0], rightDiff[0]],
+						causeCells: [{ r: left.r, c: left.c }, { r: mid.r, c: mid.c }, { r: right.r, c: right.c }],
+						patternName: t('patterns.pattern_121_name'),
+						rule: 'pattern_121',
+						explanation: expl
+					});
+				}
+			}
+
+			// Vertical 1 - 2 - 1
+			var top = map[(mid.r - 1) + ',' + mid.c];
+			var bot = map[(mid.r + 1) + ',' + mid.c];
+			if (top && bot && top.remainingMines === 1 && bot.remainingMines === 1) {
+				var topDiff = getDifference(top.unrevealed, mid.unrevealed);
+				var botDiff = getDifference(bot.unrevealed, mid.unrevealed);
+				if (topDiff.length === 1 && botDiff.length === 1) {
+					var commonTopMid = getCommon(top.unrevealed, mid.unrevealed);
+					var commonBotMid = getCommon(bot.unrevealed, mid.unrevealed);
+					var centerSafeV = getCommon(commonTopMid, commonBotMid);
+					var isReducedV = (top.number !== 1 || mid.number !== 2 || bot.number !== 1);
+					var explV = isReducedV ?
+						t('patterns.pattern_121_reduced_desc', { redA: top.remainingMines, redB: mid.remainingMines, redC: bot.remainingMines }) :
+						t('patterns.pattern_121_desc');
+
+					if (centerSafeV.length > 0) {
+						addPattern({
+							action: 'reveal',
+							targetCells: centerSafeV,
+							causeCells: [{ r: top.r, c: top.c }, { r: mid.r, c: mid.c }, { r: bot.r, c: bot.c }],
+							patternName: t('patterns.pattern_121_name'),
+							rule: 'pattern_121',
+							explanation: explV
+						});
+					}
+					addPattern({
+						action: 'flag',
+						targetCells: [topDiff[0], botDiff[0]],
+						causeCells: [{ r: top.r, c: top.c }, { r: mid.r, c: mid.c }, { r: bot.r, c: bot.c }],
+						patternName: t('patterns.pattern_121_name'),
+						rule: 'pattern_121',
+						explanation: explV
+					});
+				}
+			}
+		}
+
+		// 2. Scan ALL 1-2-2-1 Patterns (Horizontal & Vertical)
+		for (var j = 0; j < revealedNumbers.length; j++) {
+			var n1 = revealedNumbers[j];
+			if (n1.remainingMines !== 1) continue;
+
+			// Horizontal 1-2-2-1
+			var n2 = map[n1.r + ',' + (n1.c + 1)];
+			var n3 = map[n1.r + ',' + (n1.c + 2)];
+			var n4 = map[n1.r + ',' + (n1.c + 3)];
+			if (n2 && n3 && n4 && n2.remainingMines === 2 && n3.remainingMines === 2 && n4.remainingMines === 1) {
+				var diff1 = getDifference(n1.unrevealed, n2.unrevealed);
+				var diff4 = getDifference(n4.unrevealed, n3.unrevealed);
+				if (diff1.length > 0 || diff4.length > 0) {
+					var safeTargets = diff1.concat(diff4);
+					var isRed1221 = (n1.number !== 1 || n2.number !== 2 || n3.number !== 2 || n4.number !== 1);
+					addPattern({
+						action: 'reveal',
+						targetCells: safeTargets,
+						causeCells: [{ r: n1.r, c: n1.c }, { r: n2.r, c: n2.c }, { r: n3.r, c: n3.c }, { r: n4.r, c: n4.c }],
+						patternName: t('patterns.pattern_1221_name'),
+						rule: 'pattern_1221',
+						explanation: isRed1221 ? t('patterns.pattern_1221_reduced_desc') : t('patterns.pattern_1221_desc')
+					});
+				}
+			}
+
+			// Vertical 1-2-2-1
+			var v2 = map[(n1.r + 1) + ',' + n1.c];
+			var v3 = map[(n1.r + 2) + ',' + n1.c];
+			var v4 = map[(n1.r + 3) + ',' + n1.c];
+			if (v2 && v3 && v4 && v2.remainingMines === 2 && v3.remainingMines === 2 && v4.remainingMines === 1) {
+				var vdiff1 = getDifference(n1.unrevealed, v2.unrevealed);
+				var vdiff4 = getDifference(v4.unrevealed, v3.unrevealed);
+				if (vdiff1.length > 0 || vdiff4.length > 0) {
+					var vSafeTargets = vdiff1.concat(vdiff4);
+					var isRed1221V = (n1.number !== 1 || v2.number !== 2 || v3.number !== 2 || v4.number !== 1);
+					addPattern({
+						action: 'reveal',
+						targetCells: vSafeTargets,
+						causeCells: [{ r: n1.r, c: n1.c }, { r: v2.r, c: v2.c }, { r: v3.r, c: v3.c }, { r: v4.r, c: v4.c }],
+						patternName: t('patterns.pattern_1221_name'),
+						rule: 'pattern_1221',
+						explanation: isRed1221V ? t('patterns.pattern_1221_reduced_desc') : t('patterns.pattern_1221_desc')
+					});
+				}
+			}
+		}
+
+		// 3. Scan ALL 1-2-X Patterns
+		for (var a = 0; a < revealedNumbers.length; a++) {
+			for (var b = 0; b < revealedNumbers.length; b++) {
+				if (a === b) continue;
+				var itemA = revealedNumbers[a];
+				var itemB = revealedNumbers[b];
+
+				if (itemA.remainingMines === 1 && itemB.remainingMines === 2 &&
+					itemA.unrevealed.length === 2 && itemB.unrevealed.length === 3 &&
+					isSubset(itemA.unrevealed, itemB.unrevealed)) {
+					var diffX = getDifference(itemB.unrevealed, itemA.unrevealed);
+					if (diffX.length === 1) {
+						addPattern({
+							action: 'flag',
+							targetCells: diffX,
+							causeCells: [{ r: itemA.r, c: itemA.c }, { r: itemB.r, c: itemB.c }],
+							patternName: t('patterns.pattern_12x_name'),
+							rule: 'pattern_12x',
+							explanation: t('patterns.pattern_12x_desc', {
+								numA: itemA.number,
+								remA: itemA.remainingMines,
+								numB: itemB.number,
+								remB: itemB.remainingMines
+							})
+						});
+					}
+				}
+			}
+		}
+
+		// 4. Scan ALL 1-1-X Patterns
+		for (var a = 0; a < revealedNumbers.length; a++) {
+			for (var b = 0; b < revealedNumbers.length; b++) {
+				if (a === b) continue;
+				var itemA = revealedNumbers[a];
+				var itemB = revealedNumbers[b];
+
+				if (itemA.remainingMines === 1 && itemB.remainingMines === 1 &&
+					itemA.unrevealed.length === 2 && itemB.unrevealed.length >= 3 &&
+					isSubset(itemA.unrevealed, itemB.unrevealed)) {
+					var diffSafe = getDifference(itemB.unrevealed, itemA.unrevealed);
+					if (diffSafe.length > 0) {
+						addPattern({
+							action: 'reveal',
+							targetCells: diffSafe,
+							causeCells: [{ r: itemA.r, c: itemA.c }, { r: itemB.r, c: itemB.c }],
+							patternName: t('patterns.pattern_11x_name'),
+							rule: 'pattern_11x',
+							explanation: t('patterns.pattern_11x_desc', {
+								numA: itemA.number,
+								numB: itemB.number
+							})
+						});
+					}
+				}
+			}
+		}
+
+		// 5. Scan General Subset Reductions (Algebraic)
+		for (var a = 0; a < revealedNumbers.length; a++) {
+			for (var b = 0; b < revealedNumbers.length; b++) {
+				if (a === b) continue;
+				var itemA = revealedNumbers[a];
+				var itemB = revealedNumbers[b];
+
+				if (itemA.unrevealed.length < itemB.unrevealed.length && isSubset(itemA.unrevealed, itemB.unrevealed)) {
+					var diff = getDifference(itemB.unrevealed, itemA.unrevealed);
+					var mineDiff = itemB.remainingMines - itemA.remainingMines;
+
+					if (mineDiff === 0 && diff.length > 0) {
+						addPattern({
+							action: 'reveal',
+							targetCells: diff,
+							causeCells: [{ r: itemA.r, c: itemA.c }, { r: itemB.r, c: itemB.c }],
+							patternName: t('patterns.pattern_corner1_name'),
+							rule: 'subset_safe',
+							explanation: t('patterns.pattern_corner1_desc')
+						});
+					} else if (mineDiff === diff.length && diff.length > 0) {
+						addPattern({
+							action: 'flag',
+							targetCells: diff,
+							causeCells: [{ r: itemA.r, c: itemA.c }, { r: itemB.r, c: itemB.c }],
+							patternName: t('patterns.pattern_12x_name'),
+							rule: 'subset_mine',
+							explanation: t('patterns.pattern_12x_desc', {
+								numA: itemA.number,
+								remA: itemA.remainingMines,
+								numB: itemB.number,
+								remB: itemB.remainingMines
+							})
+						});
+					}
+				}
+			}
+		}
+
+		return patterns;
 	}
 
 	/**
@@ -722,7 +1038,8 @@ var MinesweeperSolver = (function () {
 	var solver = {
 		findHint: findHint,
 		getAllHints: getAllHints,
-		explainCell: explainCell
+		explainCell: explainCell,
+		findAllTacticalPatterns: findAllTacticalPatterns
 	};
 
 	if (typeof window !== 'undefined') {

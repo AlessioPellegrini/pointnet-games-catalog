@@ -73,7 +73,13 @@ window.POINTNET_I18N['en'] = {
 		cell_mine_reason: "This cell definitely contains a MINE because the adjacent clue has the exact same number of hidden neighbors left.",
 		cell_ambiguous: "Covered cell with {prob}% mine probability. No immediate direct deduction available.",
 		rule_satisfied: "All mines around this {num} have already been flagged. All other adjacent cells (in green) are safe!",
-		rule_all_mines: "This {num} touches exactly {mines} unflagged hidden cells: they are all mines (in red)!"
+		rule_all_mines: "This {num} touches exactly {mines} unflagged hidden cells: they are all mines (in red)!",
+		patterns: "Patterns",
+		patterns_toggle: "Recognize and highlight tactical patterns on the board",
+		patterns_found: "Found {count} tactical patterns! Tap the purple clue numbers for a step-by-step breakdown.",
+		patterns_found_single: "Found 1 tactical pattern! Tap the purple clue numbers for a step-by-step breakdown.",
+		no_patterns_found: "No standard tactical patterns found at the moment. Use 'Explain move' or continue with direct rules.",
+		patterns_deactivated: "Pattern highlights deactivated."
 	},
 	patterns: {
 		pattern_121_name: "Tactical Pattern 1-2-1",

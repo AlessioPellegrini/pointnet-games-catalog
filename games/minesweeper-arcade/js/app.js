@@ -62,6 +62,8 @@
 		isReplay: false,
 		isDidactic: false, // Educational practice mode
 		heatmapEnabled: false,
+		patternsActive: false, // Tactical pattern visualizer mode
+		activePatterns: [],    // Currently highlighted pattern list
 		history: [],       // Snapshots for Undo in didactic mode
 		future: []         // Snapshots for Redo in didactic mode
 	};
@@ -102,6 +104,7 @@
 	var didacticBanner = document.getElementById('didactic-banner');
 	var btnDidacticUndo = document.getElementById('btn-didactic-undo');
 	var btnDidacticRedo = document.getElementById('btn-didactic-redo');
+	var btnDidacticPatterns = document.getElementById('btn-didactic-patterns');
 	var btnDidacticHeatmap = document.getElementById('btn-didactic-heatmap');
 	var btnDidacticHint = document.getElementById('btn-didactic-hint');
 	var didacticToast = document.getElementById('didactic-toast');
@@ -278,17 +281,24 @@
 	/* ============================================================
 	   RENDERING & BOARD DISPLAY
 	   ============================================================ */
-	function clearDidacticHighlights(keepHeatmap) {
-		var selector = keepHeatmap ?
-			'.cell-hint-inspect, .cell-hint-cause' :
-			'.cell-hint-safe, .cell-hint-mine, .cell-hint-cause, .cell-hint-guess, .cell-hint-inspect';
+	function clearDidacticHighlights(keepHeatmap, keepPatterns) {
+		var classesToRemove = ['cell-hint-inspect', 'cell-hint-cause'];
+		if (!keepHeatmap) {
+			classesToRemove.push('cell-hint-safe', 'cell-hint-mine', 'cell-hint-guess');
+		}
+		if (!keepPatterns) {
+			classesToRemove.push('cell-pattern-clue', 'cell-pattern-safe', 'cell-pattern-mine');
+			state.patternsActive = false;
+			state.activePatterns = [];
+			if (btnDidacticPatterns) btnDidacticPatterns.classList.remove('active');
+		}
+
+		var selector = '.' + classesToRemove.join(', .');
 		var highlighted = boardEl.querySelectorAll(selector);
 		highlighted.forEach(function (el) {
-			if (keepHeatmap) {
-				el.classList.remove('cell-hint-inspect', 'cell-hint-cause');
-			} else {
-				el.classList.remove('cell-hint-safe', 'cell-hint-mine', 'cell-hint-cause', 'cell-hint-guess', 'cell-hint-inspect');
-			}
+			classesToRemove.forEach(function (cls) {
+				el.classList.remove(cls);
+			});
 		});
 		if (didacticToast) didacticToast.classList.remove('show');
 	}
@@ -390,6 +400,20 @@
 					if (state.isDidactic && state.inputMode === 'inspect') {
 						inspectCell(r, c);
 						return;
+					}
+
+					// If in Didactic Mode with Patterns highlighted, check if clicked cell belongs to a pattern!
+					if (state.isDidactic && state.patternsActive && state.activePatterns && state.activePatterns.length > 0) {
+						var matchedPattern = state.activePatterns.find(function (p) {
+							var inCause = p.causeCells && p.causeCells.some(function (pos) { return pos.r === r && pos.c === c; });
+							var inTarget = p.targetCells && p.targetCells.some(function (pos) { return pos.r === r && pos.c === c; });
+							return inCause || inTarget;
+						});
+
+						if (matchedPattern) {
+							showPatternDetail(matchedPattern);
+							return;
+						}
 					}
 
 					clearDidacticHighlights(state.heatmapEnabled);
@@ -1108,9 +1132,78 @@
 		});
 	}
 
+	function showPatternDetail(pattern) {
+		if (!pattern) return;
+		var icon = pattern.action === 'flag' ? '🚩 Mina Garantita dal Pattern' : '🟢 Casella Sicura dal Pattern';
+		didacticToastTitle.innerHTML = '🧩 ' + pattern.patternName;
+		didacticToastText.textContent = pattern.explanation;
+		didacticToast.classList.add('show');
+		haptic(15);
+	}
+
+	function toggleDidacticPatterns() {
+		if (!state.isDidactic || typeof MinesweeperSolver === 'undefined') return;
+
+		if (state.patternsActive) {
+			clearDidacticHighlights(state.heatmapEnabled, false);
+			return;
+		}
+
+		clearDidacticHighlights(state.heatmapEnabled, false);
+
+		var dims = getGridDimensions();
+		var patterns = MinesweeperSolver.findAllTacticalPatterns(state.board, dims.rows, dims.cols);
+
+		if (!patterns || patterns.length === 0) {
+			didacticToastTitle.innerHTML = '🧩 ' + (window.I18n ? window.I18n.t('didactic.patterns') : 'Pattern');
+			didacticToastText.textContent = window.I18n ? window.I18n.t('didactic.no_patterns_found') : 'Nessun pattern tattico standard trovato al momento.';
+			didacticToast.classList.add('show');
+			return;
+		}
+
+		state.patternsActive = true;
+		state.activePatterns = patterns;
+		if (btnDidacticPatterns) btnDidacticPatterns.classList.add('active');
+
+		patterns.forEach(function (p) {
+			p.causeCells.forEach(function (pos) {
+				var el = boardEl.querySelector('[data-r="' + pos.r + '"][data-c="' + pos.c + '"]');
+				if (el) el.classList.add('cell-pattern-clue');
+			});
+
+			p.targetCells.forEach(function (pos) {
+				var el = boardEl.querySelector('[data-r="' + pos.r + '"][data-c="' + pos.c + '"]');
+				if (el) {
+					if (p.action === 'flag') {
+						el.classList.add('cell-pattern-mine');
+					} else {
+						el.classList.add('cell-pattern-safe');
+					}
+				}
+			});
+		});
+
+		var msg = patterns.length === 1 ?
+			(window.I18n ? window.I18n.t('didactic.patterns_found_single') : 'Trovato 1 pattern tattico!') :
+			(window.I18n ? window.I18n.t('didactic.patterns_found', { count: patterns.length }) : ('Trovati ' + patterns.length + ' pattern tattici!'));
+
+		didacticToastTitle.innerHTML = '🧩 ' + (window.I18n ? window.I18n.t('didactic.patterns') : 'Pattern');
+		didacticToastText.textContent = msg;
+		didacticToast.classList.add('show');
+		haptic(20);
+	}
+
+	if (btnDidacticPatterns) {
+		btnDidacticPatterns.addEventListener('click', function () {
+			AudioFX.initOnGesture();
+			AudioFX.click();
+			toggleDidacticPatterns();
+		});
+	}
+
 	if (didacticToastClose) {
 		didacticToastClose.addEventListener('click', function () {
-			clearDidacticHighlights(state.heatmapEnabled);
+			clearDidacticHighlights(state.heatmapEnabled, state.patternsActive);
 		});
 	}
 
