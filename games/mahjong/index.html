@@ -78,13 +78,80 @@
 			line-height: 1.4;
 		}
 
+		/* Splash Mode Switcher Tabs */
+		.splash-mode-tabs {
+			display: flex;
+			gap: 8px;
+			width: 100%;
+			margin-bottom: 12px;
+		}
+
+		.splash-tab-btn {
+			flex: 1;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			padding: 9px 8px;
+			background: rgba(15, 23, 42, 0.65);
+			border: 1.5px solid rgba(255, 255, 255, 0.12);
+			border-radius: 12px;
+			color: #94a3b8;
+			cursor: pointer;
+			transition: all 0.2s ease;
+			font-family: inherit;
+		}
+
+		.splash-tab-btn:hover {
+			background: rgba(30, 41, 59, 0.85);
+			border-color: rgba(255, 255, 255, 0.25);
+			color: #fff;
+		}
+
+		.splash-tab-btn.active {
+			background: rgba(37, 99, 235, 0.22);
+			border-color: #38bdf8;
+			color: #fff;
+			box-shadow: 0 4px 16px rgba(56, 189, 248, 0.25);
+		}
+
+		.splash-tab-title {
+			font-size: 0.88rem;
+			font-weight: 800;
+			letter-spacing: 0.3px;
+			display: flex;
+			align-items: center;
+			gap: 4px;
+		}
+
+		.splash-tab-sub {
+			font-size: 0.68rem;
+			opacity: 0.75;
+			margin-top: 2px;
+		}
+
+		.splash-mode-panel {
+			display: none;
+			width: 100%;
+			animation: fadeInTab 0.2s ease;
+		}
+
+		.splash-mode-panel.active {
+			display: block;
+		}
+
+		@keyframes fadeInTab {
+			from { opacity: 0; transform: translateY(4px); }
+			to { opacity: 1; transform: translateY(0); }
+		}
+
 		.splash-mode-section {
 			width: 100%;
 			margin-bottom: 14px;
 			background: rgba(15, 23, 42, 0.55);
 			border: 1px solid rgba(255, 255, 255, 0.08);
 			border-radius: 14px;
-			padding: 12px;
+			padding: 14px 12px 16px;
 			box-sizing: border-box;
 		}
 
@@ -233,40 +300,57 @@
 	<div id="splash">
 		<div class="splash-inner">
 			<div class="splash-emoji">🀄</div>
-			<h1 class="splash-title">Mahjong Arcade<sup class="splash-version">v1.8.0</sup></h1>
+			<h1 class="splash-title">Mahjong Arcade<sup class="splash-version">v1.8.1</sup></h1>
 			<div id="splash-player-status" class="splash-player-status" style="margin-bottom: 10px; font-size: 0.85rem; color: #94a3b8; background: rgba(15, 23, 42, 0.6); padding: 4px 12px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, 0.1); display: inline-flex; align-items: center; gap: 6px;"></div>
 
-			<!-- MODALITÀ CLASSICA LIBERA (144 TESSERE) -->
-			<div class="splash-mode-section">
-				<div class="splash-section-title classic-title">🀄 Modalità Classica (144 Tessere)</div>
-				<div class="classic-boards-grid">
-					<button class="btn-board-preset" data-board="classic_turtle">
-						<span class="board-preset-icon">🐢</span>
-						<span class="board-preset-name">Tartaruga</span>
-						<span class="board-preset-desc">Shanghai Tradizionale</span>
-					</button>
-					<button class="btn-board-preset" data-board="classic_ziggurat">
-						<span class="board-preset-icon">🏛️</span>
-						<span class="board-preset-name">Ziggurat</span>
-						<span class="board-preset-desc">Piramide 5 Livelli</span>
-					</button>
-					<button class="btn-board-preset" data-board="classic_fortress">
-						<span class="board-preset-icon">🏯</span>
-						<span class="board-preset-name">Fortezza</span>
-						<span class="board-preset-desc">4 Torri & Pagoda</span>
-					</button>
-					<button class="btn-board-preset" data-board="classic_spider">
-						<span class="board-preset-icon">🕷️</span>
-						<span class="board-preset-name">Il Ragno</span>
-						<span class="board-preset-desc">Carapace & 8 Zampe</span>
-					</button>
+			<!-- SELETTORE MODALITÀ TABS -->
+			<div class="splash-mode-tabs" role="tablist">
+				<button type="button" class="splash-tab-btn active" id="tab-btn-scalata" role="tab" aria-selected="true" aria-controls="panel-scalata">
+					<span class="splash-tab-title">🏆 Scalata Arcade</span>
+					<span class="splash-tab-sub">Avventura a 330 livelli</span>
+				</button>
+				<button type="button" class="splash-tab-btn" id="tab-btn-classic" role="tab" aria-selected="false" aria-controls="panel-classic">
+					<span class="splash-tab-title">🀄 Partita Rapida</span>
+					<span class="splash-tab-sub">Tavola singola (144 tessere)</span>
+				</button>
+			</div>
+
+			<!-- PANNELLO 1: SCALATA ARCADE (Default) -->
+			<div class="splash-mode-panel active" id="panel-scalata" role="tabpanel" aria-labelledby="tab-btn-scalata">
+				<div class="splash-mode-section">
+					<div class="splash-section-title">🏆 Scalata Arcade</div>
+					<p class="splash-subtitle" style="font-size: 0.82rem; margin-bottom: 12px; line-height: 1.4;">330 livelli progressivi con staging a 4 tessere, scudi e boss fight 144 tessere. Salva la tua scalata nel torneo globale!</p>
+					<button id="splash-play" class="splash-play">▶ Continua Scalata</button>
 				</div>
 			</div>
 
-			<!-- SCALATA ARCADE (330 LIVELLI) -->
-			<div class="splash-mode-section">
-				<div class="splash-section-title">🏆 Scalata Arcade</div>
-				<button id="splash-play" class="splash-play">▶ Continua Scalata</button>
+			<!-- PANNELLO 2: PARTITA RAPIDA CLASSICA -->
+			<div class="splash-mode-panel" id="panel-classic" role="tabpanel" aria-labelledby="tab-btn-classic">
+				<div class="splash-mode-section">
+					<div class="splash-section-title classic-title">🀄 Scegli la tavola tradizionale (144 Tessere)</div>
+					<div class="classic-boards-grid">
+						<button class="btn-board-preset" data-board="classic_turtle">
+							<span class="board-preset-icon">🐢</span>
+							<span class="board-preset-name">Tartaruga</span>
+							<span class="board-preset-desc">Shanghai Tradizionale</span>
+						</button>
+						<button class="btn-board-preset" data-board="classic_ziggurat">
+							<span class="board-preset-icon">🏛️</span>
+							<span class="board-preset-name">Ziggurat</span>
+							<span class="board-preset-desc">Piramide 5 Livelli</span>
+						</button>
+						<button class="btn-board-preset" data-board="classic_fortress">
+							<span class="board-preset-icon">🏯</span>
+							<span class="board-preset-name">Fortezza</span>
+							<span class="board-preset-desc">4 Torri & Pagoda</span>
+						</button>
+						<button class="btn-board-preset" data-board="classic_spider">
+							<span class="board-preset-icon">🕷️</span>
+							<span class="board-preset-name">Il Ragno</span>
+							<span class="board-preset-desc">Carapace & 8 Zampe</span>
+						</button>
+					</div>
+				</div>
 			</div>
 
 			<p class="splash-hint">Scalata Arcade con staging & scudi · Modalità Classica tradizionale a 2 tocchi a terra</p>

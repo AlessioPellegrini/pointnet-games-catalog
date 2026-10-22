@@ -278,6 +278,44 @@
 		requestAnimationFrame(startGame);
 	}
 
+	// Splash mode switcher tabs (Scalata vs Partita Rapida)
+	var tabBtnScalata = document.getElementById('tab-btn-scalata');
+	var tabBtnClassic = document.getElementById('tab-btn-classic');
+	var panelScalata = document.getElementById('panel-scalata');
+	var panelClassic = document.getElementById('panel-classic');
+
+	function switchSplashMode(mode) {
+		if (typeof playSfx === 'function') playSfx('click');
+		if (mode === 'classic') {
+			if (tabBtnClassic) {
+				tabBtnClassic.classList.add('active');
+				tabBtnClassic.setAttribute('aria-selected', 'true');
+			}
+			if (tabBtnScalata) {
+				tabBtnScalata.classList.remove('active');
+				tabBtnScalata.setAttribute('aria-selected', 'false');
+			}
+			if (panelClassic) panelClassic.classList.add('active');
+			if (panelScalata) panelScalata.classList.remove('active');
+		} else {
+			if (tabBtnScalata) {
+				tabBtnScalata.classList.add('active');
+				tabBtnScalata.setAttribute('aria-selected', 'true');
+			}
+			if (tabBtnClassic) {
+				tabBtnClassic.classList.remove('active');
+				tabBtnClassic.setAttribute('aria-selected', 'false');
+			}
+			if (panelScalata) panelScalata.classList.add('active');
+			if (panelClassic) panelClassic.classList.remove('active');
+		}
+	}
+
+	if (tabBtnScalata && tabBtnClassic) {
+		tabBtnScalata.addEventListener('click', function () { switchSplashMode('scalata'); });
+		tabBtnClassic.addEventListener('click', function () { switchSplashMode('classic'); });
+	}
+
 	splashPlayBtn.addEventListener('click', function () {
 		app.classicBoard = null;
 		splashEl.classList.add('hidden');

@@ -501,12 +501,79 @@
 			gap: 6px;
 		}
 
+		/* Splash Mode Switcher Tabs */
+		.splash-mode-tabs {
+			display: flex;
+			gap: 8px;
+			width: 100%;
+			margin-bottom: 12px;
+		}
+
+		.splash-tab-btn {
+			flex: 1;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			padding: 9px 8px;
+			background: rgba(15, 23, 42, 0.65);
+			border: 1.5px solid rgba(255, 255, 255, 0.12);
+			border-radius: 12px;
+			color: var(--text-muted);
+			cursor: pointer;
+			transition: all 0.2s ease;
+			font-family: inherit;
+		}
+
+		.splash-tab-btn:hover {
+			background: rgba(30, 41, 59, 0.85);
+			border-color: rgba(255, 255, 255, 0.25);
+			color: #fff;
+		}
+
+		.splash-tab-btn.active {
+			background: rgba(37, 99, 235, 0.22);
+			border-color: var(--accent);
+			color: #fff;
+			box-shadow: 0 4px 16px rgba(56, 189, 248, 0.25);
+		}
+
+		.splash-tab-title {
+			font-size: 0.88rem;
+			font-weight: 800;
+			letter-spacing: 0.3px;
+			display: flex;
+			align-items: center;
+			gap: 4px;
+		}
+
+		.splash-tab-sub {
+			font-size: 0.68rem;
+			opacity: 0.75;
+			margin-top: 2px;
+		}
+
+		.splash-mode-panel {
+			display: none;
+			width: 100%;
+			animation: fadeInTab 0.2s ease;
+		}
+
+		.splash-mode-panel.active {
+			display: block;
+		}
+
+		@keyframes fadeInTab {
+			from { opacity: 0; transform: translateY(4px); }
+			to { opacity: 1; transform: translateY(0); }
+		}
+
 		.splash-mode-section {
 			width: 100%;
 			background: rgba(22, 32, 50, 0.7);
 			border: 1px solid rgba(255, 255, 255, 0.08);
 			border-radius: 16px;
-			padding: 12px 14px;
+			padding: 14px 14px 16px;
 			margin-bottom: 10px;
 			text-align: center;
 			box-sizing: border-box;
@@ -523,9 +590,9 @@
 
 		.splash-section-desc {
 			color: var(--text-muted);
-			font-size: 0.8rem;
-			margin-bottom: 10px;
-			line-height: 1.35;
+			font-size: 0.82rem;
+			margin-bottom: 14px;
+			line-height: 1.4;
 		}
 
 		.classic-presets-grid {
@@ -695,35 +762,53 @@
 	<div id="splash">
 		<div class="splash-inner">
 			<div class="splash-emoji">💣</div>
-			<h1 class="splash-title">Minesweeper<sup class="splash-version">v1.3.6</sup></h1>
+			<h1 class="splash-title">Minesweeper<sup class="splash-version">v1.3.7</sup></h1>
 			<div id="splash-player-status" class="splash-player-status">Verifica account in corso...</div>
 
-			<div class="splash-mode-section">
-				<div class="splash-section-title">⚡ Modalità Classica</div>
-				<div class="classic-presets-grid">
-					<button class="btn btn-preset" data-preset="easy">
-						<span class="preset-name">🟢 Facile</span>
-						<span class="preset-details">9 × 9 · 10 💣</span>
-					</button>
-					<button class="btn btn-preset" data-preset="medium">
-						<span class="preset-name">🟡 Medio</span>
-						<span class="preset-details">16 × 16 · 40 💣</span>
-					</button>
-					<button class="btn btn-preset" data-preset="hard">
-						<span class="preset-name">🔴 Difficile</span>
-						<span class="preset-details">30 × 16 · 99 💣</span>
-					</button>
-					<button class="btn btn-preset" data-preset="extreme">
-						<span class="preset-name">💀 Estremo</span>
-						<span class="preset-details">32 × 18 · 150 💣</span>
-					</button>
+			<!-- SELETTORE MODALITÀ TABS -->
+			<div class="splash-mode-tabs" role="tablist">
+				<button type="button" class="splash-tab-btn active" id="tab-btn-scalata" role="tab" aria-selected="true" aria-controls="panel-scalata">
+					<span class="splash-tab-title">🏆 Scalata Arcade</span>
+					<span class="splash-tab-sub">Avventura a 18 livelli</span>
+				</button>
+				<button type="button" class="splash-tab-btn" id="tab-btn-classic" role="tab" aria-selected="false" aria-controls="panel-classic">
+					<span class="splash-tab-title">⚡ Partita Rapida</span>
+					<span class="splash-tab-sub">Tavola singola libera</span>
+				</button>
+			</div>
+
+			<!-- PANNELLO 1: SCALATA ARCADE (Default) -->
+			<div class="splash-mode-panel active" id="panel-scalata" role="tabpanel" aria-labelledby="tab-btn-scalata">
+				<div class="splash-mode-section">
+					<div class="splash-section-title">🏆 Scalata Arcade</div>
+					<p class="splash-section-desc">Affronta 18 livelli progressivi a vite singola da 9×9 fino all'Estremo 32×18. Accumula punteggio e scala la classifica!</p>
+					<button id="splash-play-scalata" class="btn btn-primary splash-play">▶ Avvia Scalata</button>
 				</div>
 			</div>
 
-			<div class="splash-mode-section">
-				<div class="splash-section-title">🏆 Modalità Scalata</div>
-				<p class="splash-section-desc">18 livelli progressivi a vite singola fino all'Estremo 32×18.</p>
-				<button id="splash-play-scalata" class="btn btn-primary splash-play">▶ Avvia Scalata</button>
+			<!-- PANNELLO 2: PARTITA RAPIDA CLASSICA -->
+			<div class="splash-mode-panel" id="panel-classic" role="tabpanel" aria-labelledby="tab-btn-classic">
+				<div class="splash-mode-section">
+					<div class="splash-section-title">⚡ Scegli la difficoltà della singola tavola</div>
+					<div class="classic-presets-grid">
+						<button class="btn btn-preset" data-preset="easy">
+							<span class="preset-name">🟢 Facile</span>
+							<span class="preset-details">9 × 9 · 10 💣</span>
+						</button>
+						<button class="btn btn-preset" data-preset="medium">
+							<span class="preset-name">🟡 Medio</span>
+							<span class="preset-details">16 × 16 · 40 💣</span>
+						</button>
+						<button class="btn btn-preset" data-preset="hard">
+							<span class="preset-name">🔴 Difficile</span>
+							<span class="preset-details">30 × 16 · 99 💣</span>
+						</button>
+						<button class="btn btn-preset" data-preset="extreme">
+							<span class="preset-name">💀 Estremo</span>
+							<span class="preset-details">32 × 18 · 150 💣</span>
+						</button>
+					</div>
+				</div>
 			</div>
 
 			<p class="splash-hint">Trascina per scorrere · Pizzica o usa la rotellina per zoomare · Tocca un numero per il chording automatico</p>
@@ -2306,6 +2391,37 @@
 			btnMenu.addEventListener('click', function () {
 				openMenu();
 			});
+		}
+
+		// Splash mode switcher tabs (Scalata vs Partita Rapida)
+		var tabBtnScalata = document.getElementById('tab-btn-scalata');
+		var tabBtnClassic = document.getElementById('tab-btn-classic');
+		var panelScalata = document.getElementById('panel-scalata');
+		var panelClassic = document.getElementById('panel-classic');
+
+		function switchSplashMode(mode) {
+			AudioFX.initOnGesture();
+			AudioFX.click();
+			if (mode === 'classic') {
+				tabBtnClassic.classList.add('active');
+				tabBtnClassic.setAttribute('aria-selected', 'true');
+				tabBtnScalata.classList.remove('active');
+				tabBtnScalata.setAttribute('aria-selected', 'false');
+				panelClassic.classList.add('active');
+				panelScalata.classList.remove('active');
+			} else {
+				tabBtnScalata.classList.add('active');
+				tabBtnScalata.setAttribute('aria-selected', 'true');
+				tabBtnClassic.classList.remove('active');
+				tabBtnClassic.setAttribute('aria-selected', 'false');
+				panelScalata.classList.add('active');
+				panelClassic.classList.remove('active');
+			}
+		}
+
+		if (tabBtnScalata && tabBtnClassic) {
+			tabBtnScalata.addEventListener('click', function () { switchSplashMode('scalata'); });
+			tabBtnClassic.addEventListener('click', function () { switchSplashMode('classic'); });
 		}
 
 		// Preset buttons (Classic mode)
