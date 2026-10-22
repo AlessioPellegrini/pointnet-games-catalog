@@ -100,11 +100,11 @@ window.POINTNET_I18N['it'] = {
 		pattern_12x_name: "Pattern Fondamentale 1-2-X",
 		pattern_12x_desc: "Il {numB} (effettivo {remB}) tocca 3 caselle con 2 mine, ma il {numA} vicino (effettivo {remA}) limita 1 mina alle prime due caselle. La terza casella esterna X è sicuramente una MINA!",
 		pattern_11x_name: "Pattern Bordo / Angolo 1-1-X",
-		pattern_11x_desc: "Il {numA} sul bordo limita la mina al sottoinsieme di 2 caselle. Il {numB} adiacente richiede solo quella stessa mina: la terza casella X lungo il bordo è garantita SICURA!",
+		pattern_11x_desc: "Il {numA} limita la sua mina a solo 2 caselle, entrambe toccate anche dal {numB} vicino. Poiché anche {numB} richiede 1 sola mina, tutte le ulteriori caselle coperte toccate da {numB} sono garantite SICURE!",
 		pattern_edge11_name: "Pattern Bordo 1-1",
-		pattern_edge11_desc: "Un '1' d'angolo o di bordo seguito da un altro '1': la prima mina deve trovarsi nelle prime due caselle, quindi la terza casella lungo il bordo è garantita sicura.",
-		pattern_corner1_name: "Pattern Angolo 1 (Riduzione)",
-		pattern_corner1_desc: "Un '1' in un angolo tocca solo 3 caselle. Poiché condivide le caselle con il numero vicino, le caselle esterne in eccesso sono libere per riduzione insiemistica.",
+		pattern_edge11_desc: "Due numeri 1 consecutivi lungo il perimetro: la prima mina è confinata nelle prime due caselle, quindi la terza casella esterna è garantita sicura.",
+		pattern_corner1_name: "Riduzione Insiemistica (Sottoinsieme)",
+		pattern_corner1_desc: "Tutte le caselle coperte toccate dal primo numero sono incluse anche tra quelle del secondo numero. Avendo lo stesso numero di mine rimanenti, le caselle coperte in eccesso toccate solo dal secondo numero sono garantite SICURE al 100%!",
 		reduction_prefix: "Riduzione: {orig} con {flags} bandiera/e si comporta come {eff}."
 	}
 };

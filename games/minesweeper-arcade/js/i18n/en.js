@@ -100,11 +100,11 @@ window.POINTNET_I18N['en'] = {
 		pattern_12x_name: "Core Pattern 1-2-X",
 		pattern_12x_desc: "Number {numB} (effective {remB}) touches 3 cells with 2 mines, but adjacent {numA} (effective {remA}) restricts 1 mine to the first two cells. The third outer cell X must be a MINE!",
 		pattern_11x_name: "Edge / Corner Pattern 1-1-X",
-		pattern_11x_desc: "Number {numA} on the border restricts the mine to a 2-cell subset. Neighbor {numB} only needs that same mine: the third outer cell X along the border is guaranteed SAFE!",
+		pattern_11x_desc: "Number {numA} restricts its mine to 2 cells, both of which are also shared with neighbor {numB}. Since {numB} also needs only 1 mine, any additional covered cells touched by {numB} are guaranteed SAFE!",
 		pattern_edge11_name: "Edge Pattern 1-1",
-		pattern_edge11_desc: "A corner or border '1' followed by another '1': the first mine must be in the first two cells, so the third cell along the edge is guaranteed safe.",
-		pattern_corner1_name: "Corner Pattern 1 (Reduction)",
-		pattern_corner1_desc: "A '1' in a corner touches only 3 cells. When sharing cells with an adjacent number, excess cells can be deduced through pattern reduction.",
+		pattern_edge11_desc: "Two consecutive 1s along a perimeter wall: the first mine is confined to the first two cells, so the third outer cell is guaranteed safe.",
+		pattern_corner1_name: "Set Reduction (Subset Safe)",
+		pattern_corner1_desc: "All covered cells touched by the first clue are fully contained within the second clue's reach. Because they share the same remaining mine count, the extra cells touched only by the second clue are guaranteed 100% SAFE!",
 		reduction_prefix: "Reduction: {orig} with {flags} flag(s) behaves as {eff}."
 	}
 };
