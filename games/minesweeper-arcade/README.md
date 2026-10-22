@@ -1,6 +1,6 @@
 # 💣 Minesweeper
  
-> **Versione: 1.5.3** — *The Clean One* aesthetics, doppia modalità (Classica 4 preset + Scalata 18 livelli), Pan & Pinch-to-Zoom, Didattica interattiva con Navigazione Storico Mosse (Undo/Redo ↩️/↪️), Scanner Pattern Tattici Interattivo con spiegazione cella per cella (1-2-1, 1-2-2-1, 1-2-X, 1-1-X), Heatmap e supporto Multi-lingua (IT/EN) coordinato con WordPress.
+> **Versione: 1.5.4** — *The Clean One* aesthetics, doppia modalità (Classica 4 preset + Scalata 18 livelli), Pan & Pinch-to-Zoom, Didattica interattiva con Navigazione Storico Mosse (Undo/Redo ↩️/↪️), Scanner Pattern Tattici Interattivo con spiegazione cella per cella (1-2-1, 1-2-2-1, 1-2-X, 1-1-X), Heatmap e supporto Multi-lingua (IT/EN) coordinato con WordPress.
 
 Ispirato al design e all'esperienza tattile di *Minesweeper: The Clean One*, con **doppia modalità di gioco**: la classica partita singola a selezione libera o l'emozionante modalità Scalata a 18 livelli progressivi fino al livello Estremo!
 
@@ -8,7 +8,12 @@ Ispirato al design e all'esperienza tattile di *Minesweeper: The Clean One*, con
 
 ## 📝 Changelog
 
-### 1.5.3 (current)
+### 1.5.4 (current)
+- **Raffinamento Rigoroso Spiegazioni Pattern**: corretta la descrizione della regola di riduzione insiemistica (ex "Angolo 1") allineandola formalmente ai canoni matematici e alla guida strategica ufficiale di [minesweepergame.com](https://minesweepergame.com/strategy/patterns.php), descrivendo fedelmente l'inclusione di sottoinsiemi a prescindere dal numero di celle coperte.
+- **Ottimizzazione Popup Fine Tavola Didattica**: eliminato il pulsante duplicato del menu nel modale di completamento, sostituendolo con "🔁 Rigioca Tavola" affiancato a "🏠 Menu".
+- **Sincronizzazione Completa Dizionari IT/EN**: localizzazione accurata e bilingue di tutti i testi didattici e dei pulsanti modali.
+
+### 1.5.3
 - **Scanner Pattern Tattici Interattivo ("🧩 Pattern")**: introdotto pulsante dedicato nel banner didattico che scansiona l'intero tabellone ed evidenzia contemporaneamente tutti i pattern tattici attivi (1-2-1 orizzontali/verticali, 1-2-2-1, 1-2-X, 1-1-X di bordo/angolo e relative riduzioni algebriche).
 - **Spiegazione al Tocco per Cella/Pattern**: toccando una qualsiasi cella o numero evidenziato in viola, si apre il toast didattico dedicato con la spiegazione logica e algebrica dettagliata specifica di quel pattern.
 - **Evidenziazione Cromatica Distintiva**: numeri del pattern con contorno neon viola (`.cell-pattern-clue`), caselle sicure dedotte in verde smeraldo (`.cell-pattern-safe`) e mine dedotte in rosso cremisi (`.cell-pattern-mine`).
