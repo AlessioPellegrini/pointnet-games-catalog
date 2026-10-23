@@ -10,7 +10,7 @@ window.POINTNET_I18N['it'] = {
 		verifying_account: "Verifica account in corso...",
 		account_ready: "Account verificato",
 		guest_mode: "Modalità ospite",
-		hint_scroll_zoom: "Trascina per scorrere · Pizzica o usa la rotellina per zoomare · Tocca un numero per il chording automatico",
+		hint_scroll_zoom: "Scava/Bandiera con tocco rapido · Doppio tap o tieni premuto per invertire · Tap a 2 dita per alternare modalità · Tocca numeri per chording",
 		dig: "Scava",
 		flag: "Bandiera",
 		info: "Info",

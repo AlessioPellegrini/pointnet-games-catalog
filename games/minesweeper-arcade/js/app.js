@@ -340,7 +340,7 @@
 				cellEl.dataset.r = r;
 				cellEl.dataset.c = c;
 
-				// Touch Handling
+				// Touch Handling (Tactile Quick Long-Press ~230ms & Double Tap Support)
 				cellEl.addEventListener('touchstart', function () {
 					var el = this;
 					var r = parseInt(el.dataset.r, 10);
@@ -352,14 +352,14 @@
 						el._longPressFired = true;
 						el._lastLongPressTime = Date.now();
 						handleFlag(r, c);
-						haptic(20);
-					}, 350);
+						haptic(22);
+					}, 230);
 				}, { passive: true });
 
 				cellEl.addEventListener('touchend', function () {
 					clearTimeout(this._longPressTimer);
 					if (this._longPressFired) {
-						this._preventClickUntil = Date.now() + 350;
+						this._preventClickUntil = Date.now() + 300;
 					}
 				});
 
@@ -371,7 +371,7 @@
 				cellEl.addEventListener('contextmenu', function (e) {
 					e.preventDefault();
 					var el = this;
-					if (el._longPressFired || (el._lastLongPressTime && Date.now() - el._lastLongPressTime < 450)) {
+					if (el._longPressFired || (el._lastLongPressTime && Date.now() - el._lastLongPressTime < 350)) {
 						return;
 					}
 					var r = parseInt(el.dataset.r, 10);
@@ -424,7 +424,21 @@
 						return;
 					}
 
-					if (state.inputMode === 'flag') {
+					// Double-tap detection on covered cell: inverts current primary action!
+					// e.g. In Dig mode: single tap = Dig, double tap = Flag/Unflag.
+					//      In Flag mode: single tap = Flag, double tap = Dig.
+					var now = Date.now();
+					var isDoubleTap = el._lastClickTime && (now - el._lastClickTime < 280);
+					el._lastClickTime = now;
+
+					var effectiveAction = state.inputMode;
+					if (isDoubleTap) {
+						// Invert action on rapid double tap
+						effectiveAction = (state.inputMode === 'flag') ? 'dig' : 'flag';
+						el._lastClickTime = 0; // reset to avoid triple-tap trigger
+					}
+
+					if (effectiveAction === 'flag') {
 						handleFlag(r, c);
 					} else {
 						handleReveal(r, c);
@@ -1327,12 +1341,23 @@
 
 		if (mode === 'flag') {
 			if (btnModeFlag) btnModeFlag.classList.add('active');
+			document.body.classList.add('mode-flag-active');
 		} else if (mode === 'inspect') {
 			if (btnModeInspect) btnModeInspect.classList.add('active');
+			document.body.classList.remove('mode-flag-active');
 		} else {
 			if (btnModeDig) btnModeDig.classList.add('active');
+			document.body.classList.remove('mode-flag-active');
 		}
 		haptic(15);
+	}
+
+	function toggleInputMode() {
+		if (state.inputMode === 'flag') {
+			setInputMode('dig');
+		} else {
+			setInputMode('flag');
+		}
 	}
 
 	btnModeDig.addEventListener('click', function () { setInputMode('dig'); });
@@ -1340,6 +1365,23 @@
 	if (btnModeInspect) {
 		btnModeInspect.addEventListener('click', function () { setInputMode('inspect'); });
 	}
+
+	// Quick Mode Toggle Shortcut: Two-Finger Tap anywhere on the board viewport toggles between Dig and Flag!
+	var twoFingerTouchStart = 0;
+	boardViewportEl.addEventListener('touchstart', function (e) {
+		if (e.touches && e.touches.length === 2) {
+			twoFingerTouchStart = Date.now();
+		} else {
+			twoFingerTouchStart = 0;
+		}
+	}, { passive: true });
+
+	boardViewportEl.addEventListener('touchend', function (e) {
+		if (twoFingerTouchStart && (Date.now() - twoFingerTouchStart < 300) && (!e.touches || e.touches.length === 0)) {
+			toggleInputMode();
+			twoFingerTouchStart = 0;
+		}
+	}, { passive: true });
 
 	document.getElementById('modal-close').addEventListener('click', function () {
 		overlayEl.classList.remove('show');
