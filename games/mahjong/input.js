@@ -337,11 +337,11 @@
 		if (!matched && app.staging.length >= MAX_STAGING) {
 			stopTimer();
 			if (typeof playSfx === 'function') playSfx('gameover');
-			modalTitle.textContent = '💀 Staging Full!';
+			modalTitle.textContent = (window.I18n && window.I18n.t) ? window.I18n.t('modal.staging_full') : '💀 Staging Pieno!';
 			modalStats.textContent = (app.shufflesLeft > 0)
 				? 'Staging pieno! Usa uno Shuffle 🔀 per liberare o riprova.'
 				: '4 tiles nello staging, nessun match — riprova!';
-			if (btnPlayAgain) btnPlayAgain.textContent = '🔄 Riprova';
+			if (btnPlayAgain) btnPlayAgain.textContent = (window.I18n && window.I18n.t) ? window.I18n.t('modal.btn_retry') : '🔄 Riprova';
 			var btnModalShuffle = document.getElementById('btn-modal-shuffle');
 			if (app.shufflesLeft > 0 && btnModalShuffle) {
 				btnModalShuffle.textContent = '🔀 Usa Shuffle (x' + app.shufflesLeft + ') e Continua';
@@ -428,11 +428,11 @@
 		if (!hasAnyValidMove(app.board, 'classic')) {
 			stopTimer();
 			if (typeof playSfx === 'function') playSfx('deadlock');
-			modalTitle.textContent = '🛑 Nessuna Mossa!';
+			modalTitle.textContent = (window.I18n && window.I18n.t) ? window.I18n.t('modal.no_moves') : '🛑 Nessuna Mossa!';
 			modalStats.textContent = (app.shufflesLeft > 0)
 				? 'Il tabellone è bloccato. Usa uno Shuffle 🔀 o riprova!'
 				: 'Nessuna coppia disponibile — Gioco Terminato!';
-			if (btnPlayAgain) btnPlayAgain.textContent = '🔄 Riprova';
+			if (btnPlayAgain) btnPlayAgain.textContent = (window.I18n && window.I18n.t) ? window.I18n.t('modal.btn_retry') : '🔄 Riprova';
 			var btnModalShuffle = document.getElementById('btn-modal-shuffle');
 			if (app.shufflesLeft > 0 && btnModalShuffle) {
 				btnModalShuffle.textContent = '🔀 Usa Shuffle (x' + app.shufflesLeft + ') e Continua';
@@ -927,21 +927,35 @@
 		var bestEl = document.getElementById('drawer-best-score');
 		var currEl = document.getElementById('drawer-curr-score');
 		var diffEl = document.getElementById('drawer-score-diff');
-		if (badgeEl) badgeEl.textContent = 'Livello ' + levelNum;
+		if (badgeEl) {
+			badgeEl.textContent = (window.I18n && window.I18n.t)
+				? window.I18n.t('controls.level', { num: levelNum })
+				: ('Livello ' + levelNum);
+		}
 		if (bestEl) bestEl.textContent = Number(best).toLocaleString();
 		if (currEl) currEl.textContent = Number(curr).toLocaleString();
 		if (diffEl) {
 			if (curr > best && best > 0) {
-				diffEl.textContent = '🔥 Nuovo Record! (+' + Number(curr - best).toLocaleString() + ' pt)';
+				var diffStr = Number(curr - best).toLocaleString();
+				diffEl.textContent = (window.I18n && window.I18n.t)
+					? window.I18n.t('drawer.new_record', { diff: diffStr })
+					: ('🔥 Nuovo Record! (+' + diffStr + ' pt)');
 				diffEl.className = 'score-cmp-status status-record';
 			} else if (curr === best && curr > 0) {
-				diffEl.textContent = '✨ Pareggio con il tuo Record!';
+				diffEl.textContent = (window.I18n && window.I18n.t)
+					? window.I18n.t('drawer.tie_record')
+					: '✨ Pareggio con il tuo Record!';
 				diffEl.className = 'score-cmp-status status-tie';
 			} else if (best > 0) {
-				diffEl.textContent = '-' + Number(best - curr).toLocaleString() + ' punti dal tuo record';
+				var diffBehind = Number(best - curr).toLocaleString();
+				diffEl.textContent = (window.I18n && window.I18n.t)
+					? window.I18n.t('drawer.behind_record', { diff: diffBehind })
+					: ('-' + diffBehind + ' punti dal tuo record');
 				diffEl.className = 'score-cmp-status status-behind';
 			} else {
-				diffEl.textContent = 'Nessun record ancora registrato';
+				diffEl.textContent = (window.I18n && window.I18n.t)
+					? window.I18n.t('drawer.no_record_yet')
+					: 'Nessun record ancora registrato';
 				diffEl.className = 'score-cmp-status';
 			}
 		}

@@ -2,7 +2,7 @@
 
 Classic Mahjong Solitaire tile-matching with a modern twist: a 4-slot staging box, face-down memory tiles, drag-to-peek and guaranteed solvable boards. Mobile-first, no pan/zoom.
 
-> **Version: 1.8.0** — **Modalità Classica Libera (Free Play 144) & Rotazione 4 Tavole Tradizionali**: introduzione della modalità autonoma **Classica Libera (Free Play)** selezionabile dallo Splash Screen a 4 bottoni dedicati per giocare immediatamente a 144 tessere (Tartaruga, Ziggurat, Fortezza Imperiale, Il Ragno) a due click a terra senza staging box. **Rotazione Boss nella Scalata Arcade**: le 33 sfide boss dei livelli decimi (L10..L330) alternano ciclicamente dal livello 30 in poi le 4 tavole classiche con indicatore speciale e nome tavola nell'HUD. Classifiche separate registrate nel manifest (`arcade` per la Scalata e `classic` per la Classica Tradizionale). 100% solvibilità geometrica garantita. Suite di test automatizzati estesa a 48 builder validati.
+> **Version: 1.8.1** — **Internazionalizzazione Micro-Engine (IT/EN) & Armonizzazione**: standardizzazione del motore di internazionalizzazione micro-engine coerente con Minesweeper con cascata URL/postMessage/localStorage, dizionari bilingue completi (IT/EN), supporto `data-i18n` nel DOM e localizzazione reattiva delle modali e dei punteggi.
 
 ## 🔖 Version bump checklist
 

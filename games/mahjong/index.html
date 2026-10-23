@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 	<title>Mahjong Arcade</title>
-	<link rel="stylesheet" href="style.css?v=1.8.0">
+	<link rel="stylesheet" href="style.css?v=1.8.1">
 	<style>
 		/* ============================================================
 		   SPLASH SCREEN + FULLSCREEN — game styles live in style.css
@@ -306,55 +306,55 @@
 			<!-- SELETTORE MODALITÀ TABS -->
 			<div class="splash-mode-tabs" role="tablist">
 				<button type="button" class="splash-tab-btn active" id="tab-btn-scalata" role="tab" aria-selected="true" aria-controls="panel-scalata">
-					<span class="splash-tab-title">🏆 Scalata Arcade</span>
-					<span class="splash-tab-sub">Avventura a 330 livelli</span>
+					<span class="splash-tab-title" data-i18n="splash.tab_scalata_title">🏆 Scalata Arcade</span>
+					<span class="splash-tab-sub" data-i18n="splash.tab_scalata_sub">Avventura a 330 livelli</span>
 				</button>
 				<button type="button" class="splash-tab-btn" id="tab-btn-classic" role="tab" aria-selected="false" aria-controls="panel-classic">
-					<span class="splash-tab-title">🀄 Partita Rapida</span>
-					<span class="splash-tab-sub">Tavola singola (144 tessere)</span>
+					<span class="splash-tab-title" data-i18n="splash.tab_classic_title">🀄 Partita Rapida</span>
+					<span class="splash-tab-sub" data-i18n="splash.tab_classic_sub">Tavola singola (144 tessere)</span>
 				</button>
 			</div>
 
 			<!-- PANNELLO 1: SCALATA ARCADE (Default) -->
 			<div class="splash-mode-panel active" id="panel-scalata" role="tabpanel" aria-labelledby="tab-btn-scalata">
 				<div class="splash-mode-section">
-					<div class="splash-section-title">🏆 Scalata Arcade</div>
-					<p class="splash-subtitle" style="font-size: 0.82rem; margin-bottom: 12px; line-height: 1.4;">330 livelli progressivi con staging a 4 tessere, scudi e boss fight 144 tessere. Salva la tua scalata nel torneo globale!</p>
-					<button id="splash-play" class="splash-play">▶ Continua Scalata</button>
+					<div class="splash-section-title" data-i18n="splash.scalata_section_title">🏆 Scalata Arcade</div>
+					<p class="splash-subtitle" data-i18n="splash.scalata_desc" style="font-size: 0.82rem; margin-bottom: 12px; line-height: 1.4;">330 livelli progressivi con staging a 4 tessere, scudi e boss fight 144 tessere. Salva la tua scalata nel torneo globale!</p>
+					<button id="splash-play" class="splash-play" data-i18n="splash.btn_continue">▶ Continua Scalata</button>
 				</div>
 			</div>
 
 			<!-- PANNELLO 2: PARTITA RAPIDA CLASSICA -->
 			<div class="splash-mode-panel" id="panel-classic" role="tabpanel" aria-labelledby="tab-btn-classic">
 				<div class="splash-mode-section">
-					<div class="splash-section-title classic-title">🀄 Scegli la tavola tradizionale (144 Tessere)</div>
+					<div class="splash-section-title classic-title" data-i18n="splash.classic_section_title">🀄 Scegli la tavola tradizionale (144 Tessere)</div>
 					<div class="classic-boards-grid">
 						<button class="btn-board-preset" data-board="classic_turtle">
 							<span class="board-preset-icon">🐢</span>
-							<span class="board-preset-name">Tartaruga</span>
-							<span class="board-preset-desc">Shanghai Tradizionale</span>
+							<span class="board-preset-name" data-i18n="splash.board_turtle_name">Tartaruga</span>
+							<span class="board-preset-desc" data-i18n="splash.board_turtle_desc">Shanghai Tradizionale</span>
 						</button>
 						<button class="btn-board-preset" data-board="classic_ziggurat">
 							<span class="board-preset-icon">🏛️</span>
-							<span class="board-preset-name">Ziggurat</span>
-							<span class="board-preset-desc">Piramide 5 Livelli</span>
+							<span class="board-preset-name" data-i18n="splash.board_ziggurat_name">Ziggurat</span>
+							<span class="board-preset-desc" data-i18n="splash.board_ziggurat_desc">Piramide 5 Livelli</span>
 						</button>
 						<button class="btn-board-preset" data-board="classic_fortress">
 							<span class="board-preset-icon">🏯</span>
-							<span class="board-preset-name">Fortezza</span>
-							<span class="board-preset-desc">4 Torri & Pagoda</span>
+							<span class="board-preset-name" data-i18n="splash.board_fortress_name">Fortezza</span>
+							<span class="board-preset-desc" data-i18n="splash.board_fortress_desc">4 Torri & Pagoda</span>
 						</button>
 						<button class="btn-board-preset" data-board="classic_spider">
 							<span class="board-preset-icon">🕷️</span>
-							<span class="board-preset-name">Il Ragno</span>
-							<span class="board-preset-desc">Carapace & 8 Zampe</span>
+							<span class="board-preset-name" data-i18n="splash.board_spider_name">Il Ragno</span>
+							<span class="board-preset-desc" data-i18n="splash.board_spider_desc">Carapace & 8 Zampe</span>
 						</button>
 					</div>
 				</div>
 			</div>
 
-			<p class="splash-hint">Scalata Arcade con staging & scudi · Modalità Classica tradizionale a 2 tocchi a terra</p>
-			<p class="splash-author">by Alessio Pellegrini · PointNet Games</p>
+			<p class="splash-hint" data-i18n="splash.hint">Scalata Arcade con staging & scudi · Modalità Classica tradizionale a 2 tocchi a terra</p>
+			<p class="splash-author" data-i18n="splash.author">by Alessio Pellegrini · PointNet Games</p>
 		</div>
 	</div>
 
@@ -366,10 +366,10 @@
 			<div class="status-item">🏆 <span class="status-value" id="score">0</span></div>
 			<div class="status-item" id="combo">🔥 <span class="status-value">x0</span></div>
 			<div class="status-controls">
-				<button id="btn-music" class="icon-btn" title="Toggle musica" aria-label="Toggle musica">🎵</button>
-				<button id="btn-sfx" class="icon-btn" title="Toggle effetti" aria-label="Toggle effetti">🔊</button>
-				<button id="btn-actions" class="icon-btn" title="Menu" aria-label="Menu">☰</button>
-				<button id="fs-close" class="icon-btn fs-close" title="Exit fullscreen" aria-label="Exit fullscreen">✕</button>
+				<button id="btn-music" class="icon-btn" title="Toggle musica" aria-label="Toggle musica" data-i18n-title="controls.music_toggle" data-i18n-aria="controls.music_toggle">🎵</button>
+				<button id="btn-sfx" class="icon-btn" title="Toggle effetti" aria-label="Toggle effetti" data-i18n-title="controls.sfx_toggle" data-i18n-aria="controls.sfx_toggle">🔊</button>
+				<button id="btn-actions" class="icon-btn" title="Menu" aria-label="Menu" data-i18n-title="controls.menu" data-i18n-aria="controls.menu">☰</button>
+				<button id="fs-close" class="icon-btn fs-close" title="Exit fullscreen" aria-label="Exit fullscreen" data-i18n-title="controls.fs_close" data-i18n-aria="controls.fs_close">✕</button>
 			</div>
 		</div>
 
@@ -386,95 +386,95 @@
 		<!-- Confronto Punteggi: Record vs Attuale -->
 		<div class="score-comparison-card">
 			<div class="score-cmp-header">
-				<span class="score-cmp-title">📊 CONFRONTO PUNTEGGIO</span>
+				<span class="score-cmp-title" data-i18n="drawer.score_cmp_title">📊 CONFRONTO PUNTEGGIO</span>
 				<span class="score-cmp-lvl" id="drawer-level-badge">Livello 1</span>
 			</div>
 			<div class="score-cmp-body">
 				<div class="score-cmp-box">
-					<div class="score-cmp-label">🏆 Tuo Record</div>
+					<div class="score-cmp-label" data-i18n="drawer.best_record">🏆 Tuo Record</div>
 					<div class="score-cmp-val score-best-val" id="drawer-best-score">0</div>
 				</div>
 				<div class="score-cmp-divider">VS</div>
 				<div class="score-cmp-box">
-					<div class="score-cmp-label">🎯 Partita Attuale</div>
+					<div class="score-cmp-label" data-i18n="drawer.curr_game">🎯 Partita Attuale</div>
 					<div class="score-cmp-val score-curr-val" id="drawer-curr-score">0</div>
 				</div>
 			</div>
-			<div class="score-cmp-status" id="drawer-score-diff">Nessun record ancora registrato</div>
+			<div class="score-cmp-status" id="drawer-score-diff" data-i18n="drawer.no_record_yet">Nessun record ancora registrato</div>
 		</div>
 
 		<!-- Classifica Top 10 Giocatori -->
 		<div class="drawer-leaderboard-card">
 			<div class="drawer-lb-header">
-				<span class="drawer-lb-title">🏆 TOP 10 CLASSIFICA</span>
-				<button class="drawer-lb-refresh" id="btn-refresh-lb" title="Aggiorna classifica" aria-label="Aggiorna classifica">🔄</button>
+				<span class="drawer-lb-title" data-i18n="drawer.top10_title">🏆 TOP 10 CLASSIFICA</span>
+				<button class="drawer-lb-refresh" id="btn-refresh-lb" title="Aggiorna classifica" aria-label="Aggiorna classifica" data-i18n-title="drawer.refresh_lb" data-i18n-aria="drawer.refresh_lb">🔄</button>
 			</div>
 			<div class="drawer-lb-list" id="drawer-lb-list">
-				<div class="drawer-lb-loading">⏳ Caricamento classifica...</div>
+				<div class="drawer-lb-loading" data-i18n="drawer.loading_lb">⏳ Caricamento classifica...</div>
 			</div>
 		</div>
 
 		<div class="jukebox-panel" id="jukebox-panel">
 			<div class="jukebox-header">
-				<span class="jukebox-badge">🎵 JUKEBOX ZEN</span>
+				<span class="jukebox-badge" data-i18n="drawer.jukebox_title">🎵 JUKEBOX ZEN</span>
 				<span class="jukebox-track-tag" id="jukebox-track-tag">1/7</span>
 			</div>
 			
-			<div class="jukebox-title" id="jukebox-title" title="Traccia in riproduzione">Zen Remix Main Arcade Melody</div>
+			<div class="jukebox-title" id="jukebox-title" title="Traccia in riproduzione" data-i18n-title="drawer.track_playing">Zen Remix Main Arcade Melody</div>
 			
 			<div class="jukebox-timeline">
 				<span class="jukebox-time-num" id="jukebox-time-cur">0:00</span>
 				<div class="jukebox-progress-wrap">
-					<input type="range" id="jukebox-progress" class="jukebox-progress-slider" min="0" max="1000" value="0" step="1" aria-label="Avanzamento brano">
+					<input type="range" id="jukebox-progress" class="jukebox-progress-slider" min="0" max="1000" value="0" step="1" aria-label="Avanzamento brano" data-i18n-aria="drawer.progress_aria">
 				</div>
 				<span class="jukebox-time-num" id="jukebox-time-dur">0:00</span>
 			</div>
 
 			<div class="jukebox-controls">
-				<button class="jukebox-btn" id="btn-prev-track" title="Traccia precedente" aria-label="Traccia precedente">⏮️</button>
-				<button class="jukebox-btn jukebox-play" id="btn-play-track" title="Play/Pausa" aria-label="Play/Pausa">⏸️</button>
-				<button class="jukebox-btn" id="btn-next-track" title="Traccia successiva" aria-label="Traccia successiva">⏭️</button>
-				<button class="jukebox-btn" id="btn-random-track" title="Traccia casuale" aria-label="Traccia casuale">🔀</button>
+				<button class="jukebox-btn" id="btn-prev-track" title="Traccia precedente" aria-label="Traccia precedente" data-i18n-title="drawer.prev_track" data-i18n-aria="drawer.prev_track">⏮️</button>
+				<button class="jukebox-btn jukebox-play" id="btn-play-track" title="Play/Pausa" aria-label="Play/Pausa" data-i18n-title="drawer.play_pause" data-i18n-aria="drawer.play_pause">⏸️</button>
+				<button class="jukebox-btn" id="btn-next-track" title="Traccia successiva" aria-label="Traccia successiva" data-i18n-title="drawer.next_track" data-i18n-aria="drawer.next_track">⏭️</button>
+				<button class="jukebox-btn" id="btn-random-track" title="Traccia casuale" aria-label="Traccia casuale" data-i18n-title="drawer.random_track" data-i18n-aria="drawer.random_track">🔀</button>
 			</div>
-			<select class="jukebox-select" id="jukebox-playlist-select" aria-label="Seleziona traccia"></select>
+			<select class="jukebox-select" id="jukebox-playlist-select" aria-label="Seleziona traccia" data-i18n-aria="drawer.select_track"></select>
 			
 			<div class="jukebox-volume-card">
-				<button class="jukebox-vol-btn" id="jukebox-vol-btn" title="Muto / Attiva" aria-label="Muto / Attiva">🔊</button>
+				<button class="jukebox-vol-btn" id="jukebox-vol-btn" title="Muto / Attiva" aria-label="Muto / Attiva" data-i18n-title="drawer.mute_unmute" data-i18n-aria="drawer.mute_unmute">🔊</button>
 				<div class="jukebox-vol-slider-wrap">
 					<div class="jukebox-vol-head">
-						<span class="jukebox-vol-caption">Volume Musica</span>
+						<span class="jukebox-vol-caption" data-i18n="drawer.music_vol">Volume Musica</span>
 						<span class="jukebox-vol-pct" id="jukebox-volume-val">35%</span>
 					</div>
-					<input type="range" id="jukebox-volume" class="jukebox-volume-slider" min="0" max="100" value="35" aria-label="Volume musica">
+					<input type="range" id="jukebox-volume" class="jukebox-volume-slider" min="0" max="100" value="35" aria-label="Volume musica" data-i18n-aria="drawer.music_vol">
 				</div>
 			</div>
 		</div>
 
 		<div class="drawer-action-buttons">
-			<button class="btn btn-action-main" id="btn-hint">💡 Suggerimento</button>
-			<button class="btn btn-action-main" id="btn-undo">↩️ Annulla</button>
-			<button class="btn btn-action-main" id="btn-shuffle">🔀 Rimescola <span id="shuffle-count">x3</span></button>
-			<button class="btn btn-action-main" id="btn-new">🔄 Riavvia Livello</button>
-			<button class="btn btn-action-main" id="btn-sfx-drawer">🔊 Effetti: ON</button>
+			<button class="btn btn-action-main" id="btn-hint" data-i18n="drawer.btn_hint">💡 Suggerimento</button>
+			<button class="btn btn-action-main" id="btn-undo" data-i18n="drawer.btn_undo">↩️ Annulla</button>
+			<button class="btn btn-action-main" id="btn-shuffle"><span data-i18n="drawer.btn_shuffle">🔀 Rimescola</span> <span id="shuffle-count">x3</span></button>
+			<button class="btn btn-action-main" id="btn-new" data-i18n="drawer.btn_restart">🔄 Riavvia Livello</button>
+			<button class="btn btn-action-main" id="btn-sfx-drawer" data-i18n="drawer.sfx_drawer_on">🔊 Effetti: ON</button>
 		</div>
 
 		<!-- Pannello Modalità Sviluppatore (Visibile SOLO quando Dev Mode è attiva) -->
 		<div class="dev-tools-card" id="dev-tools-card">
 			<div class="dev-tools-header">
-				<span class="dev-tools-title">🛠️ STRUMENTI SVILUPPATORE</span>
-				<span class="dev-tools-badge">DEV ON</span>
+				<span class="dev-tools-title" data-i18n="dev.title">🛠️ STRUMENTI SVILUPPATORE</span>
+				<span class="dev-tools-badge" data-i18n="dev.badge">DEV ON</span>
 			</div>
 			<div class="dev-layout-info" id="dev-layout-info">Layout: --</div>
 			<div class="dev-tools-row">
-				<label for="level-input" class="dev-label">Livello:</label>
+				<label for="level-input" class="dev-label" data-i18n="dev.level_label">Livello:</label>
 				<input type="number" id="level-input" class="btn-level-input" min="1" max="330" value="1" aria-label="Level number">
-				<button class="btn btn-dev-btn" id="btn-level-go">Vai</button>
-				<button class="btn btn-dev-btn" id="btn-dev-win" title="Test vittoria immediata">⚡ Win</button>
+				<button class="btn btn-dev-btn" id="btn-level-go" data-i18n="dev.go">Vai</button>
+				<button class="btn btn-dev-btn" id="btn-dev-win" title="Test vittoria immediata" data-i18n="dev.win">⚡ Win</button>
 			</div>
 			<div class="dev-tools-row" style="margin-top: 4px;">
-				<button class="btn btn-dev-btn" id="btn-dev-reset-l1" style="flex: 1;">⏮️ Livello 1</button>
-				<button class="btn btn-dev-btn" id="btn-dev-reset-all" style="flex: 1.3; background: #8e1c1c; color: #fff; border-color: #e74c3c;">🧹 Reset Dati</button>
-				<button class="btn btn-dev-off" id="btn-dev-toggle-off" style="flex: 0.8;">❌ Chiudi</button>
+				<button class="btn btn-dev-btn" id="btn-dev-reset-l1" style="flex: 1;" data-i18n="dev.reset_l1">⏮️ Livello 1</button>
+				<button class="btn btn-dev-btn" id="btn-dev-reset-all" style="flex: 1.3; background: #8e1c1c; color: #fff; border-color: #e74c3c;" data-i18n="dev.reset_all">🧹 Reset Dati</button>
+				<button class="btn btn-dev-off" id="btn-dev-toggle-off" style="flex: 0.8;" data-i18n="dev.close">❌ Chiudi</button>
 			</div>
 		</div>
 	</div>
@@ -488,19 +488,22 @@
 			<p id="modal-stars"></p>
 			<p id="modal-stats"></p>
 			<p class="modal-login-hint" id="modal-login-hint" style="display: none;">🔒 <a href="/wp-login.php" target="_top">Accedi o Registrati</a> per registrare il record in classifica!</p>
-			<button class="btn btn-modal-shuffle" id="btn-modal-shuffle" style="display: none;">🔀 Usa Shuffle e Continua</button>
+			<button class="btn btn-modal-shuffle" id="btn-modal-shuffle" style="display: none;" data-i18n="modal.btn_shuffle_continue">🔀 Usa Shuffle e Continua</button>
 			<button class="btn" id="btn-play-again">▶ Next level</button>
 		</div>
 	</div>
 
-	<script src="layouts.js?v=1.8.0"></script>
-	<script src="engine.js?v=1.8.0"></script>
-	<script src="data.js?v=1.8.0"></script>
-	<script src="app.js?v=1.8.0"></script>
-	<script src="ui.js?v=1.8.0"></script>
-	<script src="input.js?v=1.8.0"></script>
-	<script src="progress.js?v=1.8.0"></script>
-	<script src="player.js?v=1.8.0"></script>
-	<script src="audio.js?v=1.8.0"></script>
+	<script src="js/i18n/it.js?v=1.8.1"></script>
+	<script src="js/i18n/en.js?v=1.8.1"></script>
+	<script src="js/i18n.js?v=1.8.1"></script>
+	<script src="layouts.js?v=1.8.1"></script>
+	<script src="engine.js?v=1.8.1"></script>
+	<script src="data.js?v=1.8.1"></script>
+	<script src="app.js?v=1.8.1"></script>
+	<script src="ui.js?v=1.8.1"></script>
+	<script src="input.js?v=1.8.1"></script>
+	<script src="progress.js?v=1.8.1"></script>
+	<script src="player.js?v=1.8.1"></script>
+	<script src="audio.js?v=1.8.1"></script>
 </body>
 </html>

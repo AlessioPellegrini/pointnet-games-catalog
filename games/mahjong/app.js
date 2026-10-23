@@ -14,6 +14,23 @@
 	var MAX_STAGING = 4;
 
 	/* ============================================================
+	   I18N INITIALIZATION
+	   ============================================================ */
+	if (typeof window.I18n !== 'undefined' && typeof window.I18n.init === 'function') {
+		window.I18n.init();
+		window.I18n.onLanguageChange(function() {
+			if (typeof updateDrawerScoreComparison === 'function') {
+				updateDrawerScoreComparison();
+			}
+			var btnSfxEl = document.getElementById('btn-sfx-drawer');
+			if (btnSfxEl) {
+				var isMuted = typeof sfxMuted !== 'undefined' ? sfxMuted : false;
+				btnSfxEl.textContent = isMuted ? window.I18n.t('drawer.sfx_drawer_off') : window.I18n.t('drawer.sfx_drawer_on');
+			}
+		});
+	}
+
+	/* ============================================================
 	   DOM REFERENCES
 	   ============================================================ */
 	var wrap = document.getElementById('board-wrap');

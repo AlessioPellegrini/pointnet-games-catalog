@@ -50,12 +50,13 @@
 				time_seconds: app.elapsed
 			});
 
-			modalTitle.textContent = (bInfo.icon || '🀄') + ' ' + bInfo.name + ' Completata!';
+			var tTitle = (window.I18n && window.I18n.t) ? window.I18n.t('modal.board_cleared', { icon: bInfo.icon || '🀄', name: bInfo.name }) : ((bInfo.icon || '🀄') + ' ' + bInfo.name + ' Completata!');
+			modalTitle.textContent = tTitle;
 			modalStars.textContent = '⭐'.repeat(app.stars) + '☆'.repeat(3 - app.stars);
 			modalStats.innerHTML = '🎯 Tavola: <b>' + bInfo.name + ' (144 Tessere)</b><br>' +
 				'⏱️ Tempo: <b>' + app.elapsed + 's</b> · Punti: <b>' + speedrunScore.toLocaleString() + ' pt</b><br>' +
 				'⭐ Stelle: ' + app.stars + '/3' + (strategicBonus > 0 ? (' (inclusi +' + strategicBonus + ' bonus)') : '');
-			if (btnPlayAgain) btnPlayAgain.textContent = '🔄 Rigioca Tavola';
+			if (btnPlayAgain) btnPlayAgain.textContent = (window.I18n && window.I18n.t) ? window.I18n.t('modal.btn_replay_board') : '🔄 Rigioca Tavola';
 		} else {
 			var levelNum = app.levelIndex + 1;
 			saveStars(levelNum, app.stars);
@@ -75,7 +76,7 @@
 
 			if (levelNum === 330) {
 				/* GRAND FINALE CELEBRATION (v1.3.4) */
-				modalTitle.textContent = '👑 CAMPIONE SUPREMO! 👑';
+				modalTitle.textContent = (window.I18n && window.I18n.t) ? window.I18n.t('modal.supreme_champion') : '👑 CAMPIONE SUPREMO! 👑';
 				var totalStars = 0;
 				for (var l in bestStars) {
 					if (Object.prototype.hasOwnProperty.call(bestStars, l)) totalStars += bestStars[l];
@@ -85,14 +86,18 @@
 					'🏆 Punteggio Record Cumulativo: <b>' + computeCumulative().toLocaleString() + ' pt</b><br>' +
 					'⏱️ Tempo Ultimo Livello: ' + app.elapsed + 's' +
 					(strategicBonus > 0 ? (' (inclusi +' + strategicBonus + ' bonus strategici!)') : '');
-				if (btnPlayAgain) btnPlayAgain.textContent = '🔄 Rigioca Livelli';
+				if (btnPlayAgain) btnPlayAgain.textContent = (window.I18n && window.I18n.t) ? window.I18n.t('modal.btn_replay_levels') : '🔄 Rigioca Livelli';
 			} else {
 				var bBossTitle = (LAST_LEVEL_DEF && LAST_LEVEL_DEF.classicTitle) ? ('Sfida ' + LAST_LEVEL_DEF.classicTitle) : 'Sfida Classica';
-				modalTitle.textContent = (app.mode === 'classic') ? ('🏛️ ' + bBossTitle + ' Completata!') : '🏆 Livello Superato!';
+				if (app.mode === 'classic') {
+					modalTitle.textContent = (window.I18n && window.I18n.t) ? window.I18n.t('modal.board_cleared', { icon: '🏛️', name: bBossTitle }) : ('🏛️ ' + bBossTitle + ' Completata!');
+				} else {
+					modalTitle.textContent = (window.I18n && window.I18n.t) ? window.I18n.t('modal.cleared') : '🏆 Livello Superato!';
+				}
 				modalStars.textContent = '⭐'.repeat(app.stars) + '☆'.repeat(3 - app.stars);
 				var ptsText = (app.score > 0) ? ('🎯 Punteggio: <b>' + app.score + ' pt</b>' + (strategicBonus > 0 ? (' (+' + strategicBonus + ' bonus)') : '') + '<br>') : '';
 				modalStats.innerHTML = ptsText + '⏱️ Tempo: ' + app.elapsed + 's · ⭐ Stelle: ' + app.stars + '/3';
-				if (btnPlayAgain) btnPlayAgain.textContent = '▶ Livello ' + (levelNum + 1);
+				if (btnPlayAgain) btnPlayAgain.textContent = (window.I18n && window.I18n.t) ? window.I18n.t('modal.btn_next_level', { num: levelNum + 1 }) : ('▶ Livello ' + (levelNum + 1));
 			}
 		}
 

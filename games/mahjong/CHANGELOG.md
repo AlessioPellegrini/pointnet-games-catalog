@@ -1,6 +1,6 @@
 # Mahjong Arcade — Changelog & Note di Sviluppo
 
-> **Versione corrente: 1.7.0** — vedi `manifest.json`, `index.html` e `README.md`.
+> **Versione corrente: 1.8.1** — vedi `manifest.json`, `index.html` e `README.md`.
 > File per lo **storico essenziale**, i vincoli di design e le istruzioni di estensione.
 > Gli script di verifica sono permanenti in `games/mahjong/tests/` (non in /tmp).
 
@@ -41,7 +41,16 @@ le funzioni REALI del gioco (`validateSupport`, `buildProgression`).
 
 ## Changelog
 
-### v1.8.0 — Modalità Classica Libera (Free Play 144) & Rotazione 4 Tavole Tradizionali (HEAD)
+### v1.8.1 — Internazionalizzazione Micro-Engine (IT/EN) & Armonizzazione Standard Catalog (HEAD)
+- **Motore di Internazionalizzazione Micro-Engine (`js/i18n.js`)**:
+  - Introdotto il motore i18n a cascata standardizzato coerente con Minesweeper: prioritizza i parametri URL (`?lang=`, `?locale=`), i messaggi inter-frame (`postMessage` da host WordPress), il `localStorage`, il tag HTML e il navigator di sistema.
+  - Creazione dei dizionari bilingue completi (`js/i18n/it.js` e `js/i18n/en.js`).
+  - Traduzione dinamica e automatica via attributi DOM `data-i18n`, `data-i18n-title` e `data-i18n-aria`.
+  - Localizzazione delle schermate splash, status bar, controlli, drawer delle azioni (jukebox, confronto record, top 10) e modali di vittoria/sconfitta.
+- **Armonizzazione Architetturale**:
+  - Sincronizzazione delle versioni asset (`?v=1.8.1`) e documentazione.
+
+### v1.8.0 — Modalità Classica Libera (Free Play 144) & Rotazione 4 Tavole Tradizionali
 - **4 Grandi Tavole Tradizionali a 144 Tessere (`layouts.js`)**:
   - `classic_turtle` (144 tessere, 5 strati): la leggendaria Tartaruga Shanghai tradizionale con testa, 4 zampe e carapace a cupola.
   - `classic_ziggurat` (144 tessere, 5 strati): maestosa piramide concentrica a gradoni che culmina in un apice centrale sacro a 6 tessere.
