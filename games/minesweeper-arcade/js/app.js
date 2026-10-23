@@ -1439,7 +1439,7 @@
 				document.documentElement.requestFullscreen().catch(function () {});
 			}
 			document.body.classList.add('pointnet-games-fs');
-			fsCloseBtn.style.display = 'flex';
+			if (fsCloseBtn) fsCloseBtn.style.display = 'inline-flex';
 		}
 	}
 
@@ -1452,11 +1452,11 @@
 				document.exitFullscreen().catch(function () {});
 			}
 			document.body.classList.remove('pointnet-games-fs');
-			fsCloseBtn.style.display = 'none';
+			if (fsCloseBtn) fsCloseBtn.style.display = 'none';
 		}
 	}
 
-	fsCloseBtn.addEventListener('click', exitGameFullscreen);
+	if (fsCloseBtn) fsCloseBtn.addEventListener('click', exitGameFullscreen);
 
 	var resizeTimer = null;
 	window.addEventListener('resize', function () {

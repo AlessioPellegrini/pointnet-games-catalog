@@ -1,6 +1,6 @@
 # 💣 Minesweeper
  
-> **Versione: 1.5.4** — *The Clean One* aesthetics, doppia modalità (Classica 4 preset + Scalata 18 livelli), Pan & Pinch-to-Zoom, Didattica interattiva con Navigazione Storico Mosse (Undo/Redo ↩️/↪️), Scanner Pattern Tattici Interattivo con spiegazione cella per cella (1-2-1, 1-2-2-1, 1-2-X, 1-1-X), Heatmap e supporto Multi-lingua (IT/EN) coordinato con WordPress.
+> **Versione: 1.5.5** — *The Clean One* aesthetics, doppia modalità (Classica 4 preset + Scalata 18 livelli), Pan & Pinch-to-Zoom, Didattica interattiva con Navigazione Storico Mosse (Undo/Redo ↩️/↪️), Scanner Pattern Tattici Interattivo con spiegazione cella per cella (1-2-1, 1-2-2-1, 1-2-X, 1-1-X), Heatmap e supporto Multi-lingua (IT/EN) coordinato con WordPress.
 
 Ispirato al design e all'esperienza tattile di *Minesweeper: The Clean One*, con **doppia modalità di gioco**: la classica partita singola a selezione libera o l'emozionante modalità Scalata a 18 livelli progressivi fino al livello Estremo!
 
@@ -8,7 +8,15 @@ Ispirato al design e all'esperienza tattile di *Minesweeper: The Clean One*, con
 
 ## 📝 Changelog
 
-### 1.5.4 (current)
+### 1.5.5 (current)
+- **Risoluzione Sovrapposizioni e Duplicati Fullscreen**: integrato il pulsante di uscita da schermo intero `✕` (`#fs-close`) direttamente nella riga dei controlli (`.action-buttons-row`) anziché in posizione fissa sovrapposta al wrapper WordPress.
+- **Distinzione Icona Adatta Tavola**: aggiornata l'icona del pulsante di zoom fit a `🔲` (Adatta tavola) per evitare confusione con l'icona fullscreen `⛶` del player WordPress.
+- **Layout Mobile & Schermi Stretti Ottimizzato**:
+  - Introdotto flex-wrap e riposizionamento a 2 livelli su schermi compatti (< 600px e < 440px) per `.bottom-bar` e `.mode-pill-selector`, eliminando ogni overflow orizzontale.
+  - Compattati i controlli HUD e la barra di avanzamento livello su schermi inferiori a 440px.
+  - Banner Didattica responsive: visualizzazione su 2 livelli con compattazione automatica delle etichette su mobile stretto.
+
+### 1.5.4
 - **Raffinamento Rigoroso Spiegazioni Pattern**: corretta la descrizione della regola di riduzione insiemistica (ex "Angolo 1") allineandola formalmente ai canoni matematici e alla guida strategica ufficiale di [minesweepergame.com](https://minesweepergame.com/strategy/patterns.php), descrivendo fedelmente l'inclusione di sottoinsiemi a prescindere dal numero di celle coperte.
 - **Ottimizzazione Popup Fine Tavola Didattica**: eliminato il pulsante duplicato del menu nel modale di completamento, sostituendolo con "🔁 Rigioca Tavola" affiancato a "🏠 Menu".
 - **Sincronizzazione Completa Dizionari IT/EN**: localizzazione accurata e bilingue di tutti i testi didattici e dei pulsanti modali.

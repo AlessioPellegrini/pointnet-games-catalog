@@ -636,28 +636,23 @@
 			50% { box-shadow: 0 8px 38px rgba(56, 189, 248, 0.7); }
 		}
 
-		/* Fullscreen exit button */
+		/* Fullscreen exit button in action buttons row */
 		.fs-close {
-			position: fixed;
-			top: 12px;
-			right: 12px;
-			z-index: 1000;
-			width: 36px;
-			height: 36px;
-			border: none;
-			border-radius: 10px;
-			background: rgba(14, 19, 31, 0.8);
-			color: #fca5a5;
-			font-size: 1.1rem;
-			cursor: pointer;
 			display: none;
-			align-items: center;
-			justify-content: center;
-			backdrop-filter: blur(4px);
+			color: #fca5a5;
+			border-color: rgba(239, 68, 68, 0.35);
+			background: rgba(239, 68, 68, 0.18);
 		}
 
-		.fs-close:hover { background: rgba(239, 68, 68, 0.85); color: #fff; }
-		body.pointnet-games-fs .fs-close { display: flex; }
+		.fs-close:hover {
+			background: rgba(239, 68, 68, 0.85);
+			color: #fff;
+			border-color: #ef4444;
+		}
+
+		body.pointnet-games-fs .fs-close {
+			display: inline-flex;
+		}
 
 		/* ============================================================
 		   LANDSCAPE MODE — DOCKING HUD TO SIDE (Clean One Mobile Style)
@@ -748,3 +743,117 @@
 			.splash-hint { display: none; }
 			.splash-author { display: none; }
 		}
+
+		/* ============================================================
+		   MOBILE RESPONSIVE — ADAPT HUD, BOTTOM BAR & CONTROLS
+		   ============================================================ */
+		@media (max-width: 600px) {
+			.app-container {
+				padding: 8px 10px;
+			}
+
+			.hud-header {
+				padding: 6px 10px;
+			}
+
+			.hud-item {
+				gap: 4px;
+				font-size: 0.86rem;
+			}
+
+			.hud-level-pill .level-badge {
+				font-size: 0.7rem;
+			}
+
+			.level-progress-bar {
+				width: 45px;
+			}
+
+			/* Bottom Controller Bar responsive wrapping */
+			.bottom-bar {
+				gap: 8px;
+				flex-wrap: wrap;
+				justify-content: center;
+			}
+
+			.mode-pill-selector {
+				padding: 3px;
+				gap: 2px;
+			}
+
+			.pill-btn {
+				padding: 6px 12px;
+				font-size: 0.8rem;
+				gap: 4px;
+			}
+
+			.action-buttons-row {
+				gap: 5px;
+			}
+
+			.icon-action-btn {
+				width: 34px;
+				height: 34px;
+				font-size: 0.92rem;
+			}
+		}
+
+		@media (max-width: 440px) {
+			.app-container {
+				padding: 6px 8px;
+			}
+
+			.hud-header {
+				padding: 5px 8px;
+			}
+
+			.hud-item {
+				font-size: 0.8rem;
+				gap: 3px;
+			}
+
+			.hud-item span:first-child {
+				font-size: 0.85rem;
+			}
+
+			.hud-level-pill .level-badge {
+				font-size: 0.65rem;
+			}
+
+			.level-progress-bar {
+				width: 36px;
+				height: 3px;
+			}
+
+			.bottom-bar {
+				flex-direction: column;
+				align-items: center;
+				gap: 6px;
+			}
+
+			.mode-pill-selector {
+				width: 100%;
+				display: flex;
+				justify-content: stretch;
+			}
+
+			.pill-btn {
+				flex: 1;
+				justify-content: center;
+				padding: 6px 8px;
+				font-size: 0.78rem;
+			}
+
+			.action-buttons-row {
+				width: 100%;
+				justify-content: center;
+				gap: 8px;
+			}
+
+			.icon-action-btn {
+				width: 36px;
+				height: 36px;
+				font-size: 0.95rem;
+			}
+		}
+

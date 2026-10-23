@@ -20,7 +20,7 @@ window.POINTNET_I18N['en'] = {
 		time: "Time",
 		score: "Score",
 		level: "LVL",
-		zoom_fit: "Fit to screen",
+		zoom_fit: "Fit board",
 		zoom_in: "Zoom In",
 		zoom_out: "Zoom Out",
 		sound_toggle: "Toggle Sound",

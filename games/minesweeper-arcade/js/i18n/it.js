@@ -20,7 +20,7 @@ window.POINTNET_I18N['it'] = {
 		time: "Tempo",
 		score: "Punteggio",
 		level: "LVL",
-		zoom_fit: "Adatta a tutto schermo",
+		zoom_fit: "Adatta tavola",
 		zoom_in: "Ingrandisci (Zoom In)",
 		zoom_out: "Rimpicciolisci (Zoom Out)",
 		sound_toggle: "Attiva/Disattiva Suono",

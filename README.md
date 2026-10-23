@@ -18,9 +18,9 @@ pointnet-games-catalog/
 ## 🎮 Giochi Inclusi
 
 ### 1. Minesweeper (`minesweeper-arcade`)
-- **Versione:** 1.3.5
+- **Versione:** 1.5.5
 - **Modalità:** Classica (Facile, Medio, Difficile, Estremo) e Scalata Progressiva 18 livelli.
-- **Caratteristiche:** Pan & Pinch-to-zoom engine, chording rapido, audio tattile, OLED dark mode.
+- **Caratteristiche:** Pan & Pinch-to-zoom engine, chording rapido, audio tattile, OLED dark mode, modalità Didattica interattiva bilingue con scanner pattern tattici.
 
 ### 2. Mahjong Arcade (`mahjong`)
 - **Versione:** 1.8.0

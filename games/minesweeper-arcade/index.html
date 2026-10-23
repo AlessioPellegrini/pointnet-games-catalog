@@ -4,15 +4,15 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 	<title>Minesweeper Arcade</title>
-	<link rel="stylesheet" href="css/style.css?v=1.5.4">
-	<link rel="stylesheet" href="css/tutorial.css?v=1.5.4">
+	<link rel="stylesheet" href="css/style.css?v=1.5.5">
+	<link rel="stylesheet" href="css/tutorial.css?v=1.5.5">
 </head>
 <body>
 
 	<div id="splash">
 		<div class="splash-inner">
 			<div class="splash-emoji">💣</div>
-			<h1 class="splash-title">Minesweeper<sup class="splash-version">v1.5.4</sup></h1>
+			<h1 class="splash-title">Minesweeper<sup class="splash-version">v1.5.5</sup></h1>
 			<div id="splash-player-status" class="splash-player-status" data-i18n="game.verifying_account">Verifica account in corso...</div>
 
 			<!-- SELETTORE MODALITÀ TABS -->
@@ -66,8 +66,6 @@
 		</div>
 	</div>
 
-	<button id="fs-close" class="fs-close" title="Exit fullscreen" data-i18n-title="game.exit_fullscreen">✕</button>
-
 	<div class="app-container" id="game" data-game-id="" data-game-slug="minesweeper-arcade">
 		<div class="didactic-banner" id="didactic-banner">
 			<div class="didactic-banner-left">
@@ -111,11 +109,12 @@
 					<button class="pill-btn inspect-btn" id="btn-mode-inspect" style="display:none" data-i18n-title="game.tap_to_inspect" title="Tocca una casella per spiegazione">🔍 <span data-i18n="game.info">Info</span></button>
 				</div>
 				<div class="action-buttons-row">
-					<button class="icon-action-btn" id="btn-zoom-fit" data-i18n-title="game.zoom_fit" title="Adatta a tutto schermo">⛶</button>
+					<button class="icon-action-btn" id="btn-zoom-fit" data-i18n-title="game.zoom_fit" title="Adatta tavola">🔲</button>
 					<button class="icon-action-btn" id="btn-zoom-in" data-i18n-title="game.zoom_in" title="Ingrandisci (Zoom In)">＋</button>
 					<button class="icon-action-btn" id="btn-zoom-out" data-i18n-title="game.zoom_out" title="Rimpicciolisci (Zoom Out)">−</button>
 					<button class="icon-action-btn" id="sound-toggle" data-i18n-title="game.sound_toggle" title="Attiva/Disattiva Suono">🔊</button>
 					<button class="icon-action-btn" id="btn-menu" data-i18n-title="game.home_menu" title="Menu Principale">🏠</button>
+					<button class="icon-action-btn fs-close" id="fs-close" data-i18n-title="game.exit_fullscreen" title="Esci da schermo intero">✕</button>
 				</div>
 			</div>
 		</div>
@@ -151,14 +150,14 @@
 	</div>
 
 	<!-- i18n Micro Engine and Language Packs -->
-	<script src="js/i18n/it.js?v=1.5.4"></script>
-	<script src="js/i18n/en.js?v=1.5.4"></script>
-	<script src="js/i18n.js?v=1.5.4"></script>
+	<script src="js/i18n/it.js?v=1.5.5"></script>
+	<script src="js/i18n/en.js?v=1.5.5"></script>
+	<script src="js/i18n.js?v=1.5.5"></script>
 
 	<!-- Game Modules -->
-	<script src="js/audio.js?v=1.5.4"></script>
-	<script src="js/viewport.js?v=1.5.4"></script>
-	<script src="js/solver.js?v=1.5.4"></script>
-	<script src="js/app.js?v=1.5.4"></script>
+	<script src="js/audio.js?v=1.5.5"></script>
+	<script src="js/viewport.js?v=1.5.5"></script>
+	<script src="js/solver.js?v=1.5.5"></script>
+	<script src="js/app.js?v=1.5.5"></script>
 </body>
 </html>
