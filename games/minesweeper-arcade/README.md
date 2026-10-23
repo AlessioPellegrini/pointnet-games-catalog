@@ -1,6 +1,6 @@
 # 💣 Minesweeper
  
-> **Versione: 1.5.8** — *The Clean One* aesthetics, doppia modalità (Classica 4 preset + Scalata 18 livelli), Pan & Pinch-to-Zoom, Didattica interattiva con Navigazione Storico Mosse (Undo/Redo ↩️/↪️), Scanner Pattern Tattici Interattivo con spiegazione cella per cella (1-2-1, 1-2-2-1, 1-2-X, 1-1-X), Heatmap e supporto Multi-lingua (IT/EN) coordinato con WordPress.
+> **Versione: 1.5.9** — *The Clean One* aesthetics, doppia modalità (Classica 4 preset + Scalata 18 livelli), Pan & Pinch-to-Zoom, Didattica interattiva con Navigazione Storico Mosse (Undo/Redo ↩️/↪️), Scanner Pattern Tattici Interattivo con spiegazione cella per cella (1-2-1, 1-2-2-1, 1-2-X, 1-1-X), Heatmap e supporto Multi-lingua (IT/EN) coordinato con WordPress.
 
 Ispirato al design e all'esperienza tattile di *Minesweeper: The Clean One*, con **doppia modalità di gioco**: la classica partita singola a selezione libera o l'emozionante modalità Scalata a 18 livelli progressivi fino al livello Estremo!
 
@@ -8,7 +8,13 @@ Ispirato al design e all'esperienza tattile di *Minesweeper: The Clean One*, con
 
 ## 📝 Changelog
 
-### 1.5.8 (current)
+### 1.5.9 (current)
+- **Raffinamento Interazione Pattern Tattici vs Inspector**:
+  - Toccando una casella evidenziata dal pattern in modalità `Scava` o `Bandiera`, il pattern rimane attivo e visibile sul tabellone e viene mostrata la spiegazione didattica specifica con il nome ufficiale del pattern (`1-2-1`, `1-2-X`, ecc.) e l'azione dedotta (`🚩 Mina` o `🟢 Libera`).
+  - Se invece è attiva la modalità `🔍 Info (Inspect)`, il tocco sulla casella apre l'ispezione analitica della singola cella resettando i pattern.
+  - Il toast iniziale del pulsante `🧩 Pattern` elenca direttamente i nomi di tutti i pattern identificati sul campo.
+
+### 1.5.8
 - **Disattivazione Zoom Nativo del Browser (`touch-action: none`)**: eliminato il fastidioso zoom accidentale della pagina eseguito da browser mobile (Chrome/Safari) al doppio tocco veloce, bloccando nativamente l'evento `dblclick`.
 - **Doppio Tap Altamente Reattivo su Arena di Gioco**: cattura affidabile del doppio tocco (< 380ms con tolleranza di spostamento di 30px) su qualsiasi punto dell'arena di gioco e delle caselle scoperte per invertire `⛏️ Scava` e `🚩 Bandiera`.
 - **Toggle Istantaneo al Tocco del Pill Selector**: toccando qualsiasi punto del pulsante o della modalità già attiva nel selettore in basso, si inverte all'istante lo stato senza dover mirare al tasto opposto.

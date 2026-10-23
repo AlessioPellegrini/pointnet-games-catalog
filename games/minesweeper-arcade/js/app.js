@@ -396,15 +396,10 @@
 					var cell = state.board[r] && state.board[r][c];
 					if (!cell) return;
 
-					// If in Didactic Mode and Inspect button is active, explain any clicked cell!
-					if (state.isDidactic && state.inputMode === 'inspect') {
-						inspectCell(r, c);
-						return;
-					}
-
-					// If in Didactic Mode with Patterns highlighted, check if clicked cell belongs to a pattern!
-					if (state.isDidactic && state.patternsActive && state.activePatterns && state.activePatterns.length > 0) {
-						var matchedPattern = state.activePatterns.find(function (p) {
+					// If cell belongs to a highlighted Pattern and we are in dig or flag mode, explain the pattern and keep it highlighted!
+					if (state.isDidactic && state.patternsActive && state.inputMode !== 'inspect' &&
+						(el.classList.contains('cell-pattern-clue') || el.classList.contains('cell-pattern-safe') || el.classList.contains('cell-pattern-mine') || (state.activePatterns && state.activePatterns.length > 0))) {
+						var matchedPattern = state.activePatterns && state.activePatterns.find(function (p) {
 							var inCause = p.causeCells && p.causeCells.some(function (pos) { return pos.r === r && pos.c === c; });
 							var inTarget = p.targetCells && p.targetCells.some(function (pos) { return pos.r === r && pos.c === c; });
 							return inCause || inTarget;
@@ -414,6 +409,12 @@
 							showPatternDetail(matchedPattern);
 							return;
 						}
+					}
+
+					// If in Didactic Mode and Inspect button is active, explain any clicked cell!
+					if (state.isDidactic && state.inputMode === 'inspect') {
+						inspectCell(r, c);
+						return;
 					}
 
 					clearDidacticHighlights(state.heatmapEnabled);
@@ -1140,8 +1141,8 @@
 
 	function showPatternDetail(pattern) {
 		if (!pattern) return;
-		var icon = pattern.action === 'flag' ? '🚩 Mina Garantita dal Pattern' : '🟢 Casella Sicura dal Pattern';
-		didacticToastTitle.innerHTML = '🧩 ' + pattern.patternName;
+		var badge = pattern.action === 'flag' ? '🚩 Mina' : '🟢 Libera';
+		didacticToastTitle.innerHTML = '🧩 ' + pattern.patternName + ' <span style="font-size:0.75rem; font-weight:700; opacity:0.85; margin-left:6px;">(' + badge + ')</span>';
 		didacticToastText.textContent = pattern.explanation;
 		didacticToast.classList.add('show');
 		haptic(15);
@@ -1189,12 +1190,21 @@
 			});
 		});
 
-		var msg = patterns.length === 1 ?
+		// Collect unique pattern names
+		var uniqueNames = [];
+		patterns.forEach(function (p) {
+			if (p.patternName && uniqueNames.indexOf(p.patternName) === -1) {
+				uniqueNames.push(p.patternName);
+			}
+		});
+
+		var namesListStr = uniqueNames.join(', ');
+		var countMsg = patterns.length === 1 ?
 			(window.I18n ? window.I18n.t('didactic.patterns_found_single') : 'Trovato 1 pattern tattico!') :
 			(window.I18n ? window.I18n.t('didactic.patterns_found', { count: patterns.length }) : ('Trovati ' + patterns.length + ' pattern tattici!'));
 
 		didacticToastTitle.innerHTML = '🧩 ' + (window.I18n ? window.I18n.t('didactic.patterns') : 'Pattern');
-		didacticToastText.textContent = msg;
+		didacticToastText.textContent = countMsg + (namesListStr ? ' (' + namesListStr + '). Tocca le caselle viola per i dettagli.' : '');
 		didacticToast.classList.add('show');
 		haptic(20);
 	}
