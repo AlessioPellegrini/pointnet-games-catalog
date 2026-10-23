@@ -10,7 +10,7 @@ window.POINTNET_I18N['en'] = {
 		verifying_account: "Verifying account...",
 		account_ready: "Account verified",
 		guest_mode: "Guest Mode",
-		hint_scroll_zoom: "Quick tap to Dig/Flag · Double-tap or long-press to invert · Two-finger tap toggles mode · Tap numbers to chord",
+		hint_scroll_zoom: "Tap to Dig/Flag · Double-tap on open cells or two-finger tap to toggle mode · Hold to flag or tap flag to clear",
 		dig: "Dig",
 		flag: "Flag",
 		info: "Info",

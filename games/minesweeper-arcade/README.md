@@ -1,6 +1,6 @@
 # 💣 Minesweeper
  
-> **Versione: 1.5.6** — *The Clean One* aesthetics, doppia modalità (Classica 4 preset + Scalata 18 livelli), Pan & Pinch-to-Zoom, Didattica interattiva con Navigazione Storico Mosse (Undo/Redo ↩️/↪️), Scanner Pattern Tattici Interattivo con spiegazione cella per cella (1-2-1, 1-2-2-1, 1-2-X, 1-1-X), Heatmap e supporto Multi-lingua (IT/EN) coordinato con WordPress.
+> **Versione: 1.5.7** — *The Clean One* aesthetics, doppia modalità (Classica 4 preset + Scalata 18 livelli), Pan & Pinch-to-Zoom, Didattica interattiva con Navigazione Storico Mosse (Undo/Redo ↩️/↪️), Scanner Pattern Tattici Interattivo con spiegazione cella per cella (1-2-1, 1-2-2-1, 1-2-X, 1-1-X), Heatmap e supporto Multi-lingua (IT/EN) coordinato con WordPress.
 
 Ispirato al design e all'esperienza tattile di *Minesweeper: The Clean One*, con **doppia modalità di gioco**: la classica partita singola a selezione libera o l'emozionante modalità Scalata a 18 livelli progressivi fino al livello Estremo!
 
@@ -8,7 +8,12 @@ Ispirato al design e all'esperienza tattile di *Minesweeper: The Clean One*, con
 
 ## 📝 Changelog
 
-### 1.5.6 (current)
+### 1.5.7 (current)
+- **Doppio Tap Globale Intelligente per Alternare Modalità**: effettuando un doppio tap rapido (< 320ms) su qualsiasi area scoperta o sullo sfondo del campo di gioco, si inverte all'istante la modalità attiva tra `⛏️ Scava` e `🚩 Bandiera`, preservando la reattività a 0ms dello scavo sulle celle coperte senza rischio di falsi positivi.
+- **Rimozione Sicura Diretta della Bandiera**: toccando una casella con bandiera già posizionata, un tap singolo la toglie immediatamente.
+- **Perfezionamento Scorciatoie**: allineate le istruzioni touch bilingue in splash screen.
+
+### 1.5.6
 - **Doppio Tap Rapido per Invertire Azione**: toccando rapidamente due volte una casella coperta (< 280ms) si inverte l'azione primaria (in modalità *Scava* un doppio tap piazza/rimuove la bandiera; in modalità *Bandiera* un doppio tap scava immediatamente).
 - **Quick Long-Press Tattile (230ms)**: abbassata la latenza della pressione prolungata per piazzare la bandiera da 350ms a 230ms con feedback aptico istantaneo (`haptic(22)`).
 - **Scorciatoia Tap a 2 Dita (Two-Finger Tap)**: toccare la tavola con due dita simultanee inverte all'istante la modalità globale tra `⛏️ Scava` e `🚩 Bandiera`.

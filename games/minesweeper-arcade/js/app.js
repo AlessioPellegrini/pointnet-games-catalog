@@ -424,21 +424,13 @@
 						return;
 					}
 
-					// Double-tap detection on covered cell: inverts current primary action!
-					// e.g. In Dig mode: single tap = Dig, double tap = Flag/Unflag.
-					//      In Flag mode: single tap = Flag, double tap = Dig.
-					var now = Date.now();
-					var isDoubleTap = el._lastClickTime && (now - el._lastClickTime < 280);
-					el._lastClickTime = now;
-
-					var effectiveAction = state.inputMode;
-					if (isDoubleTap) {
-						// Invert action on rapid double tap
-						effectiveAction = (state.inputMode === 'flag') ? 'dig' : 'flag';
-						el._lastClickTime = 0; // reset to avoid triple-tap trigger
+					// If cell is already flagged, any tap on it removes the flag safely!
+					if (cell.flagged) {
+						handleFlag(r, c);
+						return;
 					}
 
-					if (effectiveAction === 'flag') {
+					if (state.inputMode === 'flag') {
 						handleFlag(r, c);
 					} else {
 						handleReveal(r, c);
@@ -1366,7 +1358,7 @@
 		btnModeInspect.addEventListener('click', function () { setInputMode('inspect'); });
 	}
 
-	// Quick Mode Toggle Shortcut: Two-Finger Tap anywhere on the board viewport toggles between Dig and Flag!
+	// Quick Mode Toggle Shortcut 1: Two-Finger Tap anywhere on the board toggles between Dig and Flag!
 	var twoFingerTouchStart = 0;
 	boardViewportEl.addEventListener('touchstart', function (e) {
 		if (e.touches && e.touches.length === 2) {
@@ -1377,9 +1369,33 @@
 	}, { passive: true });
 
 	boardViewportEl.addEventListener('touchend', function (e) {
-		if (twoFingerTouchStart && (Date.now() - twoFingerTouchStart < 300) && (!e.touches || e.touches.length === 0)) {
+		if (twoFingerTouchStart && (Date.now() - twoFingerTouchStart < 320) && (!e.touches || e.touches.length === 0)) {
 			toggleInputMode();
 			twoFingerTouchStart = 0;
+		}
+	}, { passive: true });
+
+	// Quick Mode Toggle Shortcut 2: Rapid Double-Tap anywhere on revealed cells or the board arena background!
+	var lastArenaTapTime = 0;
+	var lastArenaTapTarget = null;
+	boardViewportEl.addEventListener('touchend', function (e) {
+		// Only check single-finger touches
+		if (e.touches && e.touches.length > 0) return;
+		var target = e.target;
+		if (!target) return;
+
+		// Check if target is a revealed cell (without trigger on numbers/chording) or arena background
+		var isRevealedCell = target.classList && target.classList.contains('cell') && target.classList.contains('revealed');
+		var isBoardArena = target === boardViewportEl || target === boardLayerEl || target === boardEl;
+
+		if (isRevealedCell || isBoardArena) {
+			var now = Date.now();
+			if (lastArenaTapTime && (now - lastArenaTapTime < 320)) {
+				toggleInputMode();
+				lastArenaTapTime = 0;
+			} else {
+				lastArenaTapTime = now;
+			}
 		}
 	}, { passive: true });
 
