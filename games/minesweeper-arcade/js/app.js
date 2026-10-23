@@ -282,7 +282,7 @@
 	   RENDERING & BOARD DISPLAY
 	   ============================================================ */
 	function clearDidacticHighlights(keepHeatmap, keepPatterns) {
-		var classesToRemove = ['cell-hint-inspect', 'cell-hint-cause'];
+		var classesToRemove = ['cell-hint-inspect', 'cell-hint-cause', 'cell-pattern-focus'];
 		if (!keepHeatmap) {
 			classesToRemove.push('cell-hint-safe', 'cell-hint-mine', 'cell-hint-guess');
 		}
@@ -292,6 +292,8 @@
 			state.activePatterns = [];
 			if (btnDidacticPatterns) btnDidacticPatterns.classList.remove('active');
 		}
+
+		if (boardEl) boardEl.classList.remove('pattern-focus-active');
 
 		var selector = '.' + classesToRemove.join(', .');
 		var highlighted = boardEl.querySelectorAll(selector);
@@ -1141,11 +1143,28 @@
 
 	function showPatternDetail(pattern) {
 		if (!pattern) return;
+
+		// Clear previous individual pattern focus
+		var oldFocused = boardEl.querySelectorAll('.cell-pattern-focus');
+		oldFocused.forEach(function (el) { el.classList.remove('cell-pattern-focus'); });
+
+		// Activate spotlight on board (dims other cells)
+		boardEl.classList.add('pattern-focus-active');
+
+		// Highlight this specific pattern's cause cells and target cells
+		var patternCells = (pattern.causeCells || []).concat(pattern.targetCells || []);
+		patternCells.forEach(function (pos) {
+			var el = boardEl.querySelector('[data-r="' + pos.r + '"][data-c="' + pos.c + '"]');
+			if (el) {
+				el.classList.add('cell-pattern-focus');
+			}
+		});
+
 		var badge = pattern.action === 'flag' ? '🚩 Mina' : '🟢 Libera';
 		didacticToastTitle.innerHTML = '🧩 ' + pattern.patternName + ' <span style="font-size:0.75rem; font-weight:700; opacity:0.85; margin-left:6px;">(' + badge + ')</span>';
 		didacticToastText.textContent = pattern.explanation;
 		didacticToast.classList.add('show');
-		haptic(15);
+		haptic(18);
 	}
 
 	function toggleDidacticPatterns() {

@@ -305,6 +305,7 @@ body.didactic-mode .cell.flagged.didactic-wrong-flag {
 	z-index: 7;
 	cursor: pointer;
 	animation: pulsePatternClue 1.3s infinite alternate;
+	transition: opacity 0.2s ease, filter 0.2s ease, transform 0.2s ease;
 }
 
 .cell.cell-pattern-safe {
@@ -314,6 +315,7 @@ body.didactic-mode .cell.flagged.didactic-wrong-flag {
 	z-index: 6;
 	cursor: pointer;
 	animation: pulseSafe 1.4s infinite alternate;
+	transition: opacity 0.2s ease, filter 0.2s ease, transform 0.2s ease;
 }
 
 .cell.cell-pattern-mine {
@@ -323,6 +325,38 @@ body.didactic-mode .cell.flagged.didactic-wrong-flag {
 	z-index: 6;
 	cursor: pointer;
 	animation: pulseMine 1.4s infinite alternate;
+	transition: opacity 0.2s ease, filter 0.2s ease, transform 0.2s ease;
+}
+
+/* Spotlight Focus: when a specific pattern is focused/inspected */
+.board.pattern-focus-active .cell:not(.cell-pattern-focus) {
+	opacity: 0.22 !important;
+	filter: grayscale(80%) blur(0.4px);
+	transition: opacity 0.25s ease, filter 0.25s ease;
+}
+
+.cell.cell-pattern-focus {
+	opacity: 1 !important;
+	filter: none !important;
+	z-index: 10 !important;
+	transform: scale(1.06);
+	box-shadow: 0 0 24px #38bdf8, 0 0 10px #c084fc, inset 0 0 10px rgba(56, 189, 248, 0.7) !important;
+	border-color: #38bdf8 !important;
+}
+
+.cell.cell-pattern-focus.cell-pattern-clue {
+	border-color: #e879f9 !important;
+	box-shadow: 0 0 24px #e879f9, 0 0 12px #c084fc, inset 0 0 8px rgba(232, 121, 249, 0.6) !important;
+}
+
+.cell.cell-pattern-focus.cell-pattern-safe {
+	border-color: #34d399 !important;
+	box-shadow: 0 0 24px #34d399, 0 0 12px #10b981, inset 0 0 8px rgba(52, 211, 153, 0.6) !important;
+}
+
+.cell.cell-pattern-focus.cell-pattern-mine {
+	border-color: #f87171 !important;
+	box-shadow: 0 0 24px #f87171, 0 0 12px #ef4444, inset 0 0 8px rgba(248, 113, 113, 0.6) !important;
 }
 
 @keyframes pulsePatternClue {
