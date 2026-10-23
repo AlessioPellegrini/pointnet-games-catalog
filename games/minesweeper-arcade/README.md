@@ -1,6 +1,6 @@
 # 💣 Minesweeper
  
-> **Versione: 1.5.7** — *The Clean One* aesthetics, doppia modalità (Classica 4 preset + Scalata 18 livelli), Pan & Pinch-to-Zoom, Didattica interattiva con Navigazione Storico Mosse (Undo/Redo ↩️/↪️), Scanner Pattern Tattici Interattivo con spiegazione cella per cella (1-2-1, 1-2-2-1, 1-2-X, 1-1-X), Heatmap e supporto Multi-lingua (IT/EN) coordinato con WordPress.
+> **Versione: 1.5.8** — *The Clean One* aesthetics, doppia modalità (Classica 4 preset + Scalata 18 livelli), Pan & Pinch-to-Zoom, Didattica interattiva con Navigazione Storico Mosse (Undo/Redo ↩️/↪️), Scanner Pattern Tattici Interattivo con spiegazione cella per cella (1-2-1, 1-2-2-1, 1-2-X, 1-1-X), Heatmap e supporto Multi-lingua (IT/EN) coordinato con WordPress.
 
 Ispirato al design e all'esperienza tattile di *Minesweeper: The Clean One*, con **doppia modalità di gioco**: la classica partita singola a selezione libera o l'emozionante modalità Scalata a 18 livelli progressivi fino al livello Estremo!
 
@@ -8,7 +8,12 @@ Ispirato al design e all'esperienza tattile di *Minesweeper: The Clean One*, con
 
 ## 📝 Changelog
 
-### 1.5.7 (current)
+### 1.5.8 (current)
+- **Disattivazione Zoom Nativo del Browser (`touch-action: none`)**: eliminato il fastidioso zoom accidentale della pagina eseguito da browser mobile (Chrome/Safari) al doppio tocco veloce, bloccando nativamente l'evento `dblclick`.
+- **Doppio Tap Altamente Reattivo su Arena di Gioco**: cattura affidabile del doppio tocco (< 380ms con tolleranza di spostamento di 30px) su qualsiasi punto dell'arena di gioco e delle caselle scoperte per invertire `⛏️ Scava` e `🚩 Bandiera`.
+- **Toggle Istantaneo al Tocco del Pill Selector**: toccando qualsiasi punto del pulsante o della modalità già attiva nel selettore in basso, si inverte all'istante lo stato senza dover mirare al tasto opposto.
+
+### 1.5.7
 - **Doppio Tap Globale Intelligente per Alternare Modalità**: effettuando un doppio tap rapido (< 320ms) su qualsiasi area scoperta o sullo sfondo del campo di gioco, si inverte all'istante la modalità attiva tra `⛏️ Scava` e `🚩 Bandiera`, preservando la reattività a 0ms dello scavo sulle celle coperte senza rischio di falsi positivi.
 - **Rimozione Sicura Diretta della Bandiera**: toccando una casella con bandiera già posizionata, un tap singolo la toglie immediatamente.
 - **Perfezionamento Scorciatoie**: allineate le istruzioni touch bilingue in splash screen.

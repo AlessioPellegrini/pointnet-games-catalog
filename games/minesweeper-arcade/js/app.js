@@ -1352,15 +1352,34 @@
 		}
 	}
 
-	btnModeDig.addEventListener('click', function () { setInputMode('dig'); });
-	btnModeFlag.addEventListener('click', function () { setInputMode('flag'); });
+	btnModeDig.addEventListener('click', function () {
+		if (state.inputMode === 'dig') {
+			setInputMode('flag');
+		} else {
+			setInputMode('dig');
+		}
+	});
+
+	btnModeFlag.addEventListener('click', function () {
+		if (state.inputMode === 'flag') {
+			setInputMode('dig');
+		} else {
+			setInputMode('flag');
+		}
+	});
+
 	if (btnModeInspect) {
 		btnModeInspect.addEventListener('click', function () { setInputMode('inspect'); });
 	}
 
+	// Prevent browser native double-tap zoom
+	document.addEventListener('dblclick', function (e) {
+		e.preventDefault();
+	}, { passive: false });
+
 	// Quick Mode Toggle Shortcut 1: Two-Finger Tap anywhere on the board toggles between Dig and Flag!
 	var twoFingerTouchStart = 0;
-	boardViewportEl.addEventListener('touchstart', function (e) {
+	boardArenaEl.addEventListener('touchstart', function (e) {
 		if (e.touches && e.touches.length === 2) {
 			twoFingerTouchStart = Date.now();
 		} else {
@@ -1368,34 +1387,39 @@
 		}
 	}, { passive: true });
 
-	boardViewportEl.addEventListener('touchend', function (e) {
-		if (twoFingerTouchStart && (Date.now() - twoFingerTouchStart < 320) && (!e.touches || e.touches.length === 0)) {
+	boardArenaEl.addEventListener('touchend', function (e) {
+		if (twoFingerTouchStart && (Date.now() - twoFingerTouchStart < 350) && (!e.touches || e.touches.length === 0)) {
 			toggleInputMode();
 			twoFingerTouchStart = 0;
 		}
 	}, { passive: true });
 
-	// Quick Mode Toggle Shortcut 2: Rapid Double-Tap anywhere on revealed cells or the board arena background!
-	var lastArenaTapTime = 0;
-	var lastArenaTapTarget = null;
-	boardViewportEl.addEventListener('touchend', function (e) {
-		// Only check single-finger touches
+	// Quick Mode Toggle Shortcut 2: Rapid Double-Tap anywhere on the board arena or revealed areas!
+	var lastTapTime = 0;
+	var lastTapX = 0;
+	var lastTapY = 0;
+
+	boardArenaEl.addEventListener('touchend', function (e) {
 		if (e.touches && e.touches.length > 0) return;
+		var touch = e.changedTouches && e.changedTouches[0];
+		if (!touch) return;
+
 		var target = e.target;
-		if (!target) return;
+		// Exclude covered unrevealed cells so digging is always single-tap immediate
+		if (target && target.classList && target.classList.contains('cell') && !target.classList.contains('revealed')) {
+			return;
+		}
 
-		// Check if target is a revealed cell (without trigger on numbers/chording) or arena background
-		var isRevealedCell = target.classList && target.classList.contains('cell') && target.classList.contains('revealed');
-		var isBoardArena = target === boardViewportEl || target === boardLayerEl || target === boardEl;
+		var now = Date.now();
+		var dist = Math.hypot(touch.clientX - lastTapX, touch.clientY - lastTapY);
 
-		if (isRevealedCell || isBoardArena) {
-			var now = Date.now();
-			if (lastArenaTapTime && (now - lastArenaTapTime < 320)) {
-				toggleInputMode();
-				lastArenaTapTime = 0;
-			} else {
-				lastArenaTapTime = now;
-			}
+		if (lastTapTime && (now - lastTapTime < 380) && dist < 30) {
+			toggleInputMode();
+			lastTapTime = 0;
+		} else {
+			lastTapTime = now;
+			lastTapX = touch.clientX;
+			lastTapY = touch.clientY;
 		}
 	}, { passive: true });
 
