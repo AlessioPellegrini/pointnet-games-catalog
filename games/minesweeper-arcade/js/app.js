@@ -2249,6 +2249,7 @@
 	initWPGamesBridge();
 	wirePostMessageAPI();
 	ViewportManager.init(boardViewportEl, boardLayerEl, boardEl);
+	renderAcademyList();
 	var initialDims = getGridDimensions();
 	state.safeCells = initialDims.rows * initialDims.cols - initialDims.mines;
 	initBoard(initialDims.rows, initialDims.cols);
