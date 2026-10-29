@@ -1696,7 +1696,7 @@
 		if (typeof MinesweeperAcademy === 'undefined') return;
 		var lessons = MinesweeperAcademy.getLessons();
 		var prog = MinesweeperAcademy.getProgress();
-		var isIt = !window.I18n || window.I18n.getLocale() === 'it';
+		var isIt = !window.I18n || (window.I18n.getLanguage ? window.I18n.getLanguage() === 'it' : (window.I18n.getLocale ? window.I18n.getLocale() === 'it' : true));
 		var unlockedLvl = prog.unlockedLevel || 1;
 		var nextLessonIdx = Math.min(lessons.length - 1, unlockedLvl - 1);
 
@@ -1811,7 +1811,7 @@
 		splashEl.classList.add('hidden');
 		requestGameFullscreen();
 
-		var isIt = !window.I18n || window.I18n.getLocale() === 'it';
+		var isIt = !window.I18n || (window.I18n.getLanguage ? window.I18n.getLanguage() === 'it' : (window.I18n.getLocale ? window.I18n.getLocale() === 'it' : true));
 		levelLabelEl.textContent = 'LEZ ' + lesson.level + '.' + (puzzleIndex + 1);
 		levelProgressEl.style.width = ((lesson.level / MinesweeperAcademy.getLessons().length) * 100) + '%';
 
@@ -1868,7 +1868,7 @@
 			(puzzle.alternateTarget && puzzle.alternateTarget.r === r && puzzle.alternateTarget.c === c);
 		var isCorrectAction = (action === puzzle.requiredAction);
 
-		var isIt = !window.I18n || window.I18n.getLocale() === 'it';
+		var isIt = !window.I18n || (window.I18n.getLanguage ? window.I18n.getLanguage() === 'it' : (window.I18n.getLocale ? window.I18n.getLocale() === 'it' : true));
 
 		if (isTarget && isCorrectAction) {
 			AudioFX.levelUp();

@@ -71,6 +71,10 @@
 			return currentLang;
 		},
 
+		getLocale: function() {
+			return currentLang;
+		},
+
 		setLanguage: function(lang) {
 			var norm = normalizeLang(lang);
 			if (norm === currentLang) return;
