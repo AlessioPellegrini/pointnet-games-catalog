@@ -399,6 +399,17 @@ body.didactic-mode .cell.flagged.didactic-wrong-flag {
 	to { box-shadow: 0 0 20px rgba(192, 132, 252, 1); transform: scale(1.08); }
 }
 
+/* Academy & Didactic: Muted non-pattern numbers so pattern is immediately evident */
+.cell.cell-didactic-muted {
+	opacity: 0.35 !important;
+	filter: grayscale(40%);
+	transition: opacity 0.25s ease, filter 0.25s ease;
+}
+
+.cell.cell-didactic-muted:hover {
+	opacity: 0.7 !important;
+}
+
 /* ============================================================
    DIDACTIC BANNER RESPONSIVE
    ============================================================ */

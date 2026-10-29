@@ -1861,6 +1861,54 @@
 		mineCountEl.textContent = Math.max(0, mineCount - state.flags);
 		renderBoard();
 
+		// Highlight the pattern numbers in glowing purple/gold and mark the target cell
+		var patternCoords = {};
+		if (puzzle.patternCells && puzzle.patternCells.length > 0) {
+			puzzle.patternCells.forEach(function (pc) {
+				patternCoords[pc.r + ',' + pc.c] = true;
+				var el = boardEl.querySelector('[data-r="' + pc.r + '"][data-c="' + pc.c + '"]');
+				if (el) el.classList.add('cell-pattern-clue');
+			});
+		} else {
+			// Se non specificato esplicitamente, individua le celle causa tramite solver
+			var hint = (typeof MinesweeperSolver !== 'undefined') ? MinesweeperSolver.findHint(state.board, puzzle.rows, puzzle.cols, 0) : null;
+			if (hint && hint.causeCells) {
+				hint.causeCells.forEach(function (pc) {
+					patternCoords[pc.r + ',' + pc.c] = true;
+					var el = boardEl.querySelector('[data-r="' + pc.r + '"][data-c="' + pc.c + '"]');
+					if (el) el.classList.add('cell-pattern-clue');
+				});
+			}
+		}
+
+		// Evidenzia la casella bersaglio (verde per scavo, rossa per bandiera, o per chording)
+		var targets = [];
+		if (puzzle.target) targets.push(puzzle.target);
+		if (puzzle.alternateTarget) targets.push(puzzle.alternateTarget);
+		targets.forEach(function (tg) {
+			patternCoords[tg.r + ',' + tg.c] = true;
+			var el = boardEl.querySelector('[data-r="' + tg.r + '"][data-c="' + tg.c + '"]');
+			if (el) {
+				if (puzzle.requiredAction === 'flag') {
+					el.classList.add('cell-pattern-mine');
+				} else {
+					el.classList.add('cell-pattern-safe');
+				}
+			}
+		});
+
+		// Attenua (mute) tutti gli altri numeri scoperti che non fanno parte del pattern
+		for (var mr = 0; mr < puzzle.rows; mr++) {
+			for (var mc = 0; mc < puzzle.cols; mc++) {
+				if (!patternCoords[mr + ',' + mc]) {
+					var elMuted = boardEl.querySelector('[data-r="' + mr + '"][data-c="' + mc + '"]');
+					if (elMuted && state.board[mr][mc].revealed) {
+						elMuted.classList.add('cell-didactic-muted');
+					}
+				}
+			}
+		}
+
 		// Show instructional toast
 		var instr = isIt ? puzzle.instruction_it : puzzle.instruction_en;
 		didacticToastTitle.innerHTML = '🎓 ' + (isIt ? lesson.title_it : lesson.title_en);
