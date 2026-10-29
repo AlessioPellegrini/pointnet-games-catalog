@@ -1,7 +1,7 @@
 {
 	"name": "Minesweeper",
 	"slug": "minesweeper-arcade",
-	"version": "1.6.1.6",
+	"version": "1.6.1.7",
 	"author": "PointNet Games",
 	"description": "Minesweeper with tri-mode gameplay (Classic, Scalata 18 levels, and Interactive Academy 'Impara dalle Basi'), multi-language support (IT/EN), Educational Practice Mode (didactic replay on error, undo/redo move history navigation, interactive tactical pattern scanner 🧩 with cell-by-cell explanation for 1-2-1, 1-2-2-1, 1-2-X, 1-1-X and pattern reductions with original numbers notation, rule-based hint deduction, visual heatmap safety overlay, false flag detection, smart cell tutor inspector), Clean One aesthetics, smart chording, pan & pinch-to-zoom, and tactile sound.",
 	"type": "iframe",

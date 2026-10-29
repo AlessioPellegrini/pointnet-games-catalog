@@ -188,21 +188,7 @@
 	/* ============================================================
 	   GRID & DIMENSIONS
 	   ============================================================ */
-	function getGridDimensions() {
-		if (state.board && state.board.length > 0 && state.actualRows && state.actualCols) {
-			var presetMines = 0;
-			if (state.mode === 'classic') {
-				presetMines = (CLASSIC_PRESETS[state.classicDifficulty] || CLASSIC_PRESETS.easy).mines;
-			} else if (state.mode === 'arcade') {
-				presetMines = SCALATA_LEVELS[Math.min(state.levelIndex, SCALATA_LEVELS.length - 1)].mines;
-			}
-			return { rows: state.actualRows, cols: state.actualCols, mines: presetMines };
-		}
-
-		if (state.mode === 'academy' && state.actualRows && state.actualCols) {
-			return { rows: state.actualRows, cols: state.actualCols, mines: 0 };
-		}
-
+	function computeFreshDimensions() {
 		if (state.mode === 'classic') {
 			var preset = CLASSIC_PRESETS[state.classicDifficulty] || CLASSIC_PRESETS.easy;
 			var isPortrait = window.innerHeight > window.innerWidth;
@@ -222,6 +208,24 @@
 			return { rows: level.cols, cols: level.rows, mines: level.mines };
 		}
 		return { rows: level.rows, cols: level.cols, mines: level.mines };
+	}
+
+	function getGridDimensions() {
+		if (state.board && state.board.length > 0 && state.actualRows && state.actualCols) {
+			var presetMines = 0;
+			if (state.mode === 'classic') {
+				presetMines = (CLASSIC_PRESETS[state.classicDifficulty] || CLASSIC_PRESETS.easy).mines;
+			} else if (state.mode === 'arcade') {
+				presetMines = SCALATA_LEVELS[Math.min(state.levelIndex, SCALATA_LEVELS.length - 1)].mines;
+			}
+			return { rows: state.actualRows, cols: state.actualCols, mines: presetMines };
+		}
+
+		if (state.mode === 'academy' && state.actualRows && state.actualCols) {
+			return { rows: state.actualRows, cols: state.actualCols, mines: 0 };
+		}
+
+		return computeFreshDimensions();
 	}
 
 	function initBoard(rows, cols) {
@@ -1473,7 +1477,7 @@
 		timerEl.textContent = '0';
 		scoreTotalEl.textContent = '0';
 
-		var dims = getGridDimensions();
+		var dims = computeFreshDimensions();
 		state.safeCells = dims.rows * dims.cols - dims.mines;
 		initBoard(dims.rows, dims.cols);
 		renderBoard();
@@ -1527,7 +1531,7 @@
 		stopTimer();
 		timerEl.textContent = '0';
 
-		var dims = getGridDimensions();
+		var dims = computeFreshDimensions();
 		state.safeCells = dims.rows * dims.cols - dims.mines;
 		initBoard(dims.rows, dims.cols);
 		renderBoard();
@@ -2063,17 +2067,17 @@
 					};
 				}
 
-				closeBtn.textContent = isIt ? window.I18n.t('academy.back_to_curriculum') : 'Academy';
-				closeBtn.onclick = function () {
-					overlayEl.classList.remove('show');
-					openMenu();
-					switchSplashMode('academy');
-				};
+					closeBtn.textContent = isIt ? window.I18n.t('academy.back_to_curriculum') : 'Academy';
+					closeBtn.onclick = function () {
+						overlayEl.classList.remove('show');
+						openMenu();
+						switchSplashMode('academy');
+					};
 
-				overlayEl.classList.add('show');
+					overlayEl.classList.add('show');
+				}
 			}
-		}
-	} else {
+		} else {
 			AudioFX.lose();
 			haptic(60);
 			var wrongEl = boardEl.querySelector('[data-r="' + r + '"][data-c="' + c + '"]');
