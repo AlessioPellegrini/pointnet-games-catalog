@@ -2072,7 +2072,8 @@
 
 				overlayEl.classList.add('show');
 			}
-		} else {
+		}
+	} else {
 			AudioFX.lose();
 			haptic(60);
 			var wrongEl = boardEl.querySelector('[data-r="' + r + '"][data-c="' + c + '"]');
