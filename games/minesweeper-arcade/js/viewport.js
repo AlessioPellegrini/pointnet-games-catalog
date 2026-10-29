@@ -250,23 +250,7 @@ var ViewportManager = (function () {
 			}
 		});
 
-		// Double-tap on arena toggles Fit vs Zoom
-		var lastTap = 0;
-		viewportEl.addEventListener('touchend', function (e) {
-			var isCell = e.target.classList.contains('cell') || e.target.closest('.cell');
-			if (isCell) return;
-			var now = Date.now();
-			if (now - lastTap < 320) {
-				if (scale < 1.05) {
-					zoomStep(1);
-				} else {
-					fitToScreen(true);
-				}
-				lastTap = 0;
-			} else {
-				lastTap = now;
-			}
-		});
+		// Nota: Lo zoom è controllato da pinch, rotellina mouse e pulsanti + / - / fit nella barra.
 	}
 
 	return {

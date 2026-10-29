@@ -92,11 +92,13 @@ window.POINTNET_I18N['it'] = {
 	},
 	patterns: {
 		pattern_121_name: "Pattern Tattico 1-2-1",
+		pattern_121_reduced_name: "Pattern 1-2-1 Ridotto (da {origSeq})",
 		pattern_121_desc: "Lungo una linea piana, la sequenza 1-2-1 impone che le due caselle esterne siano mine, mentre la casella centrale sia sicura.",
-		pattern_121_reduced_desc: "La combinazione si riduce al pattern 1-2-1 sottraendo le bandiere già posizionate ({redA} - {redB} - {redC}). Le caselle esterne sono mine, la centrale è libera!",
+		pattern_121_reduced_desc: "La combinazione originale {origSeq} si riduce al celebre pattern 1-2-1 sottraendo le bandiere già posizionate ({redA} - {redB} - {redC}). Le caselle esterne sono mine, la centrale è libera!",
 		pattern_1221_name: "Pattern Tattico 1-2-2-1",
+		pattern_1221_reduced_name: "Pattern 1-2-2-1 Ridotto (da {origSeq})",
 		pattern_1221_desc: "La sequenza 1-2-2-1 rivela le mine esattamente davanti ai due '2', mentre le caselle davanti ai due '1' sono sempre sicure al 100%.",
-		pattern_1221_reduced_desc: "Sottraendo le bandiere già note, la sequenza si riduce al celebre pattern 1-2-2-1: le caselle davanti ai 2 sono mine, quelle davanti agli 1 sono libere!",
+		pattern_1221_reduced_desc: "Sottraendo le bandiere note, la sequenza {origSeq} si riduce a 1-2-2-1: le caselle davanti ai 2 sono mine (🚩), quelle davanti agli 1 sono libere (⛏️)!",
 		pattern_12x_name: "Pattern Fondamentale 1-2-X",
 		pattern_12x_desc: "Il {numB} (effettivo {remB}) tocca 3 caselle con 2 mine, ma il {numA} vicino (effettivo {remA}) limita 1 mina alle prime due caselle. La terza casella esterna X è sicuramente una MINA!",
 		pattern_11x_name: "Pattern Bordo / Angolo 1-1-X",
@@ -106,5 +108,21 @@ window.POINTNET_I18N['it'] = {
 		pattern_corner1_name: "Riduzione Insiemistica (Sottoinsieme)",
 		pattern_corner1_desc: "Tutte le caselle coperte toccate dal primo numero sono incluse anche tra quelle del secondo numero. Avendo lo stesso numero di mine rimanenti, le caselle coperte in eccesso toccate solo dal secondo numero sono garantite SICURE al 100%!",
 		reduction_prefix: "Riduzione: {orig} con {flags} bandiera/e si comporta come {eff}."
+	},
+	academy: {
+		tab_title: "🎓 Impara dalle Basi",
+		tab_sub: "Corso pratico a livelli",
+		title: "Scuola di Logica & Strategia",
+		subtitle: "Lezioni progressive con banchi di prova interattivi. Avanzi solo quando dimostri di aver compreso!",
+		level_locked: "🔒 Completa la lezione precedente per sbloccare questo modulo",
+		start_lesson: "▶ Inizia Lezione",
+		retry_lesson: "🔁 Riprova",
+		next_puzzle: "Prossimo Banco di Prova ▶",
+		lesson_passed_title: "🎉 Lezione Superata!",
+		lesson_passed_desc: "Ottimo lavoro! Hai dimostrato la padronanza di questo concetto logico.",
+		continue_course: "Continua con la Prossima Lezione",
+		back_to_curriculum: "Torna alla Scuola",
+		correct_action: "Corretto! Ottima deduzione logica.",
+		wrong_action: "Attenzione: mossa non corretta! Rileggi la spiegazione e riprova."
 	}
 };

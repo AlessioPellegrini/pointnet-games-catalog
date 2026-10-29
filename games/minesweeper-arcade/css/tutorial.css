@@ -166,27 +166,61 @@ body.didactic-mode #btn-mode-inspect {
 	position: fixed;
 	bottom: 80px;
 	left: 50%;
-	transform: translateX(-50%) translateY(20px);
+	transform: translate(-50%, 20px);
 	background: rgba(15, 23, 42, 0.95);
 	border: 1.5px solid #38bdf8;
 	border-radius: 16px;
-	padding: 12px 18px;
+	padding: 10px 18px 14px 18px;
 	max-width: 420px;
 	width: 90%;
 	z-index: 150;
 	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(56, 189, 248, 0.25);
 	opacity: 0;
 	pointer-events: none;
-	transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+	transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
 	backdrop-filter: blur(10px);
 	-webkit-backdrop-filter: blur(10px);
 	text-align: center;
+	touch-action: none;
+	user-select: none;
+	-webkit-user-select: none;
+	cursor: grab;
 }
 
 .didactic-toast.show {
 	opacity: 1;
 	pointer-events: auto;
-	transform: translateX(-50%) translateY(0);
+	transform: translate(-50%, 0);
+}
+
+.didactic-toast.is-dragged {
+	transition: none !important;
+	box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7), 0 0 30px rgba(56, 189, 248, 0.5);
+	cursor: grabbing !important;
+}
+
+/* Indicatore di trascinamento superiore */
+.didactic-toast-handle {
+	width: 100%;
+	padding: 2px 0 6px 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.didactic-toast-handle-bar {
+	display: block;
+	width: 46px;
+	height: 4px;
+	background: rgba(148, 163, 184, 0.45);
+	border-radius: 999px;
+	transition: background 0.2s ease, width 0.2s ease;
+}
+
+.didactic-toast:hover .didactic-toast-handle-bar,
+.didactic-toast.is-dragged .didactic-toast-handle-bar {
+	background: #38bdf8;
+	width: 60px;
 }
 
 .didactic-toast-title {
@@ -205,6 +239,7 @@ body.didactic-mode #btn-mode-inspect {
 	color: #f1f5f9;
 	line-height: 1.4;
 	margin-bottom: 8px;
+	cursor: grab;
 }
 
 .didactic-toast-close {

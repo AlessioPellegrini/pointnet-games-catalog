@@ -92,11 +92,13 @@ window.POINTNET_I18N['en'] = {
 	},
 	patterns: {
 		pattern_121_name: "Tactical Pattern 1-2-1",
+		pattern_121_reduced_name: "Reduced 1-2-1 Pattern (from {origSeq})",
 		pattern_121_desc: "Along a flat wall of hidden cells, a 1-2-1 sequence dictates that the two outer cells are mines, while the center cell is safe.",
-		pattern_121_reduced_desc: "Subtracting placed flags reduces this group to a 1-2-1 pattern ({redA} - {redB} - {redC}). The outer cells are mines, and the middle cell is safe!",
+		pattern_121_reduced_desc: "The original layout {origSeq} reduces to a classic 1-2-1 after subtracting already flagged mines ({redA} - {redB} - {redC}). Outer cells are mines, center cell is safe!",
 		pattern_1221_name: "Tactical Pattern 1-2-2-1",
+		pattern_1221_reduced_name: "Reduced 1-2-2-1 Pattern (from {origSeq})",
 		pattern_1221_desc: "The 1-2-2-1 sequence reveals mines directly facing the two '2's, while cells facing the two '1's are guaranteed 100% safe.",
-		pattern_1221_reduced_desc: "After subtracting known flags, this sequence reduces to 1-2-2-1: cells opposite the 2s are mines, cells opposite the 1s are safe!",
+		pattern_1221_reduced_desc: "After subtracting known flags, {origSeq} reduces to 1-2-2-1: cells opposite the 2s are mines (🚩), cells opposite the 1s are safe (⛏️)!",
 		pattern_12x_name: "Core Pattern 1-2-X",
 		pattern_12x_desc: "Number {numB} (effective {remB}) touches 3 cells with 2 mines, but adjacent {numA} (effective {remA}) restricts 1 mine to the first two cells. The third outer cell X must be a MINE!",
 		pattern_11x_name: "Edge / Corner Pattern 1-1-X",
@@ -106,5 +108,21 @@ window.POINTNET_I18N['en'] = {
 		pattern_corner1_name: "Set Reduction (Subset Safe)",
 		pattern_corner1_desc: "All covered cells touched by the first clue are fully contained within the second clue's reach. Because they share the same remaining mine count, the extra cells touched only by the second clue are guaranteed 100% SAFE!",
 		reduction_prefix: "Reduction: {orig} with {flags} flag(s) behaves as {eff}."
+	},
+	academy: {
+		tab_title: "🎓 Learn the Basics",
+		tab_sub: "Progressive logic academy",
+		title: "Logic & Strategy Academy",
+		subtitle: "Step-by-step masterclasses with interactive proof boards. Advance only when you prove your understanding!",
+		level_locked: "🔒 Complete the previous lesson to unlock this module",
+		start_lesson: "▶ Start Lesson",
+		retry_lesson: "🔁 Retry",
+		next_puzzle: "Next Test Board ▶",
+		lesson_passed_title: "🎉 Lesson Cleared!",
+		lesson_passed_desc: "Well done! You have proven complete mastery of this deduction technique.",
+		continue_course: "Continue to Next Lesson",
+		back_to_curriculum: "Back to Academy",
+		correct_action: "Correct! Excellent logical deduction.",
+		wrong_action: "Incorrect move! Review the explanation and try again."
 	}
 };

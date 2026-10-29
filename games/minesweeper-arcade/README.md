@@ -1,14 +1,34 @@
 # 💣 Minesweeper
  
-> **Versione: 1.5.9** — *The Clean One* aesthetics, doppia modalità (Classica 4 preset + Scalata 18 livelli), Pan & Pinch-to-Zoom, Didattica interattiva con Navigazione Storico Mosse (Undo/Redo ↩️/↪️), Scanner Pattern Tattici Interattivo con spiegazione cella per cella (1-2-1, 1-2-2-1, 1-2-X, 1-1-X), Heatmap e supporto Multi-lingua (IT/EN) coordinato con WordPress.
+> **Versione: 1.6.0** — *The Clean One* aesthetics, tripla modalità (Classica 4 preset, Scalata 18 livelli e 🎓 Scuola di Logica "Impara dalle Basi"), Pan & Pinch-to-Zoom, Didattica interattiva con Navigazione Storico Mosse (Undo/Redo ↩️/↪️), Scanner Pattern Tattici Interattivo con spiegazione cella per cella (1-2-1, 1-2-2-1, 1-2-X, 1-1-X e riduzioni con notazione esplicita), Heatmap e supporto Multi-lingua (IT/EN) coordinato con WordPress.
 
-Ispirato al design e all'esperienza tattile di *Minesweeper: The Clean One*, con **doppia modalità di gioco**: la classica partita singola a selezione libera o l'emozionante modalità Scalata a 18 livelli progressivi fino al livello Estremo!
+Ispirato al design e all'esperienza tattile di *Minesweeper: The Clean One*, con **tripla modalità di gioco**: la classica partita singola a selezione libera, l'emozionante modalità Scalata a 18 livelli progressivi fino al livello Estremo, e la nuova **Scuola di Logica (Academy)** a banchi di prova interattivi!
 
 ---
 
 ## 📝 Changelog
 
-### 1.5.9 (current)
+### 1.6.0 (current)
+- **Scuola di Logica Interattiva ("Impara dalle Basi")**:
+  - Nuovo tab e pannello didattico nello Splash screen con 8 lezioni progressive:
+    1. *Regola della Saturazione (0-safe e 100%-mine)*
+    2. *L'Arte del Chording*
+    3. *Pattern 1-1 su parete*
+    4. *Pattern Fondamentale 1-2-X (la mina esterna)*
+    5. *Pattern Classico 1-2-1*
+    6. *Pattern 1-2-2-1*
+    7. *Riduzioni Algebriche (1-2-2 ➔ 1-2-1)*
+    8. *Angoli e Nicchie (Hole in the Wall)*
+  - Progressione a padronanza (*Mastery-based*): avanzamento al banco di prova successivo o alla lezione seguente solo al compimento dell'esatta deduzione logica (senza tentativi a caso).
+  - Salvataggio locale dei progressi e delle lezioni superate (`localStorage`).
+- **Risoluzione Riconoscimento Pattern 1-2-2 vs 1-2-1 (Riduzioni Algebriche)**:
+  - Risolta la discrepanza rilevata in partita quando un `1-2-2` con bandiera veniva etichettato genericamente come `1-2-1`.
+  - Ora il sistema visualizza il titolo specifico `Pattern 1-2-1 Ridotto (da 1-2-2)` e illustra esplicitamente l'aritmetica delle bandiere (`2 - 1 = 1`) sia nel toast sia nell'ispettore di cella.
+- **Supporto Completo Azioni Pattern 1-2-2-1**:
+  - Evidenziazione sia delle caselle sicure davanti ai due numeri 1, sia delle bandiere certe da posizionare davanti ai due 2.
+- **Sincronizzazione Completa Dizionari IT/EN**: localizzazione accurata e bilingue di tutti i moduli dell'Academy e delle formule di riduzione.
+
+### 1.5.9
 - **Raffinamento Interazione Pattern Tattici vs Inspector**:
   - Toccando una casella evidenziata dal pattern in modalità `Scava` o `Bandiera`, il pattern rimane attivo e visibile sul tabellone e viene mostrata la spiegazione didattica specifica con il nome ufficiale del pattern (`1-2-1`, `1-2-X`, ecc.) e l'azione dedotta (`🚩 Mina` o `🟢 Libera`).
   - Se invece è attiva la modalità `🔍 Info (Inspect)`, il tocco sulla casella apre l'ispezione analitica della singola cella resettando i pattern.

@@ -4,15 +4,15 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 	<title>Minesweeper Arcade</title>
-	<link rel="stylesheet" href="css/style.css?v=1.5.9">
-	<link rel="stylesheet" href="css/tutorial.css?v=1.5.9">
+	<link rel="stylesheet" href="css/style.css?v=1.6.1">
+	<link rel="stylesheet" href="css/tutorial.css?v=1.6.1">
 </head>
 <body>
 
 	<div id="splash">
 		<div class="splash-inner">
 			<div class="splash-emoji">💣</div>
-			<h1 class="splash-title">Minesweeper<sup class="splash-version">v1.5.9</sup></h1>
+			<h1 class="splash-title">Minesweeper<sup class="splash-version">v1.6.0</sup></h1>
 			<div id="splash-player-status" class="splash-player-status" data-i18n="game.verifying_account">Verifica account in corso...</div>
 
 			<!-- SELETTORE MODALITÀ TABS -->
@@ -24,6 +24,10 @@
 				<button type="button" class="splash-tab-btn" id="tab-btn-classic" role="tab" aria-selected="false" aria-controls="panel-classic">
 					<span class="splash-tab-title" data-i18n="game.quick_mode">⚡ Partita Rapida</span>
 					<span class="splash-tab-sub" data-i18n="game.quick_sub">Tavola singola libera</span>
+				</button>
+				<button type="button" class="splash-tab-btn" id="tab-btn-academy" role="tab" aria-selected="false" aria-controls="panel-academy">
+					<span class="splash-tab-title" data-i18n="academy.tab_title">🎓 Scuola di Logica</span>
+					<span class="splash-tab-sub" data-i18n="academy.tab_sub">Corso pratico a livelli</span>
 				</button>
 			</div>
 
@@ -57,6 +61,17 @@
 							<span class="preset-name">💀 <span data-i18n="game.extreme">Estremo</span></span>
 							<span class="preset-details">32 × 18 · 150 💣</span>
 						</button>
+					</div>
+				</div>
+			</div>
+
+			<!-- PANNELLO 3: SCUOLA DI LOGICA / ACADEMY -->
+			<div class="splash-mode-panel" id="panel-academy" role="tabpanel" aria-labelledby="tab-btn-academy">
+				<div class="splash-mode-section academy-section">
+					<div class="splash-section-title" data-i18n="academy.title">🎓 Scuola di Logica & Strategia</div>
+					<p class="splash-section-desc" data-i18n="academy.subtitle">Lezioni progressive con banchi di prova interattivi. Avanzi solo quando dimostri di aver compreso!</p>
+					<div class="academy-lessons-list" id="academy-lessons-list">
+						<!-- Populated dynamically by Academy module -->
 					</div>
 				</div>
 			</div>
@@ -142,22 +157,26 @@
 		</div>
 	</div>
 
-	<!-- Floating Didactic Explanation Toast -->
+	<!-- Floating Didactic Explanation Toast (Draggable) -->
 	<div class="didactic-toast" id="didactic-toast">
+		<div class="didactic-toast-handle" id="didactic-toast-handle" title="Trascina per spostare">
+			<span class="didactic-toast-handle-bar"></span>
+		</div>
 		<div class="didactic-toast-title" id="didactic-toast-title" data-i18n="didactic.toast_title">💡 Spiegazione Didattica</div>
 		<div class="didactic-toast-text" id="didactic-toast-text"></div>
 		<button type="button" class="didactic-toast-close" id="didactic-toast-close" data-i18n="didactic.understood">Ho capito</button>
 	</div>
 
 	<!-- i18n Micro Engine and Language Packs -->
-	<script src="js/i18n/it.js?v=1.5.9"></script>
-	<script src="js/i18n/en.js?v=1.5.9"></script>
-	<script src="js/i18n.js?v=1.5.9"></script>
+	<script src="js/i18n/it.js?v=1.6.1"></script>
+	<script src="js/i18n/en.js?v=1.6.1"></script>
+	<script src="js/i18n.js?v=1.6.1"></script>
 
 	<!-- Game Modules -->
-	<script src="js/audio.js?v=1.5.9"></script>
-	<script src="js/viewport.js?v=1.5.9"></script>
-	<script src="js/solver.js?v=1.5.9"></script>
-	<script src="js/app.js?v=1.5.9"></script>
+	<script src="js/audio.js?v=1.6.0"></script>
+	<script src="js/viewport.js?v=1.6.0"></script>
+	<script src="js/solver.js?v=1.6.0"></script>
+	<script src="js/academy.js?v=1.6.0"></script>
+	<script src="js/app.js?v=1.6.0"></script>
 </body>
 </html>

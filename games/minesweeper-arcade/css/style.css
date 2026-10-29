@@ -643,6 +643,109 @@
 			color: var(--text-muted);
 		}
 
+		/* Academy Mode Section & Cards */
+		.academy-section {
+			max-height: 52vh;
+			overflow-y: auto;
+			padding-right: 6px;
+			-webkit-overflow-scrolling: touch;
+		}
+
+		.academy-lessons-list {
+			display: flex;
+			flex-direction: column;
+			gap: 8px;
+			width: 100%;
+			margin-top: 6px;
+		}
+
+		.academy-card {
+			background: rgba(15, 23, 42, 0.75);
+			border: 1.5px solid rgba(255, 255, 255, 0.1);
+			border-radius: 12px;
+			padding: 10px 12px;
+			text-align: left;
+			cursor: pointer;
+			transition: all 0.2s ease;
+			display: flex;
+			flex-direction: column;
+			gap: 4px;
+			position: relative;
+			font-family: inherit;
+		}
+
+		.academy-card:hover:not(.locked) {
+			background: rgba(30, 41, 59, 0.9);
+			border-color: var(--accent);
+			transform: translateY(-2px);
+			box-shadow: 0 4px 14px rgba(56, 189, 248, 0.25);
+		}
+
+		.academy-card.locked {
+			opacity: 0.45;
+			cursor: not-allowed;
+			filter: grayscale(0.8);
+		}
+
+		.academy-card.completed {
+			border-color: rgba(52, 211, 153, 0.5);
+			background: rgba(6, 95, 70, 0.2);
+		}
+
+		.academy-card-header {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			width: 100%;
+		}
+
+		.academy-card-title {
+			font-size: 0.88rem;
+			font-weight: 800;
+			color: #fff;
+			display: flex;
+			align-items: center;
+			gap: 6px;
+		}
+
+		.academy-card-badge {
+			font-size: 0.68rem;
+			font-weight: 800;
+			padding: 2px 7px;
+			border-radius: 999px;
+			background: rgba(56, 189, 248, 0.18);
+			color: #38bdf8;
+			border: 1px solid rgba(56, 189, 248, 0.3);
+		}
+
+		.academy-card.completed .academy-card-badge {
+			background: rgba(52, 211, 153, 0.2);
+			color: #34d399;
+			border-color: rgba(52, 211, 153, 0.4);
+		}
+
+		.academy-card-desc {
+			font-size: 0.74rem;
+			color: var(--text-muted);
+			line-height: 1.35;
+		}
+
+		.academy-card-footer {
+			margin-top: 4px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+
+		.academy-status-tag {
+			font-size: 0.72rem;
+			font-weight: 700;
+		}
+
+		.academy-card.completed .academy-status-tag { color: #34d399; }
+		.academy-card.locked .academy-status-tag { color: var(--text-muted); }
+		.academy-card:not(.completed):not(.locked) .academy-status-tag { color: #fbbf24; }
+
 		.splash-play { font-size: 1.05rem; padding: 10px 32px; box-shadow: 0 8px 24px var(--accent-glow); animation: pulse-glow 2s ease-in-out infinite; }
 		.splash-hint { margin-top: 8px; color: var(--text-muted); font-size: 0.74rem; line-height: 1.3; }
 		.splash-author { margin-top: 10px; padding-top: 8px; border-top: 1px solid rgba(148, 163, 184, 0.15); color: var(--text-muted); font-size: 0.72rem; width: 100%; }

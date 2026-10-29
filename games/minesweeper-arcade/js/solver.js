@@ -97,8 +97,12 @@ var MinesweeperSolver = (function () {
 					var centerSafe = getCommon(commonLeftMid, commonRightMid);
 
 					var isReduced = (left.number !== 1 || mid.number !== 2 || right.number !== 1);
+					var origSeq = left.number + '-' + mid.number + '-' + right.number;
+					var pName = isReduced ?
+						t('patterns.pattern_121_reduced_name', { origSeq: origSeq }) :
+						t('patterns.pattern_121_name');
 					var expl = isReduced ?
-						t('patterns.pattern_121_reduced_desc', { redA: left.remainingMines, redB: mid.remainingMines, redC: right.remainingMines }) :
+						t('patterns.pattern_121_reduced_desc', { origSeq: origSeq, redA: left.remainingMines, redB: mid.remainingMines, redC: right.remainingMines }) :
 						t('patterns.pattern_121_desc');
 
 					if (centerSafe.length > 0) {
@@ -106,7 +110,7 @@ var MinesweeperSolver = (function () {
 							action: 'reveal',
 							targetCells: centerSafe,
 							causeCells: [{ r: left.r, c: left.c }, { r: mid.r, c: mid.c }, { r: right.r, c: right.c }],
-							patternName: t('patterns.pattern_121_name'),
+							patternName: pName,
 							rule: 'pattern_121',
 							explanation: expl
 						};
@@ -115,7 +119,7 @@ var MinesweeperSolver = (function () {
 							action: 'flag',
 							targetCells: [leftDiff[0], rightDiff[0]],
 							causeCells: [{ r: left.r, c: left.c }, { r: mid.r, c: mid.c }, { r: right.r, c: right.c }],
-							patternName: t('patterns.pattern_121_name'),
+							patternName: pName,
 							rule: 'pattern_121',
 							explanation: expl
 						};
@@ -136,8 +140,12 @@ var MinesweeperSolver = (function () {
 					var centerSafeV = getCommon(commonTopMid, commonBotMid);
 
 					var isReducedV = (top.number !== 1 || mid.number !== 2 || bot.number !== 1);
+					var origSeqV = top.number + '-' + mid.number + '-' + bot.number;
+					var pNameV = isReducedV ?
+						t('patterns.pattern_121_reduced_name', { origSeq: origSeqV }) :
+						t('patterns.pattern_121_name');
 					var explV = isReducedV ?
-						t('patterns.pattern_121_reduced_desc', { redA: top.remainingMines, redB: mid.remainingMines, redC: bot.remainingMines }) :
+						t('patterns.pattern_121_reduced_desc', { origSeq: origSeqV, redA: top.remainingMines, redB: mid.remainingMines, redC: bot.remainingMines }) :
 						t('patterns.pattern_121_desc');
 
 					if (centerSafeV.length > 0) {
@@ -145,7 +153,7 @@ var MinesweeperSolver = (function () {
 							action: 'reveal',
 							targetCells: centerSafeV,
 							causeCells: [{ r: top.r, c: top.c }, { r: mid.r, c: mid.c }, { r: bot.r, c: bot.c }],
-							patternName: t('patterns.pattern_121_name'),
+							patternName: pNameV,
 							rule: 'pattern_121',
 							explanation: explV
 						};
@@ -154,7 +162,7 @@ var MinesweeperSolver = (function () {
 							action: 'flag',
 							targetCells: [topDiff[0], botDiff[0]],
 							causeCells: [{ r: top.r, c: top.c }, { r: mid.r, c: mid.c }, { r: bot.r, c: bot.c }],
-							patternName: t('patterns.pattern_121_name'),
+							patternName: pNameV,
 							rule: 'pattern_121',
 							explanation: explV
 						};
@@ -175,16 +183,34 @@ var MinesweeperSolver = (function () {
 			if (n2 && n3 && n4 && n2.remainingMines === 2 && n3.remainingMines === 2 && n4.remainingMines === 1) {
 				var diff1 = getDifference(n1.unrevealed, n2.unrevealed);
 				var diff4 = getDifference(n4.unrevealed, n3.unrevealed);
+				var innerMines = getDifference(n2.unrevealed, n1.unrevealed);
+				var isRed1221 = (n1.number !== 1 || n2.number !== 2 || n3.number !== 2 || n4.number !== 1);
+				var origSeq1221 = n1.number + '-' + n2.number + '-' + n3.number + '-' + n4.number;
+				var pName1221 = isRed1221 ?
+					t('patterns.pattern_1221_reduced_name', { origSeq: origSeq1221 }) :
+					t('patterns.pattern_1221_name');
+				var expl1221 = isRed1221 ?
+					t('patterns.pattern_1221_reduced_desc', { origSeq: origSeq1221 }) :
+					t('patterns.pattern_1221_desc');
+
 				if (diff1.length > 0 || diff4.length > 0) {
 					var safeTargets = diff1.concat(diff4);
-					var isRed1221 = (n1.number !== 1 || n2.number !== 2 || n3.number !== 2 || n4.number !== 1);
 					return {
 						action: 'reveal',
 						targetCells: safeTargets,
 						causeCells: [{ r: n1.r, c: n1.c }, { r: n2.r, c: n2.c }, { r: n3.r, c: n3.c }, { r: n4.r, c: n4.c }],
-						patternName: t('patterns.pattern_1221_name'),
+						patternName: pName1221,
 						rule: 'pattern_1221',
-						explanation: isRed1221 ? t('patterns.pattern_1221_reduced_desc') : t('patterns.pattern_1221_desc')
+						explanation: expl1221
+					};
+				} else if (innerMines.length > 0) {
+					return {
+						action: 'flag',
+						targetCells: innerMines,
+						causeCells: [{ r: n1.r, c: n1.c }, { r: n2.r, c: n2.c }, { r: n3.r, c: n3.c }, { r: n4.r, c: n4.c }],
+						patternName: pName1221,
+						rule: 'pattern_1221',
+						explanation: expl1221
 					};
 				}
 			}
@@ -197,16 +223,34 @@ var MinesweeperSolver = (function () {
 			if (v2 && v3 && v4 && v2.remainingMines === 2 && v3.remainingMines === 2 && v4.remainingMines === 1) {
 				var vdiff1 = getDifference(n1.unrevealed, v2.unrevealed);
 				var vdiff4 = getDifference(v4.unrevealed, v3.unrevealed);
+				var vInnerMines = getDifference(v2.unrevealed, n1.unrevealed);
+				var isRed1221V = (n1.number !== 1 || v2.number !== 2 || v3.number !== 2 || v4.number !== 1);
+				var origSeq1221V = n1.number + '-' + v2.number + '-' + v3.number + '-' + v4.number;
+				var pName1221V = isRed1221V ?
+					t('patterns.pattern_1221_reduced_name', { origSeq: origSeq1221V }) :
+					t('patterns.pattern_1221_name');
+				var expl1221V = isRed1221V ?
+					t('patterns.pattern_1221_reduced_desc', { origSeq: origSeq1221V }) :
+					t('patterns.pattern_1221_desc');
+
 				if (vdiff1.length > 0 || vdiff4.length > 0) {
 					var vSafeTargets = vdiff1.concat(vdiff4);
-					var isRed1221V = (n1.number !== 1 || v2.number !== 2 || v3.number !== 2 || v4.number !== 1);
 					return {
 						action: 'reveal',
 						targetCells: vSafeTargets,
 						causeCells: [{ r: n1.r, c: n1.c }, { r: v2.r, c: v2.c }, { r: v3.r, c: v3.c }, { r: v4.r, c: v4.c }],
-						patternName: t('patterns.pattern_1221_name'),
+						patternName: pName1221V,
 						rule: 'pattern_1221',
-						explanation: isRed1221V ? t('patterns.pattern_1221_reduced_desc') : t('patterns.pattern_1221_desc')
+						explanation: expl1221V
+					};
+				} else if (vInnerMines.length > 0) {
+					return {
+						action: 'flag',
+						targetCells: vInnerMines,
+						causeCells: [{ r: n1.r, c: n1.c }, { r: v2.r, c: v2.c }, { r: v3.r, c: v3.c }, { r: v4.r, c: v4.c }],
+						patternName: pName1221V,
+						rule: 'pattern_1221',
+						explanation: expl1221V
 					};
 				}
 			}
@@ -358,8 +402,12 @@ var MinesweeperSolver = (function () {
 					var commonRightMid = getCommon(right.unrevealed, mid.unrevealed);
 					var centerSafe = getCommon(commonLeftMid, commonRightMid);
 					var isReduced = (left.number !== 1 || mid.number !== 2 || right.number !== 1);
+					var origSeq = left.number + '-' + mid.number + '-' + right.number;
+					var pName = isReduced ?
+						t('patterns.pattern_121_reduced_name', { origSeq: origSeq }) :
+						t('patterns.pattern_121_name');
 					var expl = isReduced ?
-						t('patterns.pattern_121_reduced_desc', { redA: left.remainingMines, redB: mid.remainingMines, redC: right.remainingMines }) :
+						t('patterns.pattern_121_reduced_desc', { origSeq: origSeq, redA: left.remainingMines, redB: mid.remainingMines, redC: right.remainingMines }) :
 						t('patterns.pattern_121_desc');
 
 					if (centerSafe.length > 0) {
@@ -367,7 +415,7 @@ var MinesweeperSolver = (function () {
 							action: 'reveal',
 							targetCells: centerSafe,
 							causeCells: [{ r: left.r, c: left.c }, { r: mid.r, c: mid.c }, { r: right.r, c: right.c }],
-							patternName: t('patterns.pattern_121_name'),
+							patternName: pName,
 							rule: 'pattern_121',
 							explanation: expl
 						});
@@ -376,7 +424,7 @@ var MinesweeperSolver = (function () {
 						action: 'flag',
 						targetCells: [leftDiff[0], rightDiff[0]],
 						causeCells: [{ r: left.r, c: left.c }, { r: mid.r, c: mid.c }, { r: right.r, c: right.c }],
-						patternName: t('patterns.pattern_121_name'),
+						patternName: pName,
 						rule: 'pattern_121',
 						explanation: expl
 					});
@@ -394,8 +442,12 @@ var MinesweeperSolver = (function () {
 					var commonBotMid = getCommon(bot.unrevealed, mid.unrevealed);
 					var centerSafeV = getCommon(commonTopMid, commonBotMid);
 					var isReducedV = (top.number !== 1 || mid.number !== 2 || bot.number !== 1);
+					var origSeqV = top.number + '-' + mid.number + '-' + bot.number;
+					var pNameV = isReducedV ?
+						t('patterns.pattern_121_reduced_name', { origSeq: origSeqV }) :
+						t('patterns.pattern_121_name');
 					var explV = isReducedV ?
-						t('patterns.pattern_121_reduced_desc', { redA: top.remainingMines, redB: mid.remainingMines, redC: bot.remainingMines }) :
+						t('patterns.pattern_121_reduced_desc', { origSeq: origSeqV, redA: top.remainingMines, redB: mid.remainingMines, redC: bot.remainingMines }) :
 						t('patterns.pattern_121_desc');
 
 					if (centerSafeV.length > 0) {
@@ -403,7 +455,7 @@ var MinesweeperSolver = (function () {
 							action: 'reveal',
 							targetCells: centerSafeV,
 							causeCells: [{ r: top.r, c: top.c }, { r: mid.r, c: mid.c }, { r: bot.r, c: bot.c }],
-							patternName: t('patterns.pattern_121_name'),
+							patternName: pNameV,
 							rule: 'pattern_121',
 							explanation: explV
 						});
@@ -412,7 +464,7 @@ var MinesweeperSolver = (function () {
 						action: 'flag',
 						targetCells: [topDiff[0], botDiff[0]],
 						causeCells: [{ r: top.r, c: top.c }, { r: mid.r, c: mid.c }, { r: bot.r, c: bot.c }],
-						patternName: t('patterns.pattern_121_name'),
+						patternName: pNameV,
 						rule: 'pattern_121',
 						explanation: explV
 					});
@@ -432,16 +484,35 @@ var MinesweeperSolver = (function () {
 			if (n2 && n3 && n4 && n2.remainingMines === 2 && n3.remainingMines === 2 && n4.remainingMines === 1) {
 				var diff1 = getDifference(n1.unrevealed, n2.unrevealed);
 				var diff4 = getDifference(n4.unrevealed, n3.unrevealed);
+				var innerMinesH = getDifference(n2.unrevealed, n1.unrevealed);
+				var isRed1221 = (n1.number !== 1 || n2.number !== 2 || n3.number !== 2 || n4.number !== 1);
+				var origSeq1221 = n1.number + '-' + n2.number + '-' + n3.number + '-' + n4.number;
+				var pName1221 = isRed1221 ?
+					t('patterns.pattern_1221_reduced_name', { origSeq: origSeq1221 }) :
+					t('patterns.pattern_1221_name');
+				var expl1221 = isRed1221 ?
+					t('patterns.pattern_1221_reduced_desc', { origSeq: origSeq1221 }) :
+					t('patterns.pattern_1221_desc');
+
 				if (diff1.length > 0 || diff4.length > 0) {
 					var safeTargets = diff1.concat(diff4);
-					var isRed1221 = (n1.number !== 1 || n2.number !== 2 || n3.number !== 2 || n4.number !== 1);
 					addPattern({
 						action: 'reveal',
 						targetCells: safeTargets,
 						causeCells: [{ r: n1.r, c: n1.c }, { r: n2.r, c: n2.c }, { r: n3.r, c: n3.c }, { r: n4.r, c: n4.c }],
-						patternName: t('patterns.pattern_1221_name'),
+						patternName: pName1221,
 						rule: 'pattern_1221',
-						explanation: isRed1221 ? t('patterns.pattern_1221_reduced_desc') : t('patterns.pattern_1221_desc')
+						explanation: expl1221
+					});
+				}
+				if (innerMinesH.length > 0) {
+					addPattern({
+						action: 'flag',
+						targetCells: innerMinesH,
+						causeCells: [{ r: n1.r, c: n1.c }, { r: n2.r, c: n2.c }, { r: n3.r, c: n3.c }, { r: n4.r, c: n4.c }],
+						patternName: pName1221,
+						rule: 'pattern_1221',
+						explanation: expl1221
 					});
 				}
 			}
@@ -453,16 +524,35 @@ var MinesweeperSolver = (function () {
 			if (v2 && v3 && v4 && v2.remainingMines === 2 && v3.remainingMines === 2 && v4.remainingMines === 1) {
 				var vdiff1 = getDifference(n1.unrevealed, v2.unrevealed);
 				var vdiff4 = getDifference(v4.unrevealed, v3.unrevealed);
+				var vInnerMines = getDifference(v2.unrevealed, n1.unrevealed);
+				var isRed1221V = (n1.number !== 1 || v2.number !== 2 || v3.number !== 2 || v4.number !== 1);
+				var origSeq1221V = n1.number + '-' + v2.number + '-' + v3.number + '-' + v4.number;
+				var pName1221V = isRed1221V ?
+					t('patterns.pattern_1221_reduced_name', { origSeq: origSeq1221V }) :
+					t('patterns.pattern_1221_name');
+				var expl1221V = isRed1221V ?
+					t('patterns.pattern_1221_reduced_desc', { origSeq: origSeq1221V }) :
+					t('patterns.pattern_1221_desc');
+
 				if (vdiff1.length > 0 || vdiff4.length > 0) {
 					var vSafeTargets = vdiff1.concat(vdiff4);
-					var isRed1221V = (n1.number !== 1 || v2.number !== 2 || v3.number !== 2 || v4.number !== 1);
 					addPattern({
 						action: 'reveal',
 						targetCells: vSafeTargets,
 						causeCells: [{ r: n1.r, c: n1.c }, { r: v2.r, c: v2.c }, { r: v3.r, c: v3.c }, { r: v4.r, c: v4.c }],
-						patternName: t('patterns.pattern_1221_name'),
+						patternName: pName1221V,
 						rule: 'pattern_1221',
-						explanation: isRed1221V ? t('patterns.pattern_1221_reduced_desc') : t('patterns.pattern_1221_desc')
+						explanation: expl1221V
+					});
+				}
+				if (vInnerMines.length > 0) {
+					addPattern({
+						action: 'flag',
+						targetCells: vInnerMines,
+						causeCells: [{ r: n1.r, c: n1.c }, { r: v2.r, c: v2.c }, { r: v3.r, c: v3.c }, { r: v4.r, c: v4.c }],
+						patternName: pName1221V,
+						rule: 'pattern_1221',
+						explanation: expl1221V
 					});
 				}
 			}

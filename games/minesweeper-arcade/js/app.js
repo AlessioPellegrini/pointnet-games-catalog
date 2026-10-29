@@ -64,6 +64,7 @@
 		heatmapEnabled: false,
 		patternsActive: false, // Tactical pattern visualizer mode
 		activePatterns: [],    // Currently highlighted pattern list
+		focusedPattern: null,  // Currently zoomed/focused single pattern
 		history: [],       // Snapshots for Undo in didactic mode
 		future: []         // Snapshots for Redo in didactic mode
 	};
@@ -108,6 +109,7 @@
 	var btnDidacticHeatmap = document.getElementById('btn-didactic-heatmap');
 	var btnDidacticHint = document.getElementById('btn-didactic-hint');
 	var didacticToast = document.getElementById('didactic-toast');
+	var didacticToastHandle = document.getElementById('didactic-toast-handle');
 	var didacticToastTitle = document.getElementById('didactic-toast-title');
 	var didacticToastText = document.getElementById('didactic-toast-text');
 	var didacticToastClose = document.getElementById('didactic-toast-close');
@@ -281,8 +283,36 @@
 	/* ============================================================
 	   RENDERING & BOARD DISPLAY
 	   ============================================================ */
+	function dismissPatternFocus() {
+		state.focusedPattern = null;
+		if (boardEl) boardEl.classList.remove('pattern-focus-active');
+		var oldFocused = boardEl.querySelectorAll('.cell-pattern-focus');
+		oldFocused.forEach(function (el) { el.classList.remove('cell-pattern-focus'); });
+
+		// Ripristina il toast panoramico con il riassunto di tutti i pattern trovati
+		if (state.patternsActive && state.activePatterns && state.activePatterns.length > 0) {
+			var uniqueNames = [];
+			state.activePatterns.forEach(function (p) {
+				if (p.patternName && uniqueNames.indexOf(p.patternName) === -1) {
+					uniqueNames.push(p.patternName);
+				}
+			});
+			var namesListStr = uniqueNames.join(', ');
+			var countMsg = state.activePatterns.length === 1 ?
+				(window.I18n ? window.I18n.t('didactic.patterns_found_single') : 'Trovato 1 pattern tattico!') :
+				(window.I18n ? window.I18n.t('didactic.patterns_found', { count: state.activePatterns.length }) : ('Trovati ' + state.activePatterns.length + ' pattern tattici!'));
+
+			didacticToastTitle.innerHTML = '🧩 ' + (window.I18n ? window.I18n.t('didactic.patterns') : 'Pattern');
+			didacticToastText.textContent = countMsg + (namesListStr ? ' (' + namesListStr + '). Tocca le caselle viola per i dettagli.' : '');
+			didacticToast.classList.add('show');
+		} else {
+			if (didacticToast) didacticToast.classList.remove('show');
+		}
+	}
+
 	function clearDidacticHighlights(keepHeatmap, keepPatterns) {
 		var classesToRemove = ['cell-hint-inspect', 'cell-hint-cause', 'cell-pattern-focus'];
+		state.focusedPattern = null;
 		if (!keepHeatmap) {
 			classesToRemove.push('cell-hint-safe', 'cell-hint-mine', 'cell-hint-guess');
 		}
@@ -378,7 +408,33 @@
 					}
 					var r = parseInt(el.dataset.r, 10);
 					var c = parseInt(el.dataset.c, 10);
-					handleFlag(r, c);
+					var cell = state.board[r] && state.board[r][c];
+					if (!cell) return;
+
+					// Se la casella è già scoperta con un numero, il tasto destro esegue il chord
+					if (cell.revealed) {
+						handleChord(r, c);
+						return;
+					}
+
+					// Se siamo in modalità Academy:
+					if (state.mode === 'academy') {
+						handleAcademyAction(state.inputMode === 'flag' ? 'reveal' : 'flag', r, c);
+						return;
+					}
+
+					// Azione inversa rispetto alla modalità selezionata (o click secondario)
+					if (state.inputMode === 'flag') {
+						// Se lo strumento attivo è BANDIERINA, il tasto destro SCAVA
+						if (cell.flagged) {
+							handleFlag(r, c); // rimuove prima la bandiera se presente
+						} else {
+							handleReveal(r, c);
+						}
+					} else {
+						// Se lo strumento attivo è SCAVA (o inspect), il tasto destro mette/toglie BANDIERINA
+						handleFlag(r, c);
+					}
 				});
 
 				cellEl.addEventListener('click', function (e) {
@@ -398,9 +454,24 @@
 					var cell = state.board[r] && state.board[r][c];
 					if (!cell) return;
 
-					// If cell belongs to a highlighted Pattern and we are in dig or flag mode, explain the pattern and keep it highlighted!
-					if (state.isDidactic && state.patternsActive && state.inputMode !== 'inspect' &&
-						(el.classList.contains('cell-pattern-clue') || el.classList.contains('cell-pattern-safe') || el.classList.contains('cell-pattern-mine') || (state.activePatterns && state.activePatterns.length > 0))) {
+					// Se siamo in modalità Scuola di Logica (Academy)
+					if (state.mode === 'academy') {
+						if (cell.revealed) {
+							handleAcademyAction('chord', r, c);
+						} else {
+							handleAcademyAction(state.inputMode === 'flag' ? 'flag' : 'reveal', r, c);
+						}
+						return;
+					}
+
+					// If in Didactic Mode and Inspect button is active, explain any clicked cell!
+					if (state.isDidactic && state.inputMode === 'inspect') {
+						inspectCell(r, c);
+						return;
+					}
+
+					// Modalità Didattica - Gestione click su Pattern e click fuori dal Pattern:
+					if (state.isDidactic && state.patternsActive) {
 						var matchedPattern = state.activePatterns && state.activePatterns.find(function (p) {
 							var inCause = p.causeCells && p.causeCells.some(function (pos) { return pos.r === r && pos.c === c; });
 							var inTarget = p.targetCells && p.targetCells.some(function (pos) { return pos.r === r && pos.c === c; });
@@ -408,15 +479,20 @@
 						});
 
 						if (matchedPattern) {
+							// Se questo specifico pattern era già ingrandito/a fuoco (con spiegazione aperta) e l'utente ci riclicca sopra:
+							// si torna alla visualizzazione generale dei pattern tattici!
+							if (state.focusedPattern === matchedPattern) {
+								dismissPatternFocus();
+								return;
+							}
+							// Altrimenti si mette a fuoco questo pattern
 							showPatternDetail(matchedPattern);
 							return;
+						} else {
+							// Se si clicca FUORI da qualsiasi pattern (o casella non coinvolta), si disattivano tutti i pattern
+							// tornando alla visualizzazione normale della tavola!
+							clearDidacticHighlights(state.heatmapEnabled, false);
 						}
-					}
-
-					// If in Didactic Mode and Inspect button is active, explain any clicked cell!
-					if (state.isDidactic && state.inputMode === 'inspect') {
-						inspectCell(r, c);
-						return;
 					}
 
 					clearDidacticHighlights(state.heatmapEnabled);
@@ -1143,6 +1219,7 @@
 
 	function showPatternDetail(pattern) {
 		if (!pattern) return;
+		state.focusedPattern = pattern;
 
 		// Clear previous individual pattern focus
 		var oldFocused = boardEl.querySelectorAll('.cell-pattern-focus');
@@ -1238,9 +1315,105 @@
 
 	if (didacticToastClose) {
 		didacticToastClose.addEventListener('click', function () {
-			clearDidacticHighlights(state.heatmapEnabled, state.patternsActive);
+			if (state.focusedPattern) {
+				dismissPatternFocus();
+			} else {
+				clearDidacticHighlights(state.heatmapEnabled, state.patternsActive);
+			}
 		});
 	}
+
+	/* ============================================================
+	   DRAGGABLE DIDACTIC TOAST (Touch & Mouse Drag-and-Drop)
+	   ============================================================ */
+	(function initDraggableDidacticToast() {
+		if (!didacticToast) return;
+
+		var isDragging = false;
+		var dragStartX = 0;
+		var dragStartY = 0;
+		var initialLeft = 0;
+		var initialTop = 0;
+
+		function startDrag(clientX, clientY) {
+			isDragging = true;
+			didacticToast.classList.add('is-dragged');
+
+			var rect = didacticToast.getBoundingClientRect();
+			dragStartX = clientX;
+			dragStartY = clientY;
+			initialLeft = rect.left;
+			initialTop = rect.top;
+
+			// Switch styling to absolute viewport coords while keeping size
+			didacticToast.style.left = initialLeft + 'px';
+			didacticToast.style.top = initialTop + 'px';
+			didacticToast.style.bottom = 'auto';
+			didacticToast.style.right = 'auto';
+			didacticToast.style.transform = 'none';
+		}
+
+		function moveDrag(clientX, clientY) {
+			if (!isDragging) return;
+			var dx = clientX - dragStartX;
+			var dy = clientY - dragStartY;
+
+			var newLeft = initialLeft + dx;
+			var newTop = initialTop + dy;
+
+			// Clamp inside viewport
+			var toastW = didacticToast.offsetWidth;
+			var toastH = didacticToast.offsetHeight;
+			var maxLeft = Math.max(10, window.innerWidth - toastW - 10);
+			var maxTop = Math.max(10, window.innerHeight - toastH - 10);
+
+			newLeft = Math.min(Math.max(10, newLeft), maxLeft);
+			newTop = Math.min(Math.max(10, newTop), maxTop);
+
+			didacticToast.style.left = newLeft + 'px';
+			didacticToast.style.top = newTop + 'px';
+		}
+
+		function endDrag() {
+			if (!isDragging) return;
+			isDragging = false;
+			didacticToast.classList.remove('is-dragged');
+		}
+
+		// Touch events: tutto il popup è trascinabile tranne il bottone di chiusura
+		didacticToast.addEventListener('touchstart', function (e) {
+			if (e.target.closest('#didactic-toast-close')) return;
+			if (e.touches && e.touches.length === 1) {
+				startDrag(e.touches[0].clientX, e.touches[0].clientY);
+			}
+		}, { passive: true });
+
+		window.addEventListener('touchmove', function (e) {
+			if (!isDragging) return;
+			if (e.touches && e.touches.length > 0) {
+				moveDrag(e.touches[0].clientX, e.touches[0].clientY);
+			}
+		}, { passive: true });
+
+		window.addEventListener('touchend', endDrag, { passive: true });
+		window.addEventListener('touchcancel', endDrag, { passive: true });
+
+		// Mouse events: tutto il popup è trascinabile con il click sinistro
+		didacticToast.addEventListener('mousedown', function (e) {
+			if (e.target.closest('#didactic-toast-close')) return;
+			if (e.button === 0) {
+				startDrag(e.clientX, e.clientY);
+				e.preventDefault();
+			}
+		});
+
+		window.addEventListener('mousemove', function (e) {
+			if (!isDragging) return;
+			moveDrag(e.clientX, e.clientY);
+		});
+
+		window.addEventListener('mouseup', endDrag);
+	})();
 
 	/* ============================================================
 	   START FLOWS
@@ -1401,10 +1574,45 @@
 		btnModeInspect.addEventListener('click', function () { setInputMode('inspect'); });
 	}
 
-	// Prevent browser native double-tap zoom
+	// Prevent browser native double-tap zoom & handle desktop mouse double-click to toggle mode (Dig <-> Flag)
+	function handleMouseDoubleToggle(target) {
+		if (target.closest('button') && !target.closest('.cell')) return;
+		var targetCell = target.closest('.cell');
+		if (targetCell && !targetCell.classList.contains('revealed')) {
+			return;
+		}
+		if (target.closest('#board-arena') || target.closest('#board')) {
+			toggleInputMode();
+		}
+	}
+
+	// 1) Doppio click Tasto Sinistro
 	document.addEventListener('dblclick', function (e) {
 		e.preventDefault();
+		if (e.button === 0) {
+			handleMouseDoubleToggle(e.target);
+		}
 	}, { passive: false });
+
+	// 2) Doppio click Tasto Destro (Right-click double click)
+	var lastRightClickTime = 0;
+	var lastRightClickX = 0;
+	var lastRightClickY = 0;
+
+	window.addEventListener('mousedown', function (e) {
+		if (e.button !== 2) return; // solo tasto destro
+		var now = Date.now();
+		var dist = Math.hypot(e.clientX - lastRightClickX, e.clientY - lastRightClickY);
+
+		if (lastRightClickTime && (now - lastRightClickTime < 380) && dist < 35) {
+			handleMouseDoubleToggle(e.target);
+			lastRightClickTime = 0;
+		} else {
+			lastRightClickTime = now;
+			lastRightClickX = e.clientX;
+			lastRightClickY = e.clientY;
+		}
+	});
 
 	// Quick Mode Toggle Shortcut 1: Two-Finger Tap anywhere on the board toggles between Dig and Flag!
 	var twoFingerTouchStart = 0;
@@ -1434,15 +1642,17 @@
 		if (!touch) return;
 
 		var target = e.target;
-		// Exclude covered unrevealed cells so digging is always single-tap immediate
-		if (target && target.classList && target.classList.contains('cell') && !target.classList.contains('revealed')) {
+		// Non attivare il toggle se il doppio tap avviene su una casella coperta (dove vogliamo consentire scavi rapidi)
+		var cell = target && target.closest ? target.closest('.cell') : null;
+		if (cell && !cell.classList.contains('revealed')) {
 			return;
 		}
 
 		var now = Date.now();
 		var dist = Math.hypot(touch.clientX - lastTapX, touch.clientY - lastTapY);
 
-		if (lastTapTime && (now - lastTapTime < 380) && dist < 30) {
+		// Finestra temporale di 420ms e raggio di 50px per dita su smartphone
+		if (lastTapTime && (now - lastTapTime < 420) && dist < 50) {
 			toggleInputMode();
 			lastTapTime = 0;
 		} else {
@@ -1471,35 +1681,244 @@
 	if (btnZoomOut) btnZoomOut.addEventListener('click', function () { ViewportManager.zoomStep(-1); });
 	if (btnMenu) btnMenu.addEventListener('click', openMenu);
 
-	// Splash mode switcher tabs (Scalata vs Partita Rapida)
+	// Splash mode switcher tabs (Scalata vs Partita Rapida vs Academy)
 	var tabBtnScalata = document.getElementById('tab-btn-scalata');
 	var tabBtnClassic = document.getElementById('tab-btn-classic');
+	var tabBtnAcademy = document.getElementById('tab-btn-academy');
 	var panelScalata = document.getElementById('panel-scalata');
 	var panelClassic = document.getElementById('panel-classic');
+	var panelAcademy = document.getElementById('panel-academy');
+	var academyLessonsList = document.getElementById('academy-lessons-list');
+
+	function renderAcademyList() {
+		if (!academyLessonsList || typeof MinesweeperAcademy === 'undefined') return;
+		academyLessonsList.innerHTML = '';
+		var lessons = MinesweeperAcademy.getLessons();
+		var prog = MinesweeperAcademy.getProgress();
+		var isIt = !window.I18n || window.I18n.getLocale() === 'it';
+
+		lessons.forEach(function (l, idx) {
+			var unlocked = MinesweeperAcademy.isUnlocked(idx);
+			var completed = !!(prog.completed && prog.completed[l.id]);
+
+			var card = document.createElement('div');
+			card.className = 'academy-card' + (completed ? ' completed' : '') + (!unlocked ? ' locked' : '');
+
+			var title = isIt ? l.title_it : l.title_en;
+			var badge = isIt ? l.badge_it : l.badge_en;
+			var desc = isIt ? l.desc_it : l.desc_en;
+			var statusText = completed ? '✓ Superato' : (unlocked ? '▶ Inizia' : '🔒 Bloccato');
+			if (!isIt) {
+				statusText = completed ? '✓ Mastered' : (unlocked ? '▶ Start' : '🔒 Locked');
+			}
+
+			card.innerHTML =
+				'<div class="academy-card-header">' +
+					'<span class="academy-card-title">' + (completed ? '⭐ ' : '') + title + '</span>' +
+					'<span class="academy-card-badge">' + badge + '</span>' +
+				'</div>' +
+				'<p class="academy-card-desc">' + desc + '</p>' +
+				'<div class="academy-card-footer">' +
+					'<span class="academy-status-tag">' + statusText + '</span>' +
+				'</div>';
+
+			if (unlocked) {
+				card.addEventListener('click', function () {
+					AudioFX.initOnGesture();
+					AudioFX.click();
+					startAcademyLesson(idx);
+				});
+			}
+
+			academyLessonsList.appendChild(card);
+		});
+	}
 
 	function switchSplashMode(mode) {
 		AudioFX.initOnGesture();
 		AudioFX.click();
+		if (tabBtnScalata) { tabBtnScalata.classList.remove('active'); tabBtnScalata.setAttribute('aria-selected', 'false'); }
+		if (tabBtnClassic) { tabBtnClassic.classList.remove('active'); tabBtnClassic.setAttribute('aria-selected', 'false'); }
+		if (tabBtnAcademy) { tabBtnAcademy.classList.remove('active'); tabBtnAcademy.setAttribute('aria-selected', 'false'); }
+		if (panelScalata) panelScalata.classList.remove('active');
+		if (panelClassic) panelClassic.classList.remove('active');
+		if (panelAcademy) panelAcademy.classList.remove('active');
+
 		if (mode === 'classic') {
-			tabBtnClassic.classList.add('active');
-			tabBtnClassic.setAttribute('aria-selected', 'true');
-			tabBtnScalata.classList.remove('active');
-			tabBtnScalata.setAttribute('aria-selected', 'false');
-			panelClassic.classList.add('active');
-			panelScalata.classList.remove('active');
+			if (tabBtnClassic) { tabBtnClassic.classList.add('active'); tabBtnClassic.setAttribute('aria-selected', 'true'); }
+			if (panelClassic) panelClassic.classList.add('active');
+		} else if (mode === 'academy') {
+			if (tabBtnAcademy) { tabBtnAcademy.classList.add('active'); tabBtnAcademy.setAttribute('aria-selected', 'true'); }
+			if (panelAcademy) panelAcademy.classList.add('active');
+			renderAcademyList();
 		} else {
-			tabBtnScalata.classList.add('active');
-			tabBtnScalata.setAttribute('aria-selected', 'true');
-			tabBtnClassic.classList.remove('active');
-			tabBtnClassic.setAttribute('aria-selected', 'false');
-			panelScalata.classList.add('active');
-			panelClassic.classList.remove('active');
+			if (tabBtnScalata) { tabBtnScalata.classList.add('active'); tabBtnScalata.setAttribute('aria-selected', 'true'); }
+			if (panelScalata) panelScalata.classList.add('active');
 		}
 	}
 
-	if (tabBtnScalata && tabBtnClassic) {
-		tabBtnScalata.addEventListener('click', function () { switchSplashMode('scalata'); });
-		tabBtnClassic.addEventListener('click', function () { switchSplashMode('classic'); });
+	if (tabBtnScalata) tabBtnScalata.addEventListener('click', function () { switchSplashMode('scalata'); });
+	if (tabBtnClassic) tabBtnClassic.addEventListener('click', function () { switchSplashMode('classic'); });
+	if (tabBtnAcademy) tabBtnAcademy.addEventListener('click', function () { switchSplashMode('academy'); });
+
+	/* ============================================================
+	   ACADEMY INTERACTIVE COURSE RUNNER
+	   ============================================================ */
+	function startAcademyLesson(lessonIndex, puzzleIndex) {
+		if (typeof MinesweeperAcademy === 'undefined') return;
+		var lesson = MinesweeperAcademy.getLesson(lessonIndex);
+		if (!lesson) return;
+
+		puzzleIndex = puzzleIndex || 0;
+		var puzzle = lesson.puzzles[puzzleIndex];
+		if (!puzzle) return;
+
+		state.mode = 'academy';
+		state.academyLessonIndex = lessonIndex;
+		state.academyPuzzleIndex = puzzleIndex;
+		state.isDidactic = true;
+		state.heatmapEnabled = false;
+		if (btnDidacticHeatmap) btnDidacticHeatmap.classList.remove('active');
+		setInputMode('dig');
+		document.body.classList.add('didactic-mode');
+		clearDidacticHighlights();
+
+		splashEl.classList.add('hidden');
+		requestGameFullscreen();
+
+		var isIt = !window.I18n || window.I18n.getLocale() === 'it';
+		levelLabelEl.textContent = 'LEZ ' + lesson.level + '.' + (puzzleIndex + 1);
+		levelProgressEl.style.width = ((lesson.level / MinesweeperAcademy.getLessons().length) * 100) + '%';
+
+		state.firstClick = false;
+		state.gameOver = false;
+		state.started = true;
+		state.revealed = 0;
+		state.flags = 0;
+		state.elapsed = 0;
+		stopTimer();
+		timerEl.textContent = '0';
+		scoreTotalEl.textContent = '🎓';
+
+		// Setup mini-board from preset
+		state.actualRows = puzzle.rows;
+		state.actualCols = puzzle.cols;
+		state.board = [];
+		var mineCount = 0;
+
+		for (var r = 0; r < puzzle.rows; r++) {
+			state.board[r] = [];
+			for (var c = 0; c < puzzle.cols; c++) {
+				var pCell = puzzle.board[r][c];
+				var isMine = !!pCell.mine;
+				if (isMine) mineCount++;
+				state.board[r][c] = {
+					mine: isMine,
+					revealed: !!pCell.rev,
+					flagged: !!pCell.flag,
+					count: pCell.val || 0
+				};
+				if (pCell.flag) state.flags++;
+				if (pCell.rev) state.revealed++;
+			}
+		}
+
+		mineCountEl.textContent = Math.max(0, mineCount - state.flags);
+		renderBoard();
+
+		// Show instructional toast
+		var instr = isIt ? puzzle.instruction_it : puzzle.instruction_en;
+		didacticToastTitle.innerHTML = '🎓 ' + (isIt ? lesson.title_it : lesson.title_en);
+		didacticToastText.textContent = instr;
+		didacticToast.classList.add('show');
+	}
+
+	function handleAcademyAction(action, r, c) {
+		var lesson = MinesweeperAcademy.getLesson(state.academyLessonIndex);
+		if (!lesson) return;
+		var puzzle = lesson.puzzles[state.academyPuzzleIndex];
+		if (!puzzle) return;
+
+		var isTarget = (puzzle.target && puzzle.target.r === r && puzzle.target.c === c) ||
+			(puzzle.alternateTarget && puzzle.alternateTarget.r === r && puzzle.alternateTarget.c === c);
+		var isCorrectAction = (action === puzzle.requiredAction);
+
+		var isIt = !window.I18n || window.I18n.getLocale() === 'it';
+
+		if (isTarget && isCorrectAction) {
+			AudioFX.levelUp();
+			haptic(35);
+
+			// Apply visual move
+			if (action === 'flag') {
+				state.board[r][c].flagged = true;
+			} else if (action === 'reveal' || action === 'chord') {
+				state.board[r][c].revealed = true;
+			}
+			updateBoardDisplay();
+
+			// Advance to next puzzle or complete lesson
+			var hasNextPuzzle = state.academyPuzzleIndex + 1 < lesson.puzzles.length;
+			if (hasNextPuzzle) {
+				didacticToastTitle.innerHTML = '✅ ' + (isIt ? 'Eccellente!' : 'Well Done!');
+				didacticToastText.textContent = isIt ? 'Deduzione corretta! Passiamo al banco di prova successivo.' : 'Correct deduction! Moving to the next test board.';
+				didacticToast.classList.add('show');
+				setTimeout(function () {
+					startAcademyLesson(state.academyLessonIndex, state.academyPuzzleIndex + 1);
+				}, 900);
+			} else {
+				MinesweeperAcademy.completeLesson(state.academyLessonIndex);
+				launchConfetti();
+				didacticToast.classList.remove('show');
+
+				modalEmoji.textContent = '🎓';
+				modalTitle.textContent = isIt ? window.I18n.t('academy.lesson_passed_title') : 'Lesson Mastered!';
+				modalScore.textContent = isIt ? lesson.title_it : lesson.title_en;
+				modalPosition.textContent = isIt ? window.I18n.t('academy.lesson_passed_desc') : 'You have mastered this logical principle!';
+
+				var nextBtn = document.getElementById('modal-next');
+				var replayBtn = document.getElementById('modal-replay');
+				var closeBtn = document.getElementById('modal-close');
+				replayBtn.style.display = 'none';
+
+				var hasNextLesson = state.academyLessonIndex + 1 < MinesweeperAcademy.getLessons().length;
+				if (hasNextLesson) {
+					nextBtn.textContent = isIt ? window.I18n.t('academy.continue_course') : 'Next Lesson ▶';
+					nextBtn.onclick = function () {
+						overlayEl.classList.remove('show');
+						startAcademyLesson(state.academyLessonIndex + 1, 0);
+					};
+				} else {
+					nextBtn.textContent = isIt ? '🏆 Corso Completato!' : '🏆 Academy Completed!';
+					nextBtn.onclick = function () {
+						overlayEl.classList.remove('show');
+						openMenu();
+					};
+				}
+
+				closeBtn.textContent = isIt ? window.I18n.t('academy.back_to_curriculum') : 'Academy';
+				closeBtn.onclick = function () {
+					overlayEl.classList.remove('show');
+					openMenu();
+					switchSplashMode('academy');
+				};
+
+				overlayEl.classList.add('show');
+			}
+		} else {
+			AudioFX.lose();
+			haptic(60);
+			var wrongEl = boardEl.querySelector('[data-r="' + r + '"][data-c="' + c + '"]');
+			if (wrongEl) {
+				wrongEl.classList.add('wrong-flag');
+				setTimeout(function () { wrongEl.classList.remove('wrong-flag'); }, 600);
+			}
+			didacticToastTitle.innerHTML = '❌ ' + (isIt ? 'Mossa non corretta' : 'Incorrect Move');
+			didacticToastText.textContent = isIt ?
+				('Questa mossa non è corretta. ' + puzzle.instruction_it) :
+				('That move is incorrect. ' + puzzle.instruction_en);
+			didacticToast.classList.add('show');
+		}
 	}
 
 	var presetBtns = document.querySelectorAll('.btn-preset');
