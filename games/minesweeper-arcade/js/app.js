@@ -989,7 +989,29 @@
 	function startDidacticReplay() {
 		var dims = getGridDimensions();
 		var saved = state.preExplosion;
-		if (!saved) return;
+
+		// Se preExplosion non è disponibile o la tavola era già completata,
+		// ripristina la tavola dall'inizio usando lo snapshot di generazione!
+		if (!saved || saved.revealed >= state.safeCells) {
+			if (state.snapshot) {
+				var freshBoard = JSON.parse(state.snapshot);
+				// Ripristina tutte le celle coperte e senza bandiere mantenendo la posizione delle mine e i conteggi
+				for (var r = 0; r < freshBoard.length; r++) {
+					for (var c = 0; c < freshBoard[r].length; c++) {
+						freshBoard[r][c].revealed = false;
+						freshBoard[r][c].flagged = false;
+					}
+				}
+				saved = {
+					board: JSON.stringify(freshBoard),
+					revealed: 0,
+					flags: 0,
+					elapsed: 0
+				};
+			} else {
+				return;
+			}
+		}
 
 		state.isDidactic = true;
 		document.body.classList.add('didactic-mode');
@@ -1002,6 +1024,13 @@
 		state.heatmapEnabled = false;
 		if (btnDidacticHeatmap) btnDidacticHeatmap.classList.remove('active');
 		setInputMode('dig');
+
+		// Rimuovi game-over e pulisci evidenziazioni residue
+		if (boardEl) {
+			boardEl.classList.remove('game-over');
+			boardEl.classList.remove('pattern-focus-active');
+		}
+		clearDidacticHighlights(false, false);
 
 		state.board = JSON.parse(saved.board);
 		state.revealed = saved.revealed;
