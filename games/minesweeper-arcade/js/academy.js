@@ -82,16 +82,15 @@ var MinesweeperAcademy = (function () {
 			desc_en: "Along a wall or boundary, if two consecutive 1s share two tiles, the mine must be among those two. The third tile touched only by the second 1 is GUARANTEED SAFE!",
 			puzzles: [
 				{
-					instruction_it: "Applica la regola 1-1 su parete: scava ⛏️ la casella garantita libera all'estremità!",
-					instruction_en: "Apply the 1-1 wall rule: dig ⛏️ the guaranteed safe tile at the end!",
+					instruction_it: "Lungo la parete, il primo 1 confina la mina nelle prime due caselle. Il secondo 1 garantisce che la terza casella è LIBERA! Scava ⛏️ la casella sicura all'estremità!",
+					instruction_en: "Along the wall, the first 1 confines the mine to the first two tiles. The second 1 guarantees the third tile is SAFE! Dig ⛏️ the safe tile at the end!",
 					requiredAction: "reveal",
 					target: {"r":0,"c":2},
-					rows: 3,
-					cols: 3,
+					rows: 2,
+					cols: 4,
 					board: [
-						[ { r: 0, c: 0, mine: true, val: 0, rev: false }, { r: 0, c: 1, val: 1, rev: false }, { r: 0, c: 2, val: 0, rev: false } ],
-						[ { r: 1, c: 0, val: 1, rev: true }, { r: 1, c: 1, val: 1, rev: true }, { r: 1, c: 2, val: 0, rev: true } ],
-						[ { r: 2, c: 0, val: 0, rev: true }, { r: 2, c: 1, val: 0, rev: true }, { r: 2, c: 2, val: 0, rev: true } ]
+						[ { r: 0, c: 0, mine: true, val: 0, rev: false }, { r: 0, c: 1, val: 1, rev: false }, { r: 0, c: 2, val: 0, rev: false }, { r: 0, c: 3, val: 0, rev: false } ],
+						[ { r: 1, c: 0, val: 1, rev: true }, { r: 1, c: 1, val: 1, rev: true }, { r: 1, c: 2, val: 0, rev: true }, { r: 1, c: 3, val: 0, rev: true } ]
 					]
 				}
 			]
@@ -107,16 +106,15 @@ var MinesweeperAcademy = (function () {
 			desc_en: "A 2 touches 3 tiles with 2 mines, but an adjacent 1 confines 1 mine to the first two tiles. The third tile (X) touched only by the 2 is DEFINITELY A MINE!",
 			puzzles: [
 				{
-					instruction_it: "Il 2 condivide due caselle con l'1. Metti la bandiera 🚩 sulla mina esterna X!",
-					instruction_en: "The 2 shares two tiles with the 1. Flag 🚩 the outer mine X!",
+					instruction_it: "L'1 iniziale limita 1 mina alle prime due caselle. Il 2 adiacente tocca quelle due più una terza: la terza casella esterna è SICURAMENTE UNA MINA! Metti la bandiera 🚩!",
+					instruction_en: "The initial 1 limits 1 mine to the first two tiles. The adjacent 2 touches those two plus a third: the third outer tile is DEFINITELY A MINE! Place a flag 🚩!",
 					requiredAction: "flag",
 					target: {"r":0,"c":2},
-					rows: 3,
-					cols: 3,
+					rows: 2,
+					cols: 4,
 					board: [
-						[ { r: 0, c: 0, val: 1, rev: false }, { r: 0, c: 1, mine: true, val: 1, rev: false }, { r: 0, c: 2, mine: true, val: 1, rev: false } ],
-						[ { r: 1, c: 0, val: 1, rev: true }, { r: 1, c: 1, val: 2, rev: true }, { r: 1, c: 2, val: 2, rev: true } ],
-						[ { r: 2, c: 0, val: 0, rev: true }, { r: 2, c: 1, val: 0, rev: true }, { r: 2, c: 2, val: 0, rev: true } ]
+						[ { r: 0, c: 0, val: 1, rev: false }, { r: 0, c: 1, mine: true, val: 1, rev: false }, { r: 0, c: 2, mine: true, val: 1, rev: false }, { r: 0, c: 3, val: 1, rev: false } ],
+						[ { r: 1, c: 0, val: 1, rev: true }, { r: 1, c: 1, val: 2, rev: true }, { r: 1, c: 2, val: 2, rev: true }, { r: 1, c: 3, val: 1, rev: true } ]
 					]
 				}
 			]
@@ -132,30 +130,28 @@ var MinesweeperAcademy = (function () {
 			desc_en: "The 1-2-1 sequence along a flat wall has a universal rule: tiles facing the two 1s are MINES (🚩), while the tile facing the central 2 is SAFE (⛏️)!",
 			puzzles: [
 				{
-					instruction_it: "Pattern 1-2-1: scava ⛏️ la casella centrale garantita libera!",
-					instruction_en: "1-2-1 Pattern: dig ⛏️ the guaranteed safe central tile!",
+					instruction_it: "Pattern 1-2-1 su parete: la casella centrale davanti al 2 è sempre garantita libera! Scava ⛏️ la casella centrale.",
+					instruction_en: "1-2-1 wall pattern: the central tile facing the 2 is always guaranteed safe! Dig ⛏️ the middle safe cell.",
 					requiredAction: "reveal",
-					target: {"r":0,"c":1},
-					rows: 3,
-					cols: 3,
+					target: {"r":0,"c":2},
+					rows: 2,
+					cols: 5,
 					board: [
-						[ { r: 0, c: 0, mine: true, val: 0, rev: false }, { r: 0, c: 1, val: 2, rev: false }, { r: 0, c: 2, mine: true, val: 0, rev: false } ],
-						[ { r: 1, c: 0, val: 1, rev: true }, { r: 1, c: 1, val: 2, rev: true }, { r: 1, c: 2, val: 1, rev: true } ],
-						[ { r: 2, c: 0, val: 0, rev: true }, { r: 2, c: 1, val: 0, rev: true }, { r: 2, c: 2, val: 0, rev: true } ]
+						[ { r: 0, c: 0, val: 1, rev: false }, { r: 0, c: 1, mine: true, val: 0, rev: false }, { r: 0, c: 2, val: 2, rev: false }, { r: 0, c: 3, mine: true, val: 0, rev: false }, { r: 0, c: 4, val: 1, rev: false } ],
+						[ { r: 1, c: 0, val: 1, rev: true }, { r: 1, c: 1, val: 1, rev: true }, { r: 1, c: 2, val: 2, rev: true }, { r: 1, c: 3, val: 1, rev: true }, { r: 1, c: 4, val: 1, rev: true } ]
 					]
 				},
 				{
-					instruction_it: "Pattern 1-2-1: piazza la bandiera 🚩 su una delle due mine esterne!",
-					instruction_en: "1-2-1 Pattern: place a flag 🚩 on one of the two outer mines!",
+					instruction_it: "Pattern 1-2-1 su parete: le caselle davanti ai due 1 sono sempre mine! Metti la bandiera 🚩 su una delle due mine esterne.",
+					instruction_en: "1-2-1 wall pattern: the tiles facing the two 1s are always mines! Flag 🚩 one of the two outer mines.",
 					requiredAction: "flag",
-					target: {"r":0,"c":0},
-					alternateTarget: {"r":0,"c":2},
-					rows: 3,
-					cols: 3,
+					target: {"r":0,"c":1},
+					alternateTarget: {"r":0,"c":3},
+					rows: 2,
+					cols: 5,
 					board: [
-						[ { r: 0, c: 0, mine: true, val: 0, rev: false }, { r: 0, c: 1, val: 2, rev: true }, { r: 0, c: 2, mine: true, val: 0, rev: false } ],
-						[ { r: 1, c: 0, val: 1, rev: true }, { r: 1, c: 1, val: 2, rev: true }, { r: 1, c: 2, val: 1, rev: true } ],
-						[ { r: 2, c: 0, val: 0, rev: true }, { r: 2, c: 1, val: 0, rev: true }, { r: 2, c: 2, val: 0, rev: true } ]
+						[ { r: 0, c: 0, val: 1, rev: false }, { r: 0, c: 1, mine: true, val: 0, rev: false }, { r: 0, c: 2, val: 2, rev: true }, { r: 0, c: 3, mine: true, val: 0, rev: false }, { r: 0, c: 4, val: 1, rev: false } ],
+						[ { r: 1, c: 0, val: 1, rev: true }, { r: 1, c: 1, val: 1, rev: true }, { r: 1, c: 2, val: 2, rev: true }, { r: 1, c: 3, val: 1, rev: true }, { r: 1, c: 4, val: 1, rev: true } ]
 					]
 				}
 			]
