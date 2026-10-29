@@ -214,23 +214,49 @@
 
 		.cell.revealed.has-number {
 			cursor: pointer;
+			background: #172437;
+			border-color: rgba(56, 189, 248, 0.3);
+			box-shadow: inset 0 0 8px rgba(56, 189, 248, 0.15), 0 1px 3px rgba(0,0,0,0.4);
 		}
 
 		.cell.revealed.has-number:hover {
-			background: #172233;
-			border-color: rgba(56, 189, 248, 0.2);
+			background: #1e3048;
+			border-color: rgba(56, 189, 248, 0.5);
 		}
 
-		/* Academy Mini-Board responsive comfort size */
+		/* Academy Mini-Board responsive comfort size & high contrast */
 		body.didactic-mode .board {
-			padding: 8px;
-			gap: 4px;
+			padding: 12px;
+			gap: 6px;
+			background: #080d16;
+			border: 2px solid rgba(56, 189, 248, 0.35);
+			box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 20px rgba(56, 189, 248, 0.15);
 		}
 
 		body.didactic-mode .cell {
-			width: 36px;
-			height: 36px;
-			font-size: 1.15rem;
+			width: 48px;
+			height: 48px;
+			font-size: 1.35rem;
+			font-weight: 900;
+			border-radius: 10px;
+		}
+
+		body.didactic-mode .cell.revealed:not(.has-number) {
+			background: #0c1420;
+			border-color: rgba(255, 255, 255, 0.03);
+			opacity: 0.85;
+		}
+
+		body.didactic-mode .cell.revealed.has-number {
+			background: #192a40;
+			border: 2px solid rgba(56, 189, 248, 0.5);
+			box-shadow: 0 0 12px rgba(56, 189, 248, 0.25);
+		}
+
+		body.didactic-mode .cell:not(.revealed):not(.flagged) {
+			background: #2b3d55;
+			border: 1px solid rgba(255, 255, 255, 0.18);
+			box-shadow: 0 3px 6px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.25);
 		}
 
 		.cell.cell-hint {
