@@ -1902,17 +1902,7 @@
 			}
 		});
 
-		// Attenua (mute) tutti gli altri numeri scoperti che non fanno parte del pattern
-		for (var mr = 0; mr < puzzle.rows; mr++) {
-			for (var mc = 0; mc < puzzle.cols; mc++) {
-				if (!patternCoords[mr + ',' + mc]) {
-					var elMuted = boardEl.querySelector('[data-r="' + mr + '"][data-c="' + mc + '"]');
-					if (elMuted && state.board[mr][mc].revealed) {
-						elMuted.classList.add('cell-didactic-muted');
-					}
-				}
-			}
-		}
+
 
 		// Show instructional toast
 		var instr = isIt ? puzzle.instruction_it : puzzle.instruction_en;

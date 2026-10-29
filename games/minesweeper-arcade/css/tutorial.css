@@ -399,15 +399,15 @@ body.didactic-mode .cell.flagged.didactic-wrong-flag {
 	to { box-shadow: 0 0 20px rgba(192, 132, 252, 1); transform: scale(1.08); }
 }
 
-/* Academy & Didactic: Muted non-pattern numbers so pattern is immediately evident */
+/* Academy & Didactic: Context numbers kept clearly legible */
 .cell.cell-didactic-muted {
-	opacity: 0.35 !important;
-	filter: grayscale(40%);
-	transition: opacity 0.25s ease, filter 0.25s ease;
+	opacity: 0.8 !important;
+	filter: none;
+	transition: opacity 0.2s ease;
 }
 
 .cell.cell-didactic-muted:hover {
-	opacity: 0.7 !important;
+	opacity: 1 !important;
 }
 
 /* ============================================================
