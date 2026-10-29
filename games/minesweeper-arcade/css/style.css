@@ -445,7 +445,12 @@
 			font-family: inherit;
 			display: inline-flex;
 			align-items: center;
+			justify-content: center;
+			text-align: center;
 			gap: 6px;
+			user-select: none;
+			-webkit-user-select: none;
+			touch-action: manipulation;
 		}
 
 		.btn-primary { background: linear-gradient(135deg, var(--accent), #0284c7); color: #0b1120; }
@@ -667,7 +672,15 @@
 			width: 100%;
 			margin-bottom: 12px;
 			font-size: 0.95rem;
-			padding: 9px 18px;
+			padding: 10px 18px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			text-align: center;
+			box-sizing: border-box;
+			cursor: pointer;
+			position: relative;
+			z-index: 5;
 		}
 
 		.academy-lessons-list {

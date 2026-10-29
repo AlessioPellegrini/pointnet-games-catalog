@@ -1700,7 +1700,7 @@
 		var unlockedLvl = prog.unlockedLevel || 1;
 		var nextLessonIdx = Math.min(lessons.length - 1, unlockedLvl - 1);
 
-		// Update main Play / Resume Academy button
+		// Update main Play / Resume Academy button text
 		if (splashPlayAcademyBtn) {
 			var hasCompletedAny = prog.completed && Object.keys(prog.completed).length > 0;
 			var allCompleted = prog.completed && Object.keys(prog.completed).length >= lessons.length;
@@ -1717,12 +1717,6 @@
 					(window.I18n ? window.I18n.t('academy.start_course') : '▶ Inizia il Corso') :
 					(window.I18n ? window.I18n.t('academy.start_course') : '▶ Start Academy Course');
 			}
-
-			splashPlayAcademyBtn.onclick = function () {
-				AudioFX.initOnGesture();
-				AudioFX.click();
-				startAcademyLesson(nextLessonIdx, 0);
-			};
 		}
 
 		if (!academyLessonsList) return;
@@ -1993,6 +1987,20 @@
 			AudioFX.initOnGesture();
 			AudioFX.click();
 			startNewRun();
+		});
+	}
+
+	if (splashPlayAcademyBtn) {
+		splashPlayAcademyBtn.addEventListener('click', function (e) {
+			if (e) e.preventDefault();
+			AudioFX.initOnGesture();
+			AudioFX.click();
+			if (typeof MinesweeperAcademy === 'undefined') return;
+			var prog = MinesweeperAcademy.getProgress();
+			var lessons = MinesweeperAcademy.getLessons();
+			var unlockedLvl = prog.unlockedLevel || 1;
+			var nextLessonIdx = Math.min(lessons.length - 1, unlockedLvl - 1);
+			startAcademyLesson(nextLessonIdx, 0);
 		});
 	}
 
