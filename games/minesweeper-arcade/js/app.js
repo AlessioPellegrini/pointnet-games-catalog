@@ -189,6 +189,16 @@
 	   GRID & DIMENSIONS
 	   ============================================================ */
 	function getGridDimensions() {
+		if (state.board && state.board.length > 0 && state.actualRows && state.actualCols) {
+			var presetMines = 0;
+			if (state.mode === 'classic') {
+				presetMines = (CLASSIC_PRESETS[state.classicDifficulty] || CLASSIC_PRESETS.easy).mines;
+			} else if (state.mode === 'arcade') {
+				presetMines = SCALATA_LEVELS[Math.min(state.levelIndex, SCALATA_LEVELS.length - 1)].mines;
+			}
+			return { rows: state.actualRows, cols: state.actualCols, mines: presetMines };
+		}
+
 		if (state.mode === 'academy' && state.actualRows && state.actualCols) {
 			return { rows: state.actualRows, cols: state.actualCols, mines: 0 };
 		}
@@ -763,19 +773,24 @@
 
 		var dims = getGridDimensions();
 
-		for (var row = 0; row < dims.rows; row++) {
-			for (var col = 0; col < dims.cols; col++) {
+		var rows = (state.board && state.board.length) || dims.rows;
+		var cols = (state.board && state.board[0] && state.board[0].length) || dims.cols;
+
+		for (var row = 0; row < rows; row++) {
+			if (!state.board[row]) continue;
+			for (var col = 0; col < cols; col++) {
 				var cell = state.board[row][col];
-				if (cell.mine) cell.revealed = true;
+				if (cell && cell.mine) cell.revealed = true;
 			}
 		}
 
 		updateBoardDisplay();
 
 		var bombPositions = [];
-		for (var row2 = 0; row2 < dims.rows; row2++) {
-			for (var col2 = 0; col2 < dims.cols; col2++) {
-				if (state.board[row2][col2].mine) bombPositions.push({ r: row2, c: col2 });
+		for (var row2 = 0; row2 < rows; row2++) {
+			if (!state.board[row2]) continue;
+			for (var col2 = 0; col2 < cols; col2++) {
+				if (state.board[row2][col2] && state.board[row2][col2].mine) bombPositions.push({ r: row2, c: col2 });
 			}
 		}
 
@@ -791,9 +806,10 @@
 			particleBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, ['#ef4444', '#fb923c', '#fbbf24'], 24);
 		}
 
-		for (var r2 = 0; r2 < dims.rows; r2++) {
-			for (var c2 = 0; c2 < dims.cols; c2++) {
-				if (state.board[r2][c2].flagged && !state.board[r2][c2].mine) {
+		for (var r2 = 0; r2 < rows; r2++) {
+			if (!state.board[r2]) continue;
+			for (var c2 = 0; c2 < cols; c2++) {
+				if (state.board[r2][c2] && state.board[r2][c2].flagged && !state.board[r2][c2].mine) {
 					var wrongEl = boardEl.querySelector('[data-r="' + r2 + '"][data-c="' + c2 + '"]');
 					if (wrongEl) { wrongEl.classList.add('wrong-flag'); wrongEl.textContent = '❌'; }
 				}
@@ -1925,6 +1941,9 @@
 		var cell = state.board[r] && state.board[r][c];
 		if (!cell) return;
 
+		// If cell is already revealed and action is not chord, ignore
+		if (cell.revealed && action !== 'chord') return;
+
 		var isTarget = (puzzle.target && puzzle.target.r === r && puzzle.target.c === c) ||
 			(puzzle.alternateTarget && puzzle.alternateTarget.r === r && puzzle.alternateTarget.c === c);
 
@@ -1936,40 +1955,37 @@
 		// Check if action matches puzzle requirement
 		var isCorrectAction = (action === puzzle.requiredAction);
 
-		// Check if this move is logically sound on the board:
-		// A move is logically sound if:
-		// 1) It is the intended lesson target, OR
-		// 2) The user reveals a genuinely safe cell (mine === false), OR
-		// 3) The user flags a genuine mine (mine === true), OR
-		// 4) The solver recognizes it as safe / mine
-		var isLogicallyValid = false;
-		if (isTarget && isCorrectAction) {
-			isLogicallyValid = true;
-		} else if (action === 'reveal' && !cell.revealed && !cell.flagged && !cell.mine) {
-			isLogicallyValid = true;
-		} else if (action === 'flag' && !cell.revealed && cell.mine) {
-			isLogicallyValid = true;
-		} else if (action === 'chord' && cell.revealed) {
-			isLogicallyValid = true;
-		} else if (typeof MinesweeperSolver !== 'undefined') {
-			var allHints = MinesweeperSolver.getAllHints(state.board, puzzle.rows, puzzle.cols);
-			if (action === 'reveal' && allHints.safe.some(function(s){ return s.r === r && s.c === c; })) {
+		// Is this the primary designated lesson pattern target?
+		var isLessonGoalSolved = isTarget && isCorrectAction;
+
+		// Check if move is otherwise logically sound on the board
+		var isLogicallyValid = isLessonGoalSolved;
+		if (!isLogicallyValid) {
+			if (action === 'reveal' && !cell.revealed && !cell.flagged && !cell.mine) {
 				isLogicallyValid = true;
-			} else if (action === 'flag' && allHints.mines.some(function(m){ return m.r === r && m.c === c; })) {
+			} else if (action === 'flag' && !cell.revealed && cell.mine) {
 				isLogicallyValid = true;
+			} else if (action === 'chord' && cell.revealed) {
+				isLogicallyValid = true;
+			} else if (typeof MinesweeperSolver !== 'undefined') {
+				var allHints = MinesweeperSolver.getAllHints(state.board, puzzle.rows, puzzle.cols);
+				if (action === 'reveal' && allHints.safe.some(function(s){ return s.r === r && s.c === c; })) {
+					isLogicallyValid = true;
+				} else if (action === 'flag' && allHints.mines.some(function(m){ return m.r === r && m.c === c; })) {
+					isLogicallyValid = true;
+				}
 			}
 		}
 
 		var isIt = !window.I18n || (window.I18n.getLanguage ? window.I18n.getLanguage() === 'it' : (window.I18n.getLocale ? window.I18n.getLocale() === 'it' : true));
 
 		if (isLogicallyValid) {
-			AudioFX.levelUp();
-			haptic(35);
-
 			// Apply move
 			if (action === 'flag') {
 				cell.flagged = !cell.flagged;
 				if (cell.flagged) state.flags++; else state.flags--;
+				AudioFX.flag();
+				haptic(20);
 			} else if (action === 'reveal') {
 				floodReveal(r, c);
 			} else if (action === 'chord') {
@@ -1977,19 +1993,24 @@
 			}
 			updateBoardDisplay();
 
-			// Advance to next puzzle or complete lesson
-			var hasNextPuzzle = state.academyPuzzleIndex + 1 < lesson.puzzles.length;
-			if (hasNextPuzzle) {
-				didacticToastTitle.innerHTML = '✅ ' + (isIt ? 'Eccellente!' : 'Well Done!');
-				didacticToastText.textContent = isIt ? 'Deduzione corretta! Passiamo al banco di prova successivo.' : 'Correct deduction! Moving to the next test board.';
-				didacticToast.classList.add('show');
-				setTimeout(function () {
-					startAcademyLesson(state.academyLessonIndex, state.academyPuzzleIndex + 1);
-				}, 900);
-			} else {
-				MinesweeperAcademy.completeLesson(state.academyLessonIndex);
-				launchConfetti();
-				didacticToast.classList.remove('show');
+			// Only advance or complete when the target pattern goal of this lesson is met!
+			if (isLessonGoalSolved) {
+				AudioFX.levelUp();
+				haptic(35);
+
+				// Advance to next puzzle or complete lesson
+				var hasNextPuzzle = state.academyPuzzleIndex + 1 < lesson.puzzles.length;
+				if (hasNextPuzzle) {
+					didacticToastTitle.innerHTML = '✅ ' + (isIt ? 'Eccellente!' : 'Well Done!');
+					didacticToastText.textContent = isIt ? 'Deduzione corretta! Passiamo al banco di prova successivo.' : 'Correct deduction! Moving to the next test board.';
+					didacticToast.classList.add('show');
+					setTimeout(function () {
+						startAcademyLesson(state.academyLessonIndex, state.academyPuzzleIndex + 1);
+					}, 900);
+				} else {
+					MinesweeperAcademy.completeLesson(state.academyLessonIndex);
+					launchConfetti();
+					didacticToast.classList.remove('show');
 
 				// Trigger WordPress Achievement & Badge Unlock on Milestones:
 				// Lesson 1 completed -> logic_cadet
