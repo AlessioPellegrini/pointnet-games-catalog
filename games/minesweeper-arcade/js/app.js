@@ -1581,19 +1581,11 @@
 	}
 
 	btnModeDig.addEventListener('click', function () {
-		if (state.inputMode === 'dig') {
-			setInputMode('flag');
-		} else {
-			setInputMode('dig');
-		}
+		setInputMode('dig');
 	});
 
 	btnModeFlag.addEventListener('click', function () {
-		if (state.inputMode === 'flag') {
-			setInputMode('dig');
-		} else {
-			setInputMode('flag');
-		}
+		setInputMode('flag');
 	});
 
 	if (btnModeInspect) {
@@ -1667,18 +1659,11 @@
 		var touch = e.changedTouches && e.changedTouches[0];
 		if (!touch) return;
 
-		var target = e.target;
-		// Non attivare il toggle se il doppio tap avviene su una casella coperta (dove vogliamo consentire scavi rapidi)
-		var cell = target && target.closest ? target.closest('.cell') : null;
-		if (cell && !cell.classList.contains('revealed')) {
-			return;
-		}
-
 		var now = Date.now();
 		var dist = Math.hypot(touch.clientX - lastTapX, touch.clientY - lastTapY);
 
-		// Finestra temporale di 420ms e raggio di 50px per dita su smartphone
-		if (lastTapTime && (now - lastTapTime < 420) && dist < 50) {
+		// Finestra temporale di 400ms e raggio di 45px per doppio tap su mobile
+		if (lastTapTime && (now - lastTapTime < 400) && dist < 45) {
 			toggleInputMode();
 			lastTapTime = 0;
 		} else {
@@ -1952,7 +1937,7 @@
 			(puzzle.alternateTarget && puzzle.alternateTarget.r === r && puzzle.alternateTarget.c === c);
 
 		// If user taps the target cell, align action with requiredAction so neither dig/flag mode blocks success
-		if (isTarget && !cell.revealed) {
+		if (isTarget) {
 			action = puzzle.requiredAction;
 		}
 
