@@ -189,20 +189,6 @@
 	   GRID & DIMENSIONS
 	   ============================================================ */
 	function getGridDimensions() {
-		// Se la tavola è già stata inizializzata con delle dimensioni effettive,
-		// mantieni SEMPRE quelle dimensioni per garantire coerenza con la griglia e gli array di celle
-		if (state.actualRows && state.actualCols && state.board && state.board.length === state.actualRows) {
-			var minesCount = 0;
-			if (state.mode === 'classic') {
-				var p = CLASSIC_PRESETS[state.classicDifficulty] || CLASSIC_PRESETS.easy;
-				minesCount = p.mines;
-			} else if (state.mode === 'arcade') {
-				var l = SCALATA_LEVELS[Math.min(state.levelIndex, SCALATA_LEVELS.length - 1)];
-				minesCount = l.mines;
-			}
-			return { rows: state.actualRows, cols: state.actualCols, mines: minesCount };
-		}
-
 		if (state.mode === 'academy' && state.actualRows && state.actualCols) {
 			return { rows: state.actualRows, cols: state.actualCols, mines: 0 };
 		}
@@ -670,9 +656,10 @@
 
 		if (state.firstClick) {
 			state.firstClick = false;
+			var rows = state.actualRows;
+			var cols = state.actualCols;
 			var dims = getGridDimensions();
-			placeMines(dims.rows, dims.cols, dims.mines, r, c);
-			state.safeCells = dims.rows * dims.cols - dims.mines;
+			placeMines(rows, cols, dims.mines, r, c);
 			state.snapshot = JSON.stringify(state.board);
 			startTimer();
 		}
