@@ -1690,12 +1690,43 @@
 	var panelAcademy = document.getElementById('panel-academy');
 	var academyLessonsList = document.getElementById('academy-lessons-list');
 
+	var splashPlayAcademyBtn = document.getElementById('splash-play-academy');
+
 	function renderAcademyList() {
-		if (!academyLessonsList || typeof MinesweeperAcademy === 'undefined') return;
-		academyLessonsList.innerHTML = '';
+		if (typeof MinesweeperAcademy === 'undefined') return;
 		var lessons = MinesweeperAcademy.getLessons();
 		var prog = MinesweeperAcademy.getProgress();
 		var isIt = !window.I18n || window.I18n.getLocale() === 'it';
+		var unlockedLvl = prog.unlockedLevel || 1;
+		var nextLessonIdx = Math.min(lessons.length - 1, unlockedLvl - 1);
+
+		// Update main Play / Resume Academy button
+		if (splashPlayAcademyBtn) {
+			var hasCompletedAny = prog.completed && Object.keys(prog.completed).length > 0;
+			var allCompleted = prog.completed && Object.keys(prog.completed).length >= lessons.length;
+
+			if (allCompleted) {
+				splashPlayAcademyBtn.textContent = isIt ? '🎓 Rigioca Corso di Logica' : '🎓 Replay Logic Course';
+			} else if (hasCompletedAny) {
+				var resumeStr = isIt ?
+					(window.I18n ? window.I18n.t('academy.resume_course', { level: unlockedLvl }) : ('▶ Continua Corso (Lezione ' + unlockedLvl + ')')) :
+					(window.I18n ? window.I18n.t('academy.resume_course', { level: unlockedLvl }) : ('▶ Resume Course (Lesson ' + unlockedLvl + ')'));
+				splashPlayAcademyBtn.textContent = resumeStr;
+			} else {
+				splashPlayAcademyBtn.textContent = isIt ?
+					(window.I18n ? window.I18n.t('academy.start_course') : '▶ Inizia il Corso') :
+					(window.I18n ? window.I18n.t('academy.start_course') : '▶ Start Academy Course');
+			}
+
+			splashPlayAcademyBtn.onclick = function () {
+				AudioFX.initOnGesture();
+				AudioFX.click();
+				startAcademyLesson(nextLessonIdx, 0);
+			};
+		}
+
+		if (!academyLessonsList) return;
+		academyLessonsList.innerHTML = '';
 
 		lessons.forEach(function (l, idx) {
 			var unlocked = MinesweeperAcademy.isUnlocked(idx);
@@ -1870,6 +1901,32 @@
 				MinesweeperAcademy.completeLesson(state.academyLessonIndex);
 				launchConfetti();
 				didacticToast.classList.remove('show');
+
+				// Trigger WordPress Achievement & Badge Unlock on Milestones:
+				// Lesson 1 completed -> logic_cadet
+				// Lesson 5 (1-2-1) completed -> tactical_analyst
+				// All 8 lessons completed -> logic_scholar
+				var inIframe = window.parent !== window;
+				if (inIframe) {
+					if (state.academyLessonIndex === 0) {
+						window.parent.postMessage({
+							type: 'pointnet-games:unlock-achievement',
+							data: { achievement_id: 'logic_cadet', source: 'minesweeper-arcade' }
+						}, window.location.origin);
+					}
+					if (state.academyLessonIndex === 4) {
+						window.parent.postMessage({
+							type: 'pointnet-games:unlock-achievement',
+							data: { achievement_id: 'tactical_analyst', source: 'minesweeper-arcade' }
+						}, window.location.origin);
+					}
+					if (state.academyLessonIndex >= MinesweeperAcademy.getLessons().length - 1) {
+						window.parent.postMessage({
+							type: 'pointnet-games:unlock-achievement',
+							data: { achievement_id: 'logic_scholar', source: 'minesweeper-arcade' }
+						}, window.location.origin);
+					}
+				}
 
 				modalEmoji.textContent = '🎓';
 				modalTitle.textContent = isIt ? window.I18n.t('academy.lesson_passed_title') : 'Lesson Mastered!';

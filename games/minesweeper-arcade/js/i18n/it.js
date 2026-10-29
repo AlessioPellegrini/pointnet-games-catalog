@@ -115,6 +115,8 @@ window.POINTNET_I18N['it'] = {
 		title: "Scuola di Logica & Strategia",
 		subtitle: "Lezioni progressive con banchi di prova interattivi. Avanzi solo quando dimostri di aver compreso!",
 		level_locked: "🔒 Completa la lezione precedente per sbloccare questo modulo",
+		start_course: "▶ Inizia il Corso",
+		resume_course: "▶ Continua Corso (Lezione {level})",
 		start_lesson: "▶ Inizia Lezione",
 		retry_lesson: "🔁 Riprova",
 		next_puzzle: "Prossimo Banco di Prova ▶",

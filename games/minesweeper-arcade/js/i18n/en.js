@@ -115,6 +115,8 @@ window.POINTNET_I18N['en'] = {
 		title: "Logic & Strategy Academy",
 		subtitle: "Step-by-step masterclasses with interactive proof boards. Advance only when you prove your understanding!",
 		level_locked: "🔒 Complete the previous lesson to unlock this module",
+		start_course: "▶ Start Academy Course",
+		resume_course: "▶ Resume Course (Lesson {level})",
 		start_lesson: "▶ Start Lesson",
 		retry_lesson: "🔁 Retry",
 		next_puzzle: "Next Test Board ▶",

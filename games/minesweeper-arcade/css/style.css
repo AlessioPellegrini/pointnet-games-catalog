@@ -221,6 +221,18 @@
 			border-color: rgba(56, 189, 248, 0.2);
 		}
 
+		/* Academy Mini-Board responsive comfort size */
+		body.didactic-mode .board {
+			padding: 8px;
+			gap: 4px;
+		}
+
+		body.didactic-mode .cell {
+			width: 36px;
+			height: 36px;
+			font-size: 1.15rem;
+		}
+
 		.cell.cell-hint {
 			background: #334e68 !important;
 			transform: scale(0.91);
@@ -649,6 +661,13 @@
 			overflow-y: auto;
 			padding-right: 6px;
 			-webkit-overflow-scrolling: touch;
+		}
+
+		.academy-main-play {
+			width: 100%;
+			margin-bottom: 12px;
+			font-size: 0.95rem;
+			padding: 9px 18px;
 		}
 
 		.academy-lessons-list {
