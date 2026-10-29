@@ -189,6 +189,10 @@
 	   GRID & DIMENSIONS
 	   ============================================================ */
 	function getGridDimensions() {
+		if (state.mode === 'academy' && state.actualRows && state.actualCols) {
+			return { rows: state.actualRows, cols: state.actualCols, mines: 0 };
+		}
+
 		if (state.mode === 'classic') {
 			var preset = CLASSIC_PRESETS[state.classicDifficulty] || CLASSIC_PRESETS.easy;
 			var isPortrait = window.innerHeight > window.innerWidth;
@@ -257,6 +261,7 @@
 	function getCellSize() {
 		var dims = getGridDimensions();
 		var maxDim = Math.max(dims.rows, dims.cols);
+		if (state.mode === 'academy' || maxDim <= 5) return 48;
 		if (maxDim <= 9) return 40;
 		if (maxDim <= 16) return 34;
 		return 30;
@@ -1804,7 +1809,11 @@
 		state.isDidactic = true;
 		state.heatmapEnabled = false;
 		if (btnDidacticHeatmap) btnDidacticHeatmap.classList.remove('active');
-		setInputMode('dig');
+		if (puzzle.requiredAction === 'flag') {
+			setInputMode('flag');
+		} else {
+			setInputMode('dig');
+		}
 		document.body.classList.add('didactic-mode');
 		clearDidacticHighlights();
 
@@ -1866,6 +1875,12 @@
 
 		var isTarget = (puzzle.target && puzzle.target.r === r && puzzle.target.c === c) ||
 			(puzzle.alternateTarget && puzzle.alternateTarget.r === r && puzzle.alternateTarget.c === c);
+
+		// If user taps the target cell, align action with requiredAction so neither dig/flag mode blocks success
+		if (isTarget && state.board[r] && state.board[r][c] && !state.board[r][c].revealed) {
+			action = puzzle.requiredAction;
+		}
+
 		var isCorrectAction = (action === puzzle.requiredAction);
 
 		var isIt = !window.I18n || (window.I18n.getLanguage ? window.I18n.getLanguage() === 'it' : (window.I18n.getLocale ? window.I18n.getLocale() === 'it' : true));
