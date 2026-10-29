@@ -2081,6 +2081,14 @@
 		var mql = window.matchMedia('(orientation: landscape)');
 		var handleOrientation = function () {
 			if (!splashEl.classList.contains('hidden')) return;
+			// Se siamo in modalità Academy o una partita personalizzata è già avviata,
+			// non resettare la griglia con initBoard()! Adatta solo il viewport allo schermo.
+			if (state.mode === 'academy' || state.started) {
+				setTimeout(function () {
+					ViewportManager.fitToScreen(true);
+				}, 100);
+				return;
+			}
 			var dims = getGridDimensions();
 			initBoard(dims.rows, dims.cols);
 			renderBoard();
