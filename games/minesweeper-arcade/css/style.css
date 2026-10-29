@@ -224,21 +224,12 @@
 			border-color: rgba(56, 189, 248, 0.25);
 		}
 
-		/* Academy Mini-Board responsive comfort size & high contrast */
 		body.didactic-mode .board {
-			padding: 12px;
-			gap: 6px;
-			background: #080d16;
-			border: 2px solid rgba(56, 189, 248, 0.35);
-			box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 20px rgba(56, 189, 248, 0.15);
+			gap: 3px;
 		}
 
 		body.didactic-mode .cell {
-			width: 48px;
-			height: 48px;
-			font-size: 1.35rem;
-			font-weight: 900;
-			border-radius: 5px;
+			border-radius: 4px;
 		}
 
 		body.didactic-mode .cell.revealed:not(.has-number) {

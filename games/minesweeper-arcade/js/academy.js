@@ -19,29 +19,42 @@ var MinesweeperAcademy = (function () {
 			desc_en: "If a number touches as many hidden tiles as its remaining mines, they are all mines. If all its mines are flagged, all other adjacent tiles are 100% safe.",
 			puzzles: [
 				{
-					instruction_it: "Il numero 1 tocca una sola casella coperta: è saturo al 100%! Metti una bandiera 🚩 sulla mina!",
-					instruction_en: "The number 1 touches only a single hidden tile: it is 100% saturated! Place a flag 🚩 on the mine!",
+					instruction_it: "Il numero 1 tocca una sola casella coperta: è saturo al 100%! Metti una bandiera 🚩 sulla mina in evidenza!",
+					instruction_en: "The clue 1 touches only a single hidden tile: it is 100% saturated! Place a flag 🚩 on the mine!",
 					requiredAction: "flag",
-					target: {"r":1,"c":2},
-					rows: 3,
-					cols: 4,
+					target: {"r":3,"c":4},
+					rows: 9,
+					cols: 9,
 					board: [
-						[ { r: 0, c: 0, val: 0, rev: true }, { r: 0, c: 1, val: 1, rev: true }, { r: 0, c: 2, val: 1, rev: true }, { r: 0, c: 3, val: 1, rev: true } ],
-						[ { r: 1, c: 0, val: 0, rev: true }, { r: 1, c: 1, val: 1, rev: true }, { r: 1, c: 2, mine: true, val: 0, rev: false }, { r: 1, c: 3, val: 1, rev: true } ],
-						[ { r: 2, c: 0, val: 0, rev: true }, { r: 2, c: 1, val: 1, rev: true }, { r: 2, c: 2, val: 1, rev: true }, { r: 2, c: 3, val: 1, rev: true } ]
+						[ { r: 0, c: 0, val: 0, rev: false }, { r: 0, c: 1, val: 0, rev: false }, { r: 0, c: 2, val: 0, rev: false }, { r: 0, c: 3, val: 0, rev: false }, { r: 0, c: 4, val: 0, rev: false }, { r: 0, c: 5, val: 0, rev: false }, { r: 0, c: 6, val: 0, rev: false }, { r: 0, c: 7, val: 0, rev: false }, { r: 0, c: 8, val: 0, rev: false } ],
+						[ { r: 1, c: 0, val: 0, rev: false }, { r: 1, c: 1, val: 0, rev: false }, { r: 1, c: 2, val: 0, rev: false }, { r: 1, c: 3, val: 0, rev: false }, { r: 1, c: 4, val: 0, rev: false }, { r: 1, c: 5, val: 0, rev: false }, { r: 1, c: 6, val: 0, rev: false }, { r: 1, c: 7, val: 0, rev: false }, { r: 1, c: 8, val: 0, rev: false } ],
+						[ { r: 2, c: 0, val: 0, rev: false }, { r: 2, c: 1, val: 0, rev: false }, { r: 2, c: 2, val: 0, rev: false }, { r: 2, c: 3, val: 1, rev: false }, { r: 2, c: 4, val: 1, rev: false }, { r: 2, c: 5, val: 1, rev: false }, { r: 2, c: 6, val: 0, rev: false }, { r: 2, c: 7, val: 0, rev: false }, { r: 2, c: 8, val: 0, rev: false } ],
+						[ { r: 3, c: 0, val: 0, rev: false }, { r: 3, c: 1, val: 0, rev: false }, { r: 3, c: 2, val: 0, rev: false }, { r: 3, c: 3, val: 1, rev: true }, { r: 3, c: 4, mine: true, val: 0, rev: false }, { r: 3, c: 5, val: 1, rev: true }, { r: 3, c: 6, val: 0, rev: false }, { r: 3, c: 7, val: 0, rev: false }, { r: 3, c: 8, val: 0, rev: false } ],
+						[ { r: 4, c: 0, val: 0, rev: true }, { r: 4, c: 1, val: 0, rev: true }, { r: 4, c: 2, val: 0, rev: true }, { r: 4, c: 3, val: 1, rev: true }, { r: 4, c: 4, val: 1, rev: true }, { r: 4, c: 5, val: 1, rev: true }, { r: 4, c: 6, val: 0, rev: true }, { r: 4, c: 7, val: 0, rev: true }, { r: 4, c: 8, val: 0, rev: true } ],
+						[ { r: 5, c: 0, val: 0, rev: true }, { r: 5, c: 1, val: 0, rev: true }, { r: 5, c: 2, val: 0, rev: true }, { r: 5, c: 3, val: 0, rev: true }, { r: 5, c: 4, val: 0, rev: true }, { r: 5, c: 5, val: 0, rev: true }, { r: 5, c: 6, val: 0, rev: true }, { r: 5, c: 7, val: 0, rev: true }, { r: 5, c: 8, val: 0, rev: true } ],
+						[ { r: 6, c: 0, val: 0, rev: true }, { r: 6, c: 1, val: 0, rev: true }, { r: 6, c: 2, val: 0, rev: true }, { r: 6, c: 3, val: 0, rev: true }, { r: 6, c: 4, val: 0, rev: true }, { r: 6, c: 5, val: 0, rev: true }, { r: 6, c: 6, val: 0, rev: true }, { r: 6, c: 7, val: 0, rev: true }, { r: 6, c: 8, val: 0, rev: true } ],
+						[ { r: 7, c: 0, val: 0, rev: true }, { r: 7, c: 1, val: 0, rev: true }, { r: 7, c: 2, val: 0, rev: true }, { r: 7, c: 3, val: 0, rev: true }, { r: 7, c: 4, val: 0, rev: true }, { r: 7, c: 5, val: 0, rev: true }, { r: 7, c: 6, val: 0, rev: true }, { r: 7, c: 7, val: 0, rev: true }, { r: 7, c: 8, val: 0, rev: true } ],
+						[ { r: 8, c: 0, val: 0, rev: true }, { r: 8, c: 1, val: 0, rev: true }, { r: 8, c: 2, val: 0, rev: true }, { r: 8, c: 3, val: 0, rev: true }, { r: 8, c: 4, val: 0, rev: true }, { r: 8, c: 5, val: 0, rev: true }, { r: 8, c: 6, val: 0, rev: true }, { r: 8, c: 7, val: 0, rev: true }, { r: 8, c: 8, val: 0, rev: true } ]
 					]
 				},
 				{
-					instruction_it: "Il numero 1 ha già la sua mina contrassegnata con una bandiera. Scava ⛏️ la casella libera adiacente!",
-					instruction_en: "The clue 1 already has its mine flagged. Dig ⛏️ the adjacent safe tile!",
+					instruction_it: "Il numero 1 ha già la sua mina contrassegnata con una bandiera. Tutte le altre sue caselle sono libere: scava ⛏️ una casella sicura adiacente!",
+					instruction_en: "The clue 1 already has its mine flagged. All other neighbors are safe: dig ⛏️ an adjacent safe tile!",
 					requiredAction: "reveal",
-					target: {"r":0,"c":2},
-					rows: 3,
-					cols: 3,
+					target: {"r":2,"c":4},
+					alternateTarget: {"r":3,"c":6},
+					rows: 9,
+					cols: 9,
 					board: [
-						[ { r: 0, c: 0, val: 0, rev: true }, { r: 0, c: 1, val: 1, rev: true }, { r: 0, c: 2, val: 1, rev: false } ],
-						[ { r: 1, c: 0, val: 0, rev: true }, { r: 1, c: 1, val: 1, rev: true }, { r: 1, c: 2, mine: true, val: 0, rev: false, flag: true } ],
-						[ { r: 2, c: 0, val: 0, rev: true }, { r: 2, c: 1, val: 1, rev: true }, { r: 2, c: 2, val: 1, rev: true } ]
+						[ { r: 0, c: 0, val: 0, rev: false }, { r: 0, c: 1, val: 0, rev: false }, { r: 0, c: 2, val: 0, rev: false }, { r: 0, c: 3, val: 0, rev: false }, { r: 0, c: 4, val: 0, rev: false }, { r: 0, c: 5, val: 0, rev: false }, { r: 0, c: 6, val: 0, rev: false }, { r: 0, c: 7, val: 0, rev: false }, { r: 0, c: 8, val: 0, rev: false } ],
+						[ { r: 1, c: 0, val: 0, rev: false }, { r: 1, c: 1, val: 0, rev: false }, { r: 1, c: 2, val: 0, rev: false }, { r: 1, c: 3, val: 0, rev: false }, { r: 1, c: 4, val: 0, rev: false }, { r: 1, c: 5, val: 0, rev: false }, { r: 1, c: 6, val: 0, rev: false }, { r: 1, c: 7, val: 0, rev: false }, { r: 1, c: 8, val: 0, rev: false } ],
+						[ { r: 2, c: 0, val: 0, rev: false }, { r: 2, c: 1, val: 0, rev: false }, { r: 2, c: 2, val: 0, rev: false }, { r: 2, c: 3, val: 1, rev: false }, { r: 2, c: 4, val: 1, rev: false }, { r: 2, c: 5, val: 1, rev: false }, { r: 2, c: 6, val: 0, rev: false }, { r: 2, c: 7, val: 0, rev: false }, { r: 2, c: 8, val: 0, rev: false } ],
+						[ { r: 3, c: 0, val: 0, rev: false }, { r: 3, c: 1, val: 0, rev: false }, { r: 3, c: 2, val: 0, rev: false }, { r: 3, c: 3, val: 1, rev: false }, { r: 3, c: 4, mine: true, val: 0, rev: false, flag: true }, { r: 3, c: 5, val: 1, rev: true }, { r: 3, c: 6, val: 0, rev: false }, { r: 3, c: 7, val: 0, rev: false }, { r: 3, c: 8, val: 0, rev: false } ],
+						[ { r: 4, c: 0, val: 0, rev: true }, { r: 4, c: 1, val: 0, rev: true }, { r: 4, c: 2, val: 0, rev: true }, { r: 4, c: 3, val: 1, rev: true }, { r: 4, c: 4, val: 1, rev: true }, { r: 4, c: 5, val: 1, rev: true }, { r: 4, c: 6, val: 0, rev: true }, { r: 4, c: 7, val: 0, rev: true }, { r: 4, c: 8, val: 0, rev: true } ],
+						[ { r: 5, c: 0, val: 0, rev: true }, { r: 5, c: 1, val: 0, rev: true }, { r: 5, c: 2, val: 0, rev: true }, { r: 5, c: 3, val: 0, rev: true }, { r: 5, c: 4, val: 0, rev: true }, { r: 5, c: 5, val: 0, rev: true }, { r: 5, c: 6, val: 0, rev: true }, { r: 5, c: 7, val: 0, rev: true }, { r: 5, c: 8, val: 0, rev: true } ],
+						[ { r: 6, c: 0, val: 0, rev: true }, { r: 6, c: 1, val: 0, rev: true }, { r: 6, c: 2, val: 0, rev: true }, { r: 6, c: 3, val: 0, rev: true }, { r: 6, c: 4, val: 0, rev: true }, { r: 6, c: 5, val: 0, rev: true }, { r: 6, c: 6, val: 0, rev: true }, { r: 6, c: 7, val: 0, rev: true }, { r: 6, c: 8, val: 0, rev: true } ],
+						[ { r: 7, c: 0, val: 0, rev: true }, { r: 7, c: 1, val: 0, rev: true }, { r: 7, c: 2, val: 0, rev: true }, { r: 7, c: 3, val: 0, rev: true }, { r: 7, c: 4, val: 0, rev: true }, { r: 7, c: 5, val: 0, rev: true }, { r: 7, c: 6, val: 0, rev: true }, { r: 7, c: 7, val: 0, rev: true }, { r: 7, c: 8, val: 0, rev: true } ],
+						[ { r: 8, c: 0, val: 0, rev: true }, { r: 8, c: 1, val: 0, rev: true }, { r: 8, c: 2, val: 0, rev: true }, { r: 8, c: 3, val: 0, rev: true }, { r: 8, c: 4, val: 0, rev: true }, { r: 8, c: 5, val: 0, rev: true }, { r: 8, c: 6, val: 0, rev: true }, { r: 8, c: 7, val: 0, rev: true }, { r: 8, c: 8, val: 0, rev: true } ]
 					]
 				}
 			]
@@ -57,16 +70,22 @@ var MinesweeperAcademy = (function () {
 			desc_en: "When flagged mines around a revealed number equal its count, tapping or clicking that number instantly clears all its safe neighbors at once!",
 			puzzles: [
 				{
-					instruction_it: "Tocca il numero 2 cerchiato al centro per eseguire il chording ed aprire tutte le caselle libere vicine!",
-					instruction_en: "Tap the circled number 2 in the center to chord and reveal all its adjacent safe tiles!",
+					instruction_it: "Tocca il numero 2 cerchiato al centro (4,4) con le sue due bandiere già posizionate per eseguire il chording ed aprire le caselle libere vicine!",
+					instruction_en: "Tap the circled number 2 at center (4,4) with both flags placed to chord and reveal all adjacent safe tiles!",
 					requiredAction: "chord",
-					target: {"r":1,"c":1},
-					rows: 3,
-					cols: 3,
+					target: {"r":4,"c":4},
+					rows: 9,
+					cols: 9,
 					board: [
-						[ { r: 0, c: 0, val: 1, rev: false }, { r: 0, c: 1, mine: true, val: 0, rev: false, flag: true }, { r: 0, c: 2, val: 1, rev: false } ],
-						[ { r: 1, c: 0, val: 2, rev: false }, { r: 1, c: 1, val: 2, rev: true }, { r: 1, c: 2, val: 1, rev: false } ],
-						[ { r: 2, c: 0, mine: true, val: 0, rev: false, flag: true }, { r: 2, c: 1, val: 1, rev: false }, { r: 2, c: 2, val: 0, rev: false } ]
+						[ { r: 0, c: 0, val: 0, rev: false }, { r: 0, c: 1, val: 0, rev: false }, { r: 0, c: 2, val: 0, rev: false }, { r: 0, c: 3, val: 0, rev: false }, { r: 0, c: 4, val: 0, rev: false }, { r: 0, c: 5, val: 0, rev: false }, { r: 0, c: 6, val: 0, rev: false }, { r: 0, c: 7, val: 0, rev: false }, { r: 0, c: 8, val: 0, rev: false } ],
+						[ { r: 1, c: 0, val: 0, rev: false }, { r: 1, c: 1, val: 0, rev: false }, { r: 1, c: 2, val: 0, rev: false }, { r: 1, c: 3, val: 0, rev: false }, { r: 1, c: 4, val: 0, rev: false }, { r: 1, c: 5, val: 0, rev: false }, { r: 1, c: 6, val: 0, rev: false }, { r: 1, c: 7, val: 0, rev: false }, { r: 1, c: 8, val: 0, rev: false } ],
+						[ { r: 2, c: 0, val: 0, rev: false }, { r: 2, c: 1, val: 0, rev: false }, { r: 2, c: 2, val: 1, rev: false }, { r: 2, c: 3, val: 1, rev: false }, { r: 2, c: 4, val: 2, rev: false }, { r: 2, c: 5, val: 1, rev: false }, { r: 2, c: 6, val: 1, rev: false }, { r: 2, c: 7, val: 0, rev: false }, { r: 2, c: 8, val: 0, rev: false } ],
+						[ { r: 3, c: 0, val: 0, rev: false }, { r: 3, c: 1, val: 0, rev: false }, { r: 3, c: 2, val: 1, rev: false }, { r: 3, c: 3, mine: true, val: 0, rev: false, flag: true }, { r: 3, c: 4, val: 2, rev: false }, { r: 3, c: 5, mine: true, val: 0, rev: false, flag: true }, { r: 3, c: 6, val: 1, rev: false }, { r: 3, c: 7, val: 0, rev: false }, { r: 3, c: 8, val: 0, rev: false } ],
+						[ { r: 4, c: 0, val: 0, rev: false }, { r: 4, c: 1, val: 0, rev: false }, { r: 4, c: 2, val: 1, rev: false }, { r: 4, c: 3, val: 1, rev: false }, { r: 4, c: 4, val: 2, rev: true }, { r: 4, c: 5, val: 1, rev: false }, { r: 4, c: 6, val: 1, rev: false }, { r: 4, c: 7, val: 0, rev: false }, { r: 4, c: 8, val: 0, rev: false } ],
+						[ { r: 5, c: 0, val: 0, rev: true }, { r: 5, c: 1, val: 0, rev: true }, { r: 5, c: 2, val: 0, rev: true }, { r: 5, c: 3, val: 0, rev: true }, { r: 5, c: 4, val: 0, rev: true }, { r: 5, c: 5, val: 0, rev: true }, { r: 5, c: 6, val: 0, rev: true }, { r: 5, c: 7, val: 0, rev: true }, { r: 5, c: 8, val: 0, rev: true } ],
+						[ { r: 6, c: 0, val: 0, rev: true }, { r: 6, c: 1, val: 0, rev: true }, { r: 6, c: 2, val: 0, rev: true }, { r: 6, c: 3, val: 0, rev: true }, { r: 6, c: 4, val: 0, rev: true }, { r: 6, c: 5, val: 0, rev: true }, { r: 6, c: 6, val: 0, rev: true }, { r: 6, c: 7, val: 0, rev: true }, { r: 6, c: 8, val: 0, rev: true } ],
+						[ { r: 7, c: 0, val: 0, rev: true }, { r: 7, c: 1, val: 0, rev: true }, { r: 7, c: 2, val: 0, rev: true }, { r: 7, c: 3, val: 0, rev: true }, { r: 7, c: 4, val: 0, rev: true }, { r: 7, c: 5, val: 0, rev: true }, { r: 7, c: 6, val: 0, rev: true }, { r: 7, c: 7, val: 0, rev: true }, { r: 7, c: 8, val: 0, rev: true } ],
+						[ { r: 8, c: 0, val: 0, rev: true }, { r: 8, c: 1, val: 0, rev: true }, { r: 8, c: 2, val: 0, rev: true }, { r: 8, c: 3, val: 0, rev: true }, { r: 8, c: 4, val: 0, rev: true }, { r: 8, c: 5, val: 0, rev: true }, { r: 8, c: 6, val: 0, rev: true }, { r: 8, c: 7, val: 0, rev: true }, { r: 8, c: 8, val: 0, rev: true } ]
 					]
 				}
 			]
@@ -82,15 +101,22 @@ var MinesweeperAcademy = (function () {
 			desc_en: "Along a wall or boundary, if two consecutive 1s share two tiles, the mine must be among those two. The third tile touched only by the second 1 is GUARANTEED SAFE!",
 			puzzles: [
 				{
-					instruction_it: "Lungo la parete, il primo 1 confina la mina nelle prime due caselle. Il secondo 1 garantisce che la terza casella è LIBERA! Scava ⛏️ la casella sicura all'estremità!",
-					instruction_en: "Along the wall, the first 1 confines the mine to the first two tiles. The second 1 guarantees the third tile is SAFE! Dig ⛏️ the safe tile at the end!",
+					instruction_it: "Lungo la parete sinistra, il primo 1 a (3,0) confina la mina in (2,0) o (2,1). Il secondo 1 a (3,1) garantisce che la terza casella (2,2) è LIBERA! Scava ⛏️ la casella sicura (2,2)!",
+					instruction_en: "Along the left wall, the first 1 at (3,0) confines the mine to (2,0) or (2,1). The second 1 at (3,1) guarantees the third tile (2,2) is SAFE! Dig ⛏️ tile (2,2)!",
 					requiredAction: "reveal",
-					target: {"r":0,"c":2},
-					rows: 2,
-					cols: 4,
+					target: {"r":2,"c":2},
+					rows: 9,
+					cols: 9,
 					board: [
-						[ { r: 0, c: 0, mine: true, val: 0, rev: false }, { r: 0, c: 1, val: 1, rev: false }, { r: 0, c: 2, val: 0, rev: false }, { r: 0, c: 3, val: 0, rev: false } ],
-						[ { r: 1, c: 0, val: 1, rev: true }, { r: 1, c: 1, val: 1, rev: true }, { r: 1, c: 2, val: 0, rev: true }, { r: 1, c: 3, val: 0, rev: true } ]
+						[ { r: 0, c: 0, val: 0, rev: false }, { r: 0, c: 1, val: 0, rev: false }, { r: 0, c: 2, val: 0, rev: false }, { r: 0, c: 3, val: 0, rev: false }, { r: 0, c: 4, val: 0, rev: false }, { r: 0, c: 5, val: 0, rev: false }, { r: 0, c: 6, val: 0, rev: false }, { r: 0, c: 7, val: 0, rev: false }, { r: 0, c: 8, val: 0, rev: false } ],
+						[ { r: 1, c: 0, val: 1, rev: false }, { r: 1, c: 1, val: 1, rev: false }, { r: 1, c: 2, val: 0, rev: false }, { r: 1, c: 3, val: 0, rev: false }, { r: 1, c: 4, val: 0, rev: false }, { r: 1, c: 5, val: 0, rev: false }, { r: 1, c: 6, val: 0, rev: false }, { r: 1, c: 7, val: 0, rev: false }, { r: 1, c: 8, val: 0, rev: false } ],
+						[ { r: 2, c: 0, mine: true, val: 0, rev: false }, { r: 2, c: 1, val: 1, rev: false }, { r: 2, c: 2, val: 0, rev: false }, { r: 2, c: 3, val: 0, rev: false }, { r: 2, c: 4, val: 0, rev: false }, { r: 2, c: 5, val: 0, rev: false }, { r: 2, c: 6, val: 0, rev: false }, { r: 2, c: 7, val: 0, rev: false }, { r: 2, c: 8, val: 0, rev: false } ],
+						[ { r: 3, c: 0, val: 1, rev: true }, { r: 3, c: 1, val: 1, rev: true }, { r: 3, c: 2, val: 0, rev: true }, { r: 3, c: 3, val: 0, rev: true }, { r: 3, c: 4, val: 0, rev: true }, { r: 3, c: 5, val: 0, rev: true }, { r: 3, c: 6, val: 0, rev: true }, { r: 3, c: 7, val: 0, rev: true }, { r: 3, c: 8, val: 0, rev: true } ],
+						[ { r: 4, c: 0, val: 0, rev: true }, { r: 4, c: 1, val: 0, rev: true }, { r: 4, c: 2, val: 0, rev: true }, { r: 4, c: 3, val: 0, rev: true }, { r: 4, c: 4, val: 0, rev: true }, { r: 4, c: 5, val: 0, rev: true }, { r: 4, c: 6, val: 0, rev: true }, { r: 4, c: 7, val: 0, rev: true }, { r: 4, c: 8, val: 0, rev: true } ],
+						[ { r: 5, c: 0, val: 0, rev: true }, { r: 5, c: 1, val: 0, rev: true }, { r: 5, c: 2, val: 0, rev: true }, { r: 5, c: 3, val: 0, rev: true }, { r: 5, c: 4, val: 0, rev: true }, { r: 5, c: 5, val: 0, rev: true }, { r: 5, c: 6, val: 0, rev: true }, { r: 5, c: 7, val: 0, rev: true }, { r: 5, c: 8, val: 0, rev: true } ],
+						[ { r: 6, c: 0, val: 0, rev: true }, { r: 6, c: 1, val: 0, rev: true }, { r: 6, c: 2, val: 0, rev: true }, { r: 6, c: 3, val: 0, rev: true }, { r: 6, c: 4, val: 0, rev: true }, { r: 6, c: 5, val: 0, rev: true }, { r: 6, c: 6, val: 0, rev: true }, { r: 6, c: 7, val: 0, rev: true }, { r: 6, c: 8, val: 0, rev: true } ],
+						[ { r: 7, c: 0, val: 0, rev: true }, { r: 7, c: 1, val: 0, rev: true }, { r: 7, c: 2, val: 0, rev: true }, { r: 7, c: 3, val: 0, rev: true }, { r: 7, c: 4, val: 0, rev: true }, { r: 7, c: 5, val: 0, rev: true }, { r: 7, c: 6, val: 0, rev: true }, { r: 7, c: 7, val: 0, rev: true }, { r: 7, c: 8, val: 0, rev: true } ],
+						[ { r: 8, c: 0, val: 0, rev: true }, { r: 8, c: 1, val: 0, rev: true }, { r: 8, c: 2, val: 0, rev: true }, { r: 8, c: 3, val: 0, rev: true }, { r: 8, c: 4, val: 0, rev: true }, { r: 8, c: 5, val: 0, rev: true }, { r: 8, c: 6, val: 0, rev: true }, { r: 8, c: 7, val: 0, rev: true }, { r: 8, c: 8, val: 0, rev: true } ]
 					]
 				}
 			]
@@ -106,15 +132,22 @@ var MinesweeperAcademy = (function () {
 			desc_en: "A 2 touches 3 tiles with 2 mines, but an adjacent 1 confines 1 mine to the first two tiles. The third tile (X) touched only by the 2 is DEFINITELY A MINE!",
 			puzzles: [
 				{
-					instruction_it: "L'1 iniziale limita 1 mina alle prime due caselle. Il 2 adiacente tocca quelle due più una terza: la terza casella esterna è SICURAMENTE UNA MINA! Metti la bandiera 🚩!",
-					instruction_en: "The initial 1 limits 1 mine to the first two tiles. The adjacent 2 touches those two plus a third: the third outer tile is DEFINITELY A MINE! Place a flag 🚩!",
+					instruction_it: "L'1 a (3,0) limita 1 mina a (2,0) e (2,1). Il 2 a (3,1) tocca anche la casella (2,2): la mina esterna è a (2,2)! Metti la bandiera 🚩 su (2,2)!",
+					instruction_en: "The 1 at (3,0) confines 1 mine to (2,0) and (2,1). The 2 at (3,1) also touches (2,2): the outer mine is at (2,2)! Flag 🚩 (2,2)!",
 					requiredAction: "flag",
-					target: {"r":0,"c":2},
-					rows: 2,
-					cols: 4,
+					target: {"r":2,"c":2},
+					rows: 9,
+					cols: 9,
 					board: [
-						[ { r: 0, c: 0, val: 1, rev: false }, { r: 0, c: 1, mine: true, val: 1, rev: false }, { r: 0, c: 2, mine: true, val: 1, rev: false }, { r: 0, c: 3, val: 1, rev: false } ],
-						[ { r: 1, c: 0, val: 1, rev: true }, { r: 1, c: 1, val: 2, rev: true }, { r: 1, c: 2, val: 2, rev: true }, { r: 1, c: 3, val: 1, rev: true } ]
+						[ { r: 0, c: 0, val: 0, rev: false }, { r: 0, c: 1, val: 0, rev: false }, { r: 0, c: 2, val: 0, rev: false }, { r: 0, c: 3, val: 0, rev: false }, { r: 0, c: 4, val: 0, rev: false }, { r: 0, c: 5, val: 0, rev: false }, { r: 0, c: 6, val: 0, rev: false }, { r: 0, c: 7, val: 0, rev: false }, { r: 0, c: 8, val: 0, rev: false } ],
+						[ { r: 1, c: 0, val: 1, rev: false }, { r: 1, c: 1, val: 2, rev: false }, { r: 1, c: 2, val: 2, rev: false }, { r: 1, c: 3, val: 1, rev: false }, { r: 1, c: 4, val: 0, rev: false }, { r: 1, c: 5, val: 0, rev: false }, { r: 1, c: 6, val: 0, rev: false }, { r: 1, c: 7, val: 0, rev: false }, { r: 1, c: 8, val: 0, rev: false } ],
+						[ { r: 2, c: 0, val: 1, rev: false }, { r: 2, c: 1, mine: true, val: 0, rev: false }, { r: 2, c: 2, mine: true, val: 0, rev: false }, { r: 2, c: 3, val: 1, rev: false }, { r: 2, c: 4, val: 0, rev: false }, { r: 2, c: 5, val: 0, rev: false }, { r: 2, c: 6, val: 0, rev: false }, { r: 2, c: 7, val: 0, rev: false }, { r: 2, c: 8, val: 0, rev: false } ],
+						[ { r: 3, c: 0, val: 1, rev: true }, { r: 3, c: 1, val: 2, rev: true }, { r: 3, c: 2, val: 2, rev: true }, { r: 3, c: 3, val: 1, rev: true }, { r: 3, c: 4, val: 0, rev: true }, { r: 3, c: 5, val: 0, rev: true }, { r: 3, c: 6, val: 0, rev: true }, { r: 3, c: 7, val: 0, rev: true }, { r: 3, c: 8, val: 0, rev: true } ],
+						[ { r: 4, c: 0, val: 0, rev: true }, { r: 4, c: 1, val: 0, rev: true }, { r: 4, c: 2, val: 0, rev: true }, { r: 4, c: 3, val: 0, rev: true }, { r: 4, c: 4, val: 0, rev: true }, { r: 4, c: 5, val: 0, rev: true }, { r: 4, c: 6, val: 0, rev: true }, { r: 4, c: 7, val: 0, rev: true }, { r: 4, c: 8, val: 0, rev: true } ],
+						[ { r: 5, c: 0, val: 0, rev: true }, { r: 5, c: 1, val: 0, rev: true }, { r: 5, c: 2, val: 0, rev: true }, { r: 5, c: 3, val: 0, rev: true }, { r: 5, c: 4, val: 0, rev: true }, { r: 5, c: 5, val: 0, rev: true }, { r: 5, c: 6, val: 0, rev: true }, { r: 5, c: 7, val: 0, rev: true }, { r: 5, c: 8, val: 0, rev: true } ],
+						[ { r: 6, c: 0, val: 0, rev: true }, { r: 6, c: 1, val: 0, rev: true }, { r: 6, c: 2, val: 0, rev: true }, { r: 6, c: 3, val: 0, rev: true }, { r: 6, c: 4, val: 0, rev: true }, { r: 6, c: 5, val: 0, rev: true }, { r: 6, c: 6, val: 0, rev: true }, { r: 6, c: 7, val: 0, rev: true }, { r: 6, c: 8, val: 0, rev: true } ],
+						[ { r: 7, c: 0, val: 0, rev: true }, { r: 7, c: 1, val: 0, rev: true }, { r: 7, c: 2, val: 0, rev: true }, { r: 7, c: 3, val: 0, rev: true }, { r: 7, c: 4, val: 0, rev: true }, { r: 7, c: 5, val: 0, rev: true }, { r: 7, c: 6, val: 0, rev: true }, { r: 7, c: 7, val: 0, rev: true }, { r: 7, c: 8, val: 0, rev: true } ],
+						[ { r: 8, c: 0, val: 0, rev: true }, { r: 8, c: 1, val: 0, rev: true }, { r: 8, c: 2, val: 0, rev: true }, { r: 8, c: 3, val: 0, rev: true }, { r: 8, c: 4, val: 0, rev: true }, { r: 8, c: 5, val: 0, rev: true }, { r: 8, c: 6, val: 0, rev: true }, { r: 8, c: 7, val: 0, rev: true }, { r: 8, c: 8, val: 0, rev: true } ]
 					]
 				}
 			]
@@ -130,28 +163,42 @@ var MinesweeperAcademy = (function () {
 			desc_en: "The 1-2-1 sequence along a flat wall has a universal rule: tiles facing the two 1s are MINES (🚩), while the tile facing the central 2 is SAFE (⛏️)!",
 			puzzles: [
 				{
-					instruction_it: "Pattern 1-2-1 su parete: la casella centrale davanti al 2 è sempre garantita libera! Scava ⛏️ la casella centrale.",
-					instruction_en: "1-2-1 wall pattern: the central tile facing the 2 is always guaranteed safe! Dig ⛏️ the middle safe cell.",
+					instruction_it: "Pattern 1-2-1 su parete: la casella centrale (2,2) davanti al 2 è sempre garantita libera! Scava ⛏️ la casella centrale (2,2).",
+					instruction_en: "1-2-1 wall pattern: the central tile (2,2) facing the 2 is always guaranteed safe! Dig ⛏️ the middle safe tile (2,2).",
 					requiredAction: "reveal",
-					target: {"r":0,"c":2},
-					rows: 2,
-					cols: 5,
+					target: {"r":2,"c":2},
+					rows: 9,
+					cols: 9,
 					board: [
-						[ { r: 0, c: 0, val: 1, rev: false }, { r: 0, c: 1, mine: true, val: 0, rev: false }, { r: 0, c: 2, val: 2, rev: false }, { r: 0, c: 3, mine: true, val: 0, rev: false }, { r: 0, c: 4, val: 1, rev: false } ],
-						[ { r: 1, c: 0, val: 1, rev: true }, { r: 1, c: 1, val: 1, rev: true }, { r: 1, c: 2, val: 2, rev: true }, { r: 1, c: 3, val: 1, rev: true }, { r: 1, c: 4, val: 1, rev: true } ]
+						[ { r: 0, c: 0, val: 0, rev: false }, { r: 0, c: 1, val: 0, rev: false }, { r: 0, c: 2, val: 0, rev: false }, { r: 0, c: 3, val: 0, rev: false }, { r: 0, c: 4, val: 0, rev: false }, { r: 0, c: 5, val: 0, rev: false }, { r: 0, c: 6, val: 0, rev: false }, { r: 0, c: 7, val: 0, rev: false }, { r: 0, c: 8, val: 0, rev: false } ],
+						[ { r: 1, c: 0, val: 1, rev: false }, { r: 1, c: 1, val: 1, rev: false }, { r: 1, c: 2, val: 2, rev: false }, { r: 1, c: 3, val: 1, rev: false }, { r: 1, c: 4, val: 1, rev: false }, { r: 1, c: 5, val: 0, rev: false }, { r: 1, c: 6, val: 0, rev: false }, { r: 1, c: 7, val: 0, rev: false }, { r: 1, c: 8, val: 0, rev: false } ],
+						[ { r: 2, c: 0, val: 1, rev: false }, { r: 2, c: 1, mine: true, val: 0, rev: false }, { r: 2, c: 2, val: 2, rev: false }, { r: 2, c: 3, mine: true, val: 0, rev: false }, { r: 2, c: 4, val: 1, rev: false }, { r: 2, c: 5, val: 0, rev: false }, { r: 2, c: 6, val: 0, rev: false }, { r: 2, c: 7, val: 0, rev: false }, { r: 2, c: 8, val: 0, rev: false } ],
+						[ { r: 3, c: 0, val: 1, rev: true }, { r: 3, c: 1, val: 1, rev: true }, { r: 3, c: 2, val: 2, rev: true }, { r: 3, c: 3, val: 1, rev: true }, { r: 3, c: 4, val: 1, rev: true }, { r: 3, c: 5, val: 0, rev: true }, { r: 3, c: 6, val: 0, rev: true }, { r: 3, c: 7, val: 0, rev: true }, { r: 3, c: 8, val: 0, rev: true } ],
+						[ { r: 4, c: 0, val: 0, rev: true }, { r: 4, c: 1, val: 0, rev: true }, { r: 4, c: 2, val: 0, rev: true }, { r: 4, c: 3, val: 0, rev: true }, { r: 4, c: 4, val: 0, rev: true }, { r: 4, c: 5, val: 0, rev: true }, { r: 4, c: 6, val: 0, rev: true }, { r: 4, c: 7, val: 0, rev: true }, { r: 4, c: 8, val: 0, rev: true } ],
+						[ { r: 5, c: 0, val: 0, rev: true }, { r: 5, c: 1, val: 0, rev: true }, { r: 5, c: 2, val: 0, rev: true }, { r: 5, c: 3, val: 0, rev: true }, { r: 5, c: 4, val: 0, rev: true }, { r: 5, c: 5, val: 0, rev: true }, { r: 5, c: 6, val: 0, rev: true }, { r: 5, c: 7, val: 0, rev: true }, { r: 5, c: 8, val: 0, rev: true } ],
+						[ { r: 6, c: 0, val: 0, rev: true }, { r: 6, c: 1, val: 0, rev: true }, { r: 6, c: 2, val: 0, rev: true }, { r: 6, c: 3, val: 0, rev: true }, { r: 6, c: 4, val: 0, rev: true }, { r: 6, c: 5, val: 0, rev: true }, { r: 6, c: 6, val: 0, rev: true }, { r: 6, c: 7, val: 0, rev: true }, { r: 6, c: 8, val: 0, rev: true } ],
+						[ { r: 7, c: 0, val: 0, rev: true }, { r: 7, c: 1, val: 0, rev: true }, { r: 7, c: 2, val: 0, rev: true }, { r: 7, c: 3, val: 0, rev: true }, { r: 7, c: 4, val: 0, rev: true }, { r: 7, c: 5, val: 0, rev: true }, { r: 7, c: 6, val: 0, rev: true }, { r: 7, c: 7, val: 0, rev: true }, { r: 7, c: 8, val: 0, rev: true } ],
+						[ { r: 8, c: 0, val: 0, rev: true }, { r: 8, c: 1, val: 0, rev: true }, { r: 8, c: 2, val: 0, rev: true }, { r: 8, c: 3, val: 0, rev: true }, { r: 8, c: 4, val: 0, rev: true }, { r: 8, c: 5, val: 0, rev: true }, { r: 8, c: 6, val: 0, rev: true }, { r: 8, c: 7, val: 0, rev: true }, { r: 8, c: 8, val: 0, rev: true } ]
 					]
 				},
 				{
 					instruction_it: "Pattern 1-2-1 su parete: le caselle davanti ai due 1 sono sempre mine! Metti la bandiera 🚩 su una delle due mine esterne.",
 					instruction_en: "1-2-1 wall pattern: the tiles facing the two 1s are always mines! Flag 🚩 one of the two outer mines.",
 					requiredAction: "flag",
-					target: {"r":0,"c":1},
-					alternateTarget: {"r":0,"c":3},
-					rows: 2,
-					cols: 5,
+					target: {"r":2,"c":1},
+					alternateTarget: {"r":2,"c":3},
+					rows: 9,
+					cols: 9,
 					board: [
-						[ { r: 0, c: 0, val: 1, rev: false }, { r: 0, c: 1, mine: true, val: 0, rev: false }, { r: 0, c: 2, val: 2, rev: true }, { r: 0, c: 3, mine: true, val: 0, rev: false }, { r: 0, c: 4, val: 1, rev: false } ],
-						[ { r: 1, c: 0, val: 1, rev: true }, { r: 1, c: 1, val: 1, rev: true }, { r: 1, c: 2, val: 2, rev: true }, { r: 1, c: 3, val: 1, rev: true }, { r: 1, c: 4, val: 1, rev: true } ]
+						[ { r: 0, c: 0, val: 0, rev: false }, { r: 0, c: 1, val: 0, rev: false }, { r: 0, c: 2, val: 0, rev: false }, { r: 0, c: 3, val: 0, rev: false }, { r: 0, c: 4, val: 0, rev: false }, { r: 0, c: 5, val: 0, rev: false }, { r: 0, c: 6, val: 0, rev: false }, { r: 0, c: 7, val: 0, rev: false }, { r: 0, c: 8, val: 0, rev: false } ],
+						[ { r: 1, c: 0, val: 1, rev: false }, { r: 1, c: 1, val: 1, rev: false }, { r: 1, c: 2, val: 2, rev: false }, { r: 1, c: 3, val: 1, rev: false }, { r: 1, c: 4, val: 1, rev: false }, { r: 1, c: 5, val: 0, rev: false }, { r: 1, c: 6, val: 0, rev: false }, { r: 1, c: 7, val: 0, rev: false }, { r: 1, c: 8, val: 0, rev: false } ],
+						[ { r: 2, c: 0, val: 1, rev: false }, { r: 2, c: 1, mine: true, val: 0, rev: false }, { r: 2, c: 2, val: 2, rev: true }, { r: 2, c: 3, mine: true, val: 0, rev: false }, { r: 2, c: 4, val: 1, rev: false }, { r: 2, c: 5, val: 0, rev: false }, { r: 2, c: 6, val: 0, rev: false }, { r: 2, c: 7, val: 0, rev: false }, { r: 2, c: 8, val: 0, rev: false } ],
+						[ { r: 3, c: 0, val: 1, rev: true }, { r: 3, c: 1, val: 1, rev: true }, { r: 3, c: 2, val: 2, rev: true }, { r: 3, c: 3, val: 1, rev: true }, { r: 3, c: 4, val: 1, rev: true }, { r: 3, c: 5, val: 0, rev: true }, { r: 3, c: 6, val: 0, rev: true }, { r: 3, c: 7, val: 0, rev: true }, { r: 3, c: 8, val: 0, rev: true } ],
+						[ { r: 4, c: 0, val: 0, rev: true }, { r: 4, c: 1, val: 0, rev: true }, { r: 4, c: 2, val: 0, rev: true }, { r: 4, c: 3, val: 0, rev: true }, { r: 4, c: 4, val: 0, rev: true }, { r: 4, c: 5, val: 0, rev: true }, { r: 4, c: 6, val: 0, rev: true }, { r: 4, c: 7, val: 0, rev: true }, { r: 4, c: 8, val: 0, rev: true } ],
+						[ { r: 5, c: 0, val: 0, rev: true }, { r: 5, c: 1, val: 0, rev: true }, { r: 5, c: 2, val: 0, rev: true }, { r: 5, c: 3, val: 0, rev: true }, { r: 5, c: 4, val: 0, rev: true }, { r: 5, c: 5, val: 0, rev: true }, { r: 5, c: 6, val: 0, rev: true }, { r: 5, c: 7, val: 0, rev: true }, { r: 5, c: 8, val: 0, rev: true } ],
+						[ { r: 6, c: 0, val: 0, rev: true }, { r: 6, c: 1, val: 0, rev: true }, { r: 6, c: 2, val: 0, rev: true }, { r: 6, c: 3, val: 0, rev: true }, { r: 6, c: 4, val: 0, rev: true }, { r: 6, c: 5, val: 0, rev: true }, { r: 6, c: 6, val: 0, rev: true }, { r: 6, c: 7, val: 0, rev: true }, { r: 6, c: 8, val: 0, rev: true } ],
+						[ { r: 7, c: 0, val: 0, rev: true }, { r: 7, c: 1, val: 0, rev: true }, { r: 7, c: 2, val: 0, rev: true }, { r: 7, c: 3, val: 0, rev: true }, { r: 7, c: 4, val: 0, rev: true }, { r: 7, c: 5, val: 0, rev: true }, { r: 7, c: 6, val: 0, rev: true }, { r: 7, c: 7, val: 0, rev: true }, { r: 7, c: 8, val: 0, rev: true } ],
+						[ { r: 8, c: 0, val: 0, rev: true }, { r: 8, c: 1, val: 0, rev: true }, { r: 8, c: 2, val: 0, rev: true }, { r: 8, c: 3, val: 0, rev: true }, { r: 8, c: 4, val: 0, rev: true }, { r: 8, c: 5, val: 0, rev: true }, { r: 8, c: 6, val: 0, rev: true }, { r: 8, c: 7, val: 0, rev: true }, { r: 8, c: 8, val: 0, rev: true } ]
 					]
 				}
 			]
@@ -167,31 +214,43 @@ var MinesweeperAcademy = (function () {
 			desc_en: "In a 1-2-2-1 sequence along a wall, the mines are directly in front of the two 2s. The tiles facing the two 1s are ALWAYS 100% SAFE!",
 			puzzles: [
 				{
-					instruction_it: "Pattern 1-2-2-1: scava ⛏️ una delle due caselle esterne sicure davanti agli 1!",
+					instruction_it: "Pattern 1-2-2-1: scava ⛏️ una delle due caselle esterne sicure davanti agli 1 (in colonna 1 o 4)!",
 					instruction_en: "1-2-2-1 Pattern: dig ⛏️ one of the outer safe tiles facing the 1s!",
 					requiredAction: "reveal",
-					target: {"r":0,"c":0},
-					alternateTarget: {"r":0,"c":3},
-					rows: 3,
-					cols: 4,
+					target: {"r":2,"c":0},
+					alternateTarget: {"r":2,"c":5},
+					rows: 9,
+					cols: 9,
 					board: [
-						[ { r: 0, c: 0, val: 1, rev: false }, { r: 0, c: 1, mine: true, val: 1, rev: false }, { r: 0, c: 2, mine: true, val: 1, rev: false }, { r: 0, c: 3, val: 1, rev: false } ],
-						[ { r: 1, c: 0, val: 1, rev: true }, { r: 1, c: 1, val: 2, rev: true }, { r: 1, c: 2, val: 2, rev: true }, { r: 1, c: 3, val: 1, rev: true } ],
-						[ { r: 2, c: 0, val: 0, rev: true }, { r: 2, c: 1, val: 0, rev: true }, { r: 2, c: 2, val: 0, rev: true }, { r: 2, c: 3, val: 0, rev: true } ]
+						[ { r: 0, c: 0, val: 0, rev: false }, { r: 0, c: 1, val: 0, rev: false }, { r: 0, c: 2, val: 0, rev: false }, { r: 0, c: 3, val: 0, rev: false }, { r: 0, c: 4, val: 0, rev: false }, { r: 0, c: 5, val: 0, rev: false }, { r: 0, c: 6, val: 0, rev: false }, { r: 0, c: 7, val: 0, rev: false }, { r: 0, c: 8, val: 0, rev: false } ],
+						[ { r: 1, c: 0, val: 0, rev: false }, { r: 1, c: 1, val: 1, rev: false }, { r: 1, c: 2, val: 2, rev: false }, { r: 1, c: 3, val: 2, rev: false }, { r: 1, c: 4, val: 1, rev: false }, { r: 1, c: 5, val: 0, rev: false }, { r: 1, c: 6, val: 0, rev: false }, { r: 1, c: 7, val: 0, rev: false }, { r: 1, c: 8, val: 0, rev: false } ],
+						[ { r: 2, c: 0, val: 0, rev: false }, { r: 2, c: 1, val: 1, rev: false }, { r: 2, c: 2, mine: true, val: 0, rev: false }, { r: 2, c: 3, mine: true, val: 0, rev: false }, { r: 2, c: 4, val: 1, rev: false }, { r: 2, c: 5, val: 0, rev: false }, { r: 2, c: 6, val: 0, rev: false }, { r: 2, c: 7, val: 0, rev: false }, { r: 2, c: 8, val: 0, rev: false } ],
+						[ { r: 3, c: 0, val: 0, rev: true }, { r: 3, c: 1, val: 1, rev: true }, { r: 3, c: 2, val: 2, rev: true }, { r: 3, c: 3, val: 2, rev: true }, { r: 3, c: 4, val: 1, rev: true }, { r: 3, c: 5, val: 0, rev: true }, { r: 3, c: 6, val: 0, rev: true }, { r: 3, c: 7, val: 0, rev: true }, { r: 3, c: 8, val: 0, rev: true } ],
+						[ { r: 4, c: 0, val: 0, rev: true }, { r: 4, c: 1, val: 0, rev: true }, { r: 4, c: 2, val: 0, rev: true }, { r: 4, c: 3, val: 0, rev: true }, { r: 4, c: 4, val: 0, rev: true }, { r: 4, c: 5, val: 0, rev: true }, { r: 4, c: 6, val: 0, rev: true }, { r: 4, c: 7, val: 0, rev: true }, { r: 4, c: 8, val: 0, rev: true } ],
+						[ { r: 5, c: 0, val: 0, rev: true }, { r: 5, c: 1, val: 0, rev: true }, { r: 5, c: 2, val: 0, rev: true }, { r: 5, c: 3, val: 0, rev: true }, { r: 5, c: 4, val: 0, rev: true }, { r: 5, c: 5, val: 0, rev: true }, { r: 5, c: 6, val: 0, rev: true }, { r: 5, c: 7, val: 0, rev: true }, { r: 5, c: 8, val: 0, rev: true } ],
+						[ { r: 6, c: 0, val: 0, rev: true }, { r: 6, c: 1, val: 0, rev: true }, { r: 6, c: 2, val: 0, rev: true }, { r: 6, c: 3, val: 0, rev: true }, { r: 6, c: 4, val: 0, rev: true }, { r: 6, c: 5, val: 0, rev: true }, { r: 6, c: 6, val: 0, rev: true }, { r: 6, c: 7, val: 0, rev: true }, { r: 6, c: 8, val: 0, rev: true } ],
+						[ { r: 7, c: 0, val: 0, rev: true }, { r: 7, c: 1, val: 0, rev: true }, { r: 7, c: 2, val: 0, rev: true }, { r: 7, c: 3, val: 0, rev: true }, { r: 7, c: 4, val: 0, rev: true }, { r: 7, c: 5, val: 0, rev: true }, { r: 7, c: 6, val: 0, rev: true }, { r: 7, c: 7, val: 0, rev: true }, { r: 7, c: 8, val: 0, rev: true } ],
+						[ { r: 8, c: 0, val: 0, rev: true }, { r: 8, c: 1, val: 0, rev: true }, { r: 8, c: 2, val: 0, rev: true }, { r: 8, c: 3, val: 0, rev: true }, { r: 8, c: 4, val: 0, rev: true }, { r: 8, c: 5, val: 0, rev: true }, { r: 8, c: 6, val: 0, rev: true }, { r: 8, c: 7, val: 0, rev: true }, { r: 8, c: 8, val: 0, rev: true } ]
 					]
 				},
 				{
-					instruction_it: "Pattern 1-2-2-1: metti la bandiera 🚩 su una mina davanti a un 2!",
+					instruction_it: "Pattern 1-2-2-1: metti la bandiera 🚩 su una mina davanti a un 2 (colonna 2 o 3)!",
 					instruction_en: "1-2-2-1 Pattern: flag 🚩 a mine in front of one of the 2s!",
 					requiredAction: "flag",
-					target: {"r":0,"c":1},
-					alternateTarget: {"r":0,"c":2},
-					rows: 3,
-					cols: 4,
+					target: {"r":2,"c":2},
+					alternateTarget: {"r":2,"c":3},
+					rows: 9,
+					cols: 9,
 					board: [
-						[ { r: 0, c: 0, val: 1, rev: true }, { r: 0, c: 1, mine: true, val: 1, rev: false }, { r: 0, c: 2, mine: true, val: 1, rev: false }, { r: 0, c: 3, val: 1, rev: false } ],
-						[ { r: 1, c: 0, val: 1, rev: true }, { r: 1, c: 1, val: 2, rev: true }, { r: 1, c: 2, val: 2, rev: true }, { r: 1, c: 3, val: 1, rev: true } ],
-						[ { r: 2, c: 0, val: 0, rev: true }, { r: 2, c: 1, val: 0, rev: true }, { r: 2, c: 2, val: 0, rev: true }, { r: 2, c: 3, val: 0, rev: true } ]
+						[ { r: 0, c: 0, val: 0, rev: false }, { r: 0, c: 1, val: 0, rev: false }, { r: 0, c: 2, val: 0, rev: false }, { r: 0, c: 3, val: 0, rev: false }, { r: 0, c: 4, val: 0, rev: false }, { r: 0, c: 5, val: 0, rev: false }, { r: 0, c: 6, val: 0, rev: false }, { r: 0, c: 7, val: 0, rev: false }, { r: 0, c: 8, val: 0, rev: false } ],
+						[ { r: 1, c: 0, val: 0, rev: false }, { r: 1, c: 1, val: 1, rev: false }, { r: 1, c: 2, val: 2, rev: false }, { r: 1, c: 3, val: 2, rev: false }, { r: 1, c: 4, val: 1, rev: false }, { r: 1, c: 5, val: 0, rev: false }, { r: 1, c: 6, val: 0, rev: false }, { r: 1, c: 7, val: 0, rev: false }, { r: 1, c: 8, val: 0, rev: false } ],
+						[ { r: 2, c: 0, val: 0, rev: true }, { r: 2, c: 1, val: 1, rev: false }, { r: 2, c: 2, mine: true, val: 0, rev: false }, { r: 2, c: 3, mine: true, val: 0, rev: false }, { r: 2, c: 4, val: 1, rev: false }, { r: 2, c: 5, val: 0, rev: true }, { r: 2, c: 6, val: 0, rev: false }, { r: 2, c: 7, val: 0, rev: false }, { r: 2, c: 8, val: 0, rev: false } ],
+						[ { r: 3, c: 0, val: 0, rev: true }, { r: 3, c: 1, val: 1, rev: true }, { r: 3, c: 2, val: 2, rev: true }, { r: 3, c: 3, val: 2, rev: true }, { r: 3, c: 4, val: 1, rev: true }, { r: 3, c: 5, val: 0, rev: true }, { r: 3, c: 6, val: 0, rev: true }, { r: 3, c: 7, val: 0, rev: true }, { r: 3, c: 8, val: 0, rev: true } ],
+						[ { r: 4, c: 0, val: 0, rev: true }, { r: 4, c: 1, val: 0, rev: true }, { r: 4, c: 2, val: 0, rev: true }, { r: 4, c: 3, val: 0, rev: true }, { r: 4, c: 4, val: 0, rev: true }, { r: 4, c: 5, val: 0, rev: true }, { r: 4, c: 6, val: 0, rev: true }, { r: 4, c: 7, val: 0, rev: true }, { r: 4, c: 8, val: 0, rev: true } ],
+						[ { r: 5, c: 0, val: 0, rev: true }, { r: 5, c: 1, val: 0, rev: true }, { r: 5, c: 2, val: 0, rev: true }, { r: 5, c: 3, val: 0, rev: true }, { r: 5, c: 4, val: 0, rev: true }, { r: 5, c: 5, val: 0, rev: true }, { r: 5, c: 6, val: 0, rev: true }, { r: 5, c: 7, val: 0, rev: true }, { r: 5, c: 8, val: 0, rev: true } ],
+						[ { r: 6, c: 0, val: 0, rev: true }, { r: 6, c: 1, val: 0, rev: true }, { r: 6, c: 2, val: 0, rev: true }, { r: 6, c: 3, val: 0, rev: true }, { r: 6, c: 4, val: 0, rev: true }, { r: 6, c: 5, val: 0, rev: true }, { r: 6, c: 6, val: 0, rev: true }, { r: 6, c: 7, val: 0, rev: true }, { r: 6, c: 8, val: 0, rev: true } ],
+						[ { r: 7, c: 0, val: 0, rev: true }, { r: 7, c: 1, val: 0, rev: true }, { r: 7, c: 2, val: 0, rev: true }, { r: 7, c: 3, val: 0, rev: true }, { r: 7, c: 4, val: 0, rev: true }, { r: 7, c: 5, val: 0, rev: true }, { r: 7, c: 6, val: 0, rev: true }, { r: 7, c: 7, val: 0, rev: true }, { r: 7, c: 8, val: 0, rev: true } ],
+						[ { r: 8, c: 0, val: 0, rev: true }, { r: 8, c: 1, val: 0, rev: true }, { r: 8, c: 2, val: 0, rev: true }, { r: 8, c: 3, val: 0, rev: true }, { r: 8, c: 4, val: 0, rev: true }, { r: 8, c: 5, val: 0, rev: true }, { r: 8, c: 6, val: 0, rev: true }, { r: 8, c: 7, val: 0, rev: true }, { r: 8, c: 8, val: 0, rev: true } ]
 					]
 				}
 			]
@@ -207,16 +266,22 @@ var MinesweeperAcademy = (function () {
 			desc_en: "Most complex layouts (e.g. 1-2-2 or 2-3-2) reduce into a clean 1-2-1 by subtracting already placed flags (2 - 1 = 1)!",
 			puzzles: [
 				{
-					instruction_it: "Sulla destra c'è un 2 con già una bandiera: vale come 1 (2 - 1 = 1). La terna 1-2-2 si riduce a 1-2-1! Scava ⛏️ la casella centrale libera.",
-					instruction_en: "On the right, a 2 already has a flag: it acts as 1 (2 - 1 = 1). The 1-2-2 reduces to 1-2-1! Dig ⛏️ the middle safe cell.",
+					instruction_it: "La bandiera piazzata a (2,4) riduce il 2 adiacente a valore residuo 1: la terna si comporta come un classico 1-2-1! Scava ⛏️ la casella centrale libera.",
+					instruction_en: "The flag placed at (2,4) reduces the adjacent 2 to 1: the trio reduces to 1-2-1! Dig ⛏️ the middle safe cell.",
 					requiredAction: "reveal",
-					target: {"r":0,"c":1},
-					rows: 3,
-					cols: 4,
+					target: {"r":2,"c":2},
+					rows: 9,
+					cols: 9,
 					board: [
-						[ { r: 0, c: 0, mine: true, val: 0, rev: false }, { r: 0, c: 1, val: 2, rev: false }, { r: 0, c: 2, mine: true, val: 1, rev: false }, { r: 0, c: 3, mine: true, val: 1, rev: false, flag: true } ],
-						[ { r: 1, c: 0, val: 1, rev: true }, { r: 1, c: 1, val: 2, rev: true }, { r: 1, c: 2, val: 2, rev: true }, { r: 1, c: 3, val: 2, rev: true } ],
-						[ { r: 2, c: 0, val: 0, rev: true }, { r: 2, c: 1, val: 0, rev: true }, { r: 2, c: 2, val: 0, rev: true }, { r: 2, c: 3, val: 0, rev: true } ]
+						[ { r: 0, c: 0, val: 0, rev: false }, { r: 0, c: 1, val: 0, rev: false }, { r: 0, c: 2, val: 0, rev: false }, { r: 0, c: 3, val: 0, rev: false }, { r: 0, c: 4, val: 0, rev: false }, { r: 0, c: 5, val: 0, rev: false }, { r: 0, c: 6, val: 0, rev: false }, { r: 0, c: 7, val: 0, rev: false }, { r: 0, c: 8, val: 0, rev: false } ],
+						[ { r: 1, c: 0, val: 1, rev: false }, { r: 1, c: 1, val: 1, rev: false }, { r: 1, c: 2, val: 2, rev: false }, { r: 1, c: 3, val: 2, rev: false }, { r: 1, c: 4, val: 2, rev: false }, { r: 1, c: 5, val: 1, rev: false }, { r: 1, c: 6, val: 0, rev: false }, { r: 1, c: 7, val: 0, rev: false }, { r: 1, c: 8, val: 0, rev: false } ],
+						[ { r: 2, c: 0, val: 1, rev: false }, { r: 2, c: 1, mine: true, val: 0, rev: false }, { r: 2, c: 2, val: 2, rev: false }, { r: 2, c: 3, mine: true, val: 0, rev: false }, { r: 2, c: 4, mine: true, val: 0, rev: false, flag: true }, { r: 2, c: 5, val: 1, rev: false }, { r: 2, c: 6, val: 0, rev: false }, { r: 2, c: 7, val: 0, rev: false }, { r: 2, c: 8, val: 0, rev: false } ],
+						[ { r: 3, c: 0, val: 1, rev: true }, { r: 3, c: 1, val: 1, rev: true }, { r: 3, c: 2, val: 2, rev: true }, { r: 3, c: 3, val: 2, rev: true }, { r: 3, c: 4, val: 2, rev: true }, { r: 3, c: 5, val: 1, rev: true }, { r: 3, c: 6, val: 0, rev: true }, { r: 3, c: 7, val: 0, rev: true }, { r: 3, c: 8, val: 0, rev: true } ],
+						[ { r: 4, c: 0, val: 0, rev: true }, { r: 4, c: 1, val: 0, rev: true }, { r: 4, c: 2, val: 0, rev: true }, { r: 4, c: 3, val: 0, rev: true }, { r: 4, c: 4, val: 0, rev: true }, { r: 4, c: 5, val: 0, rev: true }, { r: 4, c: 6, val: 0, rev: true }, { r: 4, c: 7, val: 0, rev: true }, { r: 4, c: 8, val: 0, rev: true } ],
+						[ { r: 5, c: 0, val: 0, rev: true }, { r: 5, c: 1, val: 0, rev: true }, { r: 5, c: 2, val: 0, rev: true }, { r: 5, c: 3, val: 0, rev: true }, { r: 5, c: 4, val: 0, rev: true }, { r: 5, c: 5, val: 0, rev: true }, { r: 5, c: 6, val: 0, rev: true }, { r: 5, c: 7, val: 0, rev: true }, { r: 5, c: 8, val: 0, rev: true } ],
+						[ { r: 6, c: 0, val: 0, rev: true }, { r: 6, c: 1, val: 0, rev: true }, { r: 6, c: 2, val: 0, rev: true }, { r: 6, c: 3, val: 0, rev: true }, { r: 6, c: 4, val: 0, rev: true }, { r: 6, c: 5, val: 0, rev: true }, { r: 6, c: 6, val: 0, rev: true }, { r: 6, c: 7, val: 0, rev: true }, { r: 6, c: 8, val: 0, rev: true } ],
+						[ { r: 7, c: 0, val: 0, rev: true }, { r: 7, c: 1, val: 0, rev: true }, { r: 7, c: 2, val: 0, rev: true }, { r: 7, c: 3, val: 0, rev: true }, { r: 7, c: 4, val: 0, rev: true }, { r: 7, c: 5, val: 0, rev: true }, { r: 7, c: 6, val: 0, rev: true }, { r: 7, c: 7, val: 0, rev: true }, { r: 7, c: 8, val: 0, rev: true } ],
+						[ { r: 8, c: 0, val: 0, rev: true }, { r: 8, c: 1, val: 0, rev: true }, { r: 8, c: 2, val: 0, rev: true }, { r: 8, c: 3, val: 0, rev: true }, { r: 8, c: 4, val: 0, rev: true }, { r: 8, c: 5, val: 0, rev: true }, { r: 8, c: 6, val: 0, rev: true }, { r: 8, c: 7, val: 0, rev: true }, { r: 8, c: 8, val: 0, rev: true } ]
 					]
 				}
 			]
@@ -232,16 +297,22 @@ var MinesweeperAcademy = (function () {
 			desc_en: "A clue 1 inside a pocket or indentation touches a single corner tile: the mine must be there. Adjacent numbers can safely clear other covered tiles!",
 			puzzles: [
 				{
-					instruction_it: "La nicchia confina la mina del numero 1. Metti la bandiera 🚩 sulla mina!",
-					instruction_en: "The pocket confines the clue 1's mine. Place a flag 🚩 on it!",
+					instruction_it: "La nicchia d'angolo confina la mina del numero 1 esattamente in (0,0). Metti la bandiera 🚩 sulla mina!",
+					instruction_en: "The corner pocket confines the clue 1's mine directly at (0,0). Place a flag 🚩 on it!",
 					requiredAction: "flag",
 					target: {"r":0,"c":0},
-					rows: 3,
-					cols: 3,
+					rows: 9,
+					cols: 9,
 					board: [
-						[ { r: 0, c: 0, mine: true, val: 0, rev: false }, { r: 0, c: 1, val: 1, rev: true }, { r: 0, c: 2, val: 0, rev: true } ],
-						[ { r: 1, c: 0, val: 1, rev: true }, { r: 1, c: 1, val: 1, rev: true }, { r: 1, c: 2, val: 0, rev: true } ],
-						[ { r: 2, c: 0, val: 0, rev: true }, { r: 2, c: 1, val: 0, rev: true }, { r: 2, c: 2, val: 0, rev: true } ]
+						[ { r: 0, c: 0, mine: true, val: 0, rev: false }, { r: 0, c: 1, val: 1, rev: true }, { r: 0, c: 2, val: 0, rev: true }, { r: 0, c: 3, val: 0, rev: true }, { r: 0, c: 4, val: 0, rev: true }, { r: 0, c: 5, val: 0, rev: true }, { r: 0, c: 6, val: 0, rev: true }, { r: 0, c: 7, val: 0, rev: true }, { r: 0, c: 8, val: 0, rev: true } ],
+						[ { r: 1, c: 0, val: 1, rev: true }, { r: 1, c: 1, val: 1, rev: true }, { r: 1, c: 2, val: 0, rev: true }, { r: 1, c: 3, val: 0, rev: true }, { r: 1, c: 4, val: 0, rev: true }, { r: 1, c: 5, val: 0, rev: true }, { r: 1, c: 6, val: 0, rev: true }, { r: 1, c: 7, val: 0, rev: true }, { r: 1, c: 8, val: 0, rev: true } ],
+						[ { r: 2, c: 0, val: 0, rev: true }, { r: 2, c: 1, val: 0, rev: true }, { r: 2, c: 2, val: 0, rev: true }, { r: 2, c: 3, val: 0, rev: true }, { r: 2, c: 4, val: 0, rev: true }, { r: 2, c: 5, val: 0, rev: true }, { r: 2, c: 6, val: 0, rev: true }, { r: 2, c: 7, val: 0, rev: true }, { r: 2, c: 8, val: 0, rev: true } ],
+						[ { r: 3, c: 0, val: 0, rev: true }, { r: 3, c: 1, val: 0, rev: true }, { r: 3, c: 2, val: 0, rev: true }, { r: 3, c: 3, val: 0, rev: true }, { r: 3, c: 4, val: 0, rev: true }, { r: 3, c: 5, val: 0, rev: true }, { r: 3, c: 6, val: 0, rev: true }, { r: 3, c: 7, val: 0, rev: true }, { r: 3, c: 8, val: 0, rev: true } ],
+						[ { r: 4, c: 0, val: 0, rev: true }, { r: 4, c: 1, val: 0, rev: true }, { r: 4, c: 2, val: 0, rev: true }, { r: 4, c: 3, val: 0, rev: true }, { r: 4, c: 4, val: 0, rev: true }, { r: 4, c: 5, val: 0, rev: true }, { r: 4, c: 6, val: 0, rev: true }, { r: 4, c: 7, val: 0, rev: true }, { r: 4, c: 8, val: 0, rev: true } ],
+						[ { r: 5, c: 0, val: 0, rev: true }, { r: 5, c: 1, val: 0, rev: true }, { r: 5, c: 2, val: 0, rev: true }, { r: 5, c: 3, val: 0, rev: true }, { r: 5, c: 4, val: 0, rev: true }, { r: 5, c: 5, val: 0, rev: true }, { r: 5, c: 6, val: 0, rev: true }, { r: 5, c: 7, val: 0, rev: true }, { r: 5, c: 8, val: 0, rev: true } ],
+						[ { r: 6, c: 0, val: 0, rev: true }, { r: 6, c: 1, val: 0, rev: true }, { r: 6, c: 2, val: 0, rev: true }, { r: 6, c: 3, val: 0, rev: true }, { r: 6, c: 4, val: 0, rev: true }, { r: 6, c: 5, val: 0, rev: true }, { r: 6, c: 6, val: 0, rev: true }, { r: 6, c: 7, val: 0, rev: true }, { r: 6, c: 8, val: 0, rev: true } ],
+						[ { r: 7, c: 0, val: 0, rev: true }, { r: 7, c: 1, val: 0, rev: true }, { r: 7, c: 2, val: 0, rev: true }, { r: 7, c: 3, val: 0, rev: true }, { r: 7, c: 4, val: 0, rev: true }, { r: 7, c: 5, val: 0, rev: true }, { r: 7, c: 6, val: 0, rev: true }, { r: 7, c: 7, val: 0, rev: true }, { r: 7, c: 8, val: 0, rev: true } ],
+						[ { r: 8, c: 0, val: 0, rev: true }, { r: 8, c: 1, val: 0, rev: true }, { r: 8, c: 2, val: 0, rev: true }, { r: 8, c: 3, val: 0, rev: true }, { r: 8, c: 4, val: 0, rev: true }, { r: 8, c: 5, val: 0, rev: true }, { r: 8, c: 6, val: 0, rev: true }, { r: 8, c: 7, val: 0, rev: true }, { r: 8, c: 8, val: 0, rev: true } ]
 					]
 				}
 			]
