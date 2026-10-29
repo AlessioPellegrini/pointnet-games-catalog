@@ -5,11 +5,11 @@
 		{
 			"slug": "minesweeper-arcade",
 			"name": "Minesweeper",
-			"version": "1.6.1.3",
+			"version": "1.6.1.4",
 			"author": "PointNet Games",
 			"description": "Minesweeper with tri-mode gameplay (Classic, Scalata 18 levels, and Interactive Academy 'Impara dalle Basi'), multi-language support (IT/EN), Educational Practice Mode (didactic replay on error, undo/redo move history navigation, interactive tactical pattern scanner 🧩 with cell-by-cell explanation for 1-2-1, 1-2-2-1, 1-2-X, 1-1-X and pattern reductions with original numbers notation, rule-based hint deduction, visual heatmap safety overlay, false flag detection, smart cell tutor inspector), Clean One aesthetics, smart chording, pan & pinch-to-zoom, and tactile sound.",
 			"categories": ["puzzle", "classic", "logic", "arcade"],
-			"download_url": "https://github.com/AlessioPellegrini/pointnet-games-catalog/releases/download/minesweeper-arcade-v1.6.1.3/minesweeper-arcade.zip",
+			"download_url": "https://github.com/AlessioPellegrini/pointnet-games-catalog/releases/download/minesweeper-arcade-v1.6.1.4/minesweeper-arcade.zip",
 			"thumbnail_url": "",
 			"banner_url": "",
 			"badge": "Popular",

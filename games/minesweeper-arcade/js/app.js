@@ -1922,27 +1922,58 @@
 		var puzzle = lesson.puzzles[state.academyPuzzleIndex];
 		if (!puzzle) return;
 
+		var cell = state.board[r] && state.board[r][c];
+		if (!cell) return;
+
 		var isTarget = (puzzle.target && puzzle.target.r === r && puzzle.target.c === c) ||
 			(puzzle.alternateTarget && puzzle.alternateTarget.r === r && puzzle.alternateTarget.c === c);
 
 		// If user taps the target cell, align action with requiredAction so neither dig/flag mode blocks success
-		if (isTarget && state.board[r] && state.board[r][c] && !state.board[r][c].revealed) {
+		if (isTarget && !cell.revealed) {
 			action = puzzle.requiredAction;
 		}
 
+		// Check if action matches puzzle requirement
 		var isCorrectAction = (action === puzzle.requiredAction);
+
+		// Check if this move is logically sound on the board:
+		// A move is logically sound if:
+		// 1) It is the intended lesson target, OR
+		// 2) The user reveals a genuinely safe cell (mine === false), OR
+		// 3) The user flags a genuine mine (mine === true), OR
+		// 4) The solver recognizes it as safe / mine
+		var isLogicallyValid = false;
+		if (isTarget && isCorrectAction) {
+			isLogicallyValid = true;
+		} else if (action === 'reveal' && !cell.revealed && !cell.flagged && !cell.mine) {
+			isLogicallyValid = true;
+		} else if (action === 'flag' && !cell.revealed && cell.mine) {
+			isLogicallyValid = true;
+		} else if (action === 'chord' && cell.revealed) {
+			isLogicallyValid = true;
+		} else if (typeof MinesweeperSolver !== 'undefined') {
+			var allHints = MinesweeperSolver.getAllHints(state.board, puzzle.rows, puzzle.cols);
+			if (action === 'reveal' && allHints.safe.some(function(s){ return s.r === r && s.c === c; })) {
+				isLogicallyValid = true;
+			} else if (action === 'flag' && allHints.mines.some(function(m){ return m.r === r && m.c === c; })) {
+				isLogicallyValid = true;
+			}
+		}
 
 		var isIt = !window.I18n || (window.I18n.getLanguage ? window.I18n.getLanguage() === 'it' : (window.I18n.getLocale ? window.I18n.getLocale() === 'it' : true));
 
-		if (isTarget && isCorrectAction) {
+		if (isLogicallyValid) {
 			AudioFX.levelUp();
 			haptic(35);
 
-			// Apply visual move
+			// Apply move
 			if (action === 'flag') {
-				state.board[r][c].flagged = true;
-			} else if (action === 'reveal' || action === 'chord') {
-				state.board[r][c].revealed = true;
+				cell.flagged = !cell.flagged;
+				if (cell.flagged) state.flags++; else state.flags--;
+			} else if (action === 'reveal') {
+				floodReveal(r, c);
+			} else if (action === 'chord') {
+				handleChord(r, c);
 			}
 			updateBoardDisplay();
 
