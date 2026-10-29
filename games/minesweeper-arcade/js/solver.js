@@ -299,16 +299,31 @@ var MinesweeperSolver = (function () {
 					isSubset(itemA.unrevealed, itemB.unrevealed)) {
 					var diffSafe = getDifference(itemB.unrevealed, itemA.unrevealed);
 					if (diffSafe.length > 0) {
+						var isReduced11x = (itemA.number !== 1 || itemB.number !== 1);
+						var pName11x = isReduced11x ?
+							t('patterns.pattern_11x_reduced_name', { numA: itemA.number, numB: itemB.number }) :
+							t('patterns.pattern_11x_name');
+						var expl11x = isReduced11x ?
+							t('patterns.pattern_11x_reduced_desc', {
+								numA: itemA.number,
+								flagsA: itemA.flagged,
+								remA: itemA.remainingMines,
+								numB: itemB.number,
+								flagsB: itemB.flagged,
+								remB: itemB.remainingMines
+							}) :
+							t('patterns.pattern_11x_desc', {
+								numA: itemA.number,
+								numB: itemB.number
+							});
+
 						return {
 							action: 'reveal',
 							targetCells: diffSafe,
 							causeCells: [{ r: itemA.r, c: itemA.c }, { r: itemB.r, c: itemB.c }],
-							patternName: t('patterns.pattern_11x_name'),
+							patternName: pName11x,
 							rule: 'pattern_11x',
-							explanation: t('patterns.pattern_11x_desc', {
-								numA: itemA.number,
-								numB: itemB.number
-							})
+							explanation: expl11x
 						};
 					}
 				}
@@ -600,16 +615,31 @@ var MinesweeperSolver = (function () {
 					isSubset(itemA.unrevealed, itemB.unrevealed)) {
 					var diffSafe = getDifference(itemB.unrevealed, itemA.unrevealed);
 					if (diffSafe.length > 0) {
+						var isReduced11xAll = (itemA.number !== 1 || itemB.number !== 1);
+						var pName11xAll = isReduced11xAll ?
+							t('patterns.pattern_11x_reduced_name', { numA: itemA.number, numB: itemB.number }) :
+							t('patterns.pattern_11x_name');
+						var expl11xAll = isReduced11xAll ?
+							t('patterns.pattern_11x_reduced_desc', {
+								numA: itemA.number,
+								flagsA: itemA.flagged,
+								remA: itemA.remainingMines,
+								numB: itemB.number,
+								flagsB: itemB.flagged,
+								remB: itemB.remainingMines
+							}) :
+							t('patterns.pattern_11x_desc', {
+								numA: itemA.number,
+								numB: itemB.number
+							});
+
 						addPattern({
 							action: 'reveal',
 							targetCells: diffSafe,
 							causeCells: [{ r: itemA.r, c: itemA.c }, { r: itemB.r, c: itemB.c }],
-							patternName: t('patterns.pattern_11x_name'),
+							patternName: pName11xAll,
 							rule: 'pattern_11x',
-							explanation: t('patterns.pattern_11x_desc', {
-								numA: itemA.number,
-								numB: itemB.number
-							})
+							explanation: expl11xAll
 						});
 					}
 				}
