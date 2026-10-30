@@ -145,6 +145,15 @@ var AudioFX = (function () {
 		},
 		flag: function () { playSnap(true); },
 		unflag: function () { playSnap(false); },
+		modeFlag: function () {
+			// Bright, ascending 2-tone kalimba chime for Flag mode activation
+			playKalimba(554.37, 0.16, 0.16);
+			setTimeout(function () { playKalimba(880, 0.18, 0.22); }, 55);
+		},
+		modeDig: function () {
+			// Snappy, mechanical drop sound for Dig mode activation
+			playOrganicPop(460, 200, 0.07, 0.20);
+		},
 		chord: function () {
 			playKalimba(659.25, 0.14, 0.18);
 			setTimeout(function () { playKalimba(880, 0.16, 0.22); }, 45);

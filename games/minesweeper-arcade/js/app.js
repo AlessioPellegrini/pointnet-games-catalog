@@ -113,12 +113,31 @@
 	var didacticToastTitle = document.getElementById('didactic-toast-title');
 	var didacticToastText = document.getElementById('didactic-toast-text');
 	var didacticToastClose = document.getElementById('didactic-toast-close');
+	var modeToastHud = document.getElementById('mode-toast-hud');
+	var modeToastTimer = null;
+	var globalDoubleTapSuppression = 0;
 
 	soundToggle.textContent = AudioFX.isEnabled() ? '🔊' : '🔇';
 
 	/* ============================================================
 	   HELPERS & UTILITIES
 	   ============================================================ */
+	function showModeToast(mode) {
+		if (!modeToastHud) return;
+		clearTimeout(modeToastTimer);
+		modeToastHud.className = 'mode-toast-hud show ' + (mode === 'flag' ? 'toast-flag' : 'toast-dig');
+		if (mode === 'flag') {
+			var flagLabel = (window.I18n && window.I18n.t('game.flag')) || 'Bandiera';
+			modeToastHud.textContent = '🚩 ' + flagLabel;
+		} else {
+			var digLabel = (window.I18n && window.I18n.t('game.dig')) || 'Scava';
+			modeToastHud.textContent = '⛏️ ' + digLabel;
+		}
+		modeToastTimer = setTimeout(function () {
+			if (modeToastHud) modeToastHud.classList.remove('show');
+		}, 850);
+	}
+
 	function haptic(ms) {
 		AudioFX.haptic(ms);
 	}
@@ -399,7 +418,12 @@
 					el._longPressFired = false;
 					clearTimeout(el._longPressTimer);
 
+					if (Date.now() < globalDoubleTapSuppression) {
+						return;
+					}
+
 					el._longPressTimer = setTimeout(function () {
+						if (Date.now() < globalDoubleTapSuppression) return;
 						el._longPressFired = true;
 						el._lastLongPressTime = Date.now();
 						handleFlag(r, c);
@@ -458,6 +482,11 @@
 
 				cellEl.addEventListener('click', function (e) {
 					var el = this;
+					if (Date.now() < globalDoubleTapSuppression) {
+						e.preventDefault();
+						e.stopImmediatePropagation();
+						return;
+					}
 					if (el._preventClickUntil && Date.now() < el._preventClickUntil) {
 						e.preventDefault();
 						e.stopImmediatePropagation();
@@ -1582,7 +1611,8 @@
 	/* ============================================================
 	   CONTROLS & LISTENERS
 	   ============================================================ */
-	function setInputMode(mode) {
+	function setInputMode(mode, fromUserToggle) {
+		var oldMode = state.inputMode;
 		state.inputMode = mode;
 		if (btnModeDig) btnModeDig.classList.remove('active');
 		if (btnModeFlag) btnModeFlag.classList.remove('active');
@@ -1591,21 +1621,31 @@
 		if (mode === 'flag') {
 			if (btnModeFlag) btnModeFlag.classList.add('active');
 			document.body.classList.add('mode-flag-active');
+			if (fromUserToggle || oldMode !== mode) {
+				AudioFX.modeFlag();
+				haptic([25, 40, 25]);
+				showModeToast('flag');
+			}
 		} else if (mode === 'inspect') {
 			if (btnModeInspect) btnModeInspect.classList.add('active');
 			document.body.classList.remove('mode-flag-active');
+			haptic(20);
 		} else {
 			if (btnModeDig) btnModeDig.classList.add('active');
 			document.body.classList.remove('mode-flag-active');
+			if (fromUserToggle || oldMode !== mode) {
+				AudioFX.modeDig();
+				haptic(35);
+				showModeToast('dig');
+			}
 		}
-		haptic(15);
 	}
 
 	function toggleInputMode() {
 		if (state.inputMode === 'flag') {
-			setInputMode('dig');
+			setInputMode('dig', true);
 		} else {
-			setInputMode('flag');
+			setInputMode('flag', true);
 		}
 	}
 
@@ -1678,27 +1718,39 @@
 		}
 	}, { passive: true });
 
-	// Quick Mode Toggle Shortcut 2: Rapid Double-Tap anywhere on the board arena or revealed areas!
+	// Quick Mode Toggle Shortcut 2: Reliable Mobile Double-Tap on any cell (including unrevealed/empty) or board!
 	var lastTapTime = 0;
 	var lastTapX = 0;
 	var lastTapY = 0;
+	var lastTapCell = null;
 
-	boardArenaEl.addEventListener('touchend', function (e) {
-		if (e.touches && e.touches.length > 0) return;
-		var touch = e.changedTouches && e.changedTouches[0];
+	boardArenaEl.addEventListener('touchstart', function (e) {
+		if (e.touches && e.touches.length > 1) return;
+		var touch = e.touches && e.touches[0];
 		if (!touch) return;
 
 		var now = Date.now();
 		var dist = Math.hypot(touch.clientX - lastTapX, touch.clientY - lastTapY);
+		var currentCell = e.target.closest ? e.target.closest('.cell') : null;
 
-		// Finestra temporale di 400ms e raggio di 45px per doppio tap su mobile
-		if (lastTapTime && (now - lastTapTime < 400) && dist < 45) {
+		// Finestra temporale di 350ms e raggio di 40px, oppure stesso cell element
+		var isSameTarget = (currentCell && currentCell === lastTapCell) || (!currentCell && !lastTapCell);
+		if (lastTapTime && (now - lastTapTime < 350) && (dist < 40 || isSameTarget)) {
+			// Secondo tap valido rilevato!
+			globalDoubleTapSuppression = Date.now() + 400;
+			if (currentCell) {
+				currentCell._preventClickUntil = Date.now() + 450;
+				clearTimeout(currentCell._longPressTimer);
+				currentCell._longPressFired = false;
+			}
 			toggleInputMode();
 			lastTapTime = 0;
+			lastTapCell = null;
 		} else {
 			lastTapTime = now;
 			lastTapX = touch.clientX;
 			lastTapY = touch.clientY;
+			lastTapCell = currentCell;
 		}
 	}, { passive: true });
 
@@ -1892,6 +1944,9 @@
 			}
 		}
 
+		state.safeCells = puzzle.rows * puzzle.cols - mineCount;
+		state.targetSolved = false;
+
 		mineCountEl.textContent = Math.max(0, mineCount - state.flags);
 		renderBoard();
 
@@ -2001,16 +2056,26 @@
 			}
 			updateBoardDisplay();
 
-			// Only advance or complete when the target pattern goal of this lesson is met!
+			// If this move solved the key didactic pattern target, play confirmation audio & update toast
 			if (isLessonGoalSolved) {
-				AudioFX.levelUp();
+				state.targetSolved = true;
+				AudioFX.flag();
 				haptic(35);
+			}
+
+			// Check if board is fully cleared to the end
+			var isBoardCleared = (state.revealed >= state.safeCells);
+
+			// Advance only when board is completely played and cleared!
+			if (isBoardCleared) {
+				AudioFX.levelUp();
+				haptic(45);
 
 				// Advance to next puzzle or complete lesson
 				var hasNextPuzzle = state.academyPuzzleIndex + 1 < lesson.puzzles.length;
 				if (hasNextPuzzle) {
-					didacticToastTitle.innerHTML = '✅ ' + (isIt ? 'Eccellente!' : 'Well Done!');
-					didacticToastText.textContent = isIt ? 'Deduzione corretta! Passiamo al banco di prova successivo.' : 'Correct deduction! Moving to the next test board.';
+					didacticToastTitle.innerHTML = '✅ ' + (isIt ? 'Tavola Completata!' : 'Board Cleared!');
+					didacticToastText.textContent = isIt ? 'Hai risolto tutta la tavola! Passiamo alla sfida successiva.' : 'You cleared the entire board! Moving to the next test board.';
 					didacticToast.classList.add('show');
 					setTimeout(function () {
 						startAcademyLesson(state.academyLessonIndex, state.academyPuzzleIndex + 1);
@@ -2020,56 +2085,56 @@
 					launchConfetti();
 					didacticToast.classList.remove('show');
 
-				// Trigger WordPress Achievement & Badge Unlock on Milestones:
-				// Lesson 1 completed -> logic_cadet
-				// Lesson 5 (1-2-1) completed -> tactical_analyst
-				// All 8 lessons completed -> logic_scholar
-				var inIframe = window.parent !== window;
-				if (inIframe) {
-					if (state.academyLessonIndex === 0) {
-						window.parent.postMessage({
-							type: 'pointnet-games:unlock-achievement',
-							data: { achievement_id: 'logic_cadet', source: 'minesweeper-arcade' }
-						}, window.location.origin);
+					// Trigger WordPress Achievement & Badge Unlock on Milestones:
+					// Lesson 1 completed -> logic_cadet
+					// Lesson 5 (1-2-1) completed -> tactical_analyst
+					// All 8 lessons completed -> logic_scholar
+					var inIframe = window.parent !== window;
+					if (inIframe) {
+						if (state.academyLessonIndex === 0) {
+							window.parent.postMessage({
+								type: 'pointnet-games:unlock-achievement',
+								data: { achievement_id: 'logic_cadet', source: 'minesweeper-arcade' }
+							}, window.location.origin);
+						}
+						if (state.academyLessonIndex === 4) {
+							window.parent.postMessage({
+								type: 'pointnet-games:unlock-achievement',
+								data: { achievement_id: 'tactical_analyst', source: 'minesweeper-arcade' }
+							}, window.location.origin);
+						}
+						if (state.academyLessonIndex >= MinesweeperAcademy.getLessons().length - 1) {
+							window.parent.postMessage({
+								type: 'pointnet-games:unlock-achievement',
+								data: { achievement_id: 'logic_scholar', source: 'minesweeper-arcade' }
+							}, window.location.origin);
+						}
 					}
-					if (state.academyLessonIndex === 4) {
-						window.parent.postMessage({
-							type: 'pointnet-games:unlock-achievement',
-							data: { achievement_id: 'tactical_analyst', source: 'minesweeper-arcade' }
-						}, window.location.origin);
+
+					modalEmoji.textContent = '🎓';
+					modalTitle.textContent = isIt ? window.I18n.t('academy.lesson_passed_title') : 'Lesson Mastered!';
+					modalScore.textContent = isIt ? lesson.title_it : lesson.title_en;
+					modalPosition.textContent = isIt ? (lesson.title_it + ' completata con successo al 100%!') : 'You have completed this board and mastered the principle!';
+
+					var nextBtn = document.getElementById('modal-next');
+					var replayBtn = document.getElementById('modal-replay');
+					var closeBtn = document.getElementById('modal-close');
+					replayBtn.style.display = 'none';
+
+					var hasNextLesson = state.academyLessonIndex + 1 < MinesweeperAcademy.getLessons().length;
+					if (hasNextLesson) {
+						nextBtn.textContent = isIt ? window.I18n.t('academy.continue_course') : 'Next Lesson ▶';
+						nextBtn.onclick = function () {
+							overlayEl.classList.remove('show');
+							startAcademyLesson(state.academyLessonIndex + 1, 0);
+						};
+					} else {
+						nextBtn.textContent = isIt ? '🏆 Corso Completato!' : '🏆 Academy Completed!';
+						nextBtn.onclick = function () {
+							overlayEl.classList.remove('show');
+							openMenu();
+						};
 					}
-					if (state.academyLessonIndex >= MinesweeperAcademy.getLessons().length - 1) {
-						window.parent.postMessage({
-							type: 'pointnet-games:unlock-achievement',
-							data: { achievement_id: 'logic_scholar', source: 'minesweeper-arcade' }
-						}, window.location.origin);
-					}
-				}
-
-				modalEmoji.textContent = '🎓';
-				modalTitle.textContent = isIt ? window.I18n.t('academy.lesson_passed_title') : 'Lesson Mastered!';
-				modalScore.textContent = isIt ? lesson.title_it : lesson.title_en;
-				modalPosition.textContent = isIt ? window.I18n.t('academy.lesson_passed_desc') : 'You have mastered this logical principle!';
-
-				var nextBtn = document.getElementById('modal-next');
-				var replayBtn = document.getElementById('modal-replay');
-				var closeBtn = document.getElementById('modal-close');
-				replayBtn.style.display = 'none';
-
-				var hasNextLesson = state.academyLessonIndex + 1 < MinesweeperAcademy.getLessons().length;
-				if (hasNextLesson) {
-					nextBtn.textContent = isIt ? window.I18n.t('academy.continue_course') : 'Next Lesson ▶';
-					nextBtn.onclick = function () {
-						overlayEl.classList.remove('show');
-						startAcademyLesson(state.academyLessonIndex + 1, 0);
-					};
-				} else {
-					nextBtn.textContent = isIt ? '🏆 Corso Completato!' : '🏆 Academy Completed!';
-					nextBtn.onclick = function () {
-						overlayEl.classList.remove('show');
-						openMenu();
-					};
-				}
 
 					closeBtn.textContent = isIt ? window.I18n.t('academy.back_to_curriculum') : 'Academy';
 					closeBtn.onclick = function () {
@@ -2080,6 +2145,11 @@
 
 					overlayEl.classList.add('show');
 				}
+			} else if (isLessonGoalSolved) {
+				// Pattern solved, instruct the player to finish clearing the board
+				didacticToastTitle.innerHTML = '🎯 ' + (isIt ? 'Obiettivo Raggiunto!' : 'Target Found!');
+				didacticToastText.textContent = isIt ? 'Ottimo! Ora finisci di ripulire le restanti caselle sicure della tavola.' : 'Great! Now finish clearing the remaining safe tiles to complete the board.';
+				didacticToast.classList.add('show');
 			}
 		} else {
 			AudioFX.lose();

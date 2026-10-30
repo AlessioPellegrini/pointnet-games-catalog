@@ -41,6 +41,7 @@ var MinesweeperAcademy = (function () {
 					instruction_it: "Il numero 1 ha già la sua mina contrassegnata con una bandiera. Tutte le altre sue caselle sono libere: scava ⛏️ una casella sicura adiacente!",
 					instruction_en: "The clue 1 already has its mine flagged. All other neighbors are safe: dig ⛏️ an adjacent safe tile!",
 					requiredAction: "reveal",
+					patternCells: [{"r": 2, "c": 3}, {"r": 2, "c": 5}],
 					target: {"r": 1, "c": 3},
 					alternateTarget: {"r": 1, "c": 5},
 					rows: 9,

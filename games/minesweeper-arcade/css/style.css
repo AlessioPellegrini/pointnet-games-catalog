@@ -362,6 +362,48 @@
 			50% { transform: scale(1.06); }
 		}
 
+		/* Floating Mode Switch HUD Badge */
+		.mode-toast-hud {
+			position: absolute;
+			top: 20px;
+			left: 50%;
+			transform: translateX(-50%) translateY(-12px) scale(0.9);
+			background: rgba(14, 19, 31, 0.88);
+			border: 1px solid rgba(255, 255, 255, 0.16);
+			color: #ffffff;
+			font-size: 0.95rem;
+			font-weight: 800;
+			padding: 8px 18px;
+			border-radius: 999px;
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			pointer-events: none;
+			opacity: 0;
+			z-index: 50;
+			backdrop-filter: blur(8px);
+			-webkit-backdrop-filter: blur(8px);
+			box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+			transition: opacity 0.18s ease, transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+		}
+
+		.mode-toast-hud.show {
+			opacity: 1;
+			transform: translateX(-50%) translateY(0) scale(1);
+		}
+
+		.mode-toast-hud.toast-flag {
+			border-color: rgba(245, 158, 11, 0.5);
+			box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45), 0 0 16px rgba(245, 158, 11, 0.25);
+			color: #fbbf24;
+		}
+
+		.mode-toast-hud.toast-dig {
+			border-color: rgba(56, 189, 248, 0.5);
+			box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45), 0 0 16px rgba(56, 189, 248, 0.25);
+			color: #38bdf8;
+		}
+
 		.action-buttons-row {
 			display: flex;
 			align-items: center;
