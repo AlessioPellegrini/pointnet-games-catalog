@@ -241,7 +241,10 @@
 		}
 
 		if (state.mode === 'academy' && state.actualRows && state.actualCols) {
-			return { rows: state.actualRows, cols: state.actualCols, mines: 0 };
+			var lesson = (typeof MinesweeperAcademy !== 'undefined' && state.academyLessonIndex !== undefined) ? MinesweeperAcademy.getLesson(state.academyLessonIndex) : null;
+			var puzzle = (lesson && lesson.puzzles) ? lesson.puzzles[state.academyPuzzleIndex] : null;
+			var acadMines = (state.actualRows * state.actualCols) - (state.safeCells || 0);
+			return { rows: state.actualRows, cols: state.actualCols, mines: Math.max(0, acadMines) };
 		}
 
 		return computeFreshDimensions();
@@ -419,6 +422,13 @@
 					clearTimeout(el._longPressTimer);
 
 					if (Date.now() < globalDoubleTapSuppression) {
+						return;
+					}
+
+					// Touch Handling (Tactile Quick Long-Press ~230ms & Double Tap Support)
+					var cellState = state.board[r] && state.board[r][c];
+					if (cellState && cellState.revealed) {
+						// Revealed cells are for chording / interaction: do not flag
 						return;
 					}
 
@@ -667,7 +677,7 @@
 				});
 				recordDidacticStep();
 
-				if (state.revealed >= state.safeCells) {
+				if (state.mode !== 'academy' && state.revealed >= state.safeCells) {
 					levelComplete();
 				}
 			}
@@ -1970,7 +1980,7 @@
 			}
 		}
 
-		// Evidenzia la casella bersaglio (verde per scavo, rossa per bandiera, o per chording)
+		// Evidenzia la casella bersaglio (verde per scavo, rossa per bandiera, o blu ciano per chording)
 		var targets = [];
 		if (puzzle.target) targets.push(puzzle.target);
 		if (puzzle.alternateTarget) targets.push(puzzle.alternateTarget);
@@ -1980,6 +1990,8 @@
 			if (el) {
 				if (puzzle.requiredAction === 'flag') {
 					el.classList.add('cell-pattern-mine');
+				} else if (puzzle.requiredAction === 'chord') {
+					el.classList.add('cell-pattern-chord');
 				} else {
 					el.classList.add('cell-pattern-safe');
 				}
@@ -2055,6 +2067,27 @@
 				handleChord(r, c);
 			}
 			updateBoardDisplay();
+
+			// If target pattern is not yet solved, re-apply the clue and target highlights
+			if (!state.targetSolved && !isLessonGoalSolved) {
+				var targets = [];
+				if (puzzle.target) targets.push(puzzle.target);
+				if (puzzle.alternateTarget) targets.push(puzzle.alternateTarget);
+				targets.forEach(function (tg) {
+					var el = boardEl.querySelector('[data-r="' + tg.r + '"][data-c="' + tg.c + '"]');
+					if (el) {
+						if (puzzle.requiredAction === 'flag') el.classList.add('cell-pattern-mine');
+						else if (puzzle.requiredAction === 'chord') el.classList.add('cell-pattern-chord');
+						else el.classList.add('cell-pattern-safe');
+					}
+				});
+				if (puzzle.patternCells && puzzle.patternCells.length > 0) {
+					puzzle.patternCells.forEach(function (pc) {
+						var el = boardEl.querySelector('[data-r="' + pc.r + '"][data-c="' + pc.c + '"]');
+						if (el) el.classList.add('cell-pattern-clue');
+					});
+				}
+			}
 
 			// If this move solved the key didactic pattern target, play confirmation audio & update toast
 			if (isLessonGoalSolved) {
