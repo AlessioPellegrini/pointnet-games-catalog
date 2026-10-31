@@ -1672,7 +1672,13 @@
 	}
 
 	// Prevent browser native double-tap zoom & handle desktop mouse double-click to toggle mode (Dig <-> Flag)
+	var lastTouchToggleTime = 0;
+
 	function handleMouseDoubleToggle(target) {
+		// Se un tap o toggle touch è avvenuto di recente, ignora gli eventi sintetizzati dal browser (dblclick/mouse)
+		if (Date.now() - lastTouchToggleTime < 1000 || Date.now() < globalDoubleTapSuppression) {
+			return;
+		}
 		if (target.closest('button') && !target.closest('.cell')) return;
 		var targetCell = target.closest('.cell');
 		if (targetCell && !targetCell.classList.contains('revealed')) {
@@ -1683,9 +1689,13 @@
 		}
 	}
 
-	// 1) Doppio click Tasto Sinistro
+	// 1) Doppio click Tasto Sinistro (Desktop Mouse only)
 	document.addEventListener('dblclick', function (e) {
 		e.preventDefault();
+		// Evita doppio scatto da touch sintetico
+		if (Date.now() - lastTouchToggleTime < 1000 || Date.now() < globalDoubleTapSuppression) {
+			return;
+		}
 		if (e.button === 0) {
 			handleMouseDoubleToggle(e.target);
 		}
@@ -1698,6 +1708,7 @@
 
 	window.addEventListener('mousedown', function (e) {
 		if (e.button !== 2) return; // solo tasto destro
+		if (Date.now() - lastTouchToggleTime < 1000 || Date.now() < globalDoubleTapSuppression) return;
 		var now = Date.now();
 		var dist = Math.hypot(e.clientX - lastRightClickX, e.clientY - lastRightClickY);
 
@@ -1723,6 +1734,8 @@
 
 	boardArenaEl.addEventListener('touchend', function (e) {
 		if (twoFingerTouchStart && (Date.now() - twoFingerTouchStart < 350) && (!e.touches || e.touches.length === 0)) {
+			lastTouchToggleTime = Date.now();
+			globalDoubleTapSuppression = Date.now() + 800;
 			toggleInputMode();
 			twoFingerTouchStart = 0;
 		}
@@ -1747,9 +1760,10 @@
 		var isSameTarget = (currentCell && currentCell === lastTapCell) || (!currentCell && !lastTapCell);
 		if (lastTapTime && (now - lastTapTime < 350) && (dist < 40 || isSameTarget)) {
 			// Secondo tap valido rilevato!
-			globalDoubleTapSuppression = Date.now() + 400;
+			lastTouchToggleTime = Date.now();
+			globalDoubleTapSuppression = Date.now() + 800;
 			if (currentCell) {
-				currentCell._preventClickUntil = Date.now() + 450;
+				currentCell._preventClickUntil = Date.now() + 800;
 				clearTimeout(currentCell._longPressTimer);
 				currentCell._longPressFired = false;
 			}
