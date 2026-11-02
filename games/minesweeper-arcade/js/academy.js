@@ -9,6 +9,52 @@ var MinesweeperAcademy = (function () {
 
 	var LESSONS = [
 		{
+			id: "controls",
+			level: 0,
+			title_it: "0. Basi & Comandi di Gioco",
+			title_en: "0. Controls & Interface",
+			badge_it: "Guida Introduttiva",
+			badge_en: "Quickstart",
+			desc_it: "Impara i comandi di gioco: come scavare caselle sicure, come piazzare e togliere bandierine e come usare i controlli di zoom e visualizzazione.",
+			desc_en: "Master the game controls: how to dig safe tiles, how to place and remove flags, and how to use zoom and viewport buttons.",
+			puzzles: [
+				{
+					instruction_it: "Tocca (o clicca col tasto sinistro) la casella evidenziata in verde per SCAVARE ⛏️ la tua prima casella sicura!",
+					instruction_en: "Tap (or left-click) the green highlighted tile to DIG ⛏️ your first safe tile!",
+					instruction_mobile_it: "Tocca la casella evidenziata in verde per SCAVARE ⛏️ la tua prima casella!",
+					instruction_mobile_en: "Tap the green highlighted tile to DIG ⛏️ your first safe tile!",
+					instruction_desktop_it: "Fai clic con il TASTO SINISTRO del mouse sulla casella verde per SCAVARE ⛏️!",
+					instruction_desktop_en: "LEFT-CLICK the green highlighted tile to DIG ⛏️ your first safe tile!",
+					requiredAction: "reveal",
+					target: {"r": 1, "c": 1},
+					rows: 3,
+					cols: 3,
+					board: [
+						[ { r: 0, c: 0, val: 0, rev: false }, { r: 0, c: 1, val: 0, rev: false }, { r: 0, c: 2, val: 0, rev: false } ],
+						[ { r: 1, c: 0, val: 0, rev: false }, { r: 1, c: 1, val: 0, rev: false }, { r: 1, c: 2, val: 0, rev: false } ],
+						[ { r: 2, c: 0, val: 0, rev: false }, { r: 2, c: 1, val: 0, rev: false }, { r: 2, c: 2, val: 0, rev: false } ]
+					]
+				},
+				{
+					instruction_it: "La casella rossa contiene una mina! Posiziona una BANDIERA 🚩 per contrassegnarla.",
+					instruction_en: "The red highlighted tile is a mine! Place a FLAG 🚩 on it.",
+					instruction_mobile_it: "Tocca '🚩 Bandiera' in basso (oppure tieni premuto a lungo) e tocca la casella rossa per mettere la bandiera 🚩!",
+					instruction_mobile_en: "Switch to '🚩 Flag' mode below (or long-press) and tap the red tile to place a flag 🚩!",
+					instruction_desktop_it: "Fai clic con il TASTO DESTRO del mouse sulla casella rossa per posizionare la bandiera 🚩!",
+					instruction_desktop_en: "RIGHT-CLICK the red highlighted tile to place a flag 🚩!",
+					requiredAction: "flag",
+					target: {"r": 0, "c": 1},
+					rows: 3,
+					cols: 3,
+					board: [
+						[ { r: 0, c: 0, val: 1, rev: false }, { r: 0, c: 1, mine: true, val: 0, rev: false }, { r: 0, c: 2, val: 1, rev: false } ],
+						[ { r: 1, c: 0, val: 1, rev: true }, { r: 1, c: 1, val: 1, rev: true }, { r: 1, c: 2, val: 1, rev: true } ],
+						[ { r: 2, c: 0, val: 0, rev: true }, { r: 2, c: 1, val: 0, rev: true }, { r: 2, c: 2, val: 0, rev: true } ]
+					]
+				}
+			]
+		},
+		{
 			id: "saturation",
 			level: 1,
 			title_it: "1. Regola della Saturazione",

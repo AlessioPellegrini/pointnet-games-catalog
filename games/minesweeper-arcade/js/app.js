@@ -1951,6 +1951,7 @@
 		state.board = [];
 		var mineCount = 0;
 
+		// 1. Initial pass: set mines and initial flags/revealed
 		for (var r = 0; r < puzzle.rows; r++) {
 			state.board[r] = [];
 			for (var c = 0; c < puzzle.cols; c++) {
@@ -1961,10 +1962,24 @@
 					mine: isMine,
 					revealed: !!pCell.rev,
 					flagged: !!pCell.flag,
-					count: pCell.val || 0
+					count: 0
 				};
 				if (pCell.flag) state.flags++;
 				if (pCell.rev) state.revealed++;
+			}
+		}
+
+		// 2. Compute accurate mathematical adjacent mine count for every cell
+		for (var r = 0; r < puzzle.rows; r++) {
+			for (var c = 0; c < puzzle.cols; c++) {
+				if (state.board[r][c].mine) continue;
+				var neighbors = getNeighbors(r, c, puzzle.rows, puzzle.cols);
+				var count = 0;
+				for (var n = 0; n < neighbors.length; n++) {
+					if (state.board[neighbors[n].r][neighbors[n].c].mine) count++;
+				}
+				// Use computed count unless explicitly overridden with non-zero
+				state.board[r][c].count = count;
 			}
 		}
 
@@ -1974,13 +1989,20 @@
 		mineCountEl.textContent = Math.max(0, mineCount - state.flags);
 		renderBoard();
 
+		// Activate didactic spotlight focus on the key pattern
+		boardEl.classList.remove('pattern-focus-active');
+		var oldFocus = boardEl.querySelectorAll('.cell-pattern-focus');
+		oldFocus.forEach(function (el) { el.classList.remove('cell-pattern-focus'); });
+
 		// Highlight the pattern numbers in glowing purple/gold and mark the target cell
 		var patternCoords = {};
 		if (puzzle.patternCells && puzzle.patternCells.length > 0) {
 			puzzle.patternCells.forEach(function (pc) {
 				patternCoords[pc.r + ',' + pc.c] = true;
 				var el = boardEl.querySelector('[data-r="' + pc.r + '"][data-c="' + pc.c + '"]');
-				if (el) el.classList.add('cell-pattern-clue');
+				if (el) {
+					el.classList.add('cell-pattern-clue', 'cell-pattern-focus');
+				}
 			});
 		} else {
 			// Se non specificato esplicitamente, individua le celle causa tramite solver
@@ -1989,7 +2011,9 @@
 				hint.causeCells.forEach(function (pc) {
 					patternCoords[pc.r + ',' + pc.c] = true;
 					var el = boardEl.querySelector('[data-r="' + pc.r + '"][data-c="' + pc.c + '"]');
-					if (el) el.classList.add('cell-pattern-clue');
+					if (el) {
+						el.classList.add('cell-pattern-clue', 'cell-pattern-focus');
+					}
 				});
 			}
 		}
@@ -2002,6 +2026,7 @@
 			patternCoords[tg.r + ',' + tg.c] = true;
 			var el = boardEl.querySelector('[data-r="' + tg.r + '"][data-c="' + tg.c + '"]');
 			if (el) {
+				el.classList.add('cell-pattern-focus');
 				if (puzzle.requiredAction === 'flag') {
 					el.classList.add('cell-pattern-mine');
 				} else if (puzzle.requiredAction === 'chord') {
@@ -2012,13 +2037,66 @@
 			}
 		});
 
+		// Attiva spotlight se c'è un pattern focalizzato
+		if (Object.keys(patternCoords).length > 0) {
+			boardEl.classList.add('pattern-focus-active');
+		}
 
-
-		// Show instructional toast
+		// Show instructional toast with device-specific text (desktop mouse vs mobile touch)
+		var isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || window.matchMedia('(pointer: coarse)').matches;
 		var instr = isIt ? puzzle.instruction_it : puzzle.instruction_en;
+		if (isTouchDevice) {
+			if (isIt && puzzle.instruction_mobile_it) instr = puzzle.instruction_mobile_it;
+			else if (!isIt && puzzle.instruction_mobile_en) instr = puzzle.instruction_mobile_en;
+		} else {
+			if (isIt && puzzle.instruction_desktop_it) instr = puzzle.instruction_desktop_it;
+			else if (!isIt && puzzle.instruction_desktop_en) instr = puzzle.instruction_desktop_en;
+		}
+
 		didacticToastTitle.innerHTML = '🎓 ' + (isIt ? lesson.title_it : lesson.title_en);
 		didacticToastText.textContent = instr;
 		didacticToast.classList.add('show');
+	}
+
+	function sendWPNotification(achievementId) {
+		try {
+			var inIframe = window.parent && window.parent !== window;
+			var msg = {
+				type: 'pointnet-games:unlock-achievement',
+				data: { achievement_id: achievementId, source: 'minesweeper-arcade' }
+			};
+			if (inIframe) {
+				window.parent.postMessage(msg, '*');
+			}
+			if (window.pointnetGamesAPI && typeof window.pointnetGamesAPI.unlockAchievement === 'function') {
+				window.pointnetGamesAPI.unlockAchievement(achievementId, 'minesweeper-arcade');
+			}
+		} catch (e) {}
+	}
+
+	function syncAcademyAchievements() {
+		if (typeof MinesweeperAcademy === 'undefined') return;
+		var prog = MinesweeperAcademy.getProgress();
+		if (!prog || !prog.completed) return;
+
+		// Lesson 0 (controls) -> controller_master
+		if (prog.completed.controls) {
+			sendWPNotification('controller_master');
+		}
+		// Lesson 1 (saturation) -> logic_cadet
+		if (prog.completed.saturation) {
+			sendWPNotification('logic_cadet');
+		}
+		// Lesson 5 (pattern_121) -> tactical_analyst
+		if (prog.completed.pattern_121) {
+			sendWPNotification('tactical_analyst');
+		}
+		// All lessons completed -> logic_scholar
+		var allLessons = MinesweeperAcademy.getLessons();
+		var allDone = allLessons.every(function (l) { return !!prog.completed[l.id]; });
+		if (allDone) {
+			sendWPNotification('logic_scholar');
+		}
 	}
 
 	function handleAcademyAction(action, r, c) {
@@ -2103,9 +2181,12 @@
 				}
 			}
 
-			// If this move solved the key didactic pattern target, play confirmation audio & update toast
+			// If this move solved the key didactic pattern target, release spotlight and play confirmation audio
 			if (isLessonGoalSolved) {
 				state.targetSolved = true;
+				boardEl.classList.remove('pattern-focus-active');
+				var curFocused = boardEl.querySelectorAll('.cell-pattern-focus');
+				curFocused.forEach(function(el){ el.classList.remove('cell-pattern-focus'); });
 				AudioFX.flag();
 				haptic(35);
 			}
@@ -2132,30 +2213,21 @@
 					launchConfetti();
 					didacticToast.classList.remove('show');
 
-					// Trigger WordPress Achievement & Badge Unlock on Milestones:
-					// Lesson 1 completed -> logic_cadet
-					// Lesson 5 (1-2-1) completed -> tactical_analyst
-					// All 8 lessons completed -> logic_scholar
-					var inIframe = window.parent !== window;
-					if (inIframe) {
-						if (state.academyLessonIndex === 0) {
-							window.parent.postMessage({
-								type: 'pointnet-games:unlock-achievement',
-								data: { achievement_id: 'logic_cadet', source: 'minesweeper-arcade' }
-							}, window.location.origin);
-						}
-						if (state.academyLessonIndex === 4) {
-							window.parent.postMessage({
-								type: 'pointnet-games:unlock-achievement',
-								data: { achievement_id: 'tactical_analyst', source: 'minesweeper-arcade' }
-							}, window.location.origin);
-						}
-						if (state.academyLessonIndex >= MinesweeperAcademy.getLessons().length - 1) {
-							window.parent.postMessage({
-								type: 'pointnet-games:unlock-achievement',
-								data: { achievement_id: 'logic_scholar', source: 'minesweeper-arcade' }
-							}, window.location.origin);
-						}
+					// Trigger WordPress Achievement & Badge Unlock on Milestones
+					if (lesson.id === 'controls') {
+						sendWPNotification('controller_master');
+					} else if (lesson.id === 'saturation') {
+						sendWPNotification('logic_cadet');
+					} else if (lesson.id === 'pattern_121') {
+						sendWPNotification('tactical_analyst');
+					}
+
+					var allLessons = MinesweeperAcademy.getLessons();
+					var allCompleted = allLessons.every(function (l) {
+						return !!MinesweeperAcademy.getProgress().completed[l.id];
+					});
+					if (allCompleted) {
+						sendWPNotification('logic_scholar');
 					}
 
 					modalEmoji.textContent = '🎓';
@@ -2427,6 +2499,11 @@
 				window.__wpGamesState.loggedIn = msg.data.loggedIn;
 				if (msg.data.loginUrl) window.__wpGamesState.loginUrl = msg.data.loginUrl;
 				updateSplashPlayerStatus();
+
+				// Sincronizza retroattivamente i badge dell'accademia completati
+				if (msg.data.loggedIn) {
+					syncAcademyAchievements();
+				}
 			}
 			if (msg.type === 'pointnet-games:start') {
 				AudioFX.initOnGesture();
@@ -2435,6 +2512,7 @@
 		});
 
 		updateSplashPlayerStatus();
+		syncAcademyAchievements();
 	}
 
 	function wirePostMessageAPI() {
