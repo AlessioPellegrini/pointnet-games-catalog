@@ -2037,10 +2037,16 @@
 			}
 		});
 
-		// Attiva spotlight se c'è un pattern focalizzato
-		if (Object.keys(patternCoords).length > 0) {
-			boardEl.classList.add('pattern-focus-active');
+		// In Academy compact boards, ensure all pre-flagged cells and relevant cells are explicitly marked
+		for (var fr = 0; fr < puzzle.rows; fr++) {
+			for (var fc = 0; fc < puzzle.cols; fc++) {
+				if (state.board[fr][fc].flagged) {
+					var flagEl = boardEl.querySelector('[data-r="' + fr + '"][data-c="' + fc + '"]');
+					if (flagEl) flagEl.classList.add('cell-pattern-focus');
+				}
+			}
 		}
+
 
 		// Show instructional toast with device-specific text (desktop mouse vs mobile touch)
 		var isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || window.matchMedia('(pointer: coarse)').matches;

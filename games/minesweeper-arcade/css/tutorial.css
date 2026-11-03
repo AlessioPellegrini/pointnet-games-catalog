@@ -377,12 +377,20 @@ body.didactic-mode .cell.flagged.didactic-wrong-flag {
 	to { box-shadow: 0 0 22px rgba(56, 189, 248, 1); transform: scale(1.08); }
 }
 
-/* Spotlight Focus: when a specific pattern is focused/inspected */
+/* Spotlight Focus: subtle contrast when a specific pattern is focused/inspected */
 .board.pattern-focus-active .cell:not(.cell-pattern-focus) {
-	opacity: 0.22 !important;
-	filter: grayscale(80%) blur(0.4px);
-	transition: opacity 0.25s ease, filter 0.25s ease;
+	opacity: 0.82;
+	transition: opacity 0.25s ease;
 }
+
+/* Flagged cells and number clues must NEVER be dimmed or obscured */
+.board .cell.flagged,
+.board.pattern-focus-active .cell.flagged,
+.board .cell.revealed.has-number {
+	opacity: 1 !important;
+	filter: none !important;
+}
+
 
 .cell.cell-pattern-focus {
 	opacity: 1 !important;
