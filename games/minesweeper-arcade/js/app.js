@@ -1664,6 +1664,7 @@
 	});
 
 	btnModeFlag.addEventListener('click', function () {
+		btnModeFlag.classList.remove('pill-btn-tutorial-pulse');
 		setInputMode('flag');
 	});
 
@@ -1917,10 +1918,10 @@
 		state.mode = 'academy';
 		state.academyLessonIndex = lessonIndex;
 		state.academyPuzzleIndex = puzzleIndex;
-		state.isDidactic = true;
-		state.heatmapEnabled = false;
-		if (btnDidacticHeatmap) btnDidacticHeatmap.classList.remove('active');
-		if (puzzle.requiredAction === 'flag') {
+		if (btnModeFlag) btnModeFlag.classList.remove('pill-btn-tutorial-pulse');
+		if (puzzle.initialInputMode) {
+			setInputMode(puzzle.initialInputMode);
+		} else if (puzzle.requiredAction === 'flag') {
 			setInputMode('flag');
 		} else {
 			setInputMode('dig');
@@ -2018,10 +2019,16 @@
 			}
 		}
 
-		// Evidenzia la casella bersaglio (verde per scavo, rossa per bandiera, o blu ciano per chording)
+		// Evidenzia le caselle bersaglio (verde per scavo, rossa per bandiera, o blu ciano per chording)
 		var targets = [];
-		if (puzzle.target) targets.push(puzzle.target);
-		if (puzzle.alternateTarget) targets.push(puzzle.alternateTarget);
+		if (puzzle.targets && Array.isArray(puzzle.targets)) {
+			puzzle.targets.forEach(function(t) { targets.push({ r: t.r, c: t.c }); });
+		} else {
+			if (puzzle.target) targets.push({ r: puzzle.target.r, c: puzzle.target.c });
+			if (puzzle.alternateTarget) targets.push({ r: puzzle.alternateTarget.r, c: puzzle.alternateTarget.c });
+		}
+		state.remainingAcademyTargets = targets.map(function(t) { return { r: t.r, c: t.c }; });
+
 		targets.forEach(function (tg) {
 			patternCoords[tg.r + ',' + tg.c] = true;
 			var el = boardEl.querySelector('[data-r="' + tg.r + '"][data-c="' + tg.c + '"]');
@@ -2062,6 +2069,10 @@
 		didacticToastTitle.innerHTML = '🎓 ' + (isIt ? lesson.title_it : lesson.title_en);
 		didacticToastText.textContent = instr;
 		didacticToast.classList.add('show');
+
+		if (puzzle.highlightFlagBtn && btnModeFlag) {
+			btnModeFlag.classList.add('pill-btn-tutorial-pulse');
+		}
 	}
 
 	function sendWPNotification(achievementId) {
@@ -2117,22 +2128,33 @@
 		// If cell is already revealed and action is not chord, ignore
 		if (cell.revealed && action !== 'chord') return;
 
-		var isTarget = (puzzle.target && puzzle.target.r === r && puzzle.target.c === c) ||
-			(puzzle.alternateTarget && puzzle.alternateTarget.r === r && puzzle.alternateTarget.c === c);
-
-		// If user taps the target cell, align action with requiredAction so neither dig/flag mode blocks success
-		if (isTarget) {
-			action = puzzle.requiredAction;
+		if (!state.remainingAcademyTargets) {
+			state.remainingAcademyTargets = [];
+			if (puzzle.targets && Array.isArray(puzzle.targets)) {
+				puzzle.targets.forEach(function(t) { state.remainingAcademyTargets.push({ r: t.r, c: t.c }); });
+			} else {
+				if (puzzle.target) state.remainingAcademyTargets.push({ r: puzzle.target.r, c: puzzle.target.c });
+				if (puzzle.alternateTarget) state.remainingAcademyTargets.push({ r: puzzle.alternateTarget.r, c: puzzle.alternateTarget.c });
+			}
 		}
+
+		var targetIndex = -1;
+		for (var ti = 0; ti < state.remainingAcademyTargets.length; ti++) {
+			if (state.remainingAcademyTargets[ti].r === r && state.remainingAcademyTargets[ti].c === c) {
+				targetIndex = ti;
+				break;
+			}
+		}
+		var isTarget = (targetIndex !== -1);
 
 		// Check if action matches puzzle requirement
 		var isCorrectAction = (action === puzzle.requiredAction);
 
-		// Is this the primary designated lesson pattern target?
-		var isLessonGoalSolved = isTarget && isCorrectAction;
+		// Is this a valid target move?
+		var isTargetMove = isTarget && isCorrectAction;
 
 		// Check if move is otherwise logically sound on the board
-		var isLogicallyValid = isLessonGoalSolved;
+		var isLogicallyValid = isTargetMove;
 		if (!isLogicallyValid) {
 			if (action === 'reveal' && !cell.revealed && !cell.flagged && !cell.mine) {
 				isLogicallyValid = true;
@@ -2166,14 +2188,23 @@
 			}
 			updateBoardDisplay();
 
-			// If target pattern is not yet solved, re-apply the clue and target highlights
-			if (!state.targetSolved && !isLessonGoalSolved) {
-				var targets = [];
-				if (puzzle.target) targets.push(puzzle.target);
-				if (puzzle.alternateTarget) targets.push(puzzle.alternateTarget);
-				targets.forEach(function (tg) {
+			// If it was one of the target cells, remove it from remaining targets
+			if (isTargetMove && targetIndex !== -1) {
+				state.remainingAcademyTargets.splice(targetIndex, 1);
+			}
+
+			// Check if all designated targets for this puzzle have been satisfied
+			var isLessonGoalSolved = (state.remainingAcademyTargets.length === 0);
+
+			// Check if entire board is cleared or all mines flagged
+			var isBoardCleared = checkWinCondition();
+
+			// If target pattern is not yet fully solved, re-apply the clue and remaining target highlights
+			if (!isLessonGoalSolved && !isBoardCleared) {
+				state.remainingAcademyTargets.forEach(function (tg) {
 					var el = boardEl.querySelector('[data-r="' + tg.r + '"][data-c="' + tg.c + '"]');
 					if (el) {
+						el.classList.add('cell-pattern-focus');
 						if (puzzle.requiredAction === 'flag') el.classList.add('cell-pattern-mine');
 						else if (puzzle.requiredAction === 'chord') el.classList.add('cell-pattern-chord');
 						else el.classList.add('cell-pattern-safe');
@@ -2182,12 +2213,12 @@
 				if (puzzle.patternCells && puzzle.patternCells.length > 0) {
 					puzzle.patternCells.forEach(function (pc) {
 						var el = boardEl.querySelector('[data-r="' + pc.r + '"][data-c="' + pc.c + '"]');
-						if (el) el.classList.add('cell-pattern-clue');
+						if (el) el.classList.add('cell-pattern-clue', 'cell-pattern-focus');
 					});
 				}
 			}
 
-			// When the target pattern move is solved, advance immediately to reward the player!
+			// When ALL target moves are completed, advance immediately to reward the player!
 			if (isLessonGoalSolved || isBoardCleared) {
 				state.targetSolved = true;
 				boardEl.classList.remove('pattern-focus-active');
@@ -2270,10 +2301,32 @@
 				wrongEl.classList.add('wrong-flag');
 				setTimeout(function () { wrongEl.classList.remove('wrong-flag'); }, 600);
 			}
+
+			var isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || window.matchMedia('(pointer: coarse)').matches;
+			var currentInstr = isIt ? puzzle.instruction_it : puzzle.instruction_en;
+			if (isTouchDevice) {
+				if (isIt && puzzle.instruction_mobile_it) currentInstr = puzzle.instruction_mobile_it;
+				else if (!isIt && puzzle.instruction_mobile_en) currentInstr = puzzle.instruction_mobile_en;
+			} else {
+				if (isIt && puzzle.instruction_desktop_it) currentInstr = puzzle.instruction_desktop_it;
+				else if (!isIt && puzzle.instruction_desktop_en) currentInstr = puzzle.instruction_desktop_en;
+			}
+
+			var hintMsg = '';
+			if (isTarget && !isCorrectAction) {
+				if (puzzle.requiredAction === 'flag') {
+					hintMsg = isIt ?
+						' (Attenzione: questa casella è una mina e richiede una BANDIERA 🚩, non di essere scavata!)' :
+						' (Warning: this tile is a mine and requires a FLAG 🚩, not digging!)';
+				} else if (puzzle.requiredAction === 'reveal') {
+					hintMsg = isIt ?
+						' (Attenzione: questa casella è sicura e va SCAVATA ⛏️, non flaggata!)' :
+						' (Warning: this tile is safe and must be DUG ⛏️, not flagged!)';
+				}
+			}
+
 			didacticToastTitle.innerHTML = '❌ ' + (isIt ? 'Mossa non corretta' : 'Incorrect Move');
-			didacticToastText.textContent = isIt ?
-				('Questa mossa non è corretta. ' + puzzle.instruction_it) :
-				('That move is incorrect. ' + puzzle.instruction_en);
+			didacticToastText.textContent = (isIt ? 'Azione non valida: ' : 'Invalid action: ') + currentInstr + hintMsg;
 			didacticToast.classList.add('show');
 		}
 	}

@@ -19,12 +19,13 @@ var MinesweeperAcademy = (function () {
 			desc_en: "Master the game controls: how to dig safe tiles, how to place and remove flags, and how to use zoom and viewport buttons.",
 			puzzles: [
 				{
-					instruction_it: "Tocca (o clicca col tasto sinistro) la casella evidenziata in verde per SCAVARE ⛏️ la tua prima casella sicura!",
-					instruction_en: "Tap (or left-click) the green highlighted tile to DIG ⛏️ your first safe tile!",
-					instruction_mobile_it: "Tocca la casella evidenziata in verde per SCAVARE ⛏️ la tua prima casella!",
-					instruction_mobile_en: "Tap the green highlighted tile to DIG ⛏️ your first safe tile!",
-					instruction_desktop_it: "Fai clic con il TASTO SINISTRO del mouse sulla casella verde per SCAVARE ⛏️!",
-					instruction_desktop_en: "LEFT-CLICK the green highlighted tile to DIG ⛏️ your first safe tile!",
+					instruction_it: "Con lo strumento '⛏️ Scava' attivo, tocca (o clicca col tasto sinistro) la casella verde (1,1) per SCAVARE ⛏️ la tua prima casella sicura!",
+					instruction_en: "With '⛏️ Dig' active, tap (or left-click) the green highlighted tile (1,1) to DIG ⛏️ your first safe tile!",
+					instruction_mobile_it: "Con '⛏️ Scava' attivo, tocca la casella verde (1,1) per SCAVARE ⛏️ la tua prima casella!",
+					instruction_mobile_en: "With '⛏️ Dig' active, tap the green tile (1,1) to DIG ⛏️ your first safe tile!",
+					instruction_desktop_it: "Con '⛏️ Scava' attivo, fai clic con il TASTO SINISTRO sulla casella verde (1,1) per SCAVARE ⛏️!",
+					instruction_desktop_en: "With '⛏️ Dig' active, LEFT-CLICK the green tile (1,1) to DIG ⛏️ your first safe tile!",
+					initialInputMode: "dig",
 					requiredAction: "reveal",
 					target: {"r": 1, "c": 1},
 					rows: 3,
@@ -36,12 +37,32 @@ var MinesweeperAcademy = (function () {
 					]
 				},
 				{
-					instruction_it: "La casella rossa contiene una mina! Posiziona una BANDIERA 🚩 per contrassegnarla.",
-					instruction_en: "The red highlighted tile is a mine! Place a FLAG 🚩 on it.",
-					instruction_mobile_it: "Tocca '🚩 Bandiera' in basso (oppure tieni premuto a lungo) e tocca la casella rossa per mettere la bandiera 🚩!",
-					instruction_mobile_en: "Switch to '🚩 Flag' mode below (or long-press) and tap the red tile to place a flag 🚩!",
-					instruction_desktop_it: "Fai clic con il TASTO DESTRO del mouse sulla casella rossa per posizionare la bandiera 🚩!",
-					instruction_desktop_en: "RIGHT-CLICK the red highlighted tile to place a flag 🚩!",
+					instruction_it: "Cambia strumento: tocca o clicca il pulsante '🚩 Bandiera' in basso (o premi tasto 'F'), poi tocca la casella rossa (0,1) per piazzare la bandiera 🚩!",
+					instruction_en: "Switch tools: tap or click the '🚩 Flag' button below (or press 'F'), then tap the red tile (0,1) to place a flag 🚩!",
+					instruction_mobile_it: "Tocca il pulsante '🚩 Bandiera' in basso (lampeggiante in giallo), poi tocca la casella rossa (0,1) per mettere la bandiera 🚩!",
+					instruction_mobile_en: "Tap the glowing '🚩 Flag' button below, then tap the red tile (0,1) to place a flag 🚩!",
+					instruction_desktop_it: "Clicca sul pulsante '🚩 Bandiera' in basso (o premi 'F' sulla tastiera), poi fai clic sinistro sulla casella rossa (0,1) per mettere la bandiera 🚩!",
+					instruction_desktop_en: "Click the '🚩 Flag' button below (or press 'F' on keyboard), then left-click the red tile (0,1) to place a flag 🚩!",
+					initialInputMode: "dig",
+					highlightFlagBtn: true,
+					requiredAction: "flag",
+					target: {"r": 0, "c": 1},
+					rows: 3,
+					cols: 3,
+					board: [
+						[ { r: 0, c: 0, val: 1, rev: false }, { r: 0, c: 1, mine: true, val: 0, rev: false }, { r: 0, c: 2, val: 1, rev: false } ],
+						[ { r: 1, c: 0, val: 1, rev: true }, { r: 1, c: 1, val: 1, rev: true }, { r: 1, c: 2, val: 1, rev: true } ],
+						[ { r: 2, c: 0, val: 0, rev: true }, { r: 2, c: 1, val: 0, rev: true }, { r: 2, c: 2, val: 0, rev: true } ]
+					]
+				},
+				{
+					instruction_it: "Scorciatoia rapida: senza cambiare strumento da '⛏️ Scava', posiziona una bandiera 🚩 con il TASTO DESTRO del mouse (oppure con una pressione prolungata su touch)!",
+					instruction_en: "Quick shortcut: without switching away from '⛏️ Dig', place a flag 🚩 with RIGHT-CLICK (or long-press on touch)!",
+					instruction_mobile_it: "Tieni premuto a lungo (long-press ~0.2s) la casella rossa (0,1) per piazzare al volo la bandiera 🚩 anche in modalità Scava!",
+					instruction_mobile_en: "Long-press the red tile (0,1) for a moment to quickly place a flag 🚩 without switching modes!",
+					instruction_desktop_it: "Mantieni '⛏️ Scava' attivo e fai clic con il TASTO DESTRO del mouse sulla casella rossa (0,1) per piazzare la bandiera 🚩!",
+					instruction_desktop_en: "Keep '⛏️ Dig' active and RIGHT-CLICK the red tile (0,1) to place a flag 🚩 directly!",
+					initialInputMode: "dig",
 					requiredAction: "flag",
 					target: {"r": 0, "c": 1},
 					rows: 3,
@@ -78,12 +99,11 @@ var MinesweeperAcademy = (function () {
 					]
 				},
 				{
-					instruction_it: "Il numero 1 ha già la sua mina contrassegnata con una bandiera. Tutte le altre sue caselle sono libere: scava ⛏️ una casella sicura adiacente!",
-					instruction_en: "The clue 1 already has its mine flagged. All other neighbors are safe: dig ⛏️ an adjacent safe tile!",
+					instruction_it: "Il numero 1 ha già la sua mina contrassegnata con una bandiera. Tutte le altre sue caselle sono libere: scava ⛏️ le caselle sicure adiacenti (0,0 e 0,2)!",
+					instruction_en: "The clue 1 already has its mine flagged. All other neighbors are safe: dig ⛏️ the adjacent safe tiles (0,0 and 0,2)!",
 					requiredAction: "reveal",
 					patternCells: [{"r": 1, "c": 0}, {"r": 1, "c": 2}],
-					target: {"r": 0, "c": 0},
-					alternateTarget: {"r": 0, "c": 2},
+					targets: [{"r": 0, "c": 0}, {"r": 0, "c": 2}],
 					rows: 3,
 					cols: 3,
 					board: [
@@ -196,12 +216,11 @@ var MinesweeperAcademy = (function () {
 					]
 				},
 				{
-					instruction_it: "Pattern 1-2-1 su parete: le caselle davanti ai due 1 sono sempre mine! Metti la bandiera 🚩 su una delle due mine esterne (0,0 o 0,2).",
-					instruction_en: "1-2-1 wall pattern: the tiles facing the two 1s are always mines! Flag 🚩 one of the two outer mines (0,0 or 0,2).",
+					instruction_it: "Pattern 1-2-1 su parete: le caselle davanti ai due 1 sono sempre mine! Metti la bandiera 🚩 su entrambe le mine esterne (0,0 e 0,2).",
+					instruction_en: "1-2-1 wall pattern: the tiles facing the two 1s are always mines! Flag 🚩 both outer mines (0,0 and 0,2).",
 					requiredAction: "flag",
 					patternCells: [{"r": 1, "c": 0}, {"r": 1, "c": 1}, {"r": 1, "c": 2}],
-					target: {"r": 0, "c": 0},
-					alternateTarget: {"r": 0, "c": 2},
+					targets: [{"r": 0, "c": 0}, {"r": 0, "c": 2}],
 					rows: 3,
 					cols: 3,
 					board: [
@@ -223,12 +242,11 @@ var MinesweeperAcademy = (function () {
 			desc_en: "In a 1-2-2-1 sequence along a wall, the mines are directly in front of the two 2s. The tiles facing the two 1s are ALWAYS 100% SAFE!",
 			puzzles: [
 				{
-					instruction_it: "Pattern 1-2-2-1: scava ⛏️ una delle due caselle esterne sicure davanti agli 1 (in colonna 0 o 3)!",
-					instruction_en: "1-2-2-1 Pattern: dig ⛏️ one of the outer safe tiles facing the 1s (column 0 or 3)!",
+					instruction_it: "Pattern 1-2-2-1: scava ⛏️ entrambe le caselle esterne sicure davanti agli 1 (in colonna 0 e 3)!",
+					instruction_en: "1-2-2-1 Pattern: dig ⛏️ both outer safe tiles facing the 1s (columns 0 and 3)!",
 					requiredAction: "reveal",
 					patternCells: [{"r": 1, "c": 0}, {"r": 1, "c": 1}, {"r": 1, "c": 2}, {"r": 1, "c": 3}],
-					target: {"r": 0, "c": 0},
-					alternateTarget: {"r": 0, "c": 3},
+					targets: [{"r": 0, "c": 0}, {"r": 0, "c": 3}],
 					rows: 3,
 					cols: 4,
 					board: [
@@ -238,12 +256,11 @@ var MinesweeperAcademy = (function () {
 					]
 				},
 				{
-					instruction_it: "Pattern 1-2-2-1: metti la bandiera 🚩 su una mina davanti a uno dei due numeri 2 (in colonna 1 o 2)!",
-					instruction_en: "1-2-2-1 Pattern: flag 🚩 a mine in front of one of the two 2s (column 1 or 2)!",
+					instruction_it: "Pattern 1-2-2-1: metti le bandiere 🚩 su entrambe le mine davanti ai due numeri 2 (in colonna 1 e 2)!",
+					instruction_en: "1-2-2-1 Pattern: flag 🚩 both mines in front of the two 2s (columns 1 and 2)!",
 					requiredAction: "flag",
 					patternCells: [{"r": 1, "c": 0}, {"r": 1, "c": 1}, {"r": 1, "c": 2}, {"r": 1, "c": 3}],
-					target: {"r": 0, "c": 1},
-					alternateTarget: {"r": 0, "c": 2},
+					targets: [{"r": 0, "c": 1}, {"r": 0, "c": 2}],
 					rows: 3,
 					cols: 4,
 					board: [
