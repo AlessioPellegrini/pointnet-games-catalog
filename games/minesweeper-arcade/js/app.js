@@ -2181,33 +2181,24 @@
 				}
 			}
 
-			// If this move solved the key didactic pattern target, release spotlight and play confirmation audio
-			if (isLessonGoalSolved) {
+			// When the target pattern move is solved, advance immediately to reward the player!
+			if (isLessonGoalSolved || isBoardCleared) {
 				state.targetSolved = true;
 				boardEl.classList.remove('pattern-focus-active');
 				var curFocused = boardEl.querySelectorAll('.cell-pattern-focus');
 				curFocused.forEach(function(el){ el.classList.remove('cell-pattern-focus'); });
-				AudioFX.flag();
-				haptic(35);
-			}
-
-			// Check if board is fully cleared to the end
-			var isBoardCleared = (state.revealed >= state.safeCells);
-
-			// Advance only when board is completely played and cleared!
-			if (isBoardCleared) {
 				AudioFX.levelUp();
 				haptic(45);
 
 				// Advance to next puzzle or complete lesson
 				var hasNextPuzzle = state.academyPuzzleIndex + 1 < lesson.puzzles.length;
 				if (hasNextPuzzle) {
-					didacticToastTitle.innerHTML = '✅ ' + (isIt ? 'Tavola Completata!' : 'Board Cleared!');
-					didacticToastText.textContent = isIt ? 'Hai risolto tutta la tavola! Passiamo alla sfida successiva.' : 'You cleared the entire board! Moving to the next test board.';
+					didacticToastTitle.innerHTML = '✅ ' + (isIt ? 'Obiettivo Raggiunto!' : 'Target Mastered!');
+					didacticToastText.textContent = isIt ? 'Mossa logica perfetta! Passiamo alla sfida successiva.' : 'Flawless logical move! Moving to the next puzzle.';
 					didacticToast.classList.add('show');
 					setTimeout(function () {
 						startAcademyLesson(state.academyLessonIndex, state.academyPuzzleIndex + 1);
-					}, 900);
+					}, 750);
 				} else {
 					MinesweeperAcademy.completeLesson(state.academyLessonIndex);
 					launchConfetti();
@@ -2233,7 +2224,7 @@
 					modalEmoji.textContent = '🎓';
 					modalTitle.textContent = isIt ? window.I18n.t('academy.lesson_passed_title') : 'Lesson Mastered!';
 					modalScore.textContent = isIt ? lesson.title_it : lesson.title_en;
-					modalPosition.textContent = isIt ? (lesson.title_it + ' completata con successo al 100%!') : 'You have completed this board and mastered the principle!';
+					modalPosition.textContent = isIt ? (lesson.title_it + ' completata con successo al 100%!') : 'You have completed this lesson and mastered the principle!';
 
 					var nextBtn = document.getElementById('modal-next');
 					var replayBtn = document.getElementById('modal-replay');
@@ -2264,11 +2255,6 @@
 
 					overlayEl.classList.add('show');
 				}
-			} else if (isLessonGoalSolved) {
-				// Pattern solved, instruct the player to finish clearing the board
-				didacticToastTitle.innerHTML = '🎯 ' + (isIt ? 'Obiettivo Raggiunto!' : 'Target Found!');
-				didacticToastText.textContent = isIt ? 'Ottimo! Ora finisci di ripulire le restanti caselle sicure della tavola.' : 'Great! Now finish clearing the remaining safe tiles to complete the board.';
-				didacticToast.classList.add('show');
 			}
 		} else {
 			AudioFX.lose();
