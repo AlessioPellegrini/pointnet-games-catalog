@@ -362,11 +362,14 @@ var MinesweeperAcademy = (function () {
 			desc_en: "Most complex layouts (e.g. 1-2-2 or 2-3-2) reduce into a clean 1-2-1 by subtracting already placed flags (2 - 1 = 1)!",
 			puzzles: [
 				{
-					instruction_it: "La bandiera piazzata a (0,3) riduce il 2 adiacente a valore residuo 1: la sequenza 1-2-2 si comporta come un classico 1-2-1! Scava ⛏️ la casella centrale libera (0,1).",
-					instruction_en: "The flag placed at (0,3) reduces the adjacent 2 to 1: the 1-2-2 sequence behaves as a classic 1-2-1! Dig ⛏️ the middle safe cell (0,1).",
-					requiredAction: "reveal",
+					instruction_it: "La bandiera piazzata a (0,3) riduce il 2 adiacente a valore residuo 1: la sequenza 1-2-2 si comporta come un classico 1-2-1! Scava ⛏️ la casella centrale (0,1) e metti le bandiere 🚩 sulle mine (0,0 e 0,2).",
+					instruction_en: "The flag placed at (0,3) reduces the adjacent 2 to 1: the 1-2-2 sequence behaves as a classic 1-2-1! Dig ⛏️ the middle safe cell (0,1) and flag 🚩 the mines (0,0 and 0,2).",
 					patternCells: [{"r":1,"c":0},{"r":1,"c":1},{"r":1,"c":2}],
-					target: {"r":0,"c":1},
+					targets: [
+						{"r":0,"c":0,"action":"flag"},
+						{"r":0,"c":1,"action":"reveal"},
+						{"r":0,"c":2,"action":"flag"}
+					],
 					rows: 3,
 					cols: 5,
 					board: [
@@ -377,10 +380,13 @@ var MinesweeperAcademy = (function () {
 				},
 				{
 					isTest: true,
-					instruction_it: "🎯 Riprova: usa la riduzione algebrica sottraendo la bandiera esistente per individuare la casella sicura centrale e scavala ⛏️!",
-					instruction_en: "🎯 Challenge: apply flag reduction to deduce the safe cell and dig ⛏️ it!",
-					requiredAction: "reveal",
-					target: {"r":0,"c":1},
+					instruction_it: "🎯 Riprova: sottrai la bandiera già presente per ridurre il 2 a 1 (effetto 1-2-1). Scava ⛏️ la casella centrale libera e metti le bandiere 🚩 sulle due mine!",
+					instruction_en: "🎯 Challenge: subtract the existing flag to reduce 2 to 1 (1-2-1 effect). Dig ⛏️ the central safe cell and flag 🚩 both mines!",
+					targets: [
+						{"r":0,"c":0,"action":"flag"},
+						{"r":0,"c":1,"action":"reveal"},
+						{"r":0,"c":2,"action":"flag"}
+					],
 					rows: 3,
 					cols: 5,
 					board: [

@@ -2034,9 +2034,10 @@
 				var el = boardEl.querySelector('[data-r="' + tg.r + '"][data-c="' + tg.c + '"]');
 				if (el) {
 					el.classList.add('cell-pattern-focus');
-					if (puzzle.requiredAction === 'flag') {
+					var tgAction = tg.action || puzzle.requiredAction;
+					if (tgAction === 'flag') {
 						el.classList.add('cell-pattern-mine');
-					} else if (puzzle.requiredAction === 'chord') {
+					} else if (tgAction === 'chord') {
 						el.classList.add('cell-pattern-chord');
 					} else {
 						el.classList.add('cell-pattern-safe');
@@ -2220,8 +2221,9 @@
 					var el = boardEl.querySelector('[data-r="' + tg.r + '"][data-c="' + tg.c + '"]');
 					if (el) {
 						el.classList.add('cell-pattern-focus');
-						if (puzzle.requiredAction === 'flag') el.classList.add('cell-pattern-mine');
-						else if (puzzle.requiredAction === 'chord') el.classList.add('cell-pattern-chord');
+						var tgAction = tg.action || puzzle.requiredAction;
+						if (tgAction === 'flag') el.classList.add('cell-pattern-mine');
+						else if (tgAction === 'chord') el.classList.add('cell-pattern-chord');
 						else el.classList.add('cell-pattern-safe');
 					}
 				});
