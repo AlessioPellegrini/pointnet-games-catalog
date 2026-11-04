@@ -2196,8 +2196,8 @@
 			// Check if all designated targets for this puzzle have been satisfied
 			var isLessonGoalSolved = (state.remainingAcademyTargets.length === 0);
 
-			// Check if entire board is cleared or all mines flagged
-			var isBoardCleared = checkWinCondition();
+			// Check if entire board is cleared
+			var isBoardCleared = (state.safeCells > 0 && state.revealed >= state.safeCells);
 
 			// If target pattern is not yet fully solved, re-apply the clue and remaining target highlights
 			if (!isLessonGoalSolved && !isBoardCleared) {
