@@ -2195,7 +2195,7 @@
 			var isBoardCleared = (state.safeCells > 0 && state.revealed >= state.safeCells);
 
 			// If target pattern is not yet fully solved, re-apply the clue and remaining target highlights
-			if (!isLessonGoalSolved && !isBoardCleared) {
+			if (!isLessonGoalSolved) {
 				state.remainingAcademyTargets.forEach(function (tg) {
 					var el = boardEl.querySelector('[data-r="' + tg.r + '"][data-c="' + tg.c + '"]');
 					if (el) {
@@ -2213,8 +2213,8 @@
 				}
 			}
 
-			// When ALL target moves are completed, advance immediately to reward the player!
-			if (isLessonGoalSolved || isBoardCleared) {
+			// When ALL designated target moves are completed, advance immediately to reward the player!
+			if (isLessonGoalSolved) {
 				state.targetSolved = true;
 				boardEl.classList.remove('pattern-focus-active');
 				var curFocused = boardEl.querySelectorAll('.cell-pattern-focus');

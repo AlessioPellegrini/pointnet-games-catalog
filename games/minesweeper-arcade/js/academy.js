@@ -174,11 +174,25 @@ var MinesweeperAcademy = (function () {
 			desc_en: "A 2 touches 3 tiles with 2 mines, but an adjacent 1 confines 1 mine to the first two tiles. The third tile (X) touched only by the 2 is DEFINITELY A MINE!",
 			puzzles: [
 				{
-					instruction_it: "L'1 a (1,0) limita 1 mina a (0,0) e (0,1). Il 2 a (1,1) tocca anche (0,2): la mina esterna è a (0,2)! Metti la bandiera 🚩 su (0,2)!",
+					instruction_it: "L'1 a (1,0) limita 1 mina tra (0,0) e (0,1). Il 2 a (1,1) tocca anche (0,2): la mina esterna è su (0,2)! Metti la bandiera 🚩 su (0,2)!",
 					instruction_en: "The 1 at (1,0) confines 1 mine to (0,0) and (0,1). The 2 at (1,1) also touches (0,2): the outer mine is at (0,2)! Flag 🚩 (0,2)!",
 					requiredAction: "flag",
 					patternCells: [{"r": 1, "c": 0}, {"r": 1, "c": 1}],
 					target: {"r": 0, "c": 2},
+					rows: 3,
+					cols: 4,
+					board: [
+						[ { r: 0, c: 0, val: 1, rev: false }, { r: 0, c: 1, mine: true, val: 0, rev: false }, { r: 0, c: 2, mine: true, val: 0, rev: false }, { r: 0, c: 3, val: 1, rev: false } ],
+						[ { r: 1, c: 0, val: 1, rev: true }, { r: 1, c: 1, val: 2, rev: true }, { r: 1, c: 2, val: 2, rev: true }, { r: 1, c: 3, val: 1, rev: true } ],
+						[ { r: 2, c: 0, val: 0, rev: true }, { r: 2, c: 1, val: 0, rev: true }, { r: 2, c: 2, val: 0, rev: true }, { r: 2, c: 3, val: 0, rev: true } ]
+					]
+				},
+				{
+					instruction_it: "Ora che la mina esterna è identificata, completa il pattern 1-2: metti entrambe le bandierine 🚩 sulle mine del 2 (a 0,1 e 0,2)!",
+					instruction_en: "Now that the outer mine is identified, complete the 1-2 pattern: place both flags 🚩 on the 2's mines (at 0,1 and 0,2)!",
+					requiredAction: "flag",
+					patternCells: [{"r": 1, "c": 0}, {"r": 1, "c": 1}],
+					targets: [{"r": 0, "c": 1}, {"r": 0, "c": 2}],
 					rows: 3,
 					cols: 4,
 					board: [
