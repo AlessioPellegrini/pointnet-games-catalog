@@ -21,13 +21,8 @@ var MinesweeperAcademy = (function () {
 				{
 					instruction_it: "Con lo strumento '⛏️ Scava' attivo (tasto 'D'), tocca o clicca col tasto sinistro la casella verde (1,1) per SCAVARE ⛏️ la prima casella sicura!",
 					instruction_en: "With '⛏️ Dig' active (key 'D'), tap or left-click the green highlighted tile (1,1) to DIG ⛏️ your first safe tile!",
-					instruction_mobile_it: "Con '⛏️ Scava' attivo, tocca la casella verde (1,1) per SCAVARE ⛏️ la tua prima casella!",
-					instruction_mobile_en: "With '⛏️ Dig' active, tap the green tile (1,1) to DIG ⛏️ your first safe tile!",
-					instruction_desktop_it: "Con '⛏️ Scava' attivo (o premi 'D'), fai clic con il TASTO SINISTRO sulla casella verde (1,1) per SCAVARE ⛏️!",
-					instruction_desktop_en: "With '⛏️ Dig' active (or press 'D'), LEFT-CLICK the green tile (1,1) to DIG ⛏️ your first safe tile!",
-					initialInputMode: "dig",
 					requiredAction: "reveal",
-					target: {"r": 1, "c": 1},
+					target: {"r":1,"c":1},
 					rows: 3,
 					cols: 3,
 					board: [
@@ -39,13 +34,8 @@ var MinesweeperAcademy = (function () {
 				{
 					instruction_it: "Cambia strumento: tocca il pulsante '🚩 Bandiera', premi tasto 'F', fai doppio clic o tocca con 2 dita. Poi tocca la casella rossa (0,1) per piazzare la bandiera 🚩!",
 					instruction_en: "Switch tool: click '🚩 Flag', press 'F', double-click or two-finger tap. Then select red tile (0,1) to place a flag 🚩!",
-					instruction_mobile_it: "Tocca '🚩 Bandiera' in basso (oppure tocca con 2 dita o doppio tap sullo schermo), poi tocca la casella rossa (0,1) per piazzare la bandiera 🚩!",
-					instruction_mobile_en: "Tap '🚩 Flag' below (or two-finger tap / double tap on screen), then tap the red tile (0,1) to place a flag 🚩!",
-					instruction_desktop_it: "Passa a '🚩 Bandiera' (premi 'F' sulla tastiera, fai doppio click o premi il pulsante in basso), poi clicca sulla casella rossa (0,1)!",
-					instruction_desktop_en: "Switch to '🚩 Flag' (press 'F', double-click mouse, or click button below), then click the red tile (0,1)!",
-					highlightFlagBtn: true,
 					requiredAction: "flag",
-					target: {"r": 0, "c": 1},
+					target: {"r":0,"c":1},
 					rows: 3,
 					cols: 3,
 					board: [
@@ -57,12 +47,8 @@ var MinesweeperAcademy = (function () {
 				{
 					instruction_it: "Scorciatoia rapida: puoi sempre usare il TASTO DESTRO del mouse (o pressione prolungata su touch) per mettere la bandiera 🚩 istantaneamente senza cambiare strumento!",
 					instruction_en: "Quick shortcut: you can always RIGHT-CLICK (or long-press on touch) to place a flag 🚩 instantly without switching tools!",
-					instruction_mobile_it: "Tieni premuto a lungo (long-press ~0.2s) la casella rossa (0,1) per piazzare al volo la bandiera 🚩 anche quando sei in modalità Scava!",
-					instruction_mobile_en: "Long-press the red tile (0,1) for a moment to quickly place a flag 🚩 without switching modes!",
-					instruction_desktop_it: "Fai clic con il TASTO DESTRO del mouse sulla casella rossa (0,1) per piazzare direttamente la bandiera 🚩!",
-					instruction_desktop_en: "RIGHT-CLICK the red tile (0,1) to place a flag 🚩 directly!",
 					requiredAction: "flag",
-					target: {"r": 0, "c": 1},
+					target: {"r":0,"c":1},
 					rows: 3,
 					cols: 3,
 					board: [
@@ -87,7 +73,7 @@ var MinesweeperAcademy = (function () {
 					instruction_it: "Il numero 1 tocca una sola casella coperta: è saturo al 100%! Metti una bandiera 🚩 sulla mina in evidenza!",
 					instruction_en: "The clue 1 touches only a single hidden tile: it is 100% saturated! Place a flag 🚩 on the mine!",
 					requiredAction: "flag",
-					target: {"r": 0, "c": 1},
+					target: {"r":0,"c":1},
 					rows: 3,
 					cols: 3,
 					board: [
@@ -100,14 +86,28 @@ var MinesweeperAcademy = (function () {
 					instruction_it: "Il numero 1 ha già la sua mina contrassegnata con una bandiera. Tutte le altre sue caselle sono libere: scava ⛏️ le caselle sicure adiacenti (0,0 e 0,2)!",
 					instruction_en: "The clue 1 already has its mine flagged. All other neighbors are safe: dig ⛏️ the adjacent safe tiles (0,0 and 0,2)!",
 					requiredAction: "reveal",
-					patternCells: [{"r": 1, "c": 0}, {"r": 1, "c": 2}],
-					targets: [{"r": 0, "c": 0}, {"r": 0, "c": 2}],
+					patternCells: [{"r":1,"c":0},{"r":1,"c":2}],
+					targets: [{"r":0,"c":0},{"r":0,"c":2}],
 					rows: 3,
 					cols: 3,
 					board: [
 						[ { r: 0, c: 0, val: 1, rev: false }, { r: 0, c: 1, mine: true, val: 0, rev: false, flag: true }, { r: 0, c: 2, val: 1, rev: false } ],
 						[ { r: 1, c: 0, val: 1, rev: true }, { r: 1, c: 1, val: 1, rev: true }, { r: 1, c: 2, val: 1, rev: true } ],
 						[ { r: 2, c: 0, val: 0, rev: true }, { r: 2, c: 1, val: 0, rev: true }, { r: 2, c: 2, val: 0, rev: true } ]
+					]
+				},
+				{
+					isTest: true,
+					instruction_it: "🎯 Riprova: individua autonomamente la casella satura al 100% senza aiuti visivi e metti la bandiera 🚩 sulla mina!",
+					instruction_en: "🎯 Challenge: independently locate the 100% saturated clue without visual highlights and flag 🚩 the mine!",
+					requiredAction: "flag",
+					target: {"r":0,"c":1},
+					rows: 3,
+					cols: 4,
+					board: [
+						[ { r: 0, c: 0, val: 1, rev: true }, { r: 0, c: 1, mine: true, val: 0, rev: false }, { r: 0, c: 2, mine: true, val: 0, rev: false }, { r: 0, c: 3, val: 1, rev: true } ],
+						[ { r: 1, c: 0, val: 1, rev: true }, { r: 1, c: 1, val: 2, rev: true }, { r: 1, c: 2, val: 2, rev: true }, { r: 1, c: 3, val: 1, rev: true } ],
+						[ { r: 2, c: 0, val: 0, rev: true }, { r: 2, c: 1, val: 0, rev: true }, { r: 2, c: 2, val: 0, rev: true }, { r: 2, c: 3, val: 0, rev: true } ]
 					]
 				}
 			]
@@ -126,7 +126,21 @@ var MinesweeperAcademy = (function () {
 					instruction_it: "Tocca il numero 2 cerchiato al centro (1,1) con le sue due bandiere già posizionate per eseguire il chording ed aprire tutte le caselle libere vicine!",
 					instruction_en: "Tap the circled number 2 at (1,1) with both flags placed to chord and reveal all adjacent safe tiles!",
 					requiredAction: "chord",
-					target: {"r": 1, "c": 1},
+					target: {"r":1,"c":1},
+					rows: 3,
+					cols: 3,
+					board: [
+						[ { r: 0, c: 0, val: 1, rev: false }, { r: 0, c: 1, mine: true, val: 0, rev: false, flag: true }, { r: 0, c: 2, val: 1, rev: false } ],
+						[ { r: 1, c: 0, val: 2, rev: true }, { r: 1, c: 1, val: 2, rev: true }, { r: 1, c: 2, val: 2, rev: true } ],
+						[ { r: 2, c: 0, val: 1, rev: false }, { r: 2, c: 1, mine: true, val: 0, rev: false, flag: true }, { r: 2, c: 2, val: 1, rev: false } ]
+					]
+				},
+				{
+					isTest: true,
+					instruction_it: "🎯 Riprova: trova il numero che ha già tutte le bandiere necessarie attorno a sé ed esegui il chording per liberare le celle sicure!",
+					instruction_en: "🎯 Challenge: find the number whose required flags are already set and chord it to clear the safe neighbors!",
+					requiredAction: "chord",
+					target: {"r":1,"c":1},
 					rows: 3,
 					cols: 3,
 					board: [
@@ -151,13 +165,27 @@ var MinesweeperAcademy = (function () {
 					instruction_it: "Lungo la parete superiore, il primo 1 a (1,0) confina la mina in (0,0) o (0,1). Il secondo 1 a (1,1) garantisce che la terza casella (0,2) è LIBERA! Scava ⛏️ la casella sicura (0,2)!",
 					instruction_en: "Along the wall, the first 1 at (1,0) confines the mine to (0,0) or (0,1). The second 1 at (1,1) guarantees the third tile (0,2) is SAFE! Dig ⛏️ tile (0,2)!",
 					requiredAction: "reveal",
-					patternCells: [{"r": 1, "c": 0}, {"r": 1, "c": 1}],
-					target: {"r": 0, "c": 2},
+					patternCells: [{"r":1,"c":0},{"r":1,"c":1}],
+					target: {"r":0,"c":2},
 					rows: 3,
 					cols: 4,
 					board: [
 						[ { r: 0, c: 0, mine: true, val: 0, rev: false }, { r: 0, c: 1, val: 1, rev: false }, { r: 0, c: 2, val: 0, rev: false }, { r: 0, c: 3, val: 0, rev: false } ],
 						[ { r: 1, c: 0, val: 1, rev: true }, { r: 1, c: 1, val: 1, rev: true }, { r: 1, c: 2, val: 0, rev: true }, { r: 1, c: 3, val: 0, rev: true } ],
+						[ { r: 2, c: 0, val: 0, rev: true }, { r: 2, c: 1, val: 0, rev: true }, { r: 2, c: 2, val: 0, rev: true }, { r: 2, c: 3, val: 0, rev: true } ]
+					]
+				},
+				{
+					isTest: true,
+					instruction_it: "🎯 Riprova: osserva la parete a sinistra con la sequenza 1-1, deduci quale casella coperta è sicuramente libera e scavala ⛏️!",
+					instruction_en: "🎯 Challenge: analyze the 1-1 sequence along the left wall, deduce which covered cell is 100% safe, and dig ⛏️ it!",
+					requiredAction: "reveal",
+					target: {"r":0,"c":2},
+					rows: 3,
+					cols: 4,
+					board: [
+						[ { r: 0, c: 0, mine: true, val: 0, rev: false }, { r: 0, c: 1, val: 1, rev: false }, { r: 0, c: 2, val: 1, rev: false }, { r: 0, c: 3, mine: true, val: 0, rev: false } ],
+						[ { r: 1, c: 0, val: 1, rev: true }, { r: 1, c: 1, val: 1, rev: true }, { r: 1, c: 2, val: 1, rev: true }, { r: 1, c: 3, val: 1, rev: true } ],
 						[ { r: 2, c: 0, val: 0, rev: true }, { r: 2, c: 1, val: 0, rev: true }, { r: 2, c: 2, val: 0, rev: true }, { r: 2, c: 3, val: 0, rev: true } ]
 					]
 				}
@@ -177,8 +205,8 @@ var MinesweeperAcademy = (function () {
 					instruction_it: "L'1 a (1,0) limita 1 mina tra (0,0) e (0,1). Il 2 a (1,1) tocca anche (0,2): la mina esterna è su (0,2)! Metti la bandiera 🚩 su (0,2)!",
 					instruction_en: "The 1 at (1,0) confines 1 mine to (0,0) and (0,1). The 2 at (1,1) also touches (0,2): the outer mine is at (0,2)! Flag 🚩 (0,2)!",
 					requiredAction: "flag",
-					patternCells: [{"r": 1, "c": 0}, {"r": 1, "c": 1}],
-					target: {"r": 0, "c": 2},
+					patternCells: [{"r":1,"c":0},{"r":1,"c":1}],
+					target: {"r":0,"c":2},
 					rows: 3,
 					cols: 4,
 					board: [
@@ -191,8 +219,22 @@ var MinesweeperAcademy = (function () {
 					instruction_it: "Ora che la mina esterna è identificata, completa il pattern 1-2: metti entrambe le bandierine 🚩 sulle mine del 2 (a 0,1 e 0,2)!",
 					instruction_en: "Now that the outer mine is identified, complete the 1-2 pattern: place both flags 🚩 on the 2's mines (at 0,1 and 0,2)!",
 					requiredAction: "flag",
-					patternCells: [{"r": 1, "c": 0}, {"r": 1, "c": 1}],
-					targets: [{"r": 0, "c": 1}, {"r": 0, "c": 2}],
+					patternCells: [{"r":1,"c":0},{"r":1,"c":1}],
+					targets: [{"r":0,"c":1},{"r":0,"c":2}],
+					rows: 3,
+					cols: 4,
+					board: [
+						[ { r: 0, c: 0, val: 1, rev: false }, { r: 0, c: 1, mine: true, val: 0, rev: false }, { r: 0, c: 2, mine: true, val: 0, rev: false }, { r: 0, c: 3, val: 1, rev: false } ],
+						[ { r: 1, c: 0, val: 1, rev: true }, { r: 1, c: 1, val: 2, rev: true }, { r: 1, c: 2, val: 2, rev: true }, { r: 1, c: 3, val: 1, rev: true } ],
+						[ { r: 2, c: 0, val: 0, rev: true }, { r: 2, c: 1, val: 0, rev: true }, { r: 2, c: 2, val: 0, rev: true }, { r: 2, c: 3, val: 0, rev: true } ]
+					]
+				},
+				{
+					isTest: true,
+					instruction_it: "🎯 Riprova: individua la coppia 1-2 a contatto con il bordo, identifica la mina esterna del 2 e piazza la bandiera 🚩!",
+					instruction_en: "🎯 Challenge: locate the 1-2 pattern along the edge, spot the 2's outer mine, and flag 🚩 it!",
+					requiredAction: "flag",
+					target: {"r":0,"c":2},
 					rows: 3,
 					cols: 4,
 					board: [
@@ -217,8 +259,8 @@ var MinesweeperAcademy = (function () {
 					instruction_it: "Pattern 1-2-1 su parete: la casella centrale (0,1) davanti al 2 è sempre garantita libera! Scava ⛏️ la casella centrale (0,1).",
 					instruction_en: "1-2-1 wall pattern: the central tile (0,1) facing the 2 is always guaranteed safe! Dig ⛏️ the middle safe tile (0,1).",
 					requiredAction: "reveal",
-					patternCells: [{"r": 1, "c": 0}, {"r": 1, "c": 1}, {"r": 1, "c": 2}],
-					target: {"r": 0, "c": 1},
+					patternCells: [{"r":1,"c":0},{"r":1,"c":1},{"r":1,"c":2}],
+					target: {"r":0,"c":1},
 					rows: 3,
 					cols: 3,
 					board: [
@@ -231,14 +273,27 @@ var MinesweeperAcademy = (function () {
 					instruction_it: "Pattern 1-2-1 su parete: le caselle davanti ai due 1 sono sempre mine! Metti la bandiera 🚩 su entrambe le mine esterne (0,0 e 0,2).",
 					instruction_en: "1-2-1 wall pattern: the tiles facing the two 1s are always mines! Flag 🚩 both outer mines (0,0 and 0,2).",
 					requiredAction: "flag",
-					patternCells: [{"r": 1, "c": 0}, {"r": 1, "c": 1}, {"r": 1, "c": 2}],
-					targets: [{"r": 0, "c": 0}, {"r": 0, "c": 2}],
+					patternCells: [{"r":1,"c":0},{"r":1,"c":1},{"r":1,"c":2}],
+					targets: [{"r":0,"c":0},{"r":0,"c":2}],
 					rows: 3,
 					cols: 3,
 					board: [
 						[ { r: 0, c: 0, mine: true, val: 0, rev: false }, { r: 0, c: 1, val: 2, rev: true }, { r: 0, c: 2, mine: true, val: 0, rev: false } ],
 						[ { r: 1, c: 0, val: 1, rev: true }, { r: 1, c: 1, val: 2, rev: true }, { r: 1, c: 2, val: 1, rev: true } ],
 						[ { r: 2, c: 0, val: 0, rev: true }, { r: 2, c: 1, val: 0, rev: true }, { r: 2, c: 2, val: 0, rev: true } ]
+					]
+				},
+				{
+					isTest: true,
+					instruction_it: "🎯 Riprova: individua il pattern 1-2-1 sulla frontiera, scava ⛏️ la casella centrale libera e metti le bandiere 🚩 sulle due mine esterne!",
+					instruction_en: "🎯 Challenge: identify the 1-2-1 pattern on the frontier, dig ⛏️ the central safe cell, and flag 🚩 both outer mines!",
+					targets: [{"r":0,"c":0,"action":"flag"},{"r":0,"c":1,"action":"reveal"},{"r":0,"c":2,"action":"flag"}],
+					rows: 3,
+					cols: 4,
+					board: [
+						[ { r: 0, c: 0, mine: true, val: 0, rev: false }, { r: 0, c: 1, val: 2, rev: false }, { r: 0, c: 2, mine: true, val: 0, rev: false }, { r: 0, c: 3, val: 1, rev: false } ],
+						[ { r: 1, c: 0, val: 1, rev: true }, { r: 1, c: 1, val: 2, rev: true }, { r: 1, c: 2, val: 1, rev: true }, { r: 1, c: 3, val: 1, rev: true } ],
+						[ { r: 2, c: 0, val: 0, rev: true }, { r: 2, c: 1, val: 0, rev: true }, { r: 2, c: 2, val: 0, rev: true }, { r: 2, c: 3, val: 0, rev: true } ]
 					]
 				}
 			]
@@ -257,8 +312,8 @@ var MinesweeperAcademy = (function () {
 					instruction_it: "Pattern 1-2-2-1: scava ⛏️ entrambe le caselle esterne sicure davanti agli 1 (in colonna 0 e 3)!",
 					instruction_en: "1-2-2-1 Pattern: dig ⛏️ both outer safe tiles facing the 1s (columns 0 and 3)!",
 					requiredAction: "reveal",
-					patternCells: [{"r": 1, "c": 0}, {"r": 1, "c": 1}, {"r": 1, "c": 2}, {"r": 1, "c": 3}],
-					targets: [{"r": 0, "c": 0}, {"r": 0, "c": 3}],
+					patternCells: [{"r":1,"c":0},{"r":1,"c":1},{"r":1,"c":2},{"r":1,"c":3}],
+					targets: [{"r":0,"c":0},{"r":0,"c":3}],
 					rows: 3,
 					cols: 4,
 					board: [
@@ -271,12 +326,25 @@ var MinesweeperAcademy = (function () {
 					instruction_it: "Pattern 1-2-2-1: metti le bandiere 🚩 su entrambe le mine davanti ai due numeri 2 (in colonna 1 e 2)!",
 					instruction_en: "1-2-2-1 Pattern: flag 🚩 both mines in front of the two 2s (columns 1 and 2)!",
 					requiredAction: "flag",
-					patternCells: [{"r": 1, "c": 0}, {"r": 1, "c": 1}, {"r": 1, "c": 2}, {"r": 1, "c": 3}],
-					targets: [{"r": 0, "c": 1}, {"r": 0, "c": 2}],
+					patternCells: [{"r":1,"c":0},{"r":1,"c":1},{"r":1,"c":2},{"r":1,"c":3}],
+					targets: [{"r":0,"c":1},{"r":0,"c":2}],
 					rows: 3,
 					cols: 4,
 					board: [
 						[ { r: 0, c: 0, val: 1, rev: true }, { r: 0, c: 1, mine: true, val: 0, rev: false }, { r: 0, c: 2, mine: true, val: 0, rev: false }, { r: 0, c: 3, val: 1, rev: true } ],
+						[ { r: 1, c: 0, val: 1, rev: true }, { r: 1, c: 1, val: 2, rev: true }, { r: 1, c: 2, val: 2, rev: true }, { r: 1, c: 3, val: 1, rev: true } ],
+						[ { r: 2, c: 0, val: 0, rev: true }, { r: 2, c: 1, val: 0, rev: true }, { r: 2, c: 2, val: 0, rev: true }, { r: 2, c: 3, val: 0, rev: true } ]
+					]
+				},
+				{
+					isTest: true,
+					instruction_it: "🎯 Riprova: individua la sequenza 1-2-2-1, scava ⛏️ le due celle sicure davanti agli 1 e metti le bandiere 🚩 sulle mine davanti ai 2!",
+					instruction_en: "🎯 Challenge: recognize the 1-2-2-1 pattern, dig ⛏️ both safe cells facing the 1s, and flag 🚩 both mines facing the 2s!",
+					targets: [{"r":0,"c":0,"action":"reveal"},{"r":0,"c":1,"action":"flag"},{"r":0,"c":2,"action":"flag"},{"r":0,"c":3,"action":"reveal"}],
+					rows: 3,
+					cols: 4,
+					board: [
+						[ { r: 0, c: 0, val: 1, rev: false }, { r: 0, c: 1, mine: true, val: 0, rev: false }, { r: 0, c: 2, mine: true, val: 0, rev: false }, { r: 0, c: 3, val: 1, rev: false } ],
 						[ { r: 1, c: 0, val: 1, rev: true }, { r: 1, c: 1, val: 2, rev: true }, { r: 1, c: 2, val: 2, rev: true }, { r: 1, c: 3, val: 1, rev: true } ],
 						[ { r: 2, c: 0, val: 0, rev: true }, { r: 2, c: 1, val: 0, rev: true }, { r: 2, c: 2, val: 0, rev: true }, { r: 2, c: 3, val: 0, rev: true } ]
 					]
@@ -294,17 +362,31 @@ var MinesweeperAcademy = (function () {
 			desc_en: "Most complex layouts (e.g. 1-2-2 or 2-3-2) reduce into a clean 1-2-1 by subtracting already placed flags (2 - 1 = 1)!",
 			puzzles: [
 				{
-					instruction_it: "La bandiera piazzata a (0,3) riduce il 2 adiacente a valore residuo 1: la sequenza si comporta come un classico 1-2-1! Scava ⛏️ la casella centrale libera (0,1).",
-					instruction_en: "The flag placed at (0,3) reduces the adjacent 2 to 1: the sequence behaves as a classic 1-2-1! Dig ⛏️ the middle safe cell (0,1).",
+					instruction_it: "La bandiera piazzata a (0,3) riduce il 2 adiacente a valore residuo 1: la sequenza 1-2-2 si comporta come un classico 1-2-1! Scava ⛏️ la casella centrale libera (0,1).",
+					instruction_en: "The flag placed at (0,3) reduces the adjacent 2 to 1: the 1-2-2 sequence behaves as a classic 1-2-1! Dig ⛏️ the middle safe cell (0,1).",
 					requiredAction: "reveal",
-					patternCells: [{"r": 1, "c": 0}, {"r": 1, "c": 1}, {"r": 1, "c": 2}],
-					target: {"r": 0, "c": 1},
+					patternCells: [{"r":1,"c":0},{"r":1,"c":1},{"r":1,"c":2}],
+					target: {"r":0,"c":1},
 					rows: 3,
-					cols: 4,
+					cols: 5,
 					board: [
-						[ { r: 0, c: 0, mine: true, val: 0, rev: false }, { r: 0, c: 1, val: 2, rev: false }, { r: 0, c: 2, mine: true, val: 0, rev: false }, { r: 0, c: 3, mine: true, val: 0, rev: false, flag: true } ],
-						[ { r: 1, c: 0, val: 1, rev: true }, { r: 1, c: 1, val: 2, rev: true }, { r: 1, c: 2, val: 2, rev: true }, { r: 1, c: 3, val: 1, rev: true } ],
-						[ { r: 2, c: 0, val: 0, rev: true }, { r: 2, c: 1, val: 0, rev: true }, { r: 2, c: 2, val: 0, rev: true }, { r: 2, c: 3, val: 0, rev: true } ]
+						[ { r: 0, c: 0, mine: true, val: 0, rev: false }, { r: 0, c: 1, val: 2, rev: false }, { r: 0, c: 2, mine: true, val: 0, rev: false }, { r: 0, c: 3, mine: true, val: 0, rev: false, flag: true }, { r: 0, c: 4, val: 1, rev: false } ],
+						[ { r: 1, c: 0, val: 1, rev: true }, { r: 1, c: 1, val: 2, rev: true }, { r: 1, c: 2, val: 2, rev: true }, { r: 1, c: 3, val: 2, rev: true }, { r: 1, c: 4, val: 1, rev: true } ],
+						[ { r: 2, c: 0, val: 0, rev: true }, { r: 2, c: 1, val: 0, rev: true }, { r: 2, c: 2, val: 0, rev: true }, { r: 2, c: 3, val: 0, rev: true }, { r: 2, c: 4, val: 0, rev: true } ]
+					]
+				},
+				{
+					isTest: true,
+					instruction_it: "🎯 Riprova: usa la riduzione algebrica sottraendo la bandiera esistente per individuare la casella sicura centrale e scavala ⛏️!",
+					instruction_en: "🎯 Challenge: apply flag reduction to deduce the safe cell and dig ⛏️ it!",
+					requiredAction: "reveal",
+					target: {"r":0,"c":1},
+					rows: 3,
+					cols: 5,
+					board: [
+						[ { r: 0, c: 0, mine: true, val: 0, rev: false }, { r: 0, c: 1, val: 2, rev: false }, { r: 0, c: 2, mine: true, val: 0, rev: false }, { r: 0, c: 3, mine: true, val: 0, rev: false, flag: true }, { r: 0, c: 4, val: 1, rev: false } ],
+						[ { r: 1, c: 0, val: 1, rev: true }, { r: 1, c: 1, val: 2, rev: true }, { r: 1, c: 2, val: 2, rev: true }, { r: 1, c: 3, val: 2, rev: true }, { r: 1, c: 4, val: 1, rev: true } ],
+						[ { r: 2, c: 0, val: 0, rev: true }, { r: 2, c: 1, val: 0, rev: true }, { r: 2, c: 2, val: 0, rev: true }, { r: 2, c: 3, val: 0, rev: true }, { r: 2, c: 4, val: 0, rev: true } ]
 					]
 				}
 			]
@@ -323,14 +405,54 @@ var MinesweeperAcademy = (function () {
 					instruction_it: "La nicchia d'angolo confina la mina del numero 1 esattamente in (0,0). Metti la bandiera 🚩 sulla mina!",
 					instruction_en: "The corner pocket confines the clue 1's mine directly at (0,0). Place a flag 🚩 on it!",
 					requiredAction: "flag",
-					patternCells: [{"r": 0, "c": 1}, {"r": 1, "c": 0}],
-					target: {"r": 0, "c": 0},
+					patternCells: [{"r":0,"c":1},{"r":1,"c":0}],
+					target: {"r":0,"c":0},
 					rows: 3,
 					cols: 3,
 					board: [
 						[ { r: 0, c: 0, mine: true, val: 0, rev: false }, { r: 0, c: 1, val: 1, rev: true }, { r: 0, c: 2, val: 0, rev: true } ],
 						[ { r: 1, c: 0, val: 1, rev: true }, { r: 1, c: 1, val: 1, rev: true }, { r: 1, c: 2, val: 0, rev: true } ],
 						[ { r: 2, c: 0, val: 0, rev: true }, { r: 2, c: 1, val: 0, rev: true }, { r: 2, c: 2, val: 0, rev: true } ]
+					]
+				},
+				{
+					isTest: true,
+					instruction_it: "🎯 Riprova: individua la nicchia ad angolo, deduci la posizione dell'unica mina possibile e posiziona la bandiera 🚩!",
+					instruction_en: "🎯 Challenge: spot the corner niche, deduce the trapped mine's location, and place the flag 🚩!",
+					requiredAction: "flag",
+					target: {"r":0,"c":0},
+					rows: 3,
+					cols: 4,
+					board: [
+						[ { r: 0, c: 0, mine: true, val: 0, rev: false }, { r: 0, c: 1, val: 1, rev: true }, { r: 0, c: 2, val: 1, rev: true }, { r: 0, c: 3, mine: true, val: 0, rev: false } ],
+						[ { r: 1, c: 0, val: 1, rev: true }, { r: 1, c: 1, val: 1, rev: true }, { r: 1, c: 2, val: 1, rev: true }, { r: 1, c: 3, val: 1, rev: true } ],
+						[ { r: 2, c: 0, val: 0, rev: true }, { r: 2, c: 1, val: 0, rev: true }, { r: 2, c: 2, val: 0, rev: true }, { r: 2, c: 3, val: 0, rev: true } ]
+					]
+				}
+			]
+		},
+		{
+			id: "final_exam",
+			level: 9,
+			title_it: "9. Esame Finale di Tattica",
+			title_en: "9. Final Tactical Exam",
+			badge_it: "Gran Maestro di Logica",
+			badge_en: "Grandmaster Tactician",
+			desc_it: "Metti alla prova tutte le competenze acquisite: analizza una tavola reale con molteplici pattern combinati (1-2-1, 1-1 e saturazione) e risolvila senza aiuti visivi!",
+			desc_en: "Put all learned skills to the test: analyze an authentic board with combined patterns (1-2-1, 1-1 and saturation) and clear it without visual aids!",
+			puzzles: [
+				{
+					isTest: true,
+					instruction_it: "🎯 Esame Finale: analizza l'intera frontiera! A sinistra compare un 1-2-1 classico, a destra una deduzione 1-1 / saturazione. Risolvi tutti i bersagli!",
+					instruction_en: "🎯 Final Exam: scan the whole frontier! Spot the 1-2-1 on the left and the 1-1 / saturation on the right. Solve all targets!",
+					targets: [{"r":0,"c":0,"action":"flag"},{"r":0,"c":1,"action":"reveal"},{"r":0,"c":2,"action":"flag"},{"r":0,"c":3,"action":"reveal"},{"r":0,"c":4,"action":"reveal"},{"r":0,"c":5,"action":"flag"}],
+					rows: 4,
+					cols: 6,
+					board: [
+						[ { r: 0, c: 0, mine: true, val: 0, rev: false }, { r: 0, c: 1, val: 2, rev: false }, { r: 0, c: 2, mine: true, val: 0, rev: false }, { r: 0, c: 3, val: 1, rev: false }, { r: 0, c: 4, val: 1, rev: false }, { r: 0, c: 5, mine: true, val: 0, rev: false } ],
+						[ { r: 1, c: 0, val: 1, rev: true }, { r: 1, c: 1, val: 2, rev: true }, { r: 1, c: 2, val: 1, rev: true }, { r: 1, c: 3, val: 1, rev: true }, { r: 1, c: 4, val: 1, rev: true }, { r: 1, c: 5, val: 1, rev: true } ],
+						[ { r: 2, c: 0, val: 0, rev: true }, { r: 2, c: 1, val: 0, rev: true }, { r: 2, c: 2, val: 0, rev: true }, { r: 2, c: 3, val: 0, rev: true }, { r: 2, c: 4, val: 0, rev: true }, { r: 2, c: 5, val: 0, rev: true } ],
+						[ { r: 3, c: 0, val: 0, rev: true }, { r: 3, c: 1, val: 0, rev: true }, { r: 3, c: 2, val: 0, rev: true }, { r: 3, c: 3, val: 0, rev: true }, { r: 3, c: 4, val: 0, rev: true }, { r: 3, c: 5, val: 0, rev: true } ]
 					]
 				}
 			]
