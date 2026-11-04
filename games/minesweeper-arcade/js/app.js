@@ -1681,11 +1681,7 @@
 			return;
 		}
 		if (target.closest('button') && !target.closest('.cell')) return;
-		var targetCell = target.closest('.cell');
-		if (targetCell && !targetCell.classList.contains('revealed')) {
-			return;
-		}
-		if (target.closest('#board-arena') || target.closest('#board')) {
+		if (target.closest('#board-arena') || target.closest('#board') || target.closest('.cell')) {
 			toggleInputMode();
 		}
 	}
@@ -1919,12 +1915,11 @@
 		state.academyLessonIndex = lessonIndex;
 		state.academyPuzzleIndex = puzzleIndex;
 		if (btnModeFlag) btnModeFlag.classList.remove('pill-btn-tutorial-pulse');
-		if (puzzle.initialInputMode) {
-			setInputMode(puzzle.initialInputMode);
-		} else if (puzzle.requiredAction === 'flag') {
-			setInputMode('flag');
-		} else {
+		if (!state.inputMode) {
 			setInputMode('dig');
+		} else {
+			// Mantieni la modalità scelta dal giocatore (dig o flag) senza resettarla tra una tavola e l'altra!
+			setInputMode(state.inputMode);
 		}
 		document.body.classList.add('didactic-mode');
 		clearDidacticHighlights();
@@ -2365,9 +2360,10 @@
 
 	document.addEventListener('keydown', function (e) {
 		if (e.key === 'm' || e.key === 'M') soundToggle.click();
-		if (e.key === 'f' || e.key === 'F') setInputMode(state.inputMode === 'dig' ? 'flag' : 'dig');
+		if (e.key === 'd' || e.key === 'D') setInputMode('dig', true);
+		if (e.key === 'f' || e.key === 'F') setInputMode(state.inputMode === 'flag' ? 'dig' : 'flag', true);
 		if (state.isDidactic && (e.key === 'i' || e.key === 'I')) {
-			setInputMode(state.inputMode === 'inspect' ? 'dig' : 'inspect');
+			setInputMode(state.inputMode === 'inspect' ? 'dig' : 'inspect', true);
 		}
 		if (e.key === '+' || e.key === '=') ViewportManager.zoomStep(1);
 		if (e.key === '-' || e.key === '_') ViewportManager.zoomStep(-1);
