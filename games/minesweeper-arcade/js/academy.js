@@ -2232,16 +2232,16 @@ var MinesweeperAcademy = (function () {
 	{
 		"id": "pattern_12x",
 		"level": 5,
-		"title_it": "5. Pattern 1-2 e 1-2-X (Mina Esterna)",
-		"title_en": "5. 1-2 and 1-2-X Pattern (Outer Mine)",
+		"title_it": "5. Pattern Generale 1-2-X (La Mina Esterna)",
+		"title_en": "5. General 1-2-X Pattern (Outer Mine)",
 		"badge_it": "La Mina Esterna",
 		"badge_en": "The Outer Mine",
-		"desc_it": "In una coppia 1-2 lungo un bordo, l'1 trattiene 1 sola mina nelle caselle condivise: la seconda mina del 2 deve trovarsi per forza all'esterno, a prescindere dal numero successivo (X)!",
-		"desc_en": "In a 1-2 pair along an edge, the 1 confines 1 mine to the shared tiles: the 2's second mine is forced onto the outer tile, regardless of what follows (X)!",
+		"desc_it": "In una coppia 1-2 su parete, l'1 trattiene la prima mina nelle celle condivise: la seconda mina del 2 viene spinta per forza all'esterno, sopra al numero successivo (X, qualsiasi esso sia)! Sulle altre celle non c'è certezza, ma sopra a X c'è SEMPRE una mina.",
+		"desc_en": "In a 1-2 pair along an edge, the 1 locks the first mine into the shared tiles: the 2's second mine is forced onto the outer tile above the next number (X, whatever it is)! While other tiles remain uncertain, the tile above X is ALWAYS a mine.",
 		"puzzles": [
 			{
-				"instruction_it": "Guarda la coppia 1-2 evidenziata: l'1 prende solo 1 mina nelle prime due caselle, quindi la seconda mina del 2 è quella che sporge all'esterno! Metti la bandiera 🚩 sulla casella rossa.",
-				"instruction_en": "Look at the highlighted 1-2 pair: the 1 takes 1 mine in the shared tiles, so the 2's second mine is forced onto the outer tile! Flag 🚩 the red tile.",
+				"instruction_it": "Regola fondamentale del pattern 1-2-X: l'1 trattiene 1 mina nelle prime due caselle, quindi la seconda mina del 2 sporge all'esterno sopra a X! Metti la bandiera 🚩 sulla casella rossa.",
+				"instruction_en": "Core rule of 1-2-X: the 1 locks 1 mine in the first two tiles, forcing the 2's second mine onto the outer tile above X! Place a flag 🚩 on the red tile.",
 				"requiredAction": "flag",
 				"patternCells": [
 					{
@@ -2453,8 +2453,8 @@ var MinesweeperAcademy = (function () {
 			},
 			{
 				"isTest": true,
-				"instruction_it": "🎯 Sfida Pratica: osserva la coppia 1-2 in alto a sinistra lungo la seconda riga. L'1 trattiene una mina nelle celle condivise, quindi la casella che sporge oltre il 2 deve essere una mina: piazza la bandiera 🚩!",
-				"instruction_en": "🎯 Practical Challenge: observe the 1-2 pair at the top-left along the second row. The 1 holds one mine in the shared tiles, so the tile sticking out past the 2 must be a mine: flag 🚩 it!",
+				"instruction_it": "🎯 Sfida Pratica: osserva la coppia 1-2 in alto a sinistra lungo la seconda riga. Applica la regola dell'1-2-X: l'1 trattiene una sola mina, quindi la casella che sporge all'esterno sopra a X deve essere una mina: piazza la bandiera 🚩!",
+				"instruction_en": "🎯 Practical Challenge: observe the 1-2 pair at the top-left along the second row. Apply the 1-2-X rule: the 1 holds one mine, so the outer tile sticking out above X must be a mine: flag 🚩 it!",
 				"rows": 9,
 				"cols": 9,
 				"board": [
@@ -2984,16 +2984,16 @@ var MinesweeperAcademy = (function () {
 	{
 		"id": "pattern_121",
 		"level": 6,
-		"title_it": "6. Pattern Classico 1-2-1",
-		"title_en": "6. Classic 1-2-1 Pattern",
+		"title_it": "6. Pattern Classico 1-2-1 (Il Caso Perfetto)",
+		"title_en": "6. Classic 1-2-1 Pattern (The Perfect Case)",
 		"badge_it": "Pattern Reale",
 		"badge_en": "Royal Pattern",
-		"desc_it": "La regola d'oro del pattern 1-2-1 su parete: le due estremità sono sempre MINE (🚩), mentre il centro è sempre SICURO (⛏️)!",
-		"desc_en": "The golden rule for 1-2-1 along a wall: outer ends are always MINES (🚩), while the center is always SAFE (⛏️)!",
+		"desc_it": "Quando la famosa 'X' dell'1-2-X è a sua volta un numero 1, la sequenza diventa simmetrica: l'1-2-X si applica da entrambi i lati! Le due estremità davanti agli 1 sono sempre MINE (🚩), e la casella centrale davanti al 2 è garantita LIBERA (⛏️)!",
+		"desc_en": "When the 'X' of 1-2-X is itself a 1, the sequence becomes symmetric: 1-2-X applies from both sides! The outer ends facing the 1s are always MINES (🚩), and the center tile facing the 2 is guaranteed SAFE (⛏️)!",
 		"puzzles": [
 			{
-				"instruction_it": "Regola del pattern 1-2-1: la casella centrale davanti al 2 è sempre garantita sicura! Scava ⛏️ la casella verde al centro.",
-				"instruction_en": "1-2-1 rule: the middle tile facing the 2 is always guaranteed safe! Dig ⛏️ the green central tile.",
+				"instruction_it": "Regola aurea del pattern 1-2-1: applicando la regola dell'1-2 da ambo i lati, le due estremità sono mine e il centro davanti al 2 è sempre garantito libero! Scava ⛏️ la casella verde centrale.",
+				"instruction_en": "Golden rule of 1-2-1: applying the 1-2 logic from both sides, the outer ends are mines and the center facing the 2 is guaranteed safe! Dig ⛏️ the green central tile.",
 				"requiredAction": "reveal",
 				"patternCells": [
 					{
