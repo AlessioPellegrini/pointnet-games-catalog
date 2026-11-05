@@ -1590,12 +1590,12 @@ var MinesweeperAcademy = (function () {
 	{
 		"id": "pattern_11",
 		"level": 4,
-		"title_it": "4. Pattern 1-1 su Parete",
-		"title_en": "4. 1-1 Wall Pattern",
+		"title_it": "4. Pattern 1-1 e 1-1-X su Parete",
+		"title_en": "4. 1-1 and 1-1-X Wall Pattern",
 		"badge_it": "Deduzione a Bordo",
 		"badge_en": "Border Deduction",
-		"desc_it": "Lungo un bordo, se due 1 consecutivi condividono due caselle, la mina è per forza tra quelle due. La terza casella toccata solo dal secondo 1 è GARANTITA SICURA!",
-		"desc_en": "Along an edge, two consecutive 1s share their single mine. The third tile touched only by the second 1 is GUARANTEED SAFE!",
+		"desc_it": "Lungo un bordo, due numeri 1 consecutivi condividono la loro unica mina. La terza casella che sporge oltre il secondo 1 è GARANTITA SICURA, a prescindere dal numero successivo (X)!",
+		"desc_en": "Along an edge, two consecutive 1s share their single mine. The third tile sticking out past the second 1 is GUARANTEED SAFE, regardless of the following number (X)!",
 		"puzzles": [
 			{
 				"instruction_it": "I due 1 evidenziati condividono la mina tra le prime due caselle: la terza casella oltre l'1 è garantita libera! Scava ⛏️ la casella verde.",
@@ -2232,12 +2232,12 @@ var MinesweeperAcademy = (function () {
 	{
 		"id": "pattern_12x",
 		"level": 5,
-		"title_it": "5. Pattern Fondamentale 1-2 (Mina Esterna)",
-		"title_en": "5. Core 1-2 Pattern (Outer Mine)",
+		"title_it": "5. Pattern 1-2 e 1-2-X (Mina Esterna)",
+		"title_en": "5. 1-2 and 1-2-X Pattern (Outer Mine)",
 		"badge_it": "La Mina Esterna",
 		"badge_en": "The Outer Mine",
-		"desc_it": "In una coppia 1-2 lungo un bordo, l'1 può toccare al massimo 1 mina nelle celle condivise: la seconda mina del 2 deve trovarsi per forza nella casella esterna!",
-		"desc_en": "In a 1-2 pair along an edge, the 1 confines 1 mine to the shared tiles: the 2's second mine must be on the outer tile!",
+		"desc_it": "In una coppia 1-2 lungo un bordo, l'1 trattiene 1 sola mina nelle caselle condivise: la seconda mina del 2 deve trovarsi per forza all'esterno, a prescindere dal numero successivo (X)!",
+		"desc_en": "In a 1-2 pair along an edge, the 1 confines 1 mine to the shared tiles: the 2's second mine is forced onto the outer tile, regardless of what follows (X)!",
 		"puzzles": [
 			{
 				"instruction_it": "Guarda la coppia 1-2 evidenziata: l'1 prende solo 1 mina nelle prime due caselle, quindi la seconda mina del 2 è quella che sporge all'esterno! Metti la bandiera 🚩 sulla casella rossa.",
@@ -3720,12 +3720,12 @@ var MinesweeperAcademy = (function () {
 	{
 		"id": "pattern_1221",
 		"level": 7,
-		"title_it": "7. Pattern 1-2-2-1",
-		"title_en": "7. 1-2-2-1 Pattern",
+		"title_it": "7. Pattern 1-2-2-1 e 1-2-2-X",
+		"title_en": "7. 1-2-2-1 and 1-2-2-X Pattern",
 		"badge_it": "Doppia Coppia",
 		"badge_en": "Double Pair",
-		"desc_it": "In una sequenza 1-2-2-1 lungo una parete, le mine sono esattamente davanti ai due numeri 2. Le caselle davanti ai due numeri 1 sono SEMPRE SICURE al 100%!",
-		"desc_en": "In a 1-2-2-1 sequence along a wall, mines are directly in front of the two 2s. The tiles facing the two 1s are ALWAYS 100% SAFE!",
+		"desc_it": "In una sequenza 1-2-2-X lungo una parete, l'1 confina la prima mina, costringendo le mine a trovarsi esattamente davanti ai due numeri 2. Le caselle davanti agli 1 sono sempre SICURE al 100%, anche se dopo c'è un altro numero (X)!",
+		"desc_en": "In a 1-2-2-X sequence along a wall, the 1 locks the first mine, forcing mines directly in front of the two 2s. Tiles facing the 1s are ALWAYS 100% safe, even if another number follows (X)!",
 		"puzzles": [
 			{
 				"instruction_it": "Regola del pattern 1-2-2-1: le caselle davanti agli 1 sono sempre libere! Scava ⛏️ le due caselle verdi alle estremità esterne.",
@@ -3963,8 +3963,8 @@ var MinesweeperAcademy = (function () {
 			},
 			{
 				"isTest": true,
-				"instruction_it": "🎯 Sfida Pratica: cerca la sequenza 1-2-2-1 in alto lungo la seconda riga! Scava ⛏️ le caselle davanti ai due 1 e piazza le bandiere 🚩 davanti ai due 2.",
-				"instruction_en": "🎯 Practical Challenge: find the 1-2-2-1 sequence along the second row at the top! Dig ⛏️ facing the two 1s and flag 🚩 facing both 2s.",
+				"instruction_it": "🎯 Sfida Pratica: guarda in alto la sequenza 1-2-2-X (anche se ci sono più 2 consecutivi, la logica non cambia!). L'1 confina la prima mina, quindi scava ⛏️ le caselle davanti agli 1 e piazza le bandiere 🚩 davanti ai due 2 centrali!",
+				"instruction_en": "🎯 Practical Challenge: look at the top 1-2-2-X sequence (even with consecutive 2s, the logic holds!). The 1 bounds the first mine: dig ⛏️ facing the 1s and flag 🚩 facing the two central 2s!",
 				"rows": 9,
 				"cols": 9,
 				"board": [
