@@ -1,6 +1,6 @@
 /**
  * Minesweeper Arcade — Interactive Academy ("Impara dalle Basi")
- * Progressive step-by-step logic course with authentic, focused real game boards.
+ * Progressive step-by-step logic course with authentic 100% 9x9 real game boards.
  */
 var MinesweeperAcademy = (function () {
 	'use strict';
@@ -15,38 +15,77 @@ var MinesweeperAcademy = (function () {
 		"title_en": "1. Controls & Interface",
 		"badge_it": "Guida Introduttiva",
 		"badge_en": "Quickstart",
-		"desc_it": "Impara i comandi: come scavare, come piazzare bandierine e tutti i modi per passare rapidamente da Scava a Bandiera (clic sull'icona, doppio clic/tap o due dita).",
-		"desc_en": "Master controls: digging, placing flags, and every way to switch tools (click tool icon, double-click/double-tap, or two-finger tap).",
+		"desc_it": "Impara i comandi su una vera griglia 9×9: come scavare, come piazzare bandierine e tutti i modi per passare rapidamente da Scava a Bandiera (pulsante nella barra superiore, doppio clic/tap o due dita).",
+		"desc_en": "Master controls on an authentic 9×9 grid: digging, placing flags, and every way to switch tools (top toolbar button, double-click/double-tap, or two-finger tap).",
 		"puzzles": [
 			{
 				"forcedInputMode": "dig",
-				"instruction_it": "Con lo strumento '⛏️ Scava' attivo, tocca o fai clic con il tasto sinistro sulla casella verde per scoprire la prima casella sicura!",
-				"instruction_en": "With '⛏️ Dig' active, tap or left-click the green highlighted tile to reveal your first safe tile!",
+				"instruction_it": "Tocca o fai clic con il tasto sinistro sulla casella verde al centro della tavola per eseguire il tuo primo scavo e aprire la griglia!",
+				"instruction_en": "Tap or left-click the highlighted green tile in the center of the board to make your first dig and open the grid!",
 				"requiredAction": "reveal",
 				"target": {
-					"r": 1,
-					"c": 1
+					"r": 4,
+					"c": 4
 				},
-				"rows": 3,
-				"cols": 3,
+				"rows": 9,
+				"cols": 9,
 				"board": [
 					[
 						{
 							"r": 0,
 							"c": 0,
-							"val": 0,
+							"val": 1,
 							"rev": false
 						},
 						{
 							"r": 0,
 							"c": 1,
 							"val": 0,
-							"rev": false
+							"rev": false,
+							"mine": true
 						},
 						{
 							"r": 0,
 							"c": 2,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 3,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 4,
 							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 0,
+							"c": 5,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 6,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 7,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 0,
+							"c": 8,
+							"val": 1,
 							"rev": false
 						}
 					],
@@ -54,19 +93,55 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 1,
 							"c": 0,
-							"val": 0,
+							"val": 1,
 							"rev": false
 						},
 						{
 							"r": 1,
 							"c": 1,
-							"val": 0,
+							"val": 1,
 							"rev": false
 						},
 						{
 							"r": 1,
 							"c": 2,
-							"val": 0,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 1,
+							"c": 3,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 1,
+							"c": 4,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 1,
+							"c": 5,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 1,
+							"c": 6,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 1,
+							"c": 7,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 1,
+							"c": 8,
+							"val": 1,
 							"rev": false
 						}
 					],
@@ -88,6 +163,385 @@ var MinesweeperAcademy = (function () {
 							"c": 2,
 							"val": 0,
 							"rev": false
+						},
+						{
+							"r": 2,
+							"c": 3,
+							"val": 0,
+							"rev": false
+						},
+						{
+							"r": 2,
+							"c": 4,
+							"val": 0,
+							"rev": false
+						},
+						{
+							"r": 2,
+							"c": 5,
+							"val": 0,
+							"rev": false
+						},
+						{
+							"r": 2,
+							"c": 6,
+							"val": 0,
+							"rev": false
+						},
+						{
+							"r": 2,
+							"c": 7,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 2,
+							"c": 8,
+							"val": 1,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 3,
+							"c": 0,
+							"val": 0,
+							"rev": false
+						},
+						{
+							"r": 3,
+							"c": 1,
+							"val": 0,
+							"rev": false
+						},
+						{
+							"r": 3,
+							"c": 2,
+							"val": 0,
+							"rev": false
+						},
+						{
+							"r": 3,
+							"c": 3,
+							"val": 0,
+							"rev": false
+						},
+						{
+							"r": 3,
+							"c": 4,
+							"val": 0,
+							"rev": false
+						},
+						{
+							"r": 3,
+							"c": 5,
+							"val": 0,
+							"rev": false
+						},
+						{
+							"r": 3,
+							"c": 6,
+							"val": 0,
+							"rev": false
+						},
+						{
+							"r": 3,
+							"c": 7,
+							"val": 2,
+							"rev": false
+						},
+						{
+							"r": 3,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 4,
+							"c": 0,
+							"val": 0,
+							"rev": false
+						},
+						{
+							"r": 4,
+							"c": 1,
+							"val": 0,
+							"rev": false
+						},
+						{
+							"r": 4,
+							"c": 2,
+							"val": 0,
+							"rev": false
+						},
+						{
+							"r": 4,
+							"c": 3,
+							"val": 0,
+							"rev": false
+						},
+						{
+							"r": 4,
+							"c": 4,
+							"val": 0,
+							"rev": false
+						},
+						{
+							"r": 4,
+							"c": 5,
+							"val": 0,
+							"rev": false
+						},
+						{
+							"r": 4,
+							"c": 6,
+							"val": 0,
+							"rev": false
+						},
+						{
+							"r": 4,
+							"c": 7,
+							"val": 3,
+							"rev": false
+						},
+						{
+							"r": 4,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 5,
+							"c": 0,
+							"val": 0,
+							"rev": false
+						},
+						{
+							"r": 5,
+							"c": 1,
+							"val": 0,
+							"rev": false
+						},
+						{
+							"r": 5,
+							"c": 2,
+							"val": 0,
+							"rev": false
+						},
+						{
+							"r": 5,
+							"c": 3,
+							"val": 0,
+							"rev": false
+						},
+						{
+							"r": 5,
+							"c": 4,
+							"val": 0,
+							"rev": false
+						},
+						{
+							"r": 5,
+							"c": 5,
+							"val": 0,
+							"rev": false
+						},
+						{
+							"r": 5,
+							"c": 6,
+							"val": 0,
+							"rev": false
+						},
+						{
+							"r": 5,
+							"c": 7,
+							"val": 2,
+							"rev": false
+						},
+						{
+							"r": 5,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 6,
+							"c": 0,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 6,
+							"c": 1,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 6,
+							"c": 2,
+							"val": 0,
+							"rev": false
+						},
+						{
+							"r": 6,
+							"c": 3,
+							"val": 0,
+							"rev": false
+						},
+						{
+							"r": 6,
+							"c": 4,
+							"val": 0,
+							"rev": false
+						},
+						{
+							"r": 6,
+							"c": 5,
+							"val": 0,
+							"rev": false
+						},
+						{
+							"r": 6,
+							"c": 6,
+							"val": 0,
+							"rev": false
+						},
+						{
+							"r": 6,
+							"c": 7,
+							"val": 2,
+							"rev": false
+						},
+						{
+							"r": 6,
+							"c": 8,
+							"val": 2,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 7,
+							"c": 0,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 7,
+							"c": 1,
+							"val": 2,
+							"rev": false
+						},
+						{
+							"r": 7,
+							"c": 2,
+							"val": 0,
+							"rev": false
+						},
+						{
+							"r": 7,
+							"c": 3,
+							"val": 0,
+							"rev": false
+						},
+						{
+							"r": 7,
+							"c": 4,
+							"val": 0,
+							"rev": false
+						},
+						{
+							"r": 7,
+							"c": 5,
+							"val": 0,
+							"rev": false
+						},
+						{
+							"r": 7,
+							"c": 6,
+							"val": 0,
+							"rev": false
+						},
+						{
+							"r": 7,
+							"c": 7,
+							"val": 2,
+							"rev": false
+						},
+						{
+							"r": 7,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 8,
+							"c": 0,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 8,
+							"c": 1,
+							"val": 2,
+							"rev": false
+						},
+						{
+							"r": 8,
+							"c": 2,
+							"val": 0,
+							"rev": false
+						},
+						{
+							"r": 8,
+							"c": 3,
+							"val": 0,
+							"rev": false
+						},
+						{
+							"r": 8,
+							"c": 4,
+							"val": 0,
+							"rev": false
+						},
+						{
+							"r": 8,
+							"c": 5,
+							"val": 0,
+							"rev": false
+						},
+						{
+							"r": 8,
+							"c": 6,
+							"val": 0,
+							"rev": false
+						},
+						{
+							"r": 8,
+							"c": 7,
+							"val": 2,
+							"rev": false
+						},
+						{
+							"r": 8,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
 						}
 					]
 				]
@@ -95,347 +549,19 @@ var MinesweeperAcademy = (function () {
 			{
 				"forcedInputMode": "dig",
 				"highlightFlagBtn": true,
-				"instruction_it": "Attiva la modalità Bandiera facendo clic sul pulsante '🚩 Bandiera' nella barra dei comandi (sopra la griglia) oppure fai doppio clic in un punto qualsiasi della tavola. Poi tocca la casella rossa per segnalare la mina!",
+				"instruction_it": "Attiva la modalita Bandiera facendo clic sul pulsante '🚩 Bandiera' nella barra dei comandi (sopra la griglia) oppure fai doppio clic in un punto qualsiasi della tavola. Poi tocca la casella rossa per segnalare la mina!",
 				"instruction_en": "Switch to Flag mode by clicking the '🚩 Flag' button in the toolbar (above the grid) or double-click anywhere on the board. Then tap the red tile to flag the mine!",
-				"instruction_desktop_it": "Attiva la modalità Bandiera facendo clic sul pulsante '🚩 Bandiera' nella barra dei comandi (sopra la griglia) oppure fai doppio clic sulla tavola o premi 'F'. Poi fai clic sulla casella rossa per segnalare la mina!",
+				"instruction_desktop_it": "Attiva la modalita Bandiera facendo clic sul pulsante '🚩 Bandiera' nella barra dei comandi (sopra la griglia) oppure fai doppio clic sulla tavola o premi 'F'. Poi fai clic sulla casella rossa per segnalare la mina!",
 				"instruction_desktop_en": "Switch to Flag mode by clicking the '🚩 Flag' button in the toolbar (above the grid) or double-click on the board or press 'F'. Then left-click the red tile to flag the mine!",
-				"instruction_mobile_it": "Attiva la modalità Bandiera toccando il pulsante '🚩 Bandiera' nella barra dei comandi (sopra la griglia) oppure tocca con 2 dita o fai doppio tap sulla tavola. Poi tocca la casella rossa per segnalare la mina!",
+				"instruction_mobile_it": "Attiva la modalita Bandiera toccando il pulsante '🚩 Bandiera' nella barra dei comandi (sopra la griglia) oppure tocca con 2 dita o fai doppio tap sulla tavola. Poi tocca la casella rossa per segnalare la mina!",
 				"instruction_mobile_en": "Switch to Flag mode by tapping the '🚩 Flag' button in the toolbar (above the grid) or tap with 2 fingers or double-tap on the board. Then tap the red tile to flag the mine!",
-				"instruction_flag_mode_it": "Ottimo, ora sei in modalità Bandiera 🚩! Tocca la casella rossa per piazzare la bandiera sulla mina.",
+				"instruction_flag_mode_it": "Ottimo, ora sei in modalita Bandiera 🚩! Tocca la casella rossa per piazzare la bandiera sulla mina.",
 				"instruction_flag_mode_en": "Great, Flag mode 🚩 is active! Tap the red tile to place a flag on the mine.",
 				"requiredAction": "flag",
 				"target": {
 					"r": 0,
 					"c": 1
 				},
-				"rows": 3,
-				"cols": 3,
-				"board": [
-					[
-						{
-							"r": 0,
-							"c": 0,
-							"val": 1,
-							"rev": false
-						},
-						{
-							"r": 0,
-							"c": 1,
-							"mine": true,
-							"val": 0,
-							"rev": false
-						},
-						{
-							"r": 0,
-							"c": 2,
-							"val": 1,
-							"rev": false
-						}
-					],
-					[
-						{
-							"r": 1,
-							"c": 0,
-							"val": 1,
-							"rev": true
-						},
-						{
-							"r": 1,
-							"c": 1,
-							"val": 1,
-							"rev": true
-						},
-						{
-							"r": 1,
-							"c": 2,
-							"val": 1,
-							"rev": true
-						}
-					],
-					[
-						{
-							"r": 2,
-							"c": 0,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 2,
-							"c": 1,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 2,
-							"c": 2,
-							"val": 0,
-							"rev": true
-						}
-					]
-				]
-			},
-			{
-				"forcedInputMode": "dig",
-				"instruction_it": "Scorciatoia rapida: mentre hai lo strumento Scava ⛏️ attivo, usa il TASTO DESTRO del mouse (o tieni premuto a lungo su touch) direttamente sulla casella rossa per piazzare la bandiera 🚩 all'istante senza cambiare strumento!",
-				"instruction_en": "Quick shortcut: while Dig ⛏️ is active, RIGHT-CLICK (or long-press on touch) directly on the red tile to place a flag 🚩 instantly without switching tools!",
-				"instruction_desktop_it": "Scorciatoia rapida da mouse: mentre hai lo strumento Scava ⛏️ attivo, fai clic con il TASTO DESTRO del mouse direttamente sulla casella rossa per piazzare la bandiera 🚩 all'istante!",
-				"instruction_desktop_en": "Quick mouse shortcut: while Dig ⛏️ is active, RIGHT-CLICK directly on the red tile to place a flag 🚩 instantly without switching tools!",
-				"instruction_mobile_it": "Scorciatoia rapida su touch: mentre hai lo strumento Scava ⛏️ attivo, TIENI PREMUTO a lungo sulla casella rossa per piazzare la bandiera 🚩 senza cambiare strumento!",
-				"instruction_mobile_en": "Quick touch shortcut: while Dig ⛏️ is active, LONG-PRESS on the red tile to place a flag 🚩 without switching tools!",
-				"instruction_flag_mode_it": "Sei già in modalità Bandiera 🚩: tocca direttamente la casella rossa per piazzare la bandiera!",
-				"instruction_flag_mode_en": "You are in Flag 🚩 mode: simply tap the red tile to place the flag!",
-				"requiredAction": "flag",
-				"target": {
-					"r": 0,
-					"c": 1
-				},
-				"rows": 3,
-				"cols": 3,
-				"board": [
-					[
-						{
-							"r": 0,
-							"c": 0,
-							"val": 1,
-							"rev": false
-						},
-						{
-							"r": 0,
-							"c": 1,
-							"mine": true,
-							"val": 0,
-							"rev": false
-						},
-						{
-							"r": 0,
-							"c": 2,
-							"val": 1,
-							"rev": false
-						}
-					],
-					[
-						{
-							"r": 1,
-							"c": 0,
-							"val": 1,
-							"rev": true
-						},
-						{
-							"r": 1,
-							"c": 1,
-							"val": 1,
-							"rev": true
-						},
-						{
-							"r": 1,
-							"c": 2,
-							"val": 1,
-							"rev": true
-						}
-					],
-					[
-						{
-							"r": 2,
-							"c": 0,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 2,
-							"c": 1,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 2,
-							"c": 2,
-							"val": 0,
-							"rev": true
-						}
-					]
-				]
-			}
-		]
-	},
-	{
-		"id": "saturation",
-		"level": 2,
-		"title_it": "2. Regola della Saturazione",
-		"title_en": "2. Saturation Rule",
-		"badge_it": "Le Basi Fondamentali",
-		"badge_en": "Fundamentals",
-		"desc_it": "Se un numero tocca tante caselle coperte quante sono le sue mine mancanti, sono tutte mine. Se le sue mine sono già tutte trovate, le altre caselle attorno sono sicure al 100%.",
-		"desc_en": "If a clue touches as many hidden tiles as its remaining mines, they are all mines. Once all its mines are flagged, every other neighbor is 100% safe.",
-		"puzzles": [
-			{
-				"instruction_it": "Il numero 1 tocca una sola casella coperta: è saturo, quindi deve essere una mina! Metti una bandiera 🚩 sulla casella rossa.",
-				"instruction_en": "The clue 1 touches only a single hidden tile: it is fully saturated, so it must be a mine! Place a flag 🚩 on the red tile.",
-				"requiredAction": "flag",
-				"target": {
-					"r": 0,
-					"c": 1
-				},
-				"rows": 3,
-				"cols": 3,
-				"board": [
-					[
-						{
-							"r": 0,
-							"c": 0,
-							"val": 1,
-							"rev": true
-						},
-						{
-							"r": 0,
-							"c": 1,
-							"mine": true,
-							"val": 0,
-							"rev": false
-						},
-						{
-							"r": 0,
-							"c": 2,
-							"val": 1,
-							"rev": true
-						}
-					],
-					[
-						{
-							"r": 1,
-							"c": 0,
-							"val": 1,
-							"rev": true
-						},
-						{
-							"r": 1,
-							"c": 1,
-							"val": 1,
-							"rev": true
-						},
-						{
-							"r": 1,
-							"c": 2,
-							"val": 1,
-							"rev": true
-						}
-					],
-					[
-						{
-							"r": 2,
-							"c": 0,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 2,
-							"c": 1,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 2,
-							"c": 2,
-							"val": 0,
-							"rev": true
-						}
-					]
-				]
-			},
-			{
-				"instruction_it": "Il numero 1 ha già la sua bandiera posizionata: tutte le altre sue caselle attorno sono libere! Scava ⛏️ le due caselle verdi.",
-				"instruction_en": "The clue 1 already has its flag placed: all its other neighbors are clear! Dig ⛏️ both green safe tiles.",
-				"requiredAction": "reveal",
-				"patternCells": [
-					{
-						"r": 1,
-						"c": 0
-					},
-					{
-						"r": 1,
-						"c": 2
-					}
-				],
-				"targets": [
-					{
-						"r": 0,
-						"c": 0
-					},
-					{
-						"r": 0,
-						"c": 2
-					}
-				],
-				"rows": 3,
-				"cols": 3,
-				"board": [
-					[
-						{
-							"r": 0,
-							"c": 0,
-							"val": 1,
-							"rev": false
-						},
-						{
-							"r": 0,
-							"c": 1,
-							"mine": true,
-							"val": 0,
-							"rev": false,
-							"flag": true
-						},
-						{
-							"r": 0,
-							"c": 2,
-							"val": 1,
-							"rev": false
-						}
-					],
-					[
-						{
-							"r": 1,
-							"c": 0,
-							"val": 1,
-							"rev": true
-						},
-						{
-							"r": 1,
-							"c": 1,
-							"val": 1,
-							"rev": true
-						},
-						{
-							"r": 1,
-							"c": 2,
-							"val": 1,
-							"rev": true
-						}
-					],
-					[
-						{
-							"r": 2,
-							"c": 0,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 2,
-							"c": 1,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 2,
-							"c": 2,
-							"val": 0,
-							"rev": true
-						}
-					]
-				]
-			},
-			{
-				"isTest": true,
-				"instruction_it": "🎯 Sfida Pratica: guarda l'angolo in basso a sinistra della griglia! Il numero 1 tocca una sola casella coperta (saturo) e il 2 ne tocca solo due: piazza la bandiera 🚩 su entrambe le mine!",
-				"instruction_en": "🎯 Practical Challenge: look at the bottom-left corner of the grid! The 1 touches only a single hidden tile (saturated) and the 2 touches only two: flag 🚩 both mines!",
 				"rows": 9,
 				"cols": 9,
 				"board": [
@@ -953,7 +1079,1630 @@ var MinesweeperAcademy = (function () {
 							"mine": true
 						}
 					]
+				]
+			},
+			{
+				"forcedInputMode": "dig",
+				"instruction_it": "Scorciatoia rapida: mentre hai lo strumento Scava ⛏️ attivo, usa il TASTO DESTRO del mouse (o tieni premuto a lungo su touch) direttamente sulla casella rossa per piazzare la bandiera 🚩 all'istante senza cambiare strumento!",
+				"instruction_en": "Quick shortcut: while Dig ⛏️ is active, RIGHT-CLICK (or long-press on touch) directly on the red tile to place a flag 🚩 instantly without switching tools!",
+				"instruction_desktop_it": "Scorciatoia rapida da mouse: mentre hai lo strumento Scava ⛏️ attivo, fai clic con il TASTO DESTRO del mouse direttamente sulla casella rossa per piazzare la bandiera 🚩 all'istante!",
+				"instruction_desktop_en": "Quick mouse shortcut: while Dig ⛏️ is active, RIGHT-CLICK directly on the red tile to place a flag 🚩 instantly without switching tools!",
+				"instruction_mobile_it": "Scorciatoia rapida su touch: mentre hai lo strumento Scava ⛏️ attivo, TIENI PREMUTO a lungo sulla casella rossa per piazzare la bandiera 🚩 senza cambiare strumento!",
+				"instruction_mobile_en": "Quick touch shortcut: while Dig ⛏️ is active, LONG-PRESS on the red tile to place a flag 🚩 without switching tools!",
+				"instruction_flag_mode_it": "Sei gia in modalita Bandiera 🚩: tocca direttamente la casella rossa per piazzare la bandiera!",
+				"instruction_flag_mode_en": "You are in Flag 🚩 mode: simply tap the red tile to place the flag!",
+				"requiredAction": "flag",
+				"target": {
+					"r": 0,
+					"c": 4
+				},
+				"rows": 9,
+				"cols": 9,
+				"board": [
+					[
+						{
+							"r": 0,
+							"c": 0,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 1,
+							"val": 0,
+							"rev": false,
+							"mine": true,
+							"flag": true
+						},
+						{
+							"r": 0,
+							"c": 2,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 3,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 4,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 0,
+							"c": 5,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 6,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 7,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 0,
+							"c": 8,
+							"val": 1,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 1,
+							"c": 0,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 1,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 2,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 3,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 4,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 5,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 6,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 7,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 8,
+							"val": 1,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 2,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 7,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 8,
+							"val": 1,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 3,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 4,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 7,
+							"val": 3,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 5,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 6,
+							"c": 0,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 1,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 8,
+							"val": 2,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 7,
+							"c": 0,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 7,
+							"c": 1,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 8,
+							"c": 0,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 8,
+							"c": 1,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					]
+				]
+			}
+		]
+	},
+	{
+		"id": "saturation",
+		"level": 2,
+		"title_it": "2. Regola della Saturazione",
+		"title_en": "2. Saturation Rule",
+		"badge_it": "Le Basi Fondamentali",
+		"badge_en": "Fundamentals",
+		"desc_it": "Se un numero tocca tante caselle coperte quante sono le sue mine mancanti, sono tutte mine. Se le sue mine sono gia tutte trovate, le altre caselle attorno sono sicure al 100%.",
+		"desc_en": "If a clue touches as many hidden tiles as its remaining mines, they are all mines. Once all its mines are flagged, every other neighbor is 100% safe.",
+		"puzzles": [
+			{
+				"instruction_it": "Guarda in basso a sinistra: il numero 1 evidenziato tocca una sola casella coperta! E saturo, quindi deve essere una mina: metti una bandiera 🚩 sulla casella rossa.",
+				"instruction_en": "Look at the bottom-left: the highlighted clue 1 touches only a single hidden tile! It is fully saturated, so it must be a mine: place a flag 🚩 on the red tile.",
+				"requiredAction": "flag",
+				"patternCells": [
+					{
+						"r": 6,
+						"c": 0
+					}
 				],
+				"target": {
+					"r": 7,
+					"c": 0
+				},
+				"rows": 9,
+				"cols": 9,
+				"board": [
+					[
+						{
+							"r": 0,
+							"c": 0,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 1,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 0,
+							"c": 2,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 3,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 4,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 0,
+							"c": 5,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 6,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 7,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 0,
+							"c": 8,
+							"val": 1,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 1,
+							"c": 0,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 1,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 2,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 3,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 4,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 5,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 6,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 7,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 8,
+							"val": 1,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 2,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 7,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 8,
+							"val": 1,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 3,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 4,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 7,
+							"val": 3,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 5,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 6,
+							"c": 0,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 1,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 8,
+							"val": 2,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 7,
+							"c": 0,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 7,
+							"c": 1,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 8,
+							"c": 0,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 8,
+							"c": 1,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					]
+				]
+			},
+			{
+				"instruction_it": "Una volta posizionata la bandiera sulla mina, il numero 1 vicino ha già trovato la sua unica mina: tutte le altre sue caselle attorno sono sicure! Scava ⛏️ la casella verde libera.",
+				"instruction_en": "Once the flag is placed on the mine, the adjacent 1 already has its single mine found: all its other neighbors are safe! Dig ⛏️ the green safe tile.",
+				"requiredAction": "reveal",
+				"patternCells": [
+					{
+						"r": 1,
+						"c": 0
+					},
+					{
+						"r": 1,
+						"c": 1
+					}
+				],
+				"target": {
+					"r": 0,
+					"c": 0
+				},
+				"rows": 9,
+				"cols": 9,
+				"board": [
+					[
+						{
+							"r": 0,
+							"c": 0,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 1,
+							"val": 0,
+							"rev": false,
+							"mine": true,
+							"flag": true
+						},
+						{
+							"r": 0,
+							"c": 2,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 3,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 4,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 0,
+							"c": 5,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 6,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 7,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 0,
+							"c": 8,
+							"val": 1,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 1,
+							"c": 0,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 1,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 2,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 3,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 4,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 5,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 6,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 7,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 8,
+							"val": 1,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 2,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 7,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 8,
+							"val": 1,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 3,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 4,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 7,
+							"val": 3,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 5,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 6,
+							"c": 0,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 1,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 8,
+							"val": 2,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 7,
+							"c": 0,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 7,
+							"c": 1,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 8,
+							"c": 0,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 8,
+							"c": 1,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					]
+				]
+			},
+			{
+				"isTest": true,
+				"instruction_it": "🎯 Sfida Pratica: guarda l'angolo in basso a sinistra della griglia! Il numero 1 tocca una sola casella coperta (saturo) e il 2 ne tocca solo due: piazza la bandiera 🚩 su entrambe le mine!",
+				"instruction_en": "🎯 Practical Challenge: look at the bottom-left corner of the grid! The 1 touches only a single hidden tile (saturated) and the 2 touches only two: flag 🚩 both mines!",
 				"targets": [
 					{
 						"r": 7,
@@ -965,6 +2714,524 @@ var MinesweeperAcademy = (function () {
 						"c": 0,
 						"action": "flag"
 					}
+				],
+				"rows": 9,
+				"cols": 9,
+				"board": [
+					[
+						{
+							"r": 0,
+							"c": 0,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 1,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 0,
+							"c": 2,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 3,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 4,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 0,
+							"c": 5,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 6,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 7,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 0,
+							"c": 8,
+							"val": 1,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 1,
+							"c": 0,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 1,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 2,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 3,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 4,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 5,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 6,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 7,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 8,
+							"val": 1,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 2,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 7,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 8,
+							"val": 1,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 3,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 4,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 7,
+							"val": 3,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 5,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 6,
+							"c": 0,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 1,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 8,
+							"val": 2,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 7,
+							"c": 0,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 7,
+							"c": 1,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 8,
+							"c": 0,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 8,
+							"c": 1,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					]
 				]
 			}
 		]
@@ -980,86 +3247,13 @@ var MinesweeperAcademy = (function () {
 		"desc_en": "When flagged mines around a revealed number equal its count, tapping that number instantly clears all its safe neighbors at once!",
 		"puzzles": [
 			{
-				"instruction_it": "Il 2 centrale tocca già due bandiere: tocca o clicca il numero 2 per eseguire il chording e aprire in un colpo solo tutte le caselle sicure vicine!",
-				"instruction_en": "The central 2 already touches two flags: tap or click the number 2 to chord and reveal all adjacent safe tiles at once!",
+				"instruction_it": "L'1 in alto a sinistra tocca gia la sua bandiera sopra di se: tocca o clicca il numero 1 evidenziato per eseguire il chording ed aprire in un colpo solo le caselle sicure vicine!",
+				"instruction_en": "The 1 at the top-left already touches its flag above: tap or click the highlighted clue 1 to chord and reveal all adjacent safe tiles at once!",
 				"requiredAction": "chord",
 				"target": {
 					"r": 1,
 					"c": 1
 				},
-				"rows": 3,
-				"cols": 3,
-				"board": [
-					[
-						{
-							"r": 0,
-							"c": 0,
-							"val": 1,
-							"rev": false
-						},
-						{
-							"r": 0,
-							"c": 1,
-							"mine": true,
-							"val": 0,
-							"rev": false,
-							"flag": true
-						},
-						{
-							"r": 0,
-							"c": 2,
-							"val": 1,
-							"rev": false
-						}
-					],
-					[
-						{
-							"r": 1,
-							"c": 0,
-							"val": 2,
-							"rev": true
-						},
-						{
-							"r": 1,
-							"c": 1,
-							"val": 2,
-							"rev": true
-						},
-						{
-							"r": 1,
-							"c": 2,
-							"val": 2,
-							"rev": true
-						}
-					],
-					[
-						{
-							"r": 2,
-							"c": 0,
-							"val": 1,
-							"rev": false
-						},
-						{
-							"r": 2,
-							"c": 1,
-							"mine": true,
-							"val": 0,
-							"rev": false,
-							"flag": true
-						},
-						{
-							"r": 2,
-							"c": 2,
-							"val": 1,
-							"rev": false
-						}
-					]
-				]
-			},
-			{
-				"isTest": true,
-				"instruction_it": "🎯 Sfida Pratica: guarda in alto a sinistra lungo la seconda riga. Il numero 1 ha già la sua bandiera posizionata sopra: cliccalo/toccalo per fare chording ed aprire all'istante le caselle libere!",
-				"instruction_en": "🎯 Practical Challenge: look along the second row near the top-left. The clue 1 already has its flag placed above it: click/tap it to chord and instantly clear adjacent safe tiles!",
 				"rows": 9,
 				"cols": 9,
 				"board": [
@@ -1578,12 +3772,536 @@ var MinesweeperAcademy = (function () {
 							"mine": true
 						}
 					]
-				],
+				]
+			},
+			{
+				"isTest": true,
+				"instruction_it": "🎯 Sfida Pratica: guarda in alto a sinistra lungo la seconda riga. Il numero 1 ha gia la sua bandiera posizionata sopra: cliccalo/toccalo per fare chording ed aprire all'istante le caselle libere!",
+				"instruction_en": "🎯 Practical Challenge: look along the second row near the top-left. The clue 1 already has its flag placed above it: click/tap it to chord and instantly clear adjacent safe tiles!",
 				"requiredAction": "chord",
 				"target": {
 					"r": 1,
 					"c": 1
-				}
+				},
+				"rows": 9,
+				"cols": 9,
+				"board": [
+					[
+						{
+							"r": 0,
+							"c": 0,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 1,
+							"val": 0,
+							"rev": false,
+							"mine": true,
+							"flag": true
+						},
+						{
+							"r": 0,
+							"c": 2,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 3,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 4,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 0,
+							"c": 5,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 6,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 7,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 0,
+							"c": 8,
+							"val": 1,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 1,
+							"c": 0,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 1,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 2,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 3,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 4,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 5,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 6,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 7,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 8,
+							"val": 1,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 2,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 7,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 8,
+							"val": 1,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 3,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 4,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 7,
+							"val": 3,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 5,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 6,
+							"c": 0,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 1,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 8,
+							"val": 2,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 7,
+							"c": 0,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 7,
+							"c": 1,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 8,
+							"c": 0,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 8,
+							"c": 1,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					]
+				]
 			}
 		]
 	},
@@ -1594,12 +4312,12 @@ var MinesweeperAcademy = (function () {
 		"title_en": "4. 1-1 and 1-1-X Wall Pattern",
 		"badge_it": "Deduzione a Bordo",
 		"badge_en": "Border Deduction",
-		"desc_it": "Lungo un bordo, due numeri 1 consecutivi condividono la loro unica mina. La terza casella che sporge oltre il secondo 1 è GARANTITA SICURA, a prescindere dal numero successivo (X)!",
+		"desc_it": "Lungo un bordo, due numeri 1 consecutivi condividono la loro unica mina. La terza casella che sporge oltre il secondo 1 e GARANTITA SICURA, a prescindere dal numero successivo (X)!",
 		"desc_en": "Along an edge, two consecutive 1s share their single mine. The third tile sticking out past the second 1 is GUARANTEED SAFE, regardless of the following number (X)!",
 		"puzzles": [
 			{
-				"instruction_it": "I due 1 evidenziati condividono la mina tra le prime due caselle: la terza casella oltre l'1 è garantita libera! Scava ⛏️ la casella verde.",
-				"instruction_en": "The highlighted 1s share their single mine between the first two tiles: the third tile past them is guaranteed safe! Dig ⛏️ the green tile.",
+				"instruction_it": "In alto a sinistra, i due 1 evidenziati condividono la mina nelle prime due caselle sopra. La terza casella sopra a X e garantita libera: scava ⛏️ la casella verde!",
+				"instruction_en": "At the top-left, the two highlighted 1s share their mine in the first two tiles above. The third tile above X is guaranteed safe: dig ⛏️ the green tile!",
 				"requiredAction": "reveal",
 				"patternCells": [
 					{
@@ -1615,94 +4333,6 @@ var MinesweeperAcademy = (function () {
 					"r": 0,
 					"c": 2
 				},
-				"rows": 3,
-				"cols": 4,
-				"board": [
-					[
-						{
-							"r": 0,
-							"c": 0,
-							"mine": true,
-							"val": 0,
-							"rev": false
-						},
-						{
-							"r": 0,
-							"c": 1,
-							"val": 1,
-							"rev": false
-						},
-						{
-							"r": 0,
-							"c": 2,
-							"val": 0,
-							"rev": false
-						},
-						{
-							"r": 0,
-							"c": 3,
-							"val": 0,
-							"rev": false
-						}
-					],
-					[
-						{
-							"r": 1,
-							"c": 0,
-							"val": 1,
-							"rev": true
-						},
-						{
-							"r": 1,
-							"c": 1,
-							"val": 1,
-							"rev": true
-						},
-						{
-							"r": 1,
-							"c": 2,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 1,
-							"c": 3,
-							"val": 0,
-							"rev": true
-						}
-					],
-					[
-						{
-							"r": 2,
-							"c": 0,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 2,
-							"c": 1,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 2,
-							"c": 2,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 2,
-							"c": 3,
-							"val": 0,
-							"rev": true
-						}
-					]
-				]
-			},
-			{
-				"isTest": true,
-				"instruction_it": "🎯 Sfida Pratica: guarda in alto a sinistra. I primi due numeri (1 e 1) lungo la seconda riga condividono la mina nelle prime due caselle sopra. La terza casella coperta a destra è garantita libera: toccala per scavare ⛏️!",
-				"instruction_en": "🎯 Practical Challenge: look at the top-left. The first two numbers (1 and 1) along the second row share their mine in the first two tiles above. The third covered tile to the right is guaranteed safe: tap it to dig ⛏️!",
 				"rows": 9,
 				"cols": 9,
 				"board": [
@@ -2220,12 +4850,535 @@ var MinesweeperAcademy = (function () {
 							"mine": true
 						}
 					]
-				],
+				]
+			},
+			{
+				"isTest": true,
+				"instruction_it": "🎯 Sfida Pratica: guarda in alto a sinistra. I primi due numeri (1 e 1) lungo la seconda riga condividono la mina nelle prime due caselle sopra. La terza casella coperta a destra e garantita libera: toccala per scavare ⛏️!",
+				"instruction_en": "🎯 Practical Challenge: look at the top-left. The first two numbers (1 and 1) along the second row share their mine in the first two tiles above. The third covered tile to the right is guaranteed safe: tap it to dig ⛏️!",
 				"requiredAction": "reveal",
 				"target": {
 					"r": 0,
 					"c": 2
-				}
+				},
+				"rows": 9,
+				"cols": 9,
+				"board": [
+					[
+						{
+							"r": 0,
+							"c": 0,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 1,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 0,
+							"c": 2,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 3,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 4,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 0,
+							"c": 5,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 6,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 7,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 0,
+							"c": 8,
+							"val": 1,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 1,
+							"c": 0,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 1,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 2,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 3,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 4,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 5,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 6,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 7,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 8,
+							"val": 1,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 2,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 7,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 8,
+							"val": 1,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 3,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 4,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 7,
+							"val": 3,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 5,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 6,
+							"c": 0,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 1,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 8,
+							"val": 2,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 7,
+							"c": 0,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 7,
+							"c": 1,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 8,
+							"c": 0,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 8,
+							"c": 1,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					]
+				]
 			}
 		]
 	},
@@ -2236,225 +5389,27 @@ var MinesweeperAcademy = (function () {
 		"title_en": "5. General 1-2-X Pattern (Outer Mine)",
 		"badge_it": "La Mina Esterna",
 		"badge_en": "The Outer Mine",
-		"desc_it": "In una coppia 1-2 su parete, l'1 trattiene la prima mina nelle celle condivise: la seconda mina del 2 viene spinta per forza all'esterno, sopra al numero successivo (X, qualsiasi esso sia)! Sulle altre celle non c'è certezza, ma sopra a X c'è SEMPRE una mina.",
+		"desc_it": "In una coppia 1-2 su parete, l'1 trattiene la prima mina nelle celle condivise: la seconda mina del 2 viene spinta per forza all'esterno, sopra al numero successivo (X, qualsiasi esso sia)! Sulle altre celle non c'e certezza, ma sopra a X c'e SEMPRE una mina.",
 		"desc_en": "In a 1-2 pair along an edge, the 1 locks the first mine into the shared tiles: the 2's second mine is forced onto the outer tile above the next number (X, whatever it is)! While other tiles remain uncertain, the tile above X is ALWAYS a mine.",
 		"puzzles": [
 			{
-				"instruction_it": "Regola fondamentale del pattern 1-2-X: l'1 trattiene 1 mina nelle prime due caselle, quindi la seconda mina del 2 sporge all'esterno sopra a X! Metti la bandiera 🚩 sulla casella rossa.",
-				"instruction_en": "Core rule of 1-2-X: the 1 locks 1 mine in the first two tiles, forcing the 2's second mine onto the outer tile above X! Place a flag 🚩 on the red tile.",
+				"instruction_it": "Regola del pattern 1-2-X: l'1 evidenziato confina 1 mina nelle prime due celle, quindi la seconda mina del 2 sporge per forza sopra a X! Metti la bandiera 🚩 sulla casella rossa.",
+				"instruction_en": "1-2-X rule: the highlighted 1 locks 1 mine in the first two tiles, forcing the 2's second mine onto the outer tile above X! Flag 🚩 the red tile.",
 				"requiredAction": "flag",
 				"patternCells": [
 					{
 						"r": 1,
-						"c": 0
+						"c": 1
 					},
 					{
 						"r": 1,
-						"c": 1
+						"c": 2
 					}
 				],
 				"target": {
 					"r": 0,
-					"c": 2
+					"c": 3
 				},
-				"rows": 3,
-				"cols": 4,
-				"board": [
-					[
-						{
-							"r": 0,
-							"c": 0,
-							"val": 1,
-							"rev": false
-						},
-						{
-							"r": 0,
-							"c": 1,
-							"mine": true,
-							"val": 0,
-							"rev": false
-						},
-						{
-							"r": 0,
-							"c": 2,
-							"mine": true,
-							"val": 0,
-							"rev": false
-						},
-						{
-							"r": 0,
-							"c": 3,
-							"val": 1,
-							"rev": false
-						}
-					],
-					[
-						{
-							"r": 1,
-							"c": 0,
-							"val": 1,
-							"rev": true
-						},
-						{
-							"r": 1,
-							"c": 1,
-							"val": 2,
-							"rev": true
-						},
-						{
-							"r": 1,
-							"c": 2,
-							"val": 2,
-							"rev": true
-						},
-						{
-							"r": 1,
-							"c": 3,
-							"val": 1,
-							"rev": true
-						}
-					],
-					[
-						{
-							"r": 2,
-							"c": 0,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 2,
-							"c": 1,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 2,
-							"c": 2,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 2,
-							"c": 3,
-							"val": 0,
-							"rev": true
-						}
-					]
-				]
-			},
-			{
-				"instruction_it": "Ora che la mina esterna è contrassegnata, il 2 ha bisogno di una sola altra mina nelle celle condivise: metti la bandiera 🚩 sulle due mine del 2!",
-				"instruction_en": "Now that the outer mine is spotted, complete the 2's requirements: place flags 🚩 on both mines of the 2!",
-				"requiredAction": "flag",
-				"patternCells": [
-					{
-						"r": 1,
-						"c": 0
-					},
-					{
-						"r": 1,
-						"c": 1
-					}
-				],
-				"targets": [
-					{
-						"r": 0,
-						"c": 1
-					},
-					{
-						"r": 0,
-						"c": 2
-					}
-				],
-				"rows": 3,
-				"cols": 4,
-				"board": [
-					[
-						{
-							"r": 0,
-							"c": 0,
-							"val": 1,
-							"rev": false
-						},
-						{
-							"r": 0,
-							"c": 1,
-							"mine": true,
-							"val": 0,
-							"rev": false
-						},
-						{
-							"r": 0,
-							"c": 2,
-							"mine": true,
-							"val": 0,
-							"rev": false
-						},
-						{
-							"r": 0,
-							"c": 3,
-							"val": 1,
-							"rev": false
-						}
-					],
-					[
-						{
-							"r": 1,
-							"c": 0,
-							"val": 1,
-							"rev": true
-						},
-						{
-							"r": 1,
-							"c": 1,
-							"val": 2,
-							"rev": true
-						},
-						{
-							"r": 1,
-							"c": 2,
-							"val": 2,
-							"rev": true
-						},
-						{
-							"r": 1,
-							"c": 3,
-							"val": 1,
-							"rev": true
-						}
-					],
-					[
-						{
-							"r": 2,
-							"c": 0,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 2,
-							"c": 1,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 2,
-							"c": 2,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 2,
-							"c": 3,
-							"val": 0,
-							"rev": true
-						}
-					]
-				]
-			},
-			{
-				"isTest": true,
-				"instruction_it": "🎯 Sfida Pratica: osserva la coppia 1-2 in alto a sinistra lungo la seconda riga. Applica la regola dell'1-2-X: l'1 trattiene una sola mina, quindi la casella che sporge all'esterno sopra a X deve essere una mina: piazza la bandiera 🚩!",
-				"instruction_en": "🎯 Practical Challenge: observe the 1-2 pair at the top-left along the second row. Apply the 1-2-X rule: the 1 holds one mine, so the outer tile sticking out above X must be a mine: flag 🚩 it!",
 				"rows": 9,
 				"cols": 9,
 				"board": [
@@ -2972,12 +5927,535 @@ var MinesweeperAcademy = (function () {
 							"rev": false
 						}
 					]
-				],
+				]
+			},
+			{
+				"isTest": true,
+				"instruction_it": "🎯 Sfida Pratica: osserva la coppia 1-2 in alto a sinistra lungo la seconda riga. Applica la regola dell'1-2-X: l'1 trattiene una sola mina, quindi la casella che sporge all'esterno sopra a X deve essere una mina: piazza la bandiera 🚩!",
+				"instruction_en": "🎯 Practical Challenge: observe the 1-2 pair at the top-left along the second row. Apply the 1-2-X rule: the 1 holds one mine, so the outer tile sticking out above X must be a mine: flag 🚩 it!",
 				"requiredAction": "flag",
 				"target": {
 					"r": 0,
 					"c": 3
-				}
+				},
+				"rows": 9,
+				"cols": 9,
+				"board": [
+					[
+						{
+							"r": 0,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 0,
+							"c": 1,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 0,
+							"c": 2,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 0,
+							"c": 3,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 0,
+							"c": 4,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 5,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 6,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 0,
+							"c": 7,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 0,
+							"c": 8,
+							"val": 1,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 1,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 1,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 2,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 3,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 4,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 5,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 6,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 8,
+							"val": 1,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 2,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 7,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 8,
+							"val": 1,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 3,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 4,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 7,
+							"val": 3,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 5,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 6,
+							"c": 0,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 1,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 8,
+							"val": 2,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 7,
+							"c": 0,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 7,
+							"c": 1,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 7,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 8,
+							"c": 0,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 8,
+							"c": 1,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 7,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 8,
+							"val": 1,
+							"rev": false
+						}
+					]
+				]
 			}
 		]
 	},
@@ -2988,197 +6466,31 @@ var MinesweeperAcademy = (function () {
 		"title_en": "6. Classic 1-2-1 Pattern (The Perfect Case)",
 		"badge_it": "Pattern Reale",
 		"badge_en": "Royal Pattern",
-		"desc_it": "Quando la famosa 'X' dell'1-2-X è a sua volta un numero 1, la sequenza diventa simmetrica: l'1-2-X si applica da entrambi i lati! Le due estremità davanti agli 1 sono sempre MINE (🚩), e la casella centrale davanti al 2 è garantita LIBERA (⛏️)!",
+		"desc_it": "Quando la famosa 'X' dell'1-2-X e a sua volta un numero 1, la sequenza diventa simmetrica: l'1-2-X si applica da entrambi i lati! Le due estremita davanti agli 1 sono sempre MINE (🚩), e la casella centrale davanti al 2 e garantita LIBERA (⛏️)!",
 		"desc_en": "When the 'X' of 1-2-X is itself a 1, the sequence becomes symmetric: 1-2-X applies from both sides! The outer ends facing the 1s are always MINES (🚩), and the center tile facing the 2 is guaranteed SAFE (⛏️)!",
 		"puzzles": [
 			{
-				"instruction_it": "Regola aurea del pattern 1-2-1: applicando la regola dell'1-2 da ambo i lati, le due estremità sono mine e il centro davanti al 2 è sempre garantito libero! Scava ⛏️ la casella verde centrale.",
+				"instruction_it": "Regola aurea del pattern 1-2-1: applicando la regola dell'1-2 da ambo i lati, le due estremita sono mine e il centro davanti al 2 e sempre garantito libero! Scava ⛏️ la casella verde centrale.",
 				"instruction_en": "Golden rule of 1-2-1: applying the 1-2 logic from both sides, the outer ends are mines and the center facing the 2 is guaranteed safe! Dig ⛏️ the green central tile.",
 				"requiredAction": "reveal",
 				"patternCells": [
 					{
 						"r": 1,
-						"c": 0
-					},
-					{
-						"r": 1,
 						"c": 1
 					},
 					{
 						"r": 1,
 						"c": 2
+					},
+					{
+						"r": 1,
+						"c": 3
 					}
 				],
 				"target": {
 					"r": 0,
-					"c": 1
+					"c": 2
 				},
-				"rows": 3,
-				"cols": 3,
-				"board": [
-					[
-						{
-							"r": 0,
-							"c": 0,
-							"mine": true,
-							"val": 0,
-							"rev": false
-						},
-						{
-							"r": 0,
-							"c": 1,
-							"val": 2,
-							"rev": false
-						},
-						{
-							"r": 0,
-							"c": 2,
-							"mine": true,
-							"val": 0,
-							"rev": false
-						}
-					],
-					[
-						{
-							"r": 1,
-							"c": 0,
-							"val": 1,
-							"rev": true
-						},
-						{
-							"r": 1,
-							"c": 1,
-							"val": 2,
-							"rev": true
-						},
-						{
-							"r": 1,
-							"c": 2,
-							"val": 1,
-							"rev": true
-						}
-					],
-					[
-						{
-							"r": 2,
-							"c": 0,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 2,
-							"c": 1,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 2,
-							"c": 2,
-							"val": 0,
-							"rev": true
-						}
-					]
-				]
-			},
-			{
-				"instruction_it": "Regola del pattern 1-2-1: le caselle davanti ai due 1 sono sempre mine! Metti la bandiera 🚩 sulle due caselle rosse ai lati.",
-				"instruction_en": "1-2-1 rule: the tiles facing the two 1s are always mines! Flag 🚩 both red outer tiles.",
-				"requiredAction": "flag",
-				"patternCells": [
-					{
-						"r": 1,
-						"c": 0
-					},
-					{
-						"r": 1,
-						"c": 1
-					},
-					{
-						"r": 1,
-						"c": 2
-					}
-				],
-				"targets": [
-					{
-						"r": 0,
-						"c": 0
-					},
-					{
-						"r": 0,
-						"c": 2
-					}
-				],
-				"rows": 3,
-				"cols": 3,
-				"board": [
-					[
-						{
-							"r": 0,
-							"c": 0,
-							"mine": true,
-							"val": 0,
-							"rev": false
-						},
-						{
-							"r": 0,
-							"c": 1,
-							"val": 2,
-							"rev": true
-						},
-						{
-							"r": 0,
-							"c": 2,
-							"mine": true,
-							"val": 0,
-							"rev": false
-						}
-					],
-					[
-						{
-							"r": 1,
-							"c": 0,
-							"val": 1,
-							"rev": true
-						},
-						{
-							"r": 1,
-							"c": 1,
-							"val": 2,
-							"rev": true
-						},
-						{
-							"r": 1,
-							"c": 2,
-							"val": 1,
-							"rev": true
-						}
-					],
-					[
-						{
-							"r": 2,
-							"c": 0,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 2,
-							"c": 1,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 2,
-							"c": 2,
-							"val": 0,
-							"rev": true
-						}
-					]
-				]
-			},
-			{
-				"isTest": true,
-				"instruction_it": "🎯 Sfida Pratica: trova la sequenza 1-2-1 in alto a sinistra lungo la seconda riga! Applica la regola d'oro: scava ⛏️ la casella centrale coperta e piazza la bandiera 🚩 sulle due estremità.",
-				"instruction_en": "🎯 Practical Challenge: find the 1-2-1 sequence at the top-left along the second row! Apply the golden rule: dig ⛏️ the middle covered tile and flag 🚩 both outer ends.",
 				"rows": 9,
 				"cols": 9,
 				"board": [
@@ -3696,7 +7008,561 @@ var MinesweeperAcademy = (function () {
 							"rev": false
 						}
 					]
+				]
+			},
+			{
+				"instruction_it": "Ora che il centro e scavato, piazza le bandiere sulle due estremita davanti ai numeri 1! Metti le bandiere 🚩 sulle due caselle rosse.",
+				"instruction_en": "Now that the center is cleared, flag both ends facing the 1s! Flag 🚩 both outer red tiles.",
+				"requiredAction": "flag",
+				"patternCells": [
+					{
+						"r": 1,
+						"c": 1
+					},
+					{
+						"r": 1,
+						"c": 2
+					},
+					{
+						"r": 1,
+						"c": 3
+					}
 				],
+				"targets": [
+					{
+						"r": 0,
+						"c": 1,
+						"action": "flag"
+					},
+					{
+						"r": 0,
+						"c": 3,
+						"action": "flag"
+					}
+				],
+				"rows": 9,
+				"cols": 9,
+				"board": [
+					[
+						{
+							"r": 0,
+							"c": 0,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 1,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 0,
+							"c": 2,
+							"val": 2,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 3,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 0,
+							"c": 4,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 5,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 6,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 0,
+							"c": 7,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 0,
+							"c": 8,
+							"val": 1,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 1,
+							"c": 0,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 1,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 2,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 3,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 4,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 5,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 6,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 8,
+							"val": 1,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 2,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 7,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 8,
+							"val": 1,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 3,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 4,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 7,
+							"val": 3,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 5,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 6,
+							"c": 0,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 1,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 8,
+							"val": 2,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 7,
+							"c": 0,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 7,
+							"c": 1,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 7,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 8,
+							"c": 0,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 8,
+							"c": 1,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 7,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 8,
+							"val": 1,
+							"rev": false
+						}
+					]
+				]
+			},
+			{
+				"isTest": true,
+				"instruction_it": "🎯 Sfida Pratica: trova la sequenza 1-2-1 in alto a sinistra lungo la seconda riga! Applica la regola d'oro: scava ⛏️ la casella centrale coperta e piazza la bandiera 🚩 sulle due estremita.",
+				"instruction_en": "🎯 Practical Challenge: find the 1-2-1 sequence at the top-left along the second row! Apply the golden rule: dig ⛏️ the middle covered tile and flag 🚩 both outer ends.",
 				"targets": [
 					{
 						"r": 0,
@@ -3713,6 +7579,524 @@ var MinesweeperAcademy = (function () {
 						"c": 3,
 						"action": "flag"
 					}
+				],
+				"rows": 9,
+				"cols": 9,
+				"board": [
+					[
+						{
+							"r": 0,
+							"c": 0,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 1,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 0,
+							"c": 2,
+							"val": 2,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 3,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 0,
+							"c": 4,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 5,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 6,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 0,
+							"c": 7,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 0,
+							"c": 8,
+							"val": 1,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 1,
+							"c": 0,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 1,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 2,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 3,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 4,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 5,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 6,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 8,
+							"val": 1,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 2,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 7,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 8,
+							"val": 1,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 3,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 4,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 7,
+							"val": 3,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 5,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 6,
+							"c": 0,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 1,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 8,
+							"val": 2,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 7,
+							"c": 0,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 7,
+							"c": 1,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 7,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 8,
+							"c": 0,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 8,
+							"c": 1,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 7,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 8,
+							"val": 1,
+							"rev": false
+						}
+					]
 				]
 			}
 		]
@@ -3724,247 +8108,43 @@ var MinesweeperAcademy = (function () {
 		"title_en": "7. 1-2-2-1 and 1-2-2-X Pattern",
 		"badge_it": "Doppia Coppia",
 		"badge_en": "Double Pair",
-		"desc_it": "In una sequenza 1-2-2-X lungo una parete, l'1 confina la prima mina, costringendo le mine a trovarsi esattamente davanti ai due numeri 2. Le caselle davanti agli 1 sono sempre SICURE al 100%, anche se dopo c'è un altro numero (X)!",
+		"desc_it": "In una sequenza 1-2-2-X lungo una parete, l'1 confina la prima mina, costringendo le mine a trovarsi esattamente davanti ai due numeri 2. Le caselle davanti agli 1 sono sempre SICURE al 100%, anche se dopo c'e un altro numero (X)!",
 		"desc_en": "In a 1-2-2-X sequence along a wall, the 1 locks the first mine, forcing mines directly in front of the two 2s. Tiles facing the 1s are ALWAYS 100% safe, even if another number follows (X)!",
 		"puzzles": [
 			{
-				"instruction_it": "Regola del pattern 1-2-2-1: le caselle davanti agli 1 sono sempre libere! Scava ⛏️ le due caselle verdi alle estremità esterne.",
-				"instruction_en": "1-2-2-1 rule: the tiles facing both 1s are always safe! Dig ⛏️ both green outer tiles.",
+				"instruction_it": "Regola del pattern 1-2-2-X: le caselle davanti agli 1 sono sempre libere! Scava ⛏️ le due caselle verdi alle estremita esterne.",
+				"instruction_en": "1-2-2-X rule: the tiles facing both 1s are always safe! Dig ⛏️ both green outer tiles.",
 				"requiredAction": "reveal",
 				"patternCells": [
 					{
 						"r": 1,
-						"c": 0
-					},
-					{
-						"r": 1,
-						"c": 1
-					},
-					{
-						"r": 1,
 						"c": 2
 					},
 					{
 						"r": 1,
 						"c": 3
+					},
+					{
+						"r": 1,
+						"c": 4
+					},
+					{
+						"r": 1,
+						"c": 5
 					}
 				],
 				"targets": [
 					{
 						"r": 0,
-						"c": 0
+						"c": 2,
+						"action": "reveal"
 					},
 					{
 						"r": 0,
-						"c": 3
+						"c": 5,
+						"action": "reveal"
 					}
 				],
-				"rows": 3,
-				"cols": 4,
-				"board": [
-					[
-						{
-							"r": 0,
-							"c": 0,
-							"val": 1,
-							"rev": false
-						},
-						{
-							"r": 0,
-							"c": 1,
-							"mine": true,
-							"val": 0,
-							"rev": false
-						},
-						{
-							"r": 0,
-							"c": 2,
-							"mine": true,
-							"val": 0,
-							"rev": false
-						},
-						{
-							"r": 0,
-							"c": 3,
-							"val": 1,
-							"rev": false
-						}
-					],
-					[
-						{
-							"r": 1,
-							"c": 0,
-							"val": 1,
-							"rev": true
-						},
-						{
-							"r": 1,
-							"c": 1,
-							"val": 2,
-							"rev": true
-						},
-						{
-							"r": 1,
-							"c": 2,
-							"val": 2,
-							"rev": true
-						},
-						{
-							"r": 1,
-							"c": 3,
-							"val": 1,
-							"rev": true
-						}
-					],
-					[
-						{
-							"r": 2,
-							"c": 0,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 2,
-							"c": 1,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 2,
-							"c": 2,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 2,
-							"c": 3,
-							"val": 0,
-							"rev": true
-						}
-					]
-				]
-			},
-			{
-				"instruction_it": "Regola del pattern 1-2-2-1: le mine sono esattamente davanti ai due numeri 2! Metti la bandiera 🚩 sulle due caselle rosse centrali.",
-				"instruction_en": "1-2-2-1 rule: the mines are directly in front of both 2s! Flag 🚩 both central red tiles.",
-				"requiredAction": "flag",
-				"patternCells": [
-					{
-						"r": 1,
-						"c": 0
-					},
-					{
-						"r": 1,
-						"c": 1
-					},
-					{
-						"r": 1,
-						"c": 2
-					},
-					{
-						"r": 1,
-						"c": 3
-					}
-				],
-				"targets": [
-					{
-						"r": 0,
-						"c": 1
-					},
-					{
-						"r": 0,
-						"c": 2
-					}
-				],
-				"rows": 3,
-				"cols": 4,
-				"board": [
-					[
-						{
-							"r": 0,
-							"c": 0,
-							"val": 1,
-							"rev": true
-						},
-						{
-							"r": 0,
-							"c": 1,
-							"mine": true,
-							"val": 0,
-							"rev": false
-						},
-						{
-							"r": 0,
-							"c": 2,
-							"mine": true,
-							"val": 0,
-							"rev": false
-						},
-						{
-							"r": 0,
-							"c": 3,
-							"val": 1,
-							"rev": true
-						}
-					],
-					[
-						{
-							"r": 1,
-							"c": 0,
-							"val": 1,
-							"rev": true
-						},
-						{
-							"r": 1,
-							"c": 1,
-							"val": 2,
-							"rev": true
-						},
-						{
-							"r": 1,
-							"c": 2,
-							"val": 2,
-							"rev": true
-						},
-						{
-							"r": 1,
-							"c": 3,
-							"val": 1,
-							"rev": true
-						}
-					],
-					[
-						{
-							"r": 2,
-							"c": 0,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 2,
-							"c": 1,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 2,
-							"c": 2,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 2,
-							"c": 3,
-							"val": 0,
-							"rev": true
-						}
-					]
-				]
-			},
-			{
-				"isTest": true,
-				"instruction_it": "🎯 Sfida Pratica: guarda in alto la sequenza 1-2-2-X (anche se ci sono più 2 consecutivi, la logica non cambia!). L'1 confina la prima mina, quindi scava ⛏️ le caselle davanti agli 1 e piazza le bandiere 🚩 davanti ai due 2 centrali!",
-				"instruction_en": "🎯 Practical Challenge: look at the top 1-2-2-X sequence (even with consecutive 2s, the logic holds!). The 1 bounds the first mine: dig ⛏️ facing the 1s and flag 🚩 facing the two central 2s!",
 				"rows": 9,
 				"cols": 9,
 				"board": [
@@ -4482,7 +8662,565 @@ var MinesweeperAcademy = (function () {
 							"rev": false
 						}
 					]
+				]
+			},
+			{
+				"instruction_it": "Regola del pattern 1-2-2-X: le mine sono esattamente davanti ai due numeri 2! Metti la bandiera 🚩 sulle due caselle rosse centrali.",
+				"instruction_en": "1-2-2-X rule: the mines are directly in front of both 2s! Flag 🚩 both central red tiles.",
+				"requiredAction": "flag",
+				"patternCells": [
+					{
+						"r": 1,
+						"c": 2
+					},
+					{
+						"r": 1,
+						"c": 3
+					},
+					{
+						"r": 1,
+						"c": 4
+					},
+					{
+						"r": 1,
+						"c": 5
+					}
 				],
+				"targets": [
+					{
+						"r": 0,
+						"c": 3,
+						"action": "flag"
+					},
+					{
+						"r": 0,
+						"c": 4,
+						"action": "flag"
+					}
+				],
+				"rows": 9,
+				"cols": 9,
+				"board": [
+					[
+						{
+							"r": 0,
+							"c": 0,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 1,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 0,
+							"c": 2,
+							"val": 2,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 3,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 0,
+							"c": 4,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 0,
+							"c": 5,
+							"val": 2,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 6,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 0,
+							"c": 7,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 8,
+							"val": 0,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 1,
+							"c": 0,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 1,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 2,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 3,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 4,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 5,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 6,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 7,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 8,
+							"val": 0,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 2,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 7,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 8,
+							"val": 1,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 3,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 4,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 7,
+							"val": 3,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 5,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 6,
+							"c": 0,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 1,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 8,
+							"val": 2,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 7,
+							"c": 0,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 7,
+							"c": 1,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 7,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 8,
+							"c": 0,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 8,
+							"c": 1,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 7,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 8,
+							"val": 1,
+							"rev": false
+						}
+					]
+				]
+			},
+			{
+				"isTest": true,
+				"instruction_it": "🎯 Sfida Pratica: guarda in alto la sequenza 1-2-2-X (anche se ci sono piu 2 consecutivi, la logica non cambia!). L'1 confina la prima mina, quindi scava ⛏️ le caselle davanti agli 1 e piazza le bandiere 🚩 davanti ai due 2 centrali!",
+				"instruction_en": "🎯 Practical Challenge: look at the top 1-2-2-X sequence (even with consecutive 2s, the logic holds!). The 1 bounds the first mine: dig ⛏️ facing the 1s and flag 🚩 facing the two central 2s!",
 				"targets": [
 					{
 						"r": 0,
@@ -4504,163 +9242,7 @@ var MinesweeperAcademy = (function () {
 						"c": 5,
 						"action": "reveal"
 					}
-				]
-			}
-		]
-	},
-	{
-		"id": "reductions",
-		"level": 8,
-		"title_it": "8. Riduzioni con Bandiere (1-2-2 ➔ 1-2-1)",
-		"title_en": "8. Flag Reductions (1-2-2 ➔ 1-2-1)",
-		"badge_it": "Sottrazione Visiva",
-		"badge_en": "Visual Reduction",
-		"desc_it": "Sottraendo le bandiere già piazzate, un 2 diventa 1 (2 - 1 = 1)! Così una sequenza complessa come 1-2-2 si risolve esattamente come un semplice 1-2-1.",
-		"desc_en": "By subtracting already placed flags, a 2 becomes a 1! Complex layouts like 1-2-2 simplify instantly into a standard 1-2-1.",
-		"puzzles": [
-			{
-				"instruction_it": "La bandiera già presente sottrae 1 dal 2 vicino (2 - 1 = 1): la sequenza diventa un classico 1-2-1! Scava ⛏️ al centro (verde) e metti le bandiere 🚩 sui lati (rosso).",
-				"instruction_en": "The existing flag reduces the adjacent 2 to 1 (2 - 1 = 1): the sequence becomes a classic 1-2-1! Dig ⛏️ the middle (green) and flag 🚩 the sides (red).",
-				"patternCells": [
-					{
-						"r": 1,
-						"c": 0
-					},
-					{
-						"r": 1,
-						"c": 1
-					},
-					{
-						"r": 1,
-						"c": 2
-					}
 				],
-				"targets": [
-					{
-						"r": 0,
-						"c": 0,
-						"action": "flag"
-					},
-					{
-						"r": 0,
-						"c": 1,
-						"action": "reveal"
-					},
-					{
-						"r": 0,
-						"c": 2,
-						"action": "flag"
-					}
-				],
-				"rows": 3,
-				"cols": 5,
-				"board": [
-					[
-						{
-							"r": 0,
-							"c": 0,
-							"mine": true,
-							"val": 0,
-							"rev": false
-						},
-						{
-							"r": 0,
-							"c": 1,
-							"val": 2,
-							"rev": false
-						},
-						{
-							"r": 0,
-							"c": 2,
-							"mine": true,
-							"val": 0,
-							"rev": false
-						},
-						{
-							"r": 0,
-							"c": 3,
-							"mine": true,
-							"val": 0,
-							"rev": false,
-							"flag": true
-						},
-						{
-							"r": 0,
-							"c": 4,
-							"val": 1,
-							"rev": false
-						}
-					],
-					[
-						{
-							"r": 1,
-							"c": 0,
-							"val": 1,
-							"rev": true
-						},
-						{
-							"r": 1,
-							"c": 1,
-							"val": 2,
-							"rev": true
-						},
-						{
-							"r": 1,
-							"c": 2,
-							"val": 2,
-							"rev": true
-						},
-						{
-							"r": 1,
-							"c": 3,
-							"val": 2,
-							"rev": true
-						},
-						{
-							"r": 1,
-							"c": 4,
-							"val": 1,
-							"rev": true
-						}
-					],
-					[
-						{
-							"r": 2,
-							"c": 0,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 2,
-							"c": 1,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 2,
-							"c": 2,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 2,
-							"c": 3,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 2,
-							"c": 4,
-							"val": 0,
-							"rev": true
-						}
-					]
-				]
-			},
-			{
-				"isTest": true,
-				"instruction_it": "🎯 Sfida Pratica: guarda in alto la bandiera già piazzata. Sottraila dal 2 vicino per ridurre la riga a un classico 1-2-1: scava ⛏️ la casella centrale e metti le bandiere 🚩 sui lati!",
-				"instruction_en": "🎯 Practical Challenge: look at the existing flag at the top. Subtract it from the adjacent 2 to reduce the row into a 1-2-1: dig ⛏️ the center tile and flag 🚩 both sides!",
 				"rows": 9,
 				"cols": 9,
 				"board": [
@@ -4696,32 +9278,31 @@ var MinesweeperAcademy = (function () {
 							"c": 4,
 							"val": 0,
 							"rev": false,
-							"mine": true,
-							"flag": true
+							"mine": true
 						},
 						{
 							"r": 0,
 							"c": 5,
-							"val": 1,
+							"val": 2,
 							"rev": false
 						},
 						{
 							"r": 0,
 							"c": 6,
-							"val": 1,
-							"rev": false
-						},
-						{
-							"r": 0,
-							"c": 7,
 							"val": 0,
 							"rev": false,
 							"mine": true
 						},
 						{
 							"r": 0,
-							"c": 8,
+							"c": 7,
 							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 8,
+							"val": 0,
 							"rev": false
 						}
 					],
@@ -4759,7 +9340,7 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 1,
 							"c": 5,
-							"val": 1,
+							"val": 2,
 							"rev": true
 						},
 						{
@@ -4777,7 +9358,7 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 1,
 							"c": 8,
-							"val": 1,
+							"val": 0,
 							"rev": false
 						}
 					],
@@ -5179,6 +9760,36 @@ var MinesweeperAcademy = (function () {
 							"rev": false
 						}
 					]
+				]
+			}
+		]
+	},
+	{
+		"id": "reductions",
+		"level": 8,
+		"title_it": "8. Riduzioni con Bandiere (1-2-2 ➔ 1-2-1)",
+		"title_en": "8. Flag Reductions (1-2-2 ➔ 1-2-1)",
+		"badge_it": "Sottrazione Visiva",
+		"badge_en": "Visual Reduction",
+		"desc_it": "Sottraendo le bandiere gia piazzate, un 2 diventa 1 (2 - 1 = 1)! Cosi una sequenza complessa come 1-2-2 si risolve esattamente come un semplice 1-2-1.",
+		"desc_en": "By subtracting already placed flags, a 2 becomes a 1! Complex layouts like 1-2-2 simplify instantly into a standard 1-2-1.",
+		"puzzles": [
+			{
+				"instruction_it": "La bandiera gia presente sottrae 1 dal 2 vicino (2 - 1 = 1): la sequenza diventa un classico 1-2-1! Scava ⛏️ al centro (verde) e metti le bandiere 🚩 sui lati (rosso).",
+				"instruction_en": "The existing flag reduces the adjacent 2 to 1 (2 - 1 = 1): the sequence becomes a classic 1-2-1! Dig ⛏️ the middle (green) and flag 🚩 the sides (red).",
+				"patternCells": [
+					{
+						"r": 1,
+						"c": 1
+					},
+					{
+						"r": 1,
+						"c": 2
+					},
+					{
+						"r": 1,
+						"c": 3
+					}
 				],
 				"targets": [
 					{
@@ -5196,6 +9807,1066 @@ var MinesweeperAcademy = (function () {
 						"c": 3,
 						"action": "flag"
 					}
+				],
+				"rows": 9,
+				"cols": 9,
+				"board": [
+					[
+						{
+							"r": 0,
+							"c": 0,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 1,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 0,
+							"c": 2,
+							"val": 2,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 3,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 0,
+							"c": 4,
+							"val": 0,
+							"rev": false,
+							"mine": true,
+							"flag": true
+						},
+						{
+							"r": 0,
+							"c": 5,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 6,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 7,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 0,
+							"c": 8,
+							"val": 1,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 1,
+							"c": 0,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 1,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 2,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 3,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 4,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 5,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 6,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 7,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 8,
+							"val": 1,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 2,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 7,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 8,
+							"val": 1,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 3,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 4,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 7,
+							"val": 3,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 5,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 6,
+							"c": 0,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 1,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 8,
+							"val": 2,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 7,
+							"c": 0,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 7,
+							"c": 1,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 7,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 8,
+							"c": 0,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 8,
+							"c": 1,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 7,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 8,
+							"val": 1,
+							"rev": false
+						}
+					]
+				]
+			},
+			{
+				"isTest": true,
+				"instruction_it": "🎯 Sfida Pratica: guarda in alto la bandiera gia piazzata. Sottraila dal 2 vicino per ridurre la riga a un classico 1-2-1: scava ⛏️ la casella centrale e metti le bandiere 🚩 sui lati!",
+				"instruction_en": "🎯 Practical Challenge: look at the existing flag at the top. Subtract it from the adjacent 2 to reduce the row into a 1-2-1: dig ⛏️ the center tile and flag 🚩 both sides!",
+				"targets": [
+					{
+						"r": 0,
+						"c": 1,
+						"action": "flag"
+					},
+					{
+						"r": 0,
+						"c": 2,
+						"action": "reveal"
+					},
+					{
+						"r": 0,
+						"c": 3,
+						"action": "flag"
+					}
+				],
+				"rows": 9,
+				"cols": 9,
+				"board": [
+					[
+						{
+							"r": 0,
+							"c": 0,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 1,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 0,
+							"c": 2,
+							"val": 2,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 3,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 0,
+							"c": 4,
+							"val": 0,
+							"rev": false,
+							"mine": true,
+							"flag": true
+						},
+						{
+							"r": 0,
+							"c": 5,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 6,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 7,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 0,
+							"c": 8,
+							"val": 1,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 1,
+							"c": 0,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 1,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 2,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 3,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 4,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 5,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 6,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 7,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 8,
+							"val": 1,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 2,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 7,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 8,
+							"val": 1,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 3,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 4,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 7,
+							"val": 3,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 5,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 6,
+							"c": 0,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 1,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 8,
+							"val": 2,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 7,
+							"c": 0,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 7,
+							"c": 1,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 7,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 8,
+							"c": 0,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 8,
+							"c": 1,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 7,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 8,
+							"val": 1,
+							"rev": false
+						}
+					]
 				]
 			}
 		]
@@ -5207,11 +10878,11 @@ var MinesweeperAcademy = (function () {
 		"title_en": "9. Corners & Enclosed Niches",
 		"badge_it": "Geometria di Bordo",
 		"badge_en": "Border Geometry",
-		"desc_it": "Un numero 1 dentro una rientranza tocca una sola casella coperta nell'angolo: la mina è intrappolata lì! I numeri adiacenti sanno subito che le altre celle coperte sono sicure.",
+		"desc_it": "Un numero 1 dentro una rientranza tocca una sola casella coperta nell'angolo: la mina e intrappolata li! I numeri adiacenti sanno subito che le altre celle coperte sono sicure.",
 		"desc_en": "A 1 tucked inside a pocket touches only one hidden corner tile: the mine is trapped there! Adjacent clues can safely clear their remaining tiles.",
 		"puzzles": [
 			{
-				"instruction_it": "La nicchia d'angolo intrappola la mina del numero 1: c'è una sola casella coperta possibile! Metti la bandiera 🚩 sulla casella rossa nell'angolo.",
+				"instruction_it": "La nicchia d'angolo intrappola la mina del numero 1: c'e una sola casella coperta possibile! Metti la bandiera 🚩 sulla casella rossa nell'angolino.",
 				"instruction_en": "The corner pocket traps the 1's mine: there is only one available covered tile! Flag 🚩 the red corner tile.",
 				"requiredAction": "flag",
 				"patternCells": [
@@ -5228,76 +10899,6 @@ var MinesweeperAcademy = (function () {
 					"r": 0,
 					"c": 0
 				},
-				"rows": 3,
-				"cols": 3,
-				"board": [
-					[
-						{
-							"r": 0,
-							"c": 0,
-							"mine": true,
-							"val": 0,
-							"rev": false
-						},
-						{
-							"r": 0,
-							"c": 1,
-							"val": 1,
-							"rev": true
-						},
-						{
-							"r": 0,
-							"c": 2,
-							"val": 0,
-							"rev": true
-						}
-					],
-					[
-						{
-							"r": 1,
-							"c": 0,
-							"val": 1,
-							"rev": true
-						},
-						{
-							"r": 1,
-							"c": 1,
-							"val": 1,
-							"rev": true
-						},
-						{
-							"r": 1,
-							"c": 2,
-							"val": 0,
-							"rev": true
-						}
-					],
-					[
-						{
-							"r": 2,
-							"c": 0,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 2,
-							"c": 1,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 2,
-							"c": 2,
-							"val": 0,
-							"rev": true
-						}
-					]
-				]
-			},
-			{
-				"isTest": true,
-				"instruction_it": "🎯 Sfida Pratica: guarda l'angolo in alto a sinistra! La casella coperta nell'angolino è l'unica che tocca i numeri 1 adiacenti: la mina è intrappolata lì, piazza la bandiera 🚩!",
-				"instruction_en": "🎯 Practical Challenge: check the top-left corner! The covered tile in the very corner is the only neighbor for the adjacent 1s: the mine is trapped there, place your flag 🚩!",
 				"rows": 9,
 				"cols": 9,
 				"board": [
@@ -5815,12 +11416,535 @@ var MinesweeperAcademy = (function () {
 							"mine": true
 						}
 					]
-				],
+				]
+			},
+			{
+				"isTest": true,
+				"instruction_it": "🎯 Sfida Pratica: guarda l'angolo in alto a sinistra! La casella coperta nell'angolino e l'unica che tocca i numeri 1 adiacenti: la mina e intrappolata li, piazza la bandiera 🚩!",
+				"instruction_en": "🎯 Practical Challenge: check the top-left corner! The covered tile in the very corner is the only neighbor for the adjacent 1s: the mine is trapped there, place your flag 🚩!",
 				"requiredAction": "flag",
 				"target": {
 					"r": 0,
 					"c": 0
-				}
+				},
+				"rows": 9,
+				"cols": 9,
+				"board": [
+					[
+						{
+							"r": 0,
+							"c": 0,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 0,
+							"c": 1,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 0,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 0,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 0,
+							"c": 4,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 0,
+							"c": 5,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 0,
+							"c": 6,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 7,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 1,
+							"c": 0,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 1,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 4,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 5,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 6,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 7,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 8,
+							"val": 1,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 2,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 7,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 8,
+							"val": 1,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 3,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 4,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 7,
+							"val": 3,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 5,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 6,
+							"c": 0,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 1,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 8,
+							"val": 2,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 7,
+							"c": 0,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 7,
+							"c": 1,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 8,
+							"c": 0,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 8,
+							"c": 1,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					]
+				]
 			}
 		]
 	},
@@ -5837,525 +11961,7 @@ var MinesweeperAcademy = (function () {
 			{
 				"isTest": true,
 				"instruction_it": "🎯 Esame Finale: dimostra la tua maestria su questa tavola 9×9! In alto applica il pattern 1-2-1 (scava al centro, bandiere ai lati) e in basso a sinistra individua la mina satura: risolvi tutte le caselle bersaglio!",
-				"instruction_en": "🎯 Final Exam: demonstrate your mastery on this real 9×9 board! At the top apply the 1-2-1 pattern (dig middle, flag sides) and at bottom-left spot the saturated mine: clear all target tiles!",
-				"rows": 9,
-				"cols": 9,
-				"board": [
-					[
-						{
-							"r": 0,
-							"c": 0,
-							"val": 1,
-							"rev": false
-						},
-						{
-							"r": 0,
-							"c": 1,
-							"val": 0,
-							"rev": false,
-							"mine": true
-						},
-						{
-							"r": 0,
-							"c": 2,
-							"val": 2,
-							"rev": false
-						},
-						{
-							"r": 0,
-							"c": 3,
-							"val": 0,
-							"rev": false,
-							"mine": true
-						},
-						{
-							"r": 0,
-							"c": 4,
-							"val": 1,
-							"rev": false
-						},
-						{
-							"r": 0,
-							"c": 5,
-							"val": 1,
-							"rev": false
-						},
-						{
-							"r": 0,
-							"c": 6,
-							"val": 0,
-							"rev": false,
-							"mine": true
-						},
-						{
-							"r": 0,
-							"c": 7,
-							"val": 0,
-							"rev": false,
-							"mine": true
-						},
-						{
-							"r": 0,
-							"c": 8,
-							"val": 1,
-							"rev": false
-						}
-					],
-					[
-						{
-							"r": 1,
-							"c": 0,
-							"val": 1,
-							"rev": true
-						},
-						{
-							"r": 1,
-							"c": 1,
-							"val": 1,
-							"rev": true
-						},
-						{
-							"r": 1,
-							"c": 2,
-							"val": 2,
-							"rev": true
-						},
-						{
-							"r": 1,
-							"c": 3,
-							"val": 1,
-							"rev": true
-						},
-						{
-							"r": 1,
-							"c": 4,
-							"val": 1,
-							"rev": true
-						},
-						{
-							"r": 1,
-							"c": 5,
-							"val": 1,
-							"rev": true
-						},
-						{
-							"r": 1,
-							"c": 6,
-							"val": 2,
-							"rev": true
-						},
-						{
-							"r": 1,
-							"c": 7,
-							"val": 2,
-							"rev": true
-						},
-						{
-							"r": 1,
-							"c": 8,
-							"val": 1,
-							"rev": false
-						}
-					],
-					[
-						{
-							"r": 2,
-							"c": 0,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 2,
-							"c": 1,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 2,
-							"c": 2,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 2,
-							"c": 3,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 2,
-							"c": 4,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 2,
-							"c": 5,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 2,
-							"c": 6,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 2,
-							"c": 7,
-							"val": 1,
-							"rev": true
-						},
-						{
-							"r": 2,
-							"c": 8,
-							"val": 1,
-							"rev": false
-						}
-					],
-					[
-						{
-							"r": 3,
-							"c": 0,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 3,
-							"c": 1,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 3,
-							"c": 2,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 3,
-							"c": 3,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 3,
-							"c": 4,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 3,
-							"c": 5,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 3,
-							"c": 6,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 3,
-							"c": 7,
-							"val": 2,
-							"rev": true
-						},
-						{
-							"r": 3,
-							"c": 8,
-							"val": 0,
-							"rev": false,
-							"mine": true
-						}
-					],
-					[
-						{
-							"r": 4,
-							"c": 0,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 4,
-							"c": 1,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 4,
-							"c": 2,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 4,
-							"c": 3,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 4,
-							"c": 4,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 4,
-							"c": 5,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 4,
-							"c": 6,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 4,
-							"c": 7,
-							"val": 3,
-							"rev": true
-						},
-						{
-							"r": 4,
-							"c": 8,
-							"val": 0,
-							"rev": false,
-							"mine": true
-						}
-					],
-					[
-						{
-							"r": 5,
-							"c": 0,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 5,
-							"c": 1,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 5,
-							"c": 2,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 5,
-							"c": 3,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 5,
-							"c": 4,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 5,
-							"c": 5,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 5,
-							"c": 6,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 5,
-							"c": 7,
-							"val": 2,
-							"rev": true
-						},
-						{
-							"r": 5,
-							"c": 8,
-							"val": 0,
-							"rev": false,
-							"mine": true
-						}
-					],
-					[
-						{
-							"r": 6,
-							"c": 0,
-							"val": 1,
-							"rev": true
-						},
-						{
-							"r": 6,
-							"c": 1,
-							"val": 1,
-							"rev": true
-						},
-						{
-							"r": 6,
-							"c": 2,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 6,
-							"c": 3,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 6,
-							"c": 4,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 6,
-							"c": 5,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 6,
-							"c": 6,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 6,
-							"c": 7,
-							"val": 2,
-							"rev": true
-						},
-						{
-							"r": 6,
-							"c": 8,
-							"val": 2,
-							"rev": false
-						}
-					],
-					[
-						{
-							"r": 7,
-							"c": 0,
-							"val": 0,
-							"rev": false,
-							"mine": true
-						},
-						{
-							"r": 7,
-							"c": 1,
-							"val": 2,
-							"rev": true
-						},
-						{
-							"r": 7,
-							"c": 2,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 7,
-							"c": 3,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 7,
-							"c": 4,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 7,
-							"c": 5,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 7,
-							"c": 6,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 7,
-							"c": 7,
-							"val": 1,
-							"rev": true
-						},
-						{
-							"r": 7,
-							"c": 8,
-							"val": 0,
-							"rev": false,
-							"mine": true
-						}
-					],
-					[
-						{
-							"r": 8,
-							"c": 0,
-							"val": 0,
-							"rev": false,
-							"mine": true
-						},
-						{
-							"r": 8,
-							"c": 1,
-							"val": 2,
-							"rev": true
-						},
-						{
-							"r": 8,
-							"c": 2,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 8,
-							"c": 3,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 8,
-							"c": 4,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 8,
-							"c": 5,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 8,
-							"c": 6,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 8,
-							"c": 7,
-							"val": 1,
-							"rev": true
-						},
-						{
-							"r": 8,
-							"c": 8,
-							"val": 1,
-							"rev": false
-						}
-					]
-				],
+				"instruction_en": "🎯 Final Exam: prove your mastery on this real 9×9 board! At the top apply the 1-2-1 pattern (dig middle, flag sides) and at bottom-left spot the saturated mine: clear all target tiles!",
 				"targets": [
 					{
 						"r": 0,
@@ -6377,6 +11983,524 @@ var MinesweeperAcademy = (function () {
 						"c": 0,
 						"action": "flag"
 					}
+				],
+				"rows": 9,
+				"cols": 9,
+				"board": [
+					[
+						{
+							"r": 0,
+							"c": 0,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 1,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 0,
+							"c": 2,
+							"val": 2,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 3,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 0,
+							"c": 4,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 5,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 6,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 0,
+							"c": 7,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 0,
+							"c": 8,
+							"val": 1,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 1,
+							"c": 0,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 1,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 2,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 3,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 4,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 5,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 6,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 8,
+							"val": 1,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 2,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 7,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 2,
+							"c": 8,
+							"val": 1,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 3,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 4,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 7,
+							"val": 3,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 5,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 6,
+							"c": 0,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 1,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 8,
+							"val": 2,
+							"rev": false
+						}
+					],
+					[
+						{
+							"r": 7,
+							"c": 0,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 7,
+							"c": 1,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 7,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 7,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 8,
+							"c": 0,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 8,
+							"c": 1,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 7,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 8,
+							"c": 8,
+							"val": 1,
+							"rev": false
+						}
+					]
 				]
 			}
 		]
