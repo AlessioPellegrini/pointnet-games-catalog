@@ -1697,6 +1697,10 @@
 				showModeToast('dig');
 			}
 		}
+
+		if (state.mode === 'academy') {
+			updateAcademyToastText();
+		}
 	}
 
 	function toggleInputMode() {
@@ -1950,6 +1954,37 @@
 	/* ============================================================
 	   ACADEMY INTERACTIVE COURSE RUNNER
 	   ============================================================ */
+	function getAcademyInstructionText(lesson, puzzle) {
+		var isIt = !window.I18n || (window.I18n.getLanguage ? window.I18n.getLanguage() === 'it' : (window.I18n.getLocale ? window.I18n.getLocale() === 'it' : true));
+		var isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || window.matchMedia('(pointer: coarse)').matches;
+		var instr = isIt ? puzzle.instruction_it : puzzle.instruction_en;
+
+		if (state.inputMode === 'flag') {
+			if (isIt && puzzle.instruction_flag_mode_it) instr = puzzle.instruction_flag_mode_it;
+			else if (!isIt && puzzle.instruction_flag_mode_en) instr = puzzle.instruction_flag_mode_en;
+		}
+
+		if (isTouchDevice) {
+			if (isIt && puzzle.instruction_mobile_it) instr = puzzle.instruction_mobile_it;
+			else if (!isIt && puzzle.instruction_mobile_en) instr = puzzle.instruction_mobile_en;
+		} else {
+			if (isIt && puzzle.instruction_desktop_it) instr = puzzle.instruction_desktop_it;
+			else if (!isIt && puzzle.instruction_desktop_en) instr = puzzle.instruction_desktop_en;
+		}
+		return instr;
+	}
+
+	function updateAcademyToastText() {
+		if (state.mode !== 'academy' || typeof MinesweeperAcademy === 'undefined') return;
+		var lesson = MinesweeperAcademy.getLesson(state.academyLessonIndex);
+		if (!lesson) return;
+		var puzzle = lesson.puzzles && lesson.puzzles[state.academyPuzzleIndex];
+		if (!puzzle) return;
+		if (didacticToastText && didacticToast.classList.contains('show')) {
+			didacticToastText.textContent = getAcademyInstructionText(lesson, puzzle);
+		}
+	}
+
 	function startAcademyLesson(lessonIndex, puzzleIndex) {
 		if (typeof MinesweeperAcademy === 'undefined') return;
 		var lesson = MinesweeperAcademy.getLesson(lessonIndex);
@@ -1963,7 +1998,9 @@
 		state.academyLessonIndex = lessonIndex;
 		state.academyPuzzleIndex = puzzleIndex;
 		if (btnModeFlag) btnModeFlag.classList.remove('pill-btn-tutorial-pulse');
-		if (!state.inputMode) {
+		if (puzzle.forcedInputMode) {
+			setInputMode(puzzle.forcedInputMode);
+		} else if (!state.inputMode) {
 			setInputMode('dig');
 		} else {
 			// Mantieni la modalità scelta dal giocatore (dig o flag) senza resettarla tra una tavola e l'altra!
@@ -2106,18 +2143,8 @@
 			}
 		}
 
-
-		// Show instructional toast with device-specific text (desktop mouse vs mobile touch)
-		var isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || window.matchMedia('(pointer: coarse)').matches;
-		var instr = isIt ? puzzle.instruction_it : puzzle.instruction_en;
-		if (isTouchDevice) {
-			if (isIt && puzzle.instruction_mobile_it) instr = puzzle.instruction_mobile_it;
-			else if (!isIt && puzzle.instruction_mobile_en) instr = puzzle.instruction_mobile_en;
-		} else {
-			if (isIt && puzzle.instruction_desktop_it) instr = puzzle.instruction_desktop_it;
-			else if (!isIt && puzzle.instruction_desktop_en) instr = puzzle.instruction_desktop_en;
-		}
-
+		// Show instructional toast
+		var instr = getAcademyInstructionText(lesson, puzzle);
 		var headerPrefix = puzzle.isTest ? (isIt ? '🎯 Riprova / Mettiti alla Prova: ' : '🎯 Test / Challenge: ') : '🎓 ';
 		didacticToastTitle.innerHTML = headerPrefix + (isIt ? lesson.title_it : lesson.title_en);
 		didacticToastText.textContent = instr;
@@ -2394,15 +2421,7 @@
 				setTimeout(function () { wrongEl.classList.remove('wrong-flag'); }, 600);
 			}
 
-			var isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || window.matchMedia('(pointer: coarse)').matches;
-			var currentInstr = isIt ? puzzle.instruction_it : puzzle.instruction_en;
-			if (isTouchDevice) {
-				if (isIt && puzzle.instruction_mobile_it) currentInstr = puzzle.instruction_mobile_it;
-				else if (!isIt && puzzle.instruction_mobile_en) currentInstr = puzzle.instruction_mobile_en;
-			} else {
-				if (isIt && puzzle.instruction_desktop_it) currentInstr = puzzle.instruction_desktop_it;
-				else if (!isIt && puzzle.instruction_desktop_en) currentInstr = puzzle.instruction_desktop_en;
-			}
+			var currentInstr = getAcademyInstructionText(lesson, puzzle);
 
 			var hintMsg = '';
 			if (isTarget && !isCorrectAction) {

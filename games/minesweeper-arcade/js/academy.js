@@ -19,6 +19,7 @@ var MinesweeperAcademy = (function () {
 			desc_en: "Master the game controls: how to dig safe tiles, how to place and remove flags, and how to use zoom and viewport buttons.",
 			puzzles: [
 				{
+					forcedInputMode: 'dig',
 					instruction_it: "Con lo strumento '⛏️ Scava' attivo (tasto 'D'), tocca o clicca col tasto sinistro la casella verde (1,1) per SCAVARE ⛏️ la prima casella sicura!",
 					instruction_en: "With '⛏️ Dig' active (key 'D'), tap or left-click the green highlighted tile (1,1) to DIG ⛏️ your first safe tile!",
 					requiredAction: "reveal",
@@ -32,6 +33,8 @@ var MinesweeperAcademy = (function () {
 					]
 				},
 				{
+					forcedInputMode: 'dig',
+					highlightFlagBtn: true,
 					instruction_it: "Cambia strumento: tocca il pulsante '🚩 Bandiera', premi tasto 'F', fai doppio clic o tocca con 2 dita. Poi tocca la casella rossa (0,1) per piazzare la bandiera 🚩!",
 					instruction_en: "Switch tool: click '🚩 Flag', press 'F', double-click or two-finger tap. Then select red tile (0,1) to place a flag 🚩!",
 					requiredAction: "flag",
@@ -45,8 +48,11 @@ var MinesweeperAcademy = (function () {
 					]
 				},
 				{
-					instruction_it: "Scorciatoia rapida: puoi sempre usare il TASTO DESTRO del mouse (o pressione prolungata su touch) per mettere la bandiera 🚩 istantaneamente senza cambiare strumento!",
-					instruction_en: "Quick shortcut: you can always RIGHT-CLICK (or long-press on touch) to place a flag 🚩 instantly without switching tools!",
+					forcedInputMode: 'dig',
+					instruction_it: "Scorciatoia rapida: con lo strumento Scava ⛏️ attivo, usa il TASTO DESTRO del mouse (o pressione prolungata su touch) per mettere la bandiera 🚩 su (0,1) all'istante senza cambiare strumento!",
+					instruction_en: "Quick shortcut: with the Dig ⛏️ tool active, RIGHT-CLICK (or long-press on touch) to place a flag 🚩 on (0,1) instantly without switching tools!",
+					instruction_flag_mode_it: "Sei in modalità Bandiera 🚩: basta toccare/cliccare (0,1) con il tasto sinistro per piazzare la bandiera! (Oppure in modalità Scava ⛏️ puoi usare il tasto destro / pressione prolungata).",
+					instruction_flag_mode_en: "You are in Flag 🚩 mode: simply tap/left-click (0,1) to place the flag! (Or while in Dig ⛏️ mode, you can right-click / long-press).",
 					requiredAction: "flag",
 					target: {"r":0,"c":1},
 					rows: 3,
