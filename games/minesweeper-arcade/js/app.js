@@ -484,7 +484,11 @@
 						if (Date.now() < globalDoubleTapSuppression) return;
 						el._longPressFired = true;
 						el._lastLongPressTime = Date.now();
-						handleFlag(r, c);
+						if (state.mode === 'academy') {
+							handleAcademyAction('flag', r, c);
+						} else {
+							handleFlag(r, c);
+						}
 						haptic(22);
 					}, 230);
 				}, { passive: true });
@@ -2208,9 +2212,7 @@
 		// If cell is already revealed and action is not chord, ignore
 		if (cell.revealed && action !== 'chord') return;
 
-		// If cell is already flagged and user clicks flag again, ignore in didactic/test mode to prevent false errors
-		if (cell.flagged && action === 'flag') return;
-
+		// Initialize remaining targets if needed
 		if (!state.remainingAcademyTargets) {
 			state.remainingAcademyTargets = [];
 			if (puzzle.targets && Array.isArray(puzzle.targets)) {
@@ -2233,6 +2235,52 @@
 			}
 		}
 		var isTarget = (targetIndex !== -1);
+
+		// Special case: if cell is already flagged and action is 'flag', this is an UNFLAG (removing a flag)!
+		// Always permit removing a flag so the player can correct mistakes anywhere in Academy.
+		if (cell.flagged && action === 'flag') {
+			cell.flagged = false;
+			state.flags--;
+			AudioFX.unflag();
+			haptic(12);
+			updateBoardDisplay();
+
+			// If this was an original target requiring flag, restore it to remaining targets so the puzzle won't complete prematurely
+			var origTg = null;
+			if (puzzle.targets && Array.isArray(puzzle.targets)) {
+				origTg = puzzle.targets.find(function(t) { return t.r === r && t.c === c; });
+			} else if (puzzle.target && puzzle.target.r === r && puzzle.target.c === c) {
+				origTg = puzzle.target;
+			} else if (puzzle.alternateTarget && puzzle.alternateTarget.r === r && puzzle.alternateTarget.c === c) {
+				origTg = puzzle.alternateTarget;
+			}
+			if (origTg && (origTg.action === 'flag' || (!origTg.action && puzzle.requiredAction === 'flag'))) {
+				if (!state.remainingAcademyTargets.some(function(t) { return t.r === r && t.c === c; })) {
+					state.remainingAcademyTargets.push({ r: origTg.r, c: origTg.c, action: origTg.action || puzzle.requiredAction });
+				}
+			}
+
+			// Re-apply didactic highlights if not solved and not test board
+			if (!puzzle.isTest) {
+				state.remainingAcademyTargets.forEach(function (tg) {
+					var el = boardEl.querySelector('[data-r="' + tg.r + '"][data-c="' + tg.c + '"]');
+					if (el) {
+						el.classList.add('cell-pattern-focus');
+						var tgAction = tg.action || puzzle.requiredAction;
+						if (tgAction === 'flag') el.classList.add('cell-pattern-mine');
+						else if (tgAction === 'chord') el.classList.add('cell-pattern-chord');
+						else el.classList.add('cell-pattern-safe');
+					}
+				});
+				if (puzzle.patternCells && puzzle.patternCells.length > 0) {
+					puzzle.patternCells.forEach(function (pc) {
+						var el = boardEl.querySelector('[data-r="' + pc.r + '"][data-c="' + pc.c + '"]');
+						if (el) el.classList.add('cell-pattern-clue', 'cell-pattern-focus');
+					});
+				}
+			}
+			return;
+		}
 
 		// Check if action matches puzzle requirement (o specifica azione sul target)
 		var expectedAction = (matchedTargetObj && matchedTargetObj.action) ? matchedTargetObj.action : puzzle.requiredAction;
@@ -2266,9 +2314,15 @@
 			// Apply move
 			if (action === 'flag') {
 				cell.flagged = !cell.flagged;
-				if (cell.flagged) state.flags++; else state.flags--;
-				AudioFX.flag();
-				haptic(20);
+				if (cell.flagged) {
+					state.flags++;
+					AudioFX.flag();
+					haptic(20);
+				} else {
+					state.flags--;
+					AudioFX.unflag();
+					haptic(12);
+				}
 			} else if (action === 'reveal') {
 				floodReveal(r, c);
 			} else if (action === 'chord') {
