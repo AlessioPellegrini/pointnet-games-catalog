@@ -2181,6 +2181,9 @@
 		// If cell is already revealed and action is not chord, ignore
 		if (cell.revealed && action !== 'chord') return;
 
+		// If cell is already flagged and user clicks flag again, ignore in didactic/test mode to prevent false errors
+		if (cell.flagged && action === 'flag') return;
+
 		if (!state.remainingAcademyTargets) {
 			state.remainingAcademyTargets = [];
 			if (puzzle.targets && Array.isArray(puzzle.targets)) {
@@ -2247,21 +2250,30 @@
 			updateBoardDisplay();
 
 			// If it was one of the target cells, remove it from remaining targets
-			if (isTargetMove && targetIndex !== -1) {
-				state.remainingAcademyTargets.splice(targetIndex, 1);
-			} else if (puzzle.isTest && isTarget) {
-				// Su tavole test, se l'azione è coerente con la cella bersaglio (es. flag su mina o reveal su safe)
+			if (isTarget) {
 				var isCorrectActionForCell = (action === 'flag' && cell.flagged) || (action === 'reveal' && cell.revealed) || (action === 'chord');
-				if (isCorrectActionForCell) {
+				if (isTargetMove || (puzzle.isTest && isCorrectActionForCell)) {
 					state.remainingAcademyTargets.splice(targetIndex, 1);
 				}
 			}
 
 			// Check if all designated targets for this puzzle have been satisfied
-			var isLessonGoalSolved = (state.remainingAcademyTargets.length === 0);
+			// Either by remaining target list reaching 0 or all targets in puzzle being resolved
+			var allTargetsResolved = true;
+			var origTargets = (puzzle.targets && Array.isArray(puzzle.targets)) ? puzzle.targets : (puzzle.target ? [puzzle.target] : []);
+			for (var ot = 0; ot < origTargets.length; ot++) {
+				var tgItem = origTargets[ot];
+				var bCell = state.board[tgItem.r] && state.board[tgItem.r][tgItem.c];
+				if (!bCell) continue;
+				var expectedAct = tgItem.action || puzzle.requiredAction;
+				if (expectedAct === 'flag' && !bCell.flagged) { allTargetsResolved = false; break; }
+				if (expectedAct === 'reveal' && !bCell.revealed) { allTargetsResolved = false; break; }
+			}
 
-			// Check if entire board is cleared
+			// Check if entire board is cleared of safe cells
 			var isBoardCleared = (state.safeCells > 0 && state.revealed >= state.safeCells);
+
+			var isLessonGoalSolved = (state.remainingAcademyTargets.length === 0) || allTargetsResolved || isBoardCleared;
 
 			// If target pattern is not yet fully solved, re-apply the clue and remaining target highlights (se non è tavola test)
 			if (!isLessonGoalSolved && !puzzle.isTest) {

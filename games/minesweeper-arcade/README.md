@@ -1,14 +1,20 @@
 # 💣 Minesweeper
  
-> **Versione: 1.6.0** — *The Clean One* aesthetics, tripla modalità (Classica 4 preset, Scalata 18 livelli e 🎓 Scuola di Logica "Impara dalle Basi"), Pan & Pinch-to-Zoom, Didattica interattiva con Navigazione Storico Mosse (Undo/Redo ↩️/↪️), Scanner Pattern Tattici Interattivo con spiegazione cella per cella (1-2-1, 1-2-2-1, 1-2-X, 1-1-X e riduzioni con notazione esplicita), Heatmap e supporto Multi-lingua (IT/EN) coordinato con WordPress.
+> **Versione: 1.8.1** — *The Clean One* aesthetics, tripla modalità (Classica 4 preset, Scalata 18 livelli e 🎓 Scuola di Logica "Impara dalle Basi" con banchi di prova e Esame Finale), No-Guess Boards 100% deterministici, Pan & Pinch-to-Zoom, Didattica interattiva con Navigazione Storico Mosse (Undo/Redo ↩️/↪️), Scanner Pattern Tattici Interattivo con spiegazione cella per cella (1-2-1, 1-2-2-1, 1-2-X, 1-1-X e riduzioni con notazione esplicita), Heatmap e supporto Multi-lingua (IT/EN) coordinato con WordPress.
 
-Ispirato al design e all'esperienza tattile di *Minesweeper: The Clean One*, con **tripla modalità di gioco**: la classica partita singola a selezione libera, l'emozionante modalità Scalata a 18 livelli progressivi fino al livello Estremo, e la nuova **Scuola di Logica (Academy)** a banchi di prova interattivi!
+Ispirato al design e all'esperienza tattile classica con **tripla modalità di gioco**: la classica partita singola a selezione libera, l'emozionante modalità Scalata a 18 livelli progressivi fino al livello Estremo, e la **Scuola di Logica (Academy)** a banchi di prova interattivi con Esame Finale!
 
 ---
 
 ## 📝 Changelog
 
-### 1.6.0 (current)
+### 1.8.1 (current)
+- **Fix Academy Esame Finale & Banchi di Prova Multitarget**:
+  - Risolto il blocco nell'Esame Finale e nelle tavole di prova complesse con obiettivi multipli: le mosse valide (bandierine e scavi) in qualsiasi ordine ora scalano correttamente gli obiettivi rimanenti.
+  - Aggiunto controllo preventivo di completamento: quando tutte le caselle sicure sono scoperte e le mine contrassegnate (`allTargetsResolved` / `isBoardCleared`), la lezione si conclude istantaneamente con diploma 🎓 e coriandoli.
+  - Evitato il falso errore "Mossa non corretta" su click ripetuto su caselle già contrassegnate da bandiera.
+
+### 1.8.0
 - **Scuola di Logica Interattiva ("Impara dalle Basi")**:
   - Nuovo tab e pannello didattico nello Splash screen con 8 lezioni progressive:
     1. *Regola della Saturazione (0-safe e 100%-mine)*
