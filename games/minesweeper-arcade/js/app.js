@@ -66,7 +66,8 @@
 		activePatterns: [],    // Currently highlighted pattern list
 		focusedPattern: null,  // Currently zoomed/focused single pattern
 		history: [],       // Snapshots for Undo in didactic mode
-		future: []         // Snapshots for Redo in didactic mode
+		future: [],        // Snapshots for Redo in didactic mode
+		classicNoGuess: true // Default No-Guess mode for classic play
 	};
 
 	var totalScore = 0;
@@ -83,6 +84,9 @@
 	var scoreTotalEl = document.getElementById('score-total');
 	var levelLabelEl = document.getElementById('level-label');
 	var levelProgressEl = document.getElementById('level-progress');
+	var badgeNoGuess = document.getElementById('badge-no-guess');
+	var btnToggleNoGuess = document.getElementById('btn-toggle-noguess');
+	var btnToggleRandom = document.getElementById('btn-toggle-random');
 	var btnModeDig = document.getElementById('btn-mode-dig');
 	var btnModeFlag = document.getElementById('btn-mode-flag');
 	var btnModeInspect = document.getElementById('btn-mode-inspect');
@@ -263,33 +267,77 @@
 	}
 
 	function placeMines(rows, cols, mines, safeR, safeC) {
+		var isNoGuess = (state.mode === 'arcade') || (state.mode === 'classic' && state.classicNoGuess);
 		var safe = {};
 		safe[safeR + ',' + safeC] = true;
 		getNeighbors(safeR, safeC, rows, cols).forEach(function (n) {
 			safe[n.r + ',' + n.c] = true;
 		});
 
-		var positions = [];
+		var candidatePositions = [];
 		for (var r = 0; r < rows; r++) {
 			for (var c = 0; c < cols; c++) {
-				if (!safe[r + ',' + c]) positions.push({ r: r, c: c });
+				if (!safe[r + ',' + c]) candidatePositions.push({ r: r, c: c });
 			}
 		}
 
-		shuffle(positions);
-		for (var i = 0; i < mines && i < positions.length; i++) {
-			var pos = positions[i];
-			state.board[pos.r][pos.c].mine = true;
+		var maxAttempts = isNoGuess ? 60 : 1;
+		var bestBoard = null;
+		var bestSolvable = false;
+
+		for (var attempt = 0; attempt < maxAttempts; attempt++) {
+			// Reset board state
+			for (var r = 0; r < rows; r++) {
+				for (var c = 0; c < cols; c++) {
+					state.board[r][c].mine = false;
+					state.board[r][c].count = 0;
+				}
+			}
+
+			var positions = candidatePositions.slice();
+			shuffle(positions);
+			for (var i = 0; i < mines && i < positions.length; i++) {
+				var pos = positions[i];
+				state.board[pos.r][pos.c].mine = true;
+			}
+
+			for (var r2 = 0; r2 < rows; r2++) {
+				for (var c2 = 0; c2 < cols; c2++) {
+					if (state.board[r2][c2].mine) continue;
+					var count = 0;
+					getNeighbors(r2, c2, rows, cols).forEach(function (n) {
+						if (state.board[n.r][n.c].mine) count++;
+					});
+					state.board[r2][c2].count = count;
+				}
+			}
+
+			if (!isNoGuess || typeof MinesweeperSolver === 'undefined' || typeof MinesweeperSolver.isBoardSolvable !== 'function') {
+				bestSolvable = true;
+				break;
+			}
+
+			if (MinesweeperSolver.isBoardSolvable(state.board, rows, cols, safeR, safeC)) {
+				bestSolvable = true;
+				break;
+			}
+
+			if (!bestBoard) {
+				bestBoard = JSON.stringify(state.board);
+			}
 		}
 
-		for (var r2 = 0; r2 < rows; r2++) {
-			for (var c2 = 0; c2 < cols; c2++) {
-				if (state.board[r2][c2].mine) continue;
-				var count = 0;
-				getNeighbors(r2, c2, rows, cols).forEach(function (n) {
-					if (state.board[n.r][n.c].mine) count++;
-				});
-				state.board[r2][c2].count = count;
+		if (!bestSolvable && bestBoard) {
+			state.board = JSON.parse(bestBoard);
+		}
+
+		// Update certification badge UI
+		state.isCurrentBoardNoGuess = !!bestSolvable && isNoGuess;
+		if (badgeNoGuess) {
+			if (state.isCurrentBoardNoGuess) {
+				badgeNoGuess.classList.remove('hidden');
+			} else {
+				badgeNoGuess.classList.add('hidden');
 			}
 		}
 	}
@@ -2360,6 +2408,37 @@
 			startClassic(presetKey);
 		});
 	});
+
+	if (btnToggleNoGuess && btnToggleRandom) {
+		btnToggleNoGuess.addEventListener('click', function () {
+			state.classicNoGuess = true;
+			btnToggleNoGuess.classList.add('active');
+			btnToggleRandom.classList.remove('active');
+			AudioFX.click();
+		});
+
+		btnToggleRandom.addEventListener('click', function () {
+			state.classicNoGuess = false;
+			btnToggleRandom.classList.add('active');
+			btnToggleNoGuess.classList.remove('active');
+			AudioFX.click();
+		});
+	}
+
+	if (badgeNoGuess) {
+		badgeNoGuess.addEventListener('click', function () {
+			if (!didacticToast) return;
+			var isIt = !window.I18n || (window.I18n.getLanguage ? window.I18n.getLanguage() === 'it' : true);
+			didacticToastTitle.innerHTML = '🧩 ' + (isIt ? 'Tavola 100% Logica' : '100% Logic Board');
+			didacticToastText.textContent = isIt ?
+				(window.I18n && window.I18n.t('game.noguess_badge_info')) || 'Tavola 100% Logica: ogni mossa è garantita deducibile senza tentativi a caso!' :
+				'100% Logic Board: every move is guaranteed deducible without guessing!';
+			didacticToast.classList.add('show');
+			setTimeout(function () {
+				didacticToast.classList.remove('show');
+			}, 2800);
+		});
+	}
 
 	if (splashScalataBtn) {
 		splashScalataBtn.addEventListener('click', function () {

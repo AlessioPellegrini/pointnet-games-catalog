@@ -1155,11 +1155,192 @@ var MinesweeperSolver = (function () {
 		};
 	}
 
+	/**
+	 * Simulate solving a board with pure deduction from starting cell (startR, startC).
+	 * Returns true if board can be 100% solved with logic alone (No-Guess).
+	 */
+	function isBoardSolvable(board, rows, cols, startR, startC) {
+		var sim = [];
+		var totalSafe = 0;
+		for (var r = 0; r < rows; r++) {
+			sim[r] = [];
+			for (var c = 0; c < cols; c++) {
+				var isM = !!board[r][c].mine;
+				if (!isM) totalSafe++;
+				sim[r][c] = {
+					mine: isM,
+					revealed: false,
+					flagged: false,
+					count: 0
+				};
+			}
+		}
+
+		for (var r = 0; r < rows; r++) {
+			for (var c = 0; c < cols; c++) {
+				if (sim[r][c].mine) continue;
+				var nbs = getNeighbors(r, c, rows, cols);
+				var mCount = 0;
+				for (var n = 0; n < nbs.length; n++) {
+					if (sim[nbs[n].r][nbs[n].c].mine) mCount++;
+				}
+				sim[r][c].count = mCount;
+			}
+		}
+
+		var revealedCount = 0;
+
+		function simFlood(originR, originC) {
+			var queue = [{ r: originR, c: originC }];
+			while (queue.length > 0) {
+				var pos = queue.shift();
+				var cell = sim[pos.r][pos.c];
+				if (cell.revealed || cell.flagged || cell.mine) continue;
+				cell.revealed = true;
+				revealedCount++;
+				if (cell.count === 0) {
+					var nbs = getNeighbors(pos.r, pos.c, rows, cols);
+					for (var i = 0; i < nbs.length; i++) {
+						var nCell = sim[nbs[i].r][nbs[i].c];
+						if (!nCell.revealed && !nCell.flagged && !nCell.mine) {
+							queue.push(nbs[i]);
+						}
+					}
+				}
+			}
+		}
+
+		simFlood(startR, startC);
+
+		var maxSteps = rows * cols * 4;
+		var step = 0;
+
+		while (revealedCount < totalSafe && step < maxSteps) {
+			step++;
+			var progress = false;
+
+			var revealedNumbers = [];
+			for (var r = 0; r < rows; r++) {
+				for (var c = 0; c < cols; c++) {
+					var cell = sim[r][c];
+					if (cell.revealed && cell.count > 0) {
+						var nbs = getNeighbors(r, c, rows, cols);
+						var flaggedCount = 0;
+						var unrevealed = [];
+						for (var n = 0; n < nbs.length; n++) {
+							var nb = sim[nbs[n].r][nbs[n].c];
+							if (nb.flagged) flaggedCount++;
+							else if (!nb.revealed) unrevealed.push(nbs[n]);
+						}
+						revealedNumbers.push({
+							r: r,
+							c: c,
+							number: cell.count,
+							flagged: flaggedCount,
+							remainingMines: cell.count - flaggedCount,
+							unrevealed: unrevealed
+						});
+					}
+				}
+			}
+
+			// Level 1A: Satisfied numbers -> reveal all unrevealed
+			for (var i = 0; i < revealedNumbers.length; i++) {
+				var item = revealedNumbers[i];
+				if (item.remainingMines === 0 && item.unrevealed.length > 0) {
+					for (var u = 0; u < item.unrevealed.length; u++) {
+						var target = item.unrevealed[u];
+						if (!sim[target.r][target.c].revealed && !sim[target.r][target.c].flagged) {
+							simFlood(target.r, target.c);
+							progress = true;
+						}
+					}
+				}
+			}
+
+			// Level 1B: Saturated numbers -> flag all unrevealed
+			for (var i = 0; i < revealedNumbers.length; i++) {
+				var item = revealedNumbers[i];
+				if (item.remainingMines > 0 && item.remainingMines === item.unrevealed.length) {
+					for (var u = 0; u < item.unrevealed.length; u++) {
+						var target = item.unrevealed[u];
+						if (!sim[target.r][target.c].flagged) {
+							sim[target.r][target.c].flagged = true;
+							progress = true;
+						}
+					}
+				}
+			}
+
+			if (progress) continue;
+
+			// Level 2A: Subset deductions
+			for (var a = 0; a < revealedNumbers.length; a++) {
+				for (var b = 0; b < revealedNumbers.length; b++) {
+					if (a === b) continue;
+					var itemA = revealedNumbers[a];
+					var itemB = revealedNumbers[b];
+
+					if (itemA.unrevealed.length > 0 && itemA.unrevealed.length < itemB.unrevealed.length && isSubset(itemA.unrevealed, itemB.unrevealed)) {
+						var diff = getDifference(itemB.unrevealed, itemA.unrevealed);
+						var mineDiff = itemB.remainingMines - itemA.remainingMines;
+
+						if (mineDiff === 0 && diff.length > 0) {
+							for (var d = 0; d < diff.length; d++) {
+								if (!sim[diff[d].r][diff[d].c].revealed && !sim[diff[d].r][diff[d].c].flagged) {
+									simFlood(diff[d].r, diff[d].c);
+									progress = true;
+								}
+							}
+						} else if (mineDiff === diff.length && diff.length > 0) {
+							for (var d = 0; d < diff.length; d++) {
+								if (!sim[diff[d].r][diff[d].c].flagged) {
+									sim[diff[d].r][diff[d].c].flagged = true;
+									progress = true;
+								}
+							}
+						}
+					}
+				}
+				if (progress) break;
+			}
+
+			if (progress) continue;
+
+			// Level 2B: Tactical pattern heuristics
+			var pattern = findTacticalPattern(revealedNumbers, sim, rows, cols);
+			if (pattern && pattern.targetCells && pattern.targetCells.length > 0) {
+				if (pattern.action === 'reveal') {
+					for (var p = 0; p < pattern.targetCells.length; p++) {
+						var pt = pattern.targetCells[p];
+						if (!sim[pt.r][pt.c].revealed && !sim[pt.r][pt.c].flagged) {
+							simFlood(pt.r, pt.c);
+							progress = true;
+						}
+					}
+				} else if (pattern.action === 'flag') {
+					for (var p = 0; p < pattern.targetCells.length; p++) {
+						var pt = pattern.targetCells[p];
+						if (!sim[pt.r][pt.c].flagged) {
+							sim[pt.r][pt.c].flagged = true;
+							progress = true;
+						}
+					}
+				}
+			}
+
+			if (!progress) break;
+		}
+
+		return revealedCount >= totalSafe;
+	}
+
 	var solver = {
 		findHint: findHint,
 		getAllHints: getAllHints,
 		explainCell: explainCell,
-		findAllTacticalPatterns: findAllTacticalPatterns
+		findAllTacticalPatterns: findAllTacticalPatterns,
+		isBoardSolvable: isBoardSolvable
 	};
 
 	if (typeof window !== 'undefined') {
