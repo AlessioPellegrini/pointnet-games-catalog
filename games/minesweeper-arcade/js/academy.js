@@ -434,8 +434,8 @@ var MinesweeperAcademy = (function () {
 			},
 			{
 				"isTest": true,
-				"instruction_it": "🎯 Mettiti alla prova: osserva questa griglia 9×9 reale! Cerca lungo la frontiera superiore i numeri 1 saturi (che toccano una sola casella coperta) e piazza la bandiera 🚩 su entrambe le mine!",
-				"instruction_en": "🎯 Challenge: look at this authentic 9×9 board! Find the saturated 1s along the top frontier (touching only one hidden tile) and flag 🚩 both mines!",
+				"instruction_it": "🎯 Sfida Pratica: guarda l'angolo in basso a sinistra della griglia! Il numero 1 tocca una sola casella coperta (saturo) e il 2 ne tocca solo due: piazza la bandiera 🚩 su entrambe le mine!",
+				"instruction_en": "🎯 Practical Challenge: look at the bottom-left corner of the grid! The 1 touches only a single hidden tile (saturated) and the 2 touches only two: flag 🚩 both mines!",
 				"rows": 9,
 				"cols": 9,
 				"board": [
@@ -443,27 +443,27 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 0,
 							"c": 0,
-							"val": 0,
-							"rev": true
+							"val": 1,
+							"rev": false
 						},
 						{
 							"r": 0,
 							"c": 1,
 							"val": 0,
-							"rev": true
+							"rev": false,
+							"mine": true
 						},
 						{
 							"r": 0,
 							"c": 2,
 							"val": 1,
-							"rev": true
+							"rev": false
 						},
 						{
 							"r": 0,
 							"c": 3,
-							"val": 0,
-							"rev": false,
-							"mine": true
+							"val": 1,
+							"rev": false
 						},
 						{
 							"r": 0,
@@ -476,39 +476,39 @@ var MinesweeperAcademy = (function () {
 							"r": 0,
 							"c": 5,
 							"val": 1,
-							"rev": true
+							"rev": false
 						},
 						{
 							"r": 0,
 							"c": 6,
-							"val": 0,
-							"rev": true
+							"val": 1,
+							"rev": false
 						},
 						{
 							"r": 0,
 							"c": 7,
-							"val": 1,
-							"rev": true
+							"val": 0,
+							"rev": false,
+							"mine": true
 						},
 						{
 							"r": 0,
 							"c": 8,
-							"val": 0,
-							"rev": false,
-							"mine": true
+							"val": 1,
+							"rev": false
 						}
 					],
 					[
 						{
 							"r": 1,
 							"c": 0,
-							"val": 0,
+							"val": 1,
 							"rev": true
 						},
 						{
 							"r": 1,
 							"c": 1,
-							"val": 0,
+							"val": 1,
 							"rev": true
 						},
 						{
@@ -520,13 +520,13 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 1,
 							"c": 3,
-							"val": 2,
+							"val": 1,
 							"rev": true
 						},
 						{
 							"r": 1,
 							"c": 4,
-							"val": 2,
+							"val": 1,
 							"rev": true
 						},
 						{
@@ -538,19 +538,19 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 1,
 							"c": 6,
-							"val": 0,
+							"val": 1,
 							"rev": true
 						},
 						{
 							"r": 1,
 							"c": 7,
-							"val": 2,
+							"val": 1,
 							"rev": true
 						},
 						{
 							"r": 1,
 							"c": 8,
-							"val": 2,
+							"val": 1,
 							"rev": false
 						}
 					],
@@ -600,15 +600,14 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 2,
 							"c": 7,
-							"val": 2,
+							"val": 1,
 							"rev": true
 						},
 						{
 							"r": 2,
 							"c": 8,
-							"val": 0,
-							"rev": false,
-							"mine": true
+							"val": 1,
+							"rev": false
 						}
 					],
 					[
@@ -714,14 +713,15 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 4,
 							"c": 7,
-							"val": 1,
+							"val": 3,
 							"rev": true
 						},
 						{
 							"r": 4,
 							"c": 8,
-							"val": 1,
-							"rev": true
+							"val": 0,
+							"rev": false,
+							"mine": true
 						}
 					],
 					[
@@ -770,14 +770,15 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 5,
 							"c": 7,
-							"val": 0,
+							"val": 2,
 							"rev": true
 						},
 						{
 							"r": 5,
 							"c": 8,
 							"val": 0,
-							"rev": true
+							"rev": false,
+							"mine": true
 						}
 					],
 					[
@@ -826,14 +827,14 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 6,
 							"c": 7,
-							"val": 1,
+							"val": 2,
 							"rev": true
 						},
 						{
 							"r": 6,
 							"c": 8,
-							"val": 1,
-							"rev": true
+							"val": 2,
+							"rev": false
 						}
 					],
 					[
@@ -859,19 +860,19 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 7,
 							"c": 3,
-							"val": 1,
+							"val": 0,
 							"rev": true
 						},
 						{
 							"r": 7,
 							"c": 4,
-							"val": 1,
+							"val": 0,
 							"rev": true
 						},
 						{
 							"r": 7,
 							"c": 5,
-							"val": 1,
+							"val": 0,
 							"rev": true
 						},
 						{
@@ -917,20 +918,19 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 8,
 							"c": 3,
-							"val": 1,
+							"val": 0,
 							"rev": true
 						},
 						{
 							"r": 8,
 							"c": 4,
 							"val": 0,
-							"rev": false,
-							"mine": true
+							"rev": true
 						},
 						{
 							"r": 8,
 							"c": 5,
-							"val": 1,
+							"val": 0,
 							"rev": true
 						},
 						{
@@ -956,13 +956,13 @@ var MinesweeperAcademy = (function () {
 				],
 				"targets": [
 					{
-						"r": 0,
-						"c": 3,
+						"r": 7,
+						"c": 0,
 						"action": "flag"
 					},
 					{
-						"r": 0,
-						"c": 4,
+						"r": 8,
+						"c": 0,
 						"action": "flag"
 					}
 				]
@@ -1058,8 +1058,8 @@ var MinesweeperAcademy = (function () {
 			},
 			{
 				"isTest": true,
-				"instruction_it": "🎯 Mettiti alla prova: in questa griglia 9×9 reale, trova il numero 2 che ha già le sue 2 mine segnalate con bandiere e cliccalo/toccalo per eseguire il chording ed aprire tutte le caselle adiacenti!",
-				"instruction_en": "🎯 Challenge: in this real 9×9 game board, find the number 2 that already has both of its mines flagged, and click/tap it to chord and reveal all adjacent safe tiles!",
+				"instruction_it": "🎯 Sfida Pratica: guarda in alto a sinistra lungo la seconda riga. Il numero 1 ha già la sua bandiera posizionata sopra: cliccalo/toccalo per fare chording ed aprire all'istante le caselle libere!",
+				"instruction_en": "🎯 Practical Challenge: look along the second row near the top-left. The clue 1 already has its flag placed above it: click/tap it to chord and instantly clear adjacent safe tiles!",
 				"rows": 9,
 				"cols": 9,
 				"board": [
@@ -1067,68 +1067,67 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 0,
 							"c": 0,
-							"val": 0,
-							"rev": true
+							"val": 1,
+							"rev": false
 						},
 						{
 							"r": 0,
 							"c": 1,
-							"val": 1,
-							"rev": true
+							"val": 0,
+							"rev": false,
+							"mine": true,
+							"flag": true
 						},
 						{
 							"r": 0,
 							"c": 2,
-							"val": 0,
-							"rev": false,
-							"mine": true,
-							"flag": true
+							"val": 1,
+							"rev": false
 						},
 						{
 							"r": 0,
 							"c": 3,
-							"val": 0,
-							"rev": false,
-							"mine": true,
-							"flag": true
+							"val": 1,
+							"rev": false
 						},
 						{
 							"r": 0,
 							"c": 4,
-							"val": 1,
-							"rev": true
+							"val": 0,
+							"rev": false,
+							"mine": true
 						},
 						{
 							"r": 0,
 							"c": 5,
-							"val": 0,
-							"rev": true
+							"val": 1,
+							"rev": false
 						},
 						{
 							"r": 0,
 							"c": 6,
-							"val": 0,
-							"rev": true
+							"val": 1,
+							"rev": false
 						},
 						{
 							"r": 0,
 							"c": 7,
-							"val": 1,
-							"rev": true
+							"val": 0,
+							"rev": false,
+							"mine": true
 						},
 						{
 							"r": 0,
 							"c": 8,
-							"val": 0,
-							"rev": false,
-							"mine": true
+							"val": 1,
+							"rev": false
 						}
 					],
 					[
 						{
 							"r": 1,
 							"c": 0,
-							"val": 0,
+							"val": 1,
 							"rev": true
 						},
 						{
@@ -1140,13 +1139,13 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 1,
 							"c": 2,
-							"val": 2,
+							"val": 1,
 							"rev": true
 						},
 						{
 							"r": 1,
 							"c": 3,
-							"val": 2,
+							"val": 1,
 							"rev": true
 						},
 						{
@@ -1158,25 +1157,25 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 1,
 							"c": 5,
-							"val": 0,
+							"val": 1,
 							"rev": true
 						},
 						{
 							"r": 1,
 							"c": 6,
-							"val": 0,
+							"val": 1,
 							"rev": true
 						},
 						{
 							"r": 1,
 							"c": 7,
-							"val": 2,
+							"val": 1,
 							"rev": true
 						},
 						{
 							"r": 1,
 							"c": 8,
-							"val": 2,
+							"val": 1,
 							"rev": false
 						}
 					],
@@ -1226,15 +1225,14 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 2,
 							"c": 7,
-							"val": 2,
+							"val": 1,
 							"rev": true
 						},
 						{
 							"r": 2,
 							"c": 8,
-							"val": 0,
-							"rev": false,
-							"mine": true
+							"val": 1,
+							"rev": false
 						}
 					],
 					[
@@ -1340,14 +1338,15 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 4,
 							"c": 7,
-							"val": 1,
+							"val": 3,
 							"rev": true
 						},
 						{
 							"r": 4,
 							"c": 8,
-							"val": 1,
-							"rev": true
+							"val": 0,
+							"rev": false,
+							"mine": true
 						}
 					],
 					[
@@ -1396,14 +1395,15 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 5,
 							"c": 7,
-							"val": 0,
+							"val": 2,
 							"rev": true
 						},
 						{
 							"r": 5,
 							"c": 8,
 							"val": 0,
-							"rev": true
+							"rev": false,
+							"mine": true
 						}
 					],
 					[
@@ -1452,14 +1452,14 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 6,
 							"c": 7,
-							"val": 1,
+							"val": 2,
 							"rev": true
 						},
 						{
 							"r": 6,
 							"c": 8,
-							"val": 1,
-							"rev": true
+							"val": 2,
+							"rev": false
 						}
 					],
 					[
@@ -1485,19 +1485,19 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 7,
 							"c": 3,
-							"val": 1,
+							"val": 0,
 							"rev": true
 						},
 						{
 							"r": 7,
 							"c": 4,
-							"val": 1,
+							"val": 0,
 							"rev": true
 						},
 						{
 							"r": 7,
 							"c": 5,
-							"val": 1,
+							"val": 0,
 							"rev": true
 						},
 						{
@@ -1543,20 +1543,19 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 8,
 							"c": 3,
-							"val": 1,
+							"val": 0,
 							"rev": true
 						},
 						{
 							"r": 8,
 							"c": 4,
 							"val": 0,
-							"rev": false,
-							"mine": true
+							"rev": true
 						},
 						{
 							"r": 8,
 							"c": 5,
-							"val": 1,
+							"val": 0,
 							"rev": true
 						},
 						{
@@ -1583,7 +1582,7 @@ var MinesweeperAcademy = (function () {
 				"requiredAction": "chord",
 				"target": {
 					"r": 1,
-					"c": 2
+					"c": 1
 				}
 			}
 		]
@@ -1702,8 +1701,8 @@ var MinesweeperAcademy = (function () {
 			},
 			{
 				"isTest": true,
-				"instruction_it": "🎯 Mettiti alla prova: individua la coppia 1-1 lungo la frontiera della griglia 9×9. Applica la regola: la casella che sporge oltre il secondo 1 è garantita libera, scavala ⛏️!",
-				"instruction_en": "🎯 Challenge: spot the 1-1 pair along the frontier in this real 9×9 board. The tile sticking out past the second 1 is guaranteed safe—dig ⛏️ it!",
+				"instruction_it": "🎯 Sfida Pratica: guarda in alto a sinistra. I primi due numeri (1 e 1) lungo la seconda riga condividono la mina nelle prime due caselle sopra. La terza casella coperta a destra è garantita libera: toccala per scavare ⛏️!",
+				"instruction_en": "🎯 Practical Challenge: look at the top-left. The first two numbers (1 and 1) along the second row share their mine in the first two tiles above. The third covered tile to the right is guaranteed safe: tap it to dig ⛏️!",
 				"rows": 9,
 				"cols": 9,
 				"board": [
@@ -1711,45 +1710,46 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 0,
 							"c": 0,
-							"val": 0,
-							"rev": true
+							"val": 1,
+							"rev": false
 						},
 						{
 							"r": 0,
 							"c": 1,
-							"val": 1,
-							"rev": true
-						},
-						{
-							"r": 0,
-							"c": 2,
 							"val": 0,
 							"rev": false,
 							"mine": true
 						},
 						{
 							"r": 0,
+							"c": 2,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
 							"c": 3,
 							"val": 1,
-							"rev": true
+							"rev": false
 						},
 						{
 							"r": 0,
 							"c": 4,
 							"val": 0,
-							"rev": true
+							"rev": false,
+							"mine": true
 						},
 						{
 							"r": 0,
 							"c": 5,
-							"val": 0,
-							"rev": true
+							"val": 1,
+							"rev": false
 						},
 						{
 							"r": 0,
 							"c": 6,
 							"val": 1,
-							"rev": true
+							"rev": false
 						},
 						{
 							"r": 0,
@@ -1761,16 +1761,15 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 0,
 							"c": 8,
-							"val": 0,
-							"rev": false,
-							"mine": true
+							"val": 1,
+							"rev": false
 						}
 					],
 					[
 						{
 							"r": 1,
 							"c": 0,
-							"val": 0,
+							"val": 1,
 							"rev": true
 						},
 						{
@@ -1794,13 +1793,13 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 1,
 							"c": 4,
-							"val": 0,
+							"val": 1,
 							"rev": true
 						},
 						{
 							"r": 1,
 							"c": 5,
-							"val": 0,
+							"val": 1,
 							"rev": true
 						},
 						{
@@ -1812,13 +1811,13 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 1,
 							"c": 7,
-							"val": 3,
+							"val": 1,
 							"rev": true
 						},
 						{
 							"r": 1,
 							"c": 8,
-							"val": 3,
+							"val": 1,
 							"rev": false
 						}
 					],
@@ -1868,15 +1867,14 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 2,
 							"c": 7,
-							"val": 2,
+							"val": 1,
 							"rev": true
 						},
 						{
 							"r": 2,
 							"c": 8,
-							"val": 0,
-							"rev": false,
-							"mine": true
+							"val": 1,
+							"rev": false
 						}
 					],
 					[
@@ -1982,14 +1980,15 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 4,
 							"c": 7,
-							"val": 1,
+							"val": 3,
 							"rev": true
 						},
 						{
 							"r": 4,
 							"c": 8,
-							"val": 1,
-							"rev": true
+							"val": 0,
+							"rev": false,
+							"mine": true
 						}
 					],
 					[
@@ -2038,14 +2037,15 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 5,
 							"c": 7,
-							"val": 0,
+							"val": 2,
 							"rev": true
 						},
 						{
 							"r": 5,
 							"c": 8,
 							"val": 0,
-							"rev": true
+							"rev": false,
+							"mine": true
 						}
 					],
 					[
@@ -2094,14 +2094,14 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 6,
 							"c": 7,
-							"val": 1,
+							"val": 2,
 							"rev": true
 						},
 						{
 							"r": 6,
 							"c": 8,
-							"val": 1,
-							"rev": true
+							"val": 2,
+							"rev": false
 						}
 					],
 					[
@@ -2127,19 +2127,19 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 7,
 							"c": 3,
-							"val": 1,
+							"val": 0,
 							"rev": true
 						},
 						{
 							"r": 7,
 							"c": 4,
-							"val": 1,
+							"val": 0,
 							"rev": true
 						},
 						{
 							"r": 7,
 							"c": 5,
-							"val": 1,
+							"val": 0,
 							"rev": true
 						},
 						{
@@ -2185,20 +2185,19 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 8,
 							"c": 3,
-							"val": 1,
+							"val": 0,
 							"rev": true
 						},
 						{
 							"r": 8,
 							"c": 4,
 							"val": 0,
-							"rev": false,
-							"mine": true
+							"rev": true
 						},
 						{
 							"r": 8,
 							"c": 5,
-							"val": 1,
+							"val": 0,
 							"rev": true
 						},
 						{
@@ -2225,7 +2224,7 @@ var MinesweeperAcademy = (function () {
 				"requiredAction": "reveal",
 				"target": {
 					"r": 0,
-					"c": 4
+					"c": 2
 				}
 			}
 		]
@@ -2454,8 +2453,8 @@ var MinesweeperAcademy = (function () {
 			},
 			{
 				"isTest": true,
-				"instruction_it": "🎯 Mettiti alla prova: trova la sequenza 1-2 lungo la frontiera della griglia 9×9. L'1 trattiene una mina, quindi la casella che sporge oltre il 2 deve essere per forza una mina: piazza la bandiera 🚩!",
-				"instruction_en": "🎯 Challenge: find the 1-2 pattern along the frontier in this real 9×9 grid. The 1 holds one mine, so the outer tile past the 2 must be a mine—flag 🚩 it!",
+				"instruction_it": "🎯 Sfida Pratica: osserva la coppia 1-2 in alto a sinistra lungo la seconda riga. L'1 trattiene una mina nelle celle condivise, quindi la casella che sporge oltre il 2 deve essere una mina: piazza la bandiera 🚩!",
+				"instruction_en": "🎯 Practical Challenge: observe the 1-2 pair at the top-left along the second row. The 1 holds one mine in the shared tiles, so the tile sticking out past the 2 must be a mine: flag 🚩 it!",
 				"rows": 9,
 				"cols": 9,
 				"board": [
@@ -2469,14 +2468,15 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 0,
 							"c": 1,
-							"val": 0,
+							"val": 1,
 							"rev": true
 						},
 						{
 							"r": 0,
 							"c": 2,
-							"val": 1,
-							"rev": true
+							"val": 0,
+							"rev": false,
+							"mine": true
 						},
 						{
 							"r": 0,
@@ -2488,34 +2488,34 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 0,
 							"c": 4,
-							"val": 0,
-							"rev": false,
-							"mine": true
+							"val": 1,
+							"rev": false
 						},
 						{
 							"r": 0,
 							"c": 5,
 							"val": 1,
-							"rev": true
+							"rev": false
 						},
 						{
 							"r": 0,
 							"c": 6,
 							"val": 0,
-							"rev": true
+							"rev": false,
+							"mine": true
 						},
 						{
 							"r": 0,
 							"c": 7,
-							"val": 1,
-							"rev": true
+							"val": 0,
+							"rev": false,
+							"mine": true
 						},
 						{
 							"r": 0,
 							"c": 8,
-							"val": 0,
-							"rev": false,
-							"mine": true
+							"val": 1,
+							"rev": false
 						}
 					],
 					[
@@ -2528,13 +2528,13 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 1,
 							"c": 1,
-							"val": 0,
+							"val": 1,
 							"rev": true
 						},
 						{
 							"r": 1,
 							"c": 2,
-							"val": 1,
+							"val": 2,
 							"rev": true
 						},
 						{
@@ -2546,7 +2546,7 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 1,
 							"c": 4,
-							"val": 2,
+							"val": 1,
 							"rev": true
 						},
 						{
@@ -2558,7 +2558,7 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 1,
 							"c": 6,
-							"val": 0,
+							"val": 2,
 							"rev": true
 						},
 						{
@@ -2570,7 +2570,7 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 1,
 							"c": 8,
-							"val": 2,
+							"val": 1,
 							"rev": false
 						}
 					],
@@ -2620,15 +2620,14 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 2,
 							"c": 7,
-							"val": 2,
+							"val": 1,
 							"rev": true
 						},
 						{
 							"r": 2,
 							"c": 8,
-							"val": 0,
-							"rev": false,
-							"mine": true
+							"val": 1,
+							"rev": false
 						}
 					],
 					[
@@ -2734,14 +2733,15 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 4,
 							"c": 7,
-							"val": 1,
+							"val": 3,
 							"rev": true
 						},
 						{
 							"r": 4,
 							"c": 8,
-							"val": 1,
-							"rev": true
+							"val": 0,
+							"rev": false,
+							"mine": true
 						}
 					],
 					[
@@ -2790,14 +2790,15 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 5,
 							"c": 7,
-							"val": 0,
+							"val": 2,
 							"rev": true
 						},
 						{
 							"r": 5,
 							"c": 8,
 							"val": 0,
-							"rev": true
+							"rev": false,
+							"mine": true
 						}
 					],
 					[
@@ -2846,14 +2847,14 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 6,
 							"c": 7,
-							"val": 1,
+							"val": 2,
 							"rev": true
 						},
 						{
 							"r": 6,
 							"c": 8,
-							"val": 1,
-							"rev": true
+							"val": 2,
+							"rev": false
 						}
 					],
 					[
@@ -2879,19 +2880,19 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 7,
 							"c": 3,
-							"val": 1,
+							"val": 0,
 							"rev": true
 						},
 						{
 							"r": 7,
 							"c": 4,
-							"val": 1,
+							"val": 0,
 							"rev": true
 						},
 						{
 							"r": 7,
 							"c": 5,
-							"val": 1,
+							"val": 0,
 							"rev": true
 						},
 						{
@@ -2903,7 +2904,7 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 7,
 							"c": 7,
-							"val": 2,
+							"val": 1,
 							"rev": true
 						},
 						{
@@ -2937,20 +2938,19 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 8,
 							"c": 3,
-							"val": 1,
+							"val": 0,
 							"rev": true
 						},
 						{
 							"r": 8,
 							"c": 4,
 							"val": 0,
-							"rev": false,
-							"mine": true
+							"rev": true
 						},
 						{
 							"r": 8,
 							"c": 5,
-							"val": 1,
+							"val": 0,
 							"rev": true
 						},
 						{
@@ -2962,22 +2962,21 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 8,
 							"c": 7,
-							"val": 2,
+							"val": 1,
 							"rev": true
 						},
 						{
 							"r": 8,
 							"c": 8,
-							"val": 0,
-							"rev": false,
-							"mine": true
+							"val": 1,
+							"rev": false
 						}
 					]
 				],
 				"requiredAction": "flag",
 				"target": {
 					"r": 0,
-					"c": 4
+					"c": 3
 				}
 			}
 		]
@@ -3178,8 +3177,8 @@ var MinesweeperAcademy = (function () {
 			},
 			{
 				"isTest": true,
-				"instruction_it": "🎯 Mettiti alla prova: scansiona la frontiera della griglia 9×9 e trova il pattern 1-2-1! Ricorda la regola aurea: scava ⛏️ la casella centrale e piazza la bandiera 🚩 sulle due estremità.",
-				"instruction_en": "🎯 Challenge: scan the frontier of this real 9×9 board and spot the 1-2-1 pattern! Remember the golden rule: dig ⛏️ the center tile and flag 🚩 both ends.",
+				"instruction_it": "🎯 Sfida Pratica: trova la sequenza 1-2-1 in alto a sinistra lungo la seconda riga! Applica la regola d'oro: scava ⛏️ la casella centrale coperta e piazza la bandiera 🚩 sulle due estremità.",
+				"instruction_en": "🎯 Practical Challenge: find the 1-2-1 sequence at the top-left along the second row! Apply the golden rule: dig ⛏️ the middle covered tile and flag 🚩 both outer ends.",
 				"rows": 9,
 				"cols": 9,
 				"board": [
@@ -3187,66 +3186,67 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 0,
 							"c": 0,
-							"val": 0,
-							"rev": true
+							"val": 1,
+							"rev": false
 						},
 						{
 							"r": 0,
 							"c": 1,
-							"val": 1,
-							"rev": true
-						},
-						{
-							"r": 0,
-							"c": 2,
 							"val": 0,
 							"rev": false,
 							"mine": true
 						},
 						{
 							"r": 0,
-							"c": 3,
+							"c": 2,
 							"val": 2,
 							"rev": false
 						},
 						{
 							"r": 0,
-							"c": 4,
+							"c": 3,
 							"val": 0,
 							"rev": false,
 							"mine": true
+						},
+						{
+							"r": 0,
+							"c": 4,
+							"val": 1,
+							"rev": false
 						},
 						{
 							"r": 0,
 							"c": 5,
 							"val": 1,
-							"rev": true
+							"rev": false
 						},
 						{
 							"r": 0,
 							"c": 6,
 							"val": 0,
-							"rev": true
+							"rev": false,
+							"mine": true
 						},
 						{
 							"r": 0,
 							"c": 7,
-							"val": 1,
-							"rev": true
+							"val": 0,
+							"rev": false,
+							"mine": true
 						},
 						{
 							"r": 0,
 							"c": 8,
-							"val": 0,
-							"rev": false,
-							"mine": true
+							"val": 1,
+							"rev": false
 						}
 					],
 					[
 						{
 							"r": 1,
 							"c": 0,
-							"val": 0,
+							"val": 1,
 							"rev": true
 						},
 						{
@@ -3258,13 +3258,13 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 1,
 							"c": 2,
-							"val": 1,
+							"val": 2,
 							"rev": true
 						},
 						{
 							"r": 1,
 							"c": 3,
-							"val": 2,
+							"val": 1,
 							"rev": true
 						},
 						{
@@ -3282,7 +3282,7 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 1,
 							"c": 6,
-							"val": 0,
+							"val": 2,
 							"rev": true
 						},
 						{
@@ -3294,7 +3294,7 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 1,
 							"c": 8,
-							"val": 2,
+							"val": 1,
 							"rev": false
 						}
 					],
@@ -3344,15 +3344,14 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 2,
 							"c": 7,
-							"val": 2,
+							"val": 1,
 							"rev": true
 						},
 						{
 							"r": 2,
 							"c": 8,
-							"val": 0,
-							"rev": false,
-							"mine": true
+							"val": 1,
+							"rev": false
 						}
 					],
 					[
@@ -3458,14 +3457,15 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 4,
 							"c": 7,
-							"val": 1,
+							"val": 3,
 							"rev": true
 						},
 						{
 							"r": 4,
 							"c": 8,
-							"val": 1,
-							"rev": true
+							"val": 0,
+							"rev": false,
+							"mine": true
 						}
 					],
 					[
@@ -3514,14 +3514,15 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 5,
 							"c": 7,
-							"val": 0,
+							"val": 2,
 							"rev": true
 						},
 						{
 							"r": 5,
 							"c": 8,
 							"val": 0,
-							"rev": true
+							"rev": false,
+							"mine": true
 						}
 					],
 					[
@@ -3570,14 +3571,14 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 6,
 							"c": 7,
-							"val": 1,
+							"val": 2,
 							"rev": true
 						},
 						{
 							"r": 6,
 							"c": 8,
-							"val": 1,
-							"rev": true
+							"val": 2,
+							"rev": false
 						}
 					],
 					[
@@ -3603,19 +3604,19 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 7,
 							"c": 3,
-							"val": 1,
+							"val": 0,
 							"rev": true
 						},
 						{
 							"r": 7,
 							"c": 4,
-							"val": 1,
+							"val": 0,
 							"rev": true
 						},
 						{
 							"r": 7,
 							"c": 5,
-							"val": 1,
+							"val": 0,
 							"rev": true
 						},
 						{
@@ -3627,7 +3628,7 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 7,
 							"c": 7,
-							"val": 2,
+							"val": 1,
 							"rev": true
 						},
 						{
@@ -3661,20 +3662,19 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 8,
 							"c": 3,
-							"val": 1,
+							"val": 0,
 							"rev": true
 						},
 						{
 							"r": 8,
 							"c": 4,
 							"val": 0,
-							"rev": false,
-							"mine": true
+							"rev": true
 						},
 						{
 							"r": 8,
 							"c": 5,
-							"val": 1,
+							"val": 0,
 							"rev": true
 						},
 						{
@@ -3686,32 +3686,31 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 8,
 							"c": 7,
-							"val": 2,
+							"val": 1,
 							"rev": true
 						},
 						{
 							"r": 8,
 							"c": 8,
-							"val": 0,
-							"rev": false,
-							"mine": true
+							"val": 1,
+							"rev": false
 						}
 					]
 				],
 				"targets": [
 					{
 						"r": 0,
-						"c": 2,
+						"c": 1,
 						"action": "flag"
 					},
 					{
 						"r": 0,
-						"c": 3,
+						"c": 2,
 						"action": "reveal"
 					},
 					{
 						"r": 0,
-						"c": 4,
+						"c": 3,
 						"action": "flag"
 					}
 				]
@@ -3964,8 +3963,8 @@ var MinesweeperAcademy = (function () {
 			},
 			{
 				"isTest": true,
-				"instruction_it": "🎯 Mettiti alla prova: cerca la sequenza 1-2-2-1 lungo la frontiera 9×9! Scava ⛏️ le caselle davanti ai due 1 e piazza le bandiere 🚩 davanti ai due 2.",
-				"instruction_en": "🎯 Challenge: locate the 1-2-2-1 sequence along the 9×9 frontier! Dig ⛏️ in front of the two 1s and flag 🚩 in front of both 2s.",
+				"instruction_it": "🎯 Sfida Pratica: cerca la sequenza 1-2-2-1 in alto lungo la seconda riga! Scava ⛏️ le caselle davanti ai due 1 e piazza le bandiere 🚩 davanti ai due 2.",
+				"instruction_en": "🎯 Practical Challenge: find the 1-2-2-1 sequence along the second row at the top! Dig ⛏️ facing the two 1s and flag 🚩 facing both 2s.",
 				"rows": 9,
 				"cols": 9,
 				"board": [
@@ -3973,20 +3972,21 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 0,
 							"c": 0,
-							"val": 0,
-							"rev": true
+							"val": 1,
+							"rev": false
 						},
 						{
 							"r": 0,
 							"c": 1,
 							"val": 0,
-							"rev": true
+							"rev": false,
+							"mine": true
 						},
 						{
 							"r": 0,
 							"c": 2,
-							"val": 1,
-							"rev": true
+							"val": 2,
+							"rev": false
 						},
 						{
 							"r": 0,
@@ -4005,46 +4005,46 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 0,
 							"c": 5,
-							"val": 1,
-							"rev": true
+							"val": 2,
+							"rev": false
 						},
 						{
 							"r": 0,
 							"c": 6,
 							"val": 0,
-							"rev": true
+							"rev": false,
+							"mine": true
 						},
 						{
 							"r": 0,
 							"c": 7,
 							"val": 1,
-							"rev": true
+							"rev": false
 						},
 						{
 							"r": 0,
 							"c": 8,
 							"val": 0,
-							"rev": false,
-							"mine": true
+							"rev": false
 						}
 					],
 					[
 						{
 							"r": 1,
 							"c": 0,
-							"val": 0,
+							"val": 1,
 							"rev": true
 						},
 						{
 							"r": 1,
 							"c": 1,
-							"val": 0,
+							"val": 1,
 							"rev": true
 						},
 						{
 							"r": 1,
 							"c": 2,
-							"val": 1,
+							"val": 2,
 							"rev": true
 						},
 						{
@@ -4062,25 +4062,25 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 1,
 							"c": 5,
-							"val": 1,
+							"val": 2,
 							"rev": true
 						},
 						{
 							"r": 1,
 							"c": 6,
-							"val": 0,
+							"val": 1,
 							"rev": true
 						},
 						{
 							"r": 1,
 							"c": 7,
-							"val": 2,
+							"val": 1,
 							"rev": true
 						},
 						{
 							"r": 1,
 							"c": 8,
-							"val": 2,
+							"val": 0,
 							"rev": false
 						}
 					],
@@ -4130,15 +4130,14 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 2,
 							"c": 7,
-							"val": 2,
+							"val": 1,
 							"rev": true
 						},
 						{
 							"r": 2,
 							"c": 8,
-							"val": 0,
-							"rev": false,
-							"mine": true
+							"val": 1,
+							"rev": false
 						}
 					],
 					[
@@ -4244,14 +4243,15 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 4,
 							"c": 7,
-							"val": 1,
+							"val": 3,
 							"rev": true
 						},
 						{
 							"r": 4,
 							"c": 8,
-							"val": 1,
-							"rev": true
+							"val": 0,
+							"rev": false,
+							"mine": true
 						}
 					],
 					[
@@ -4300,14 +4300,15 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 5,
 							"c": 7,
-							"val": 0,
+							"val": 2,
 							"rev": true
 						},
 						{
 							"r": 5,
 							"c": 8,
 							"val": 0,
-							"rev": true
+							"rev": false,
+							"mine": true
 						}
 					],
 					[
@@ -4356,14 +4357,14 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 6,
 							"c": 7,
-							"val": 1,
+							"val": 2,
 							"rev": true
 						},
 						{
 							"r": 6,
 							"c": 8,
-							"val": 1,
-							"rev": true
+							"val": 2,
+							"rev": false
 						}
 					],
 					[
@@ -4389,19 +4390,19 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 7,
 							"c": 3,
-							"val": 1,
+							"val": 0,
 							"rev": true
 						},
 						{
 							"r": 7,
 							"c": 4,
-							"val": 1,
+							"val": 0,
 							"rev": true
 						},
 						{
 							"r": 7,
 							"c": 5,
-							"val": 1,
+							"val": 0,
 							"rev": true
 						},
 						{
@@ -4413,7 +4414,7 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 7,
 							"c": 7,
-							"val": 2,
+							"val": 1,
 							"rev": true
 						},
 						{
@@ -4447,20 +4448,19 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 8,
 							"c": 3,
-							"val": 1,
+							"val": 0,
 							"rev": true
 						},
 						{
 							"r": 8,
 							"c": 4,
 							"val": 0,
-							"rev": false,
-							"mine": true
+							"rev": true
 						},
 						{
 							"r": 8,
 							"c": 5,
-							"val": 1,
+							"val": 0,
 							"rev": true
 						},
 						{
@@ -4472,15 +4472,14 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 8,
 							"c": 7,
-							"val": 2,
+							"val": 1,
 							"rev": true
 						},
 						{
 							"r": 8,
 							"c": 8,
-							"val": 0,
-							"rev": false,
-							"mine": true
+							"val": 1,
+							"rev": false
 						}
 					]
 				],
@@ -4660,8 +4659,8 @@ var MinesweeperAcademy = (function () {
 			},
 			{
 				"isTest": true,
-				"instruction_it": "🎯 Mettiti alla prova: osserva la griglia 9×9 con la bandiera già piazzata! Sottraila visivamente dal numero adiacente per rivelare un classico pattern 1-2-1 e risolvi le caselle!",
-				"instruction_en": "🎯 Challenge: examine the 9×9 board with the existing flag! Visually subtract it from the adjacent number to uncover a classic 1-2-1 pattern and solve the cells!",
+				"instruction_it": "🎯 Sfida Pratica: guarda in alto la bandiera già piazzata. Sottraila dal 2 vicino per ridurre la riga a un classico 1-2-1: scava ⛏️ la casella centrale e metti le bandiere 🚩 sui lati!",
+				"instruction_en": "🎯 Practical Challenge: look at the existing flag at the top. Subtract it from the adjacent 2 to reduce the row into a 1-2-1: dig ⛏️ the center tile and flag 🚩 both sides!",
 				"rows": 9,
 				"cols": 9,
 				"board": [
@@ -4669,38 +4668,32 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 0,
 							"c": 0,
-							"val": 0,
-							"rev": true
+							"val": 1,
+							"rev": false
 						},
 						{
 							"r": 0,
 							"c": 1,
-							"val": 1,
-							"rev": true
-						},
-						{
-							"r": 0,
-							"c": 2,
 							"val": 0,
 							"rev": false,
 							"mine": true
 						},
 						{
 							"r": 0,
-							"c": 3,
+							"c": 2,
 							"val": 2,
 							"rev": false
 						},
 						{
 							"r": 0,
-							"c": 4,
+							"c": 3,
 							"val": 0,
 							"rev": false,
 							"mine": true
 						},
 						{
 							"r": 0,
-							"c": 5,
+							"c": 4,
 							"val": 0,
 							"rev": false,
 							"mine": true,
@@ -4708,6 +4701,12 @@ var MinesweeperAcademy = (function () {
 						},
 						{
 							"r": 0,
+							"c": 5,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
 							"c": 6,
 							"val": 1,
 							"rev": false
@@ -4716,73 +4715,74 @@ var MinesweeperAcademy = (function () {
 							"r": 0,
 							"c": 7,
 							"val": 0,
-							"rev": false
+							"rev": false,
+							"mine": true
 						},
 						{
 							"r": 0,
 							"c": 8,
-							"val": 0,
-							"rev": false
-						}
-					],
-					[
-						{
-							"r": 1,
-							"c": 0,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 1,
-							"c": 1,
-							"val": 1,
-							"rev": true
-						},
-						{
-							"r": 1,
-							"c": 2,
-							"val": 1,
-							"rev": true
-						},
-						{
-							"r": 1,
-							"c": 3,
-							"val": 2,
-							"rev": true
-						},
-						{
-							"r": 1,
-							"c": 4,
-							"val": 2,
-							"rev": true
-						},
-						{
-							"r": 1,
-							"c": 5,
-							"val": 2,
-							"rev": true
-						},
-						{
-							"r": 1,
-							"c": 6,
-							"val": 1,
-							"rev": true
-						},
-						{
-							"r": 1,
-							"c": 7,
-							"val": 1,
-							"rev": true
-						},
-						{
-							"r": 1,
-							"c": 8,
 							"val": 1,
 							"rev": false
 						}
 					],
 					[
 						{
+							"r": 1,
+							"c": 0,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 1,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 2,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 3,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 4,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 5,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 6,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 7,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 1,
+							"c": 8,
+							"val": 1,
+							"rev": false
+						}
+					],
+					[
+						{
 							"r": 2,
 							"c": 0,
 							"val": 0,
@@ -4827,15 +4827,14 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 2,
 							"c": 7,
-							"val": 2,
+							"val": 1,
 							"rev": true
 						},
 						{
 							"r": 2,
 							"c": 8,
-							"val": 0,
-							"rev": false,
-							"mine": true
+							"val": 1,
+							"rev": false
 						}
 					],
 					[
@@ -4941,14 +4940,15 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 4,
 							"c": 7,
-							"val": 1,
+							"val": 3,
 							"rev": true
 						},
 						{
 							"r": 4,
 							"c": 8,
-							"val": 1,
-							"rev": true
+							"val": 0,
+							"rev": false,
+							"mine": true
 						}
 					],
 					[
@@ -4997,14 +4997,15 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 5,
 							"c": 7,
-							"val": 0,
+							"val": 2,
 							"rev": true
 						},
 						{
 							"r": 5,
 							"c": 8,
 							"val": 0,
-							"rev": true
+							"rev": false,
+							"mine": true
 						}
 					],
 					[
@@ -5053,14 +5054,14 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 6,
 							"c": 7,
-							"val": 1,
+							"val": 2,
 							"rev": true
 						},
 						{
 							"r": 6,
 							"c": 8,
-							"val": 1,
-							"rev": true
+							"val": 2,
+							"rev": false
 						}
 					],
 					[
@@ -5086,19 +5087,19 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 7,
 							"c": 3,
-							"val": 1,
+							"val": 0,
 							"rev": true
 						},
 						{
 							"r": 7,
 							"c": 4,
-							"val": 1,
+							"val": 0,
 							"rev": true
 						},
 						{
 							"r": 7,
 							"c": 5,
-							"val": 1,
+							"val": 0,
 							"rev": true
 						},
 						{
@@ -5110,7 +5111,7 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 7,
 							"c": 7,
-							"val": 2,
+							"val": 1,
 							"rev": true
 						},
 						{
@@ -5144,20 +5145,19 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 8,
 							"c": 3,
-							"val": 1,
+							"val": 0,
 							"rev": true
 						},
 						{
 							"r": 8,
 							"c": 4,
 							"val": 0,
-							"rev": false,
-							"mine": true
+							"rev": true
 						},
 						{
 							"r": 8,
 							"c": 5,
-							"val": 1,
+							"val": 0,
 							"rev": true
 						},
 						{
@@ -5169,32 +5169,31 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 8,
 							"c": 7,
-							"val": 2,
+							"val": 1,
 							"rev": true
 						},
 						{
 							"r": 8,
 							"c": 8,
-							"val": 0,
-							"rev": false,
-							"mine": true
+							"val": 1,
+							"rev": false
 						}
 					]
 				],
 				"targets": [
 					{
 						"r": 0,
-						"c": 2,
+						"c": 1,
 						"action": "flag"
 					},
 					{
 						"r": 0,
-						"c": 3,
+						"c": 2,
 						"action": "reveal"
 					},
 					{
 						"r": 0,
-						"c": 4,
+						"c": 3,
 						"action": "flag"
 					}
 				]
@@ -5297,8 +5296,8 @@ var MinesweeperAcademy = (function () {
 			},
 			{
 				"isTest": true,
-				"instruction_it": "🎯 Mettiti alla prova: esamina gli angoli e le rientranze della griglia 9×9. Trova la nicchia chiusa in cui la mina è intrappolata e piazza la bandiera 🚩!",
-				"instruction_en": "🎯 Challenge: inspect corners and pockets in this 9×9 board. Find the enclosed niche where the mine is trapped and place your flag 🚩!",
+				"instruction_it": "🎯 Sfida Pratica: guarda l'angolo in alto a sinistra! La casella coperta nell'angolino è l'unica che tocca i numeri 1 adiacenti: la mina è intrappolata lì, piazza la bandiera 🚩!",
+				"instruction_en": "🎯 Practical Challenge: check the top-left corner! The covered tile in the very corner is the only neighbor for the adjacent 1s: the mine is trapped there, place your flag 🚩!",
 				"rows": 9,
 				"cols": 9,
 				"board": [
@@ -5331,26 +5330,27 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 0,
 							"c": 4,
-							"val": 0,
+							"val": 1,
 							"rev": true
 						},
 						{
 							"r": 0,
 							"c": 5,
 							"val": 0,
-							"rev": true
+							"rev": false,
+							"mine": true
 						},
 						{
 							"r": 0,
 							"c": 6,
-							"val": 0,
-							"rev": true
+							"val": 1,
+							"rev": false
 						},
 						{
 							"r": 0,
 							"c": 7,
 							"val": 1,
-							"rev": true
+							"rev": false
 						},
 						{
 							"r": 0,
@@ -5388,31 +5388,31 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 1,
 							"c": 4,
-							"val": 0,
+							"val": 1,
 							"rev": true
 						},
 						{
 							"r": 1,
 							"c": 5,
-							"val": 0,
+							"val": 1,
 							"rev": true
 						},
 						{
 							"r": 1,
 							"c": 6,
-							"val": 0,
+							"val": 1,
 							"rev": true
 						},
 						{
 							"r": 1,
 							"c": 7,
-							"val": 2,
+							"val": 1,
 							"rev": true
 						},
 						{
 							"r": 1,
 							"c": 8,
-							"val": 2,
+							"val": 1,
 							"rev": false
 						}
 					],
@@ -5462,15 +5462,14 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 2,
 							"c": 7,
-							"val": 2,
+							"val": 1,
 							"rev": true
 						},
 						{
 							"r": 2,
 							"c": 8,
-							"val": 0,
-							"rev": false,
-							"mine": true
+							"val": 1,
+							"rev": false
 						}
 					],
 					[
@@ -5518,12 +5517,69 @@ var MinesweeperAcademy = (function () {
 						},
 						{
 							"r": 3,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 3,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 4,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 4,
 							"c": 7,
 							"val": 3,
 							"rev": true
 						},
 						{
-							"r": 3,
+							"r": 4,
 							"c": 8,
 							"val": 0,
 							"rev": false,
@@ -5532,55 +5588,55 @@ var MinesweeperAcademy = (function () {
 					],
 					[
 						{
-							"r": 4,
+							"r": 5,
 							"c": 0,
 							"val": 0,
 							"rev": true
 						},
 						{
-							"r": 4,
+							"r": 5,
 							"c": 1,
 							"val": 0,
 							"rev": true
 						},
 						{
-							"r": 4,
+							"r": 5,
 							"c": 2,
 							"val": 0,
 							"rev": true
 						},
 						{
-							"r": 4,
+							"r": 5,
 							"c": 3,
 							"val": 0,
 							"rev": true
 						},
 						{
-							"r": 4,
+							"r": 5,
 							"c": 4,
 							"val": 0,
 							"rev": true
 						},
 						{
-							"r": 4,
+							"r": 5,
 							"c": 5,
 							"val": 0,
 							"rev": true
 						},
 						{
-							"r": 4,
+							"r": 5,
 							"c": 6,
 							"val": 0,
 							"rev": true
 						},
 						{
-							"r": 4,
+							"r": 5,
 							"c": 7,
 							"val": 2,
 							"rev": true
 						},
 						{
-							"r": 4,
+							"r": 5,
 							"c": 8,
 							"val": 0,
 							"rev": false,
@@ -5589,62 +5645,6 @@ var MinesweeperAcademy = (function () {
 					],
 					[
 						{
-							"r": 5,
-							"c": 0,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 5,
-							"c": 1,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 5,
-							"c": 2,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 5,
-							"c": 3,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 5,
-							"c": 4,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 5,
-							"c": 5,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 5,
-							"c": 6,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 5,
-							"c": 7,
-							"val": 1,
-							"rev": true
-						},
-						{
-							"r": 5,
-							"c": 8,
-							"val": 1,
-							"rev": false
-						}
-					],
-					[
-						{
 							"r": 6,
 							"c": 0,
 							"val": 1,
@@ -5689,13 +5689,13 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 6,
 							"c": 7,
-							"val": 1,
+							"val": 2,
 							"rev": true
 						},
 						{
 							"r": 6,
 							"c": 8,
-							"val": 1,
+							"val": 2,
 							"rev": false
 						}
 					],
@@ -5722,19 +5722,19 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 7,
 							"c": 3,
-							"val": 1,
+							"val": 0,
 							"rev": true
 						},
 						{
 							"r": 7,
 							"c": 4,
-							"val": 1,
+							"val": 0,
 							"rev": true
 						},
 						{
 							"r": 7,
 							"c": 5,
-							"val": 1,
+							"val": 0,
 							"rev": true
 						},
 						{
@@ -5780,20 +5780,19 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 8,
 							"c": 3,
-							"val": 1,
+							"val": 0,
 							"rev": true
 						},
 						{
 							"r": 8,
 							"c": 4,
 							"val": 0,
-							"rev": false,
-							"mine": true
+							"rev": true
 						},
 						{
 							"r": 8,
 							"c": 5,
-							"val": 1,
+							"val": 0,
 							"rev": true
 						},
 						{
@@ -5837,8 +5836,8 @@ var MinesweeperAcademy = (function () {
 		"puzzles": [
 			{
 				"isTest": true,
-				"instruction_it": "🎯 Esame Finale: mettiti alla prova su questa tavola 9×9 autentica! Esamina l'intera frontiera: a sinistra applica il pattern 1-2-1, a destra individua la mina satura e risolvi tutte le caselle bersaglio!",
-				"instruction_en": "🎯 Final Exam: prove your mastery on this real 9×9 board! Scan the entire frontier: apply the 1-2-1 pattern on the left, spot the saturated mine on the right, and clear all targets!",
+				"instruction_it": "🎯 Esame Finale: dimostra la tua maestria su questa tavola 9×9! In alto applica il pattern 1-2-1 (scava al centro, bandiere ai lati) e in basso a sinistra individua la mina satura: risolvi tutte le caselle bersaglio!",
+				"instruction_en": "🎯 Final Exam: demonstrate your mastery on this real 9×9 board! At the top apply the 1-2-1 pattern (dig middle, flag sides) and at bottom-left spot the saturated mine: clear all target tiles!",
 				"rows": 9,
 				"cols": 9,
 				"board": [
@@ -5846,46 +5845,47 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 0,
 							"c": 0,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 0,
-							"c": 1,
-							"val": 1,
-							"rev": true
-						},
-						{
-							"r": 0,
-							"c": 2,
-							"val": 0,
-							"rev": false,
-							"mine": true
-						},
-						{
-							"r": 0,
-							"c": 3,
-							"val": 2,
-							"rev": false
-						},
-						{
-							"r": 0,
-							"c": 4,
-							"val": 0,
-							"rev": false,
-							"mine": true
-						},
-						{
-							"r": 0,
-							"c": 5,
 							"val": 1,
 							"rev": false
 						},
 						{
 							"r": 0,
-							"c": 6,
+							"c": 1,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 0,
+							"c": 2,
+							"val": 2,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 3,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						},
+						{
+							"r": 0,
+							"c": 4,
 							"val": 1,
 							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 5,
+							"val": 1,
+							"rev": false
+						},
+						{
+							"r": 0,
+							"c": 6,
+							"val": 0,
+							"rev": false,
+							"mine": true
 						},
 						{
 							"r": 0,
@@ -5905,7 +5905,7 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 1,
 							"c": 0,
-							"val": 0,
+							"val": 1,
 							"rev": true
 						},
 						{
@@ -5917,13 +5917,13 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 1,
 							"c": 2,
-							"val": 1,
+							"val": 2,
 							"rev": true
 						},
 						{
 							"r": 1,
 							"c": 3,
-							"val": 2,
+							"val": 1,
 							"rev": true
 						},
 						{
@@ -5941,7 +5941,7 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 1,
 							"c": 6,
-							"val": 1,
+							"val": 2,
 							"rev": true
 						},
 						{
@@ -5953,7 +5953,7 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 1,
 							"c": 8,
-							"val": 2,
+							"val": 1,
 							"rev": false
 						}
 					],
@@ -6003,15 +6003,14 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 2,
 							"c": 7,
-							"val": 2,
+							"val": 1,
 							"rev": true
 						},
 						{
 							"r": 2,
 							"c": 8,
-							"val": 0,
-							"rev": false,
-							"mine": true
+							"val": 1,
+							"rev": false
 						}
 					],
 					[
@@ -6117,11 +6116,125 @@ var MinesweeperAcademy = (function () {
 						{
 							"r": 4,
 							"c": 7,
-							"val": 2,
+							"val": 3,
 							"rev": true
 						},
 						{
 							"r": 4,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 5,
+							"c": 0,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 1,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 5,
+							"c": 8,
+							"val": 0,
+							"rev": false,
+							"mine": true
+						}
+					],
+					[
+						{
+							"r": 6,
+							"c": 0,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 1,
+							"val": 1,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 2,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 3,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 4,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 5,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 6,
+							"val": 0,
+							"rev": true
+						},
+						{
+							"r": 6,
+							"c": 7,
+							"val": 2,
+							"rev": true
+						},
+						{
+							"r": 6,
 							"c": 8,
 							"val": 2,
 							"rev": false
@@ -6129,55 +6242,56 @@ var MinesweeperAcademy = (function () {
 					],
 					[
 						{
-							"r": 5,
+							"r": 7,
 							"c": 0,
 							"val": 0,
-							"rev": true
+							"rev": false,
+							"mine": true
 						},
 						{
-							"r": 5,
+							"r": 7,
 							"c": 1,
-							"val": 0,
+							"val": 2,
 							"rev": true
 						},
 						{
-							"r": 5,
+							"r": 7,
 							"c": 2,
 							"val": 0,
 							"rev": true
 						},
 						{
-							"r": 5,
+							"r": 7,
 							"c": 3,
 							"val": 0,
 							"rev": true
 						},
 						{
-							"r": 5,
+							"r": 7,
 							"c": 4,
 							"val": 0,
 							"rev": true
 						},
 						{
-							"r": 5,
+							"r": 7,
 							"c": 5,
 							"val": 0,
 							"rev": true
 						},
 						{
-							"r": 5,
+							"r": 7,
 							"c": 6,
 							"val": 0,
 							"rev": true
 						},
 						{
-							"r": 5,
+							"r": 7,
 							"c": 7,
 							"val": 1,
 							"rev": true
 						},
 						{
-							"r": 5,
+							"r": 7,
 							"c": 8,
 							"val": 0,
 							"rev": false,
@@ -6186,196 +6300,81 @@ var MinesweeperAcademy = (function () {
 					],
 					[
 						{
-							"r": 6,
+							"r": 8,
 							"c": 0,
-							"val": 1,
-							"rev": true
+							"val": 0,
+							"rev": false,
+							"mine": true
 						},
 						{
-							"r": 6,
+							"r": 8,
 							"c": 1,
-							"val": 1,
+							"val": 2,
 							"rev": true
 						},
 						{
-							"r": 6,
+							"r": 8,
 							"c": 2,
 							"val": 0,
 							"rev": true
 						},
 						{
-							"r": 6,
+							"r": 8,
 							"c": 3,
 							"val": 0,
 							"rev": true
 						},
 						{
-							"r": 6,
+							"r": 8,
 							"c": 4,
 							"val": 0,
 							"rev": true
 						},
 						{
-							"r": 6,
+							"r": 8,
 							"c": 5,
 							"val": 0,
 							"rev": true
 						},
 						{
-							"r": 6,
+							"r": 8,
 							"c": 6,
 							"val": 0,
 							"rev": true
 						},
 						{
-							"r": 6,
+							"r": 8,
 							"c": 7,
-							"val": 2,
+							"val": 1,
 							"rev": true
 						},
 						{
-							"r": 6,
+							"r": 8,
 							"c": 8,
-							"val": 2,
+							"val": 1,
 							"rev": false
-						}
-					],
-					[
-						{
-							"r": 7,
-							"c": 0,
-							"val": 0,
-							"rev": false,
-							"mine": true
-						},
-						{
-							"r": 7,
-							"c": 1,
-							"val": 2,
-							"rev": true
-						},
-						{
-							"r": 7,
-							"c": 2,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 7,
-							"c": 3,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 7,
-							"c": 4,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 7,
-							"c": 5,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 7,
-							"c": 6,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 7,
-							"c": 7,
-							"val": 2,
-							"rev": true
-						},
-						{
-							"r": 7,
-							"c": 8,
-							"val": 0,
-							"rev": false,
-							"mine": true
-						}
-					],
-					[
-						{
-							"r": 8,
-							"c": 0,
-							"val": 0,
-							"rev": false,
-							"mine": true
-						},
-						{
-							"r": 8,
-							"c": 1,
-							"val": 2,
-							"rev": true
-						},
-						{
-							"r": 8,
-							"c": 2,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 8,
-							"c": 3,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 8,
-							"c": 4,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 8,
-							"c": 5,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 8,
-							"c": 6,
-							"val": 0,
-							"rev": true
-						},
-						{
-							"r": 8,
-							"c": 7,
-							"val": 2,
-							"rev": true
-						},
-						{
-							"r": 8,
-							"c": 8,
-							"val": 0,
-							"rev": false,
-							"mine": true
 						}
 					]
 				],
 				"targets": [
 					{
 						"r": 0,
-						"c": 2,
+						"c": 1,
 						"action": "flag"
 					},
 					{
 						"r": 0,
-						"c": 3,
+						"c": 2,
 						"action": "reveal"
 					},
 					{
 						"r": 0,
-						"c": 4,
+						"c": 3,
 						"action": "flag"
 					},
 					{
-						"r": 0,
-						"c": 7,
+						"r": 7,
+						"c": 0,
 						"action": "flag"
 					}
 				]
