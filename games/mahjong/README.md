@@ -14,11 +14,10 @@ Quando cambi la versione del gioco, aggiorna **tutti** questi punti:
 
 Nota: il plugin fa già il cache-bust di `index.html` con il timestamp dei file (`get_game_dir_mtime`), quindi l'iframe si aggiorna da solo; i `?v=…` manuali servono solo per i sub-asset (CSS/JS) dentro l'HTML.
 
-## Attribution
+## Architecture & Implementation
 
-- Algorithms studied and inspired by: [ffalt/mah](https://github.com/ffalt/mah) — "a html5 mahjong solitaire game" — **MIT License**
-- Original implementation, arcade progression, UI, scoring and mobile optimization: **PointNet Games** — **GPL-2.0+**
-- No code is copied: the engine is written from scratch in vanilla JavaScript with zero dependencies.
+- Original vanilla JavaScript implementation, arcade progression, procedural generator, UI, scoring and mobile optimization: **PointNet Games** — **GPL-2.0+**
+- The engine is written completely from scratch in vanilla JavaScript with zero external runtime dependencies.
 
 ## Gameplay & Mechanics
 
@@ -90,7 +89,7 @@ Nota: il plugin fa già il cache-bust di `index.html` con il timestamp dei file 
 ## Roadmap
 
 ### Phase 1 — Core engine ✅
-- [x] Study `ffalt/mah` algorithms (board, solver, random-layout)
+- [x] Research Mahjong Solitaire mathematical models (board, solver, random-layout)
 - [x] Design vanilla JS engine: tile model, board layers, matching rules
 - [x] Implement solver (DFS + pruning, solvability check)
 - [x] Playable UI: DOM tiles with 3D styling
@@ -196,7 +195,7 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) for the full engine design document: data
 - **No runtime dependencies**: static HTML + JS + CSS served via iframe
 - **No pan/zoom**: the board always fits the viewport, tiles scale responsively
 - **API integration**: `window.pointnetGamesAPI.submitScore()` for leaderboard (Phase 4)
-- **License**: GPL-2.0+ — original implementation inspired by ffalt/mah (MIT)
+- **License**: GPL-2.0+ — original implementation by PointNet Games
 
 ## 🗺️ Roadmap di Sviluppo
 

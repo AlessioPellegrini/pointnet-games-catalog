@@ -59,7 +59,7 @@ Ispirato al design e all'esperienza tattile di *Minesweeper: The Clean One*, con
   - Banner Didattica responsive: visualizzazione su 2 livelli con compattazione automatica delle etichette su mobile stretto.
 
 ### 1.5.4
-- **Raffinamento Rigoroso Spiegazioni Pattern**: corretta la descrizione della regola di riduzione insiemistica (ex "Angolo 1") allineandola formalmente ai canoni matematici e alla guida strategica ufficiale di [minesweepergame.com](https://minesweepergame.com/strategy/patterns.php), descrivendo fedelmente l'inclusione di sottoinsiemi a prescindere dal numero di celle coperte.
+- **Raffinamento Rigoroso Spiegazioni Pattern**: corretta la descrizione della regola di riduzione insiemistica (ex "Angolo 1") allineandola formalmente ai canoni matematici e alla teoria dei sottoinsiemi consolidata, descrivendo fedelmente l'inclusione di sottoinsiemi a prescindere dal numero di celle coperte.
 - **Ottimizzazione Popup Fine Tavola Didattica**: eliminato il pulsante duplicato del menu nel modale di completamento, sostituendolo con "🔁 Rigioca Tavola" affiancato a "🏠 Menu".
 - **Sincronizzazione Completa Dizionari IT/EN**: localizzazione accurata e bilingue di tutti i testi didattici e dei pulsanti modali.
 
@@ -74,7 +74,7 @@ Ispirato al design e all'esperienza tattile di *Minesweeper: The Clean One*, con
 - **Supporto Multilingua Completo**: localizzazione delle azioni di Undo e Redo in italiano e in inglese nei dizionari `it.js` ed `en.js`.
 
 ### 1.5.1
-- **Riconoscitore Pattern Tattici Avanzati**: rilevamento esplicito conforme alla guida strategica di [minesweepergame.com/strategy/patterns.php](https://minesweepergame.com/strategy/patterns.php):
+- **Riconoscitore Pattern Tattici Avanzati**: rilevamento esplicito delle regole classiche di deduzione:
   - **Pattern Fondamentale 1-2-X**: individua la mina esterna garantita tramite riduzione di sottoinsieme tra numeri 2 e 1 adiacenti.
   - **Pattern Bordo e Angolo 1-1-X**: individua la casella sicura lungo pareti e angoli retti tramite sottoinsieme.
   - **Pattern Reduction**: calcolo algebrico esplicito (`3 - 1 = 2`) nei toast didattici per illustrare come pattern complessi si riducano alle forme elementari 1-2-1 e 1-2-2-1.

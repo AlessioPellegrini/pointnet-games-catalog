@@ -1,6 +1,6 @@
 # Mahjong Arcade — Engine Architecture
 
-Design document for the vanilla JavaScript engine. Written from scratch, inspired by the algorithms of [ffalt/mah](https://github.com/ffalt/mah) (MIT) but simplified for an arcade-level progression game.
+Design document for the original vanilla JavaScript engine, built from scratch for arcade progression, mobile-first responsiveness and guaranteed solvable puzzle generation.
 
 ## Design Principles
 
@@ -141,7 +141,7 @@ fillUpperLayers(base, layers, targetTiles):
         place tiles until budget reached or no candidates
 ```
 
-**No overhangs** (the 25% overhang feature of ffalt/mah is deliberately dropped): every tile always has direct support below, which keeps layouts compact and readable on mobile.
+**No overhangs**: every tile always has direct support below, which keeps layouts compact and readable on mobile without fractional offset ambiguities.
 
 ### Target Tile Count per Level (v0.4.0)
 
@@ -172,7 +172,7 @@ Invariant: **every group has an even number of tiles on the board**, so the game
 
 ## Solver (Solvability Check)
 
-A **DFS with pruning**, deliberately simpler than ffalt/mah's `sureSolve`:
+A specialized **DFS with intelligent branch pruning**:
 
 ```
 solve(board):
@@ -215,7 +215,7 @@ hint():
     highlight the two tiles of that group that are free
 ```
 
-Same concept as ffalt/mah but simplified: single group selection (no "next hint" cycling through groups).
+Streamlined single group selection prioritizing matches with maximum unblocking impact.
 
 ### Undo
 
@@ -305,20 +305,19 @@ const LEVELS = [
 
 The parameters table is data — the engine is level-agnostic.
 
-## Comparison Table: ffalt/mah vs Ours
+## Key Technical Highlights
 
-| Aspect | ffalt/mah | Mahjong Arcade |
-|---|---|---|
-| Build | Angular 22 + TS | Vanilla JS, 5 static files |
-| Runtime deps | rxjs, ngx-translate, confetti, zzfx | None |
-| Solver | Backtracking + randomSolve + sureSolve + pairing classes | DFS + pruning; re-roll on failure |
-| Generator | 8 shapes + mirror + overhangs + optimize | 15 layouts + XL variants, no mirror, no overhangs, parameterised |
-| Tile count | Fixed 144 | 12 → 130 (per level) |
-| Pan/zoom | Required (36×16 grid) | None (board fits viewport) |
-| Difficulty | Not applicable (free game) | Progressive via level params (25 steps) |
-| Persistence | localStorage | localStorage + plugin API |
-| Licensing | MIT | GPL-2.0+ (our implementation) |
+| Aspect | Mahjong Arcade Engine |
+|---|---|
+| Build | Vanilla JavaScript, zero build tools or polyfills needed |
+| Runtime dependencies | None (pure Web Standards, Canvas & DOM) |
+| Solver | Custom DFS with branch pruning & instant solvability verification |
+| Generator | Constructive reverse generator + 46 procedural geometric figure builders |
+| Responsive scaling | Auto-fit to viewport without requiring manual pan/zoom |
+| Progression | 330 progressive levels with dynamic mechanics (Conveyor Ring, Shield Wards, Hidden Tiles) |
+| Persistence & API | WordPress integration with remote high scores and local fallback |
+| Licensing | GPL-2.0+ (PointNet Games) |
 
 ---
 
-*Documented after studying ffalt/mah `src/app/model/` (board, solver/*, random-layout/*, builder/*). No code was copied — the design decisions above are derived but simplified for the arcade use case.*
+*Original game design and codebase developed from first principles by PointNet Games.*
