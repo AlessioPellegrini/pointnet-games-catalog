@@ -98,10 +98,10 @@ var MinesweeperAcademy = (function () {
 				},
 				{
 					isTest: true,
-					instruction_it: "🎯 Riprova: individua autonomamente la casella satura al 100% senza aiuti visivi e metti la bandiera 🚩 sulla mina!",
-					instruction_en: "🎯 Challenge: independently locate the 100% saturated clue without visual highlights and flag 🚩 the mine!",
+					instruction_it: "🎯 Riprova: individua autonomamente le caselle sature al 100% senza aiuti visivi e metti la bandiera 🚩 su entrambe le mine (0,1 e 0,2)!",
+					instruction_en: "🎯 Challenge: independently locate both 100% saturated clues without visual aids and flag 🚩 both mines (0,1 and 0,2)!",
 					requiredAction: "flag",
-					target: {"r":0,"c":1},
+					targets: [{"r":0,"c":1,"action":"flag"},{"r":0,"c":2,"action":"flag"}],
 					rows: 3,
 					cols: 4,
 					board: [
@@ -423,10 +423,10 @@ var MinesweeperAcademy = (function () {
 				},
 				{
 					isTest: true,
-					instruction_it: "🎯 Riprova: individua la nicchia ad angolo, deduci la posizione dell'unica mina possibile e posiziona la bandiera 🚩!",
-					instruction_en: "🎯 Challenge: spot the corner niche, deduce the trapped mine's location, and place the flag 🚩!",
+					instruction_it: "🎯 Riprova: individua le nicchie agli angoli opposti, deduci la posizione delle mine intrappolate e metti entrambe le bandiere 🚩 (a 0,0 e 0,3)!",
+					instruction_en: "🎯 Challenge: spot both opposite corner niches, deduce the trapped mines, and flag 🚩 both corners (0,0 and 0,3)!",
 					requiredAction: "flag",
-					target: {"r":0,"c":0},
+					targets: [{"r":0,"c":0,"action":"flag"},{"r":0,"c":3,"action":"flag"}],
 					rows: 3,
 					cols: 4,
 					board: [

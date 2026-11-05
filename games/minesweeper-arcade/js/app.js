@@ -2258,13 +2258,12 @@
 			}
 
 			// Check if all designated targets for this puzzle have been satisfied
-			// Either by remaining target list reaching 0 or all targets in puzzle being resolved
-			var allTargetsResolved = true;
 			var origTargets = (puzzle.targets && Array.isArray(puzzle.targets)) ? puzzle.targets : (puzzle.target ? [puzzle.target] : []);
+			var allTargetsResolved = (origTargets.length > 0);
 			for (var ot = 0; ot < origTargets.length; ot++) {
 				var tgItem = origTargets[ot];
 				var bCell = state.board[tgItem.r] && state.board[tgItem.r][tgItem.c];
-				if (!bCell) continue;
+				if (!bCell) { allTargetsResolved = false; break; }
 				var expectedAct = tgItem.action || puzzle.requiredAction;
 				if (expectedAct === 'flag' && !bCell.flagged) { allTargetsResolved = false; break; }
 				if (expectedAct === 'reveal' && !bCell.revealed) { allTargetsResolved = false; break; }
@@ -2273,7 +2272,21 @@
 			// Check if entire board is cleared of safe cells
 			var isBoardCleared = (state.safeCells > 0 && state.revealed >= state.safeCells);
 
-			var isLessonGoalSolved = (state.remainingAcademyTargets.length === 0) || allTargetsResolved || isBoardCleared;
+			// A puzzle is only solved when all remaining target requirements are completed
+			var isLessonGoalSolved = false;
+			if (state.remainingAcademyTargets.length === 0) {
+				isLessonGoalSolved = true;
+			} else if (allTargetsResolved && (origTargets.length > 0)) {
+				isLessonGoalSolved = true;
+			} else if (isBoardCleared && origTargets.every(function(t) {
+				var bc = state.board[t.r] && state.board[t.r][t.c];
+				var exp = t.action || puzzle.requiredAction;
+				if (exp === 'flag') return bc && bc.flagged;
+				if (exp === 'reveal') return bc && bc.revealed;
+				return true;
+			})) {
+				isLessonGoalSolved = true;
+			}
 
 			// If target pattern is not yet fully solved, re-apply the clue and remaining target highlights (se non è tavola test)
 			if (!isLessonGoalSolved && !puzzle.isTest) {
