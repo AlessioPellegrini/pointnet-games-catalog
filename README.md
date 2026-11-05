@@ -28,8 +28,8 @@ pointnet-games-catalog/
 - **Tavole 144 Tradizionali:** Tartaruga (Shanghai), Grande Ziggurat, Fortezza Imperiale, Il Ragno.
 - **Caratteristiche:** Shield Wards, Nastri Trasportatori, Jukebox Zen integrato, 100% solvibile matematicamente.
 
-## ☕ Supporto e Donazioni
+## 💙 Supporto e Donazioni
 
 Tutti i giochi sono open source e gratuiti sotto licenza GPL-2.0+.
 Se apprezzi il progetto e vuoi sostenere lo sviluppo di nuovi giochi:
-👉 **[Offri un caffè su Ko-fi](https://ko-fi.com/pointnet)**
+👉 **[Dona con PayPal](https://www.paypal.com/donate/?hosted_button_id=V8836NLKVLP4J)**
