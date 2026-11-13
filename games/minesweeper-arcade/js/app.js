@@ -284,8 +284,32 @@
 		var maxAttempts = isNoGuess ? 60 : 1;
 		var bestBoard = null;
 		var bestSolvable = false;
+		var usedNG = false;
 
-		for (var attempt = 0; attempt < maxAttempts; attempt++) {
+		if (isNoGuess && typeof MinesweeperNoGuess !== 'undefined') {
+			var gen = MinesweeperNoGuess.generate(rows, cols, mines, safeR, safeC, { maxMs: 5000 });
+			for (var gr = 0; gr < rows; gr++) {
+				for (var gc = 0; gc < cols; gc++) {
+					var gcell = state.board[gr][gc];
+					gcell.mine = !!gen.mine[gr * cols + gc];
+					gcell.count = 0;
+				}
+			}
+			for (var gr2 = 0; gr2 < rows; gr2++) {
+				for (var gc2 = 0; gc2 < cols; gc2++) {
+					if (state.board[gr2][gc2].mine) continue;
+					var gcount = 0;
+					getNeighbors(gr2, gc2, rows, cols).forEach(function (n) {
+						if (state.board[n.r][n.c].mine) gcount++;
+					});
+					state.board[gr2][gc2].count = gcount;
+				}
+			}
+			bestSolvable = gen.solved;
+			usedNG = true;
+		}
+
+		for (var attempt = 0; attempt < (usedNG ? 0 : maxAttempts); attempt++) {
 			// Reset board state
 			for (var r = 0; r < rows; r++) {
 				for (var c = 0; c < cols; c++) {
@@ -354,20 +378,43 @@
 	/* ============================================================
 	   TIMER CONTROLLER
 	   ============================================================ */
+	var timerStartTime = 0;
+	var timerBaseElapsed = 0;
+
+	function syncTimerDisplay() {
+		if (timerStartTime > 0) {
+			var now = Date.now();
+			state.elapsed = timerBaseElapsed + Math.floor((now - timerStartTime) / 1000);
+			timerEl.textContent = state.elapsed;
+		}
+	}
+
 	function startTimer() {
 		stopTimer();
+		timerStartTime = Date.now();
+		timerBaseElapsed = state.elapsed || 0;
 		state.timerInterval = setInterval(function () {
-			state.elapsed++;
-			timerEl.textContent = state.elapsed;
-		}, 1000);
+			syncTimerDisplay();
+		}, 250);
 	}
 
 	function stopTimer() {
+		if (timerStartTime > 0) {
+			syncTimerDisplay();
+			timerStartTime = 0;
+			timerBaseElapsed = state.elapsed || 0;
+		}
 		if (state.timerInterval) {
 			clearInterval(state.timerInterval);
 			state.timerInterval = null;
 		}
 	}
+
+	document.addEventListener('visibilitychange', function () {
+		if (!document.hidden && timerStartTime > 0) {
+			syncTimerDisplay();
+		}
+	});
 
 	/* ============================================================
 	   RENDERING & BOARD DISPLAY
@@ -989,12 +1036,13 @@
 			var lvlScore = Math.max(50, Math.floor((state.safeCells * 15 + Math.max(0, 180 - state.elapsed) * 12) * (1 + levelNum * 0.12)));
 			totalScore += lvlScore;
 			scoreTotalEl.textContent = totalScore;
+			state.totalElapsed = (state.totalElapsed || 0) + (state.elapsed || 0);
 
 			if (isLastLevel) {
 				submitFinalScore(SCALATA_LEVELS.length);
 				modalEmoji.textContent = '👑';
 				modalTitle.textContent = 'Campione della Scalata!';
-				modalScore.textContent = 'Tutti i 18 livelli completati! ⏱️ ' + formatTime(state.totalElapsed || state.elapsed) + ' · ⭐ Punti: ' + totalScore.toLocaleString();
+				modalScore.textContent = 'Tutti i 18 livelli completati! ⏱️ ' + formatTime(state.totalElapsed) + ' · ⭐ Punti: ' + totalScore.toLocaleString();
 				modalPosition.textContent = 'Invio record in classifica...';
 				nextBtn.textContent = '🔁 Nuova Scalata';
 				nextBtn.onclick = function () {
@@ -1022,6 +1070,10 @@
 		modalEmoji.textContent = '💥';
 		modalTitle.textContent = 'BOOM!';
 		modalPosition.textContent = '';
+
+		if (state.mode === 'arcade') {
+			state.totalElapsed = (state.totalElapsed || 0) + (state.elapsed || 0);
+		}
 
 		// Freeze official competitive score at the exact point of explosion
 		if (!state.isDidactic) {
@@ -2167,7 +2219,7 @@
 				data: { achievement_id: achievementId, source: 'minesweeper-arcade' }
 			};
 			if (inIframe) {
-				window.parent.postMessage(msg, '*');
+				window.parent.postMessage(msg, window.location.origin);
 			}
 			if (window.pointnetGamesAPI && typeof window.pointnetGamesAPI.unlockAchievement === 'function') {
 				window.pointnetGamesAPI.unlockAchievement(achievementId, 'minesweeper-arcade');
@@ -2561,6 +2613,10 @@
 	}
 
 	document.addEventListener('keydown', function (e) {
+		if (e.ctrlKey || e.metaKey || e.altKey) return;
+		if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) return;
+		if (e.repeat) return;
+
 		if (e.key === 'm' || e.key === 'M') soundToggle.click();
 		if (e.key === 'd' || e.key === 'D') setInputMode('dig', true);
 		if (e.key === 'f' || e.key === 'F') setInputMode(state.inputMode === 'flag' ? 'dig' : 'flag', true);
@@ -2574,6 +2630,11 @@
 			if (!splashEl.classList.contains('hidden')) {
 				exitGameFullscreen();
 			} else {
+				if (!state.gameOver && state.started && state.mode === 'arcade') {
+					if (!confirm(window.I18n ? window.I18n.t('game.abandon_run_confirm') || 'Abbandonare la Scalata in corso? La partita andrà persa.' : 'Abbandonare la Scalata in corso? La partita andrà persa.')) {
+						return;
+					}
+				}
 				openMenu();
 			}
 		}
@@ -2710,9 +2771,21 @@
 		}
 
 		if (loggedIn) {
-			splashPlayerStatus.innerHTML = '👤 Connesso: <b style="color:#38bdf8;">' + (nick || 'Giocatore') + '</b>';
+			splashPlayerStatus.textContent = '👤 Connesso: ';
+			var bEl = document.createElement('b');
+			bEl.style.color = '#38bdf8';
+			bEl.textContent = nick || 'Giocatore';
+			splashPlayerStatus.appendChild(bEl);
 		} else {
-			splashPlayerStatus.innerHTML = '🔒 <a href="' + loginUrl + '" target="_top" style="color:#38bdf8;text-decoration:underline;">Accedi o registrati</a> per salvare il record';
+			splashPlayerStatus.textContent = '🔒 ';
+			var aEl = document.createElement('a');
+			aEl.href = loginUrl;
+			aEl.target = '_top';
+			aEl.style.color = '#38bdf8';
+			aEl.style.textDecoration = 'underline';
+			aEl.textContent = 'Accedi o registrati';
+			splashPlayerStatus.appendChild(aEl);
+			splashPlayerStatus.appendChild(document.createTextNode(' per salvare il record'));
 		}
 	}
 
@@ -2771,15 +2844,22 @@
 						data: { score: score, meta: meta }
 					}, window.location.origin);
 
+					var timeout = setTimeout(function () {
+						window.removeEventListener('message', responseHandler);
+						reject(new Error('Score submission timeout'));
+					}, 8000);
+
 					var responseHandler = function (event) {
 						if (event.origin !== window.location.origin || event.source !== window.parent) return;
 						var msg = event.data;
 						if (msg && msg.type === 'pointnet-games:score-submitted') {
+							clearTimeout(timeout);
 							window.removeEventListener('message', responseHandler);
 							resolve(msg.data);
 							if (typeof callback === 'function') callback(msg.data);
 						}
 						if (msg && msg.type === 'pointnet-games:score-error') {
+							clearTimeout(timeout);
 							window.removeEventListener('message', responseHandler);
 							reject(new Error((msg.data && msg.data.message) || 'Score submission failed'));
 						}
@@ -2794,10 +2874,16 @@
 						data: { limit: limit || 10, difficulty: difficulty || '' }
 					}, window.location.origin);
 
+					var timeout = setTimeout(function () {
+						window.removeEventListener('message', responseHandler);
+						resolve([]);
+					}, 8000);
+
 					var responseHandler = function (event) {
 						if (event.origin !== window.location.origin || event.source !== window.parent) return;
 						var msg = event.data;
 						if (msg && msg.type === 'pointnet-games:leaderboard') {
+							clearTimeout(timeout);
 							window.removeEventListener('message', responseHandler);
 							resolve(msg.data);
 							if (typeof callback === 'function') callback(msg.data);
@@ -2816,11 +2902,19 @@
 	/* ============================================================
 	   BOOTSTRAP
 	   ============================================================ */
+	function updateHUD() {
+		updateBoardDisplay();
+		updateSplashPlayerStatus();
+		if (state.mode === 'academy') {
+			updateAcademyToastText();
+		}
+	}
+
 	if (window.I18n && typeof window.I18n.init === 'function') {
 		window.I18n.init();
 		window.I18n.onLanguageChange(function () {
 			updateHUD();
-			if (state.didacticActive) {
+			if (state.isDidactic) {
 				if (state.heatmapEnabled) applyHeatmapOverlay();
 			}
 		});

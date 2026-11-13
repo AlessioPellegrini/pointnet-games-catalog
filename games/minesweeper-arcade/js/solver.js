@@ -115,14 +115,18 @@ var MinesweeperSolver = (function () {
 							explanation: expl
 						};
 					} else {
-						return {
-							action: 'flag',
-							targetCells: [leftDiff[0], rightDiff[0]],
-							causeCells: [{ r: left.r, c: left.c }, { r: mid.r, c: mid.c }, { r: right.r, c: right.c }],
-							patternName: pName,
-							rule: 'pattern_121',
-							explanation: expl
-						};
+						var mLeft = getDifference(mid.unrevealed, right.unrevealed);
+						var mRight = getDifference(mid.unrevealed, left.unrevealed);
+						if (mid.unrevealed.length <= 3 && mLeft.length === 1 && mRight.length === 1) {
+							return {
+								action: 'flag',
+								targetCells: mLeft.concat(mRight),
+								causeCells: [{ r: left.r, c: left.c }, { r: mid.r, c: mid.c }, { r: right.r, c: right.c }],
+								patternName: pName,
+								rule: 'pattern_121',
+								explanation: expl
+							};
+						}
 					}
 				}
 			}
@@ -158,14 +162,18 @@ var MinesweeperSolver = (function () {
 							explanation: explV
 						};
 					} else {
-						return {
-							action: 'flag',
-							targetCells: [topDiff[0], botDiff[0]],
-							causeCells: [{ r: top.r, c: top.c }, { r: mid.r, c: mid.c }, { r: bot.r, c: bot.c }],
-							patternName: pNameV,
-							rule: 'pattern_121',
-							explanation: explV
-						};
+						var mTop = getDifference(mid.unrevealed, bot.unrevealed);
+						var mBot = getDifference(mid.unrevealed, top.unrevealed);
+						if (mid.unrevealed.length <= 3 && mTop.length === 1 && mBot.length === 1) {
+							return {
+								action: 'flag',
+								targetCells: mTop.concat(mBot),
+								causeCells: [{ r: top.r, c: top.c }, { r: mid.r, c: mid.c }, { r: bot.r, c: bot.c }],
+								patternName: pNameV,
+								rule: 'pattern_121',
+								explanation: explV
+							};
+						}
 					}
 				}
 			}
@@ -203,7 +211,7 @@ var MinesweeperSolver = (function () {
 						rule: 'pattern_1221',
 						explanation: expl1221
 					};
-				} else if (innerMines.length > 0) {
+				} else if (innerMines.length === 1) {
 					return {
 						action: 'flag',
 						targetCells: innerMines,
@@ -243,7 +251,7 @@ var MinesweeperSolver = (function () {
 						rule: 'pattern_1221',
 						explanation: expl1221V
 					};
-				} else if (vInnerMines.length > 0) {
+				} else if (vInnerMines.length === 1) {
 					return {
 						action: 'flag',
 						targetCells: vInnerMines,
@@ -435,14 +443,18 @@ var MinesweeperSolver = (function () {
 							explanation: expl
 						});
 					}
-					addPattern({
-						action: 'flag',
-						targetCells: [leftDiff[0], rightDiff[0]],
-						causeCells: [{ r: left.r, c: left.c }, { r: mid.r, c: mid.c }, { r: right.r, c: right.c }],
-						patternName: pName,
-						rule: 'pattern_121',
-						explanation: expl
-					});
+					var mLeft = getDifference(mid.unrevealed, right.unrevealed);
+					var mRight = getDifference(mid.unrevealed, left.unrevealed);
+					if (mid.unrevealed.length <= 3 && mLeft.length === 1 && mRight.length === 1) {
+						addPattern({
+							action: 'flag',
+							targetCells: mLeft.concat(mRight),
+							causeCells: [{ r: left.r, c: left.c }, { r: mid.r, c: mid.c }, { r: right.r, c: right.c }],
+							patternName: pName,
+							rule: 'pattern_121',
+							explanation: expl
+						});
+					}
 				}
 			}
 
@@ -475,14 +487,18 @@ var MinesweeperSolver = (function () {
 							explanation: explV
 						});
 					}
-					addPattern({
-						action: 'flag',
-						targetCells: [topDiff[0], botDiff[0]],
-						causeCells: [{ r: top.r, c: top.c }, { r: mid.r, c: mid.c }, { r: bot.r, c: bot.c }],
-						patternName: pNameV,
-						rule: 'pattern_121',
-						explanation: explV
-					});
+					var mTop = getDifference(mid.unrevealed, bot.unrevealed);
+					var mBot = getDifference(mid.unrevealed, top.unrevealed);
+					if (mid.unrevealed.length <= 3 && mTop.length === 1 && mBot.length === 1) {
+						addPattern({
+							action: 'flag',
+							targetCells: mTop.concat(mBot),
+							causeCells: [{ r: top.r, c: top.c }, { r: mid.r, c: mid.c }, { r: bot.r, c: bot.c }],
+							patternName: pNameV,
+							rule: 'pattern_121',
+							explanation: explV
+						});
+					}
 				}
 			}
 		}
@@ -520,7 +536,7 @@ var MinesweeperSolver = (function () {
 						explanation: expl1221
 					});
 				}
-				if (innerMinesH.length > 0) {
+				if (innerMinesH.length === 1) {
 					addPattern({
 						action: 'flag',
 						targetCells: innerMinesH,
@@ -560,7 +576,7 @@ var MinesweeperSolver = (function () {
 						explanation: expl1221V
 					});
 				}
-				if (vInnerMines.length > 0) {
+				if (vInnerMines.length === 1) {
 					addPattern({
 						action: 'flag',
 						targetCells: vInnerMines,
@@ -978,6 +994,19 @@ var MinesweeperSolver = (function () {
 						}
 					}
 				}
+			}
+		}
+
+		// 2b. Exhaustive logical deductions (sound; covers advanced patterns)
+		if (typeof window !== 'undefined' && window.MinesweeperNoGuess) {
+			var certain = window.MinesweeperNoGuess.findCertain(board, rows, cols);
+			for (var cs = 0; cs < certain.safe.length; cs++) {
+				var ck = certain.safe[cs].r + ',' + certain.safe[cs].c;
+				if (!safeMap[ck]) safeMap[ck] = { r: certain.safe[cs].r, c: certain.safe[cs].c, reason: 'deduction_safe' };
+			}
+			for (var cm = 0; cm < certain.mines.length; cm++) {
+				var ckm = certain.mines[cm].r + ',' + certain.mines[cm].c;
+				if (!mineMap[ckm]) mineMap[ckm] = { r: certain.mines[cm].r, c: certain.mines[cm].c, reason: 'deduction_mine' };
 			}
 		}
 
